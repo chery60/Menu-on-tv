@@ -581,7 +581,7 @@
         "v0-launch"
       ],
       "summary": "Hosting, Postgres, file storage, realtime, Razorpay, WhatsApp Business and the AI gateway.",
-      "body": "**Why.** v0 can’t start without accounts, and some (Razorpay, WhatsApp) take days to approve.\n\n**What.** Confirm the stack in docs/architecture.md, open the accounts, and set environment variables per environment.\n\n**20 October 2026 (ADR-009).** Stack: Netlify for hosting, Netlify Database (Postgres, one row per JSON document, row-locked writes) and Netlify Blobs for dish photos (src/lib/document-store.ts, netlify.toml, netlify/database/migrations). Checked with Netlify’s own build and local server: pages, the proxy, sign-in, setup, a photo saved to Blobs, pairing and a sold-out change reaching the TV in about 2 seconds, with the TV’s stream closing at 50 seconds under the 60-second function limit. Still to open: Resend (email codes), Twilio (+91 text codes), Razorpay and WhatsApp Business (v1), and an Anthropic key (MT-19). Until a sign-in provider is set, a test site may set SIGN_IN_CODES_ON_SCREEN=true, which shows codes on screen and lets anyone sign in as anyone.",
+      "body": "**Why.** v0 can’t start without accounts, and some (Razorpay, WhatsApp) take days to approve.\n\n**What.** Confirm the stack in docs/architecture.md, open the accounts, and set environment variables per environment.\n\n**20 October 2026 (ADR-009).** Stack: Netlify for hosting, Netlify Database (Postgres, one row per JSON document, row-locked writes) and Netlify Blobs for dish photos (src/lib/document-store.ts, netlify.toml, netlify/database/migrations). Checked with Netlify’s own build and local server: pages, the proxy, sign-in, setup, a photo saved to Blobs, pairing and a sold-out change reaching the TV in about 2 seconds, with the TV’s stream closing at 50 seconds under the 60-second function limit. Still to open: Resend (email codes), Twilio (+91 text codes), Razorpay and WhatsApp Business (v1), and an Anthropic key (MT-19). Until a sign-in provider is set, a test site may set SIGN_IN_CODES_ON_SCREEN=true, which shows codes on screen and lets anyone sign in as anyone.\n\n**First deploy, 20 October 2026.** Code at github.com/chery60/Menu-on-tv (main), deployed to https://menuontv.netlify.app from main with the Netlify CLI. Netlify Database provisioned with the documents migration applied; SIGN_IN_CODES_ON_SCREEN=true set for testing. The team makes new projects Private, so only Netlify team members can open it until its visibility is set to Public (Project configuration, General, Visitor access), which TVs need. Still open: linking the repository so pushes deploy, Resend and Twilio for codes, TRACKER_PASSWORD.",
       "checklist": [
         {
           "id": "seed-014-c1",
@@ -596,13 +596,23 @@
         {
           "id": "seed-014-c3",
           "text": "Staging deploy from main",
+          "done": true
+        },
+        {
+          "id": "seed-014-repo",
+          "text": "Code on GitHub (chery60/Menu-on-tv) and the Netlify project open",
+          "done": true
+        },
+        {
+          "id": "seed-014-ci",
+          "text": "Netlify builds on every push to main (link the repository in Netlify)",
           "done": false
         }
       ],
       "rank": 14336,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-20T07:30:00.000Z"
+      "updatedAt": "2026-10-20T08:00:00.000Z"
     },
     {
       "id": "seed-015",
