@@ -1,0 +1,32 @@
+import Link from 'next/link';
+import { TellyGlyph } from '@/components/brand/logo';
+import { siteConfig } from '@/config/site';
+import { footer } from '@/content/site-content';
+import { container } from './ui';
+
+export function SiteFooter() {
+  return (
+    <footer className="border-t border-hairline">
+      <div className={`${container} flex flex-col gap-6 py-10 sm:flex-row sm:items-center`}>
+        <div className="flex items-center gap-3">
+          <TellyGlyph className="size-7 text-night" />
+          <p className="max-w-md text-sm text-night-dim">{footer.line}</p>
+        </div>
+        <ul className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold sm:ml-auto">
+          <li>
+            <Link href="/screen/demo" className="text-night-soft hover:text-night">
+              Live demo screen
+            </Link>
+          </li>
+          {siteConfig.agentFiles.map((file) => (
+            <li key={file.href}>
+              <a href={file.href} className="text-night-soft hover:text-night">
+                {file.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </footer>
+  );
+}

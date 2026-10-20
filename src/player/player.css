@@ -1,0 +1,58 @@
+/*
+ * The TV player's stylesheet (ADR-005): the brand fonts, the tokens and the small reset the screen rules
+ * expect (on the site they come from next/font and Tailwind), then the screen rules themselves.
+ */
+@import './fonts.css';
+@import '../features/screen/screen.css';
+
+:root {
+  --font-archivo: 'Archivo', 'Arial Narrow', ui-sans-serif, sans-serif;
+  --font-geist: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-geist-mono: 'Geist Mono', ui-monospace, monospace;
+  --font-mukta: 'Mukta', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-mukta), ui-sans-serif, system-ui, sans-serif;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  background: #000;
+  -webkit-text-size-adjust: 100%;
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0 solid;
+}
+
+h1,
+h2,
+h3 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

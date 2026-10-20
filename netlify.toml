@@ -1,0 +1,11 @@
+# MenuOnTV on Netlify (docs/architecture.md, ADR-009). Next.js runs through Netlify's OpenNext adapter,
+# which Netlify installs on each build; leave it unpinned. Netlify Database (Postgres) and Blobs are
+# provisioned for the site, and the migrations in netlify/database/migrations run before each deploy goes live.
+[build]
+  # Metadata, the sitemap and text messages need the site's address; Netlify's URL fills in until a domain is set.
+  command = "NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-$URL} npm run build"
+  publish = ".next"
+
+[build.environment]
+  # @netlify/database needs Node 22.12 or later.
+  NODE_VERSION = "22"

@@ -1,0 +1,1016 @@
+/* ------------------------------------------------------------------
+   Screens: what guests see. Every size is a share of the screen in
+   container units (cqmin is the screen's short side), so the same CSS
+   fits a 4K TV and a phone preview. Rules: docs/screen-design.md.
+------------------------------------------------------------------- */
+
+/* Every theme wears the brand (DESIGN.md): Archivo for headings and prices, Geist for text (Mukta for
+   Devanagari), Geist Mono for labels, hairline rules and square corners. Themes set colours only. */
+.scr {
+  --scr-display: var(--font-archivo), 'Arial Narrow', ui-sans-serif, sans-serif;
+  --scr-mono: var(--font-geist-mono), ui-monospace, monospace;
+  /* Archivo set narrow, so headings and prices fit a menu column. */
+  --scr-narrow: 68%;
+  /* A hairline that still reads from across the room: about 2px on a 1080p TV. */
+  --scr-hair: 0.2cqmin;
+  container-type: size;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--scr-ground);
+  color: var(--scr-ink);
+  font-family: var(--font-geist), var(--font-mukta), ui-sans-serif, system-ui, sans-serif;
+  line-height: 1.15;
+}
+
+/* About 5% inset on every edge: many TVs crop the edges. */
+.scr-canvas {
+  position: absolute;
+  inset: 0;
+  padding: 5cqh 4.5cqw;
+}
+
+.scr-burn-in .scr-canvas {
+  animation: scr-shift 240s steps(1, end) infinite;
+}
+
+.scr-menu-area {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* The jump from the server's first slide to the live one doesn't animate. */
+.scr-syncing .scr-slide {
+  animation: none;
+}
+
+.scr-layout-portrait .scr-tagline {
+  display: none;
+}
+
+.scr-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2.4cqmin;
+  margin-bottom: 2.6cqmin;
+  padding-bottom: 1.6cqmin;
+  border-bottom: var(--scr-hair) solid var(--scr-line);
+}
+
+/* Crosshair marks where the header's rule ends, as where the site's bands meet its sheet. */
+.scr-header::before,
+.scr-header::after {
+  content: '';
+  position: absolute;
+  bottom: calc(-1.1cqmin - var(--scr-hair) / 2);
+  width: 2.2cqmin;
+  height: 2.2cqmin;
+  background:
+    linear-gradient(var(--scr-ink), var(--scr-ink)) center / var(--scr-hair) 100% no-repeat,
+    linear-gradient(var(--scr-ink), var(--scr-ink)) center / 100% var(--scr-hair) no-repeat;
+  opacity: 0.55;
+}
+
+.scr-header::before {
+  left: -1.1cqmin;
+}
+
+.scr-header::after {
+  right: -1.1cqmin;
+}
+
+/* The name trims only if it alone is wider than the screen; the tagline gives way first. */
+.scr-name {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font-family: var(--scr-display);
+  font-size: 6.4cqmin;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.scr-name.is-long {
+  font-stretch: var(--scr-narrow);
+  letter-spacing: -0.01em;
+}
+
+.scr-tagline {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 2.7cqmin;
+  color: var(--scr-dim);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The tagline and the tax note stack beside the name, so a longer name or tagline still fits on one row. */
+.scr-header-lines {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.4cqmin;
+  min-width: 0;
+}
+
+.scr-note {
+  font-family: var(--scr-mono);
+  font-size: 1.9cqmin;
+  color: var(--scr-dim);
+  white-space: nowrap;
+}
+
+.scr-zone {
+  position: relative;
+  min-height: 0;
+  height: 100%;
+}
+
+.scr-zone-menu {
+  flex: 1;
+}
+
+.scr-slide {
+  position: absolute;
+  inset: 0;
+  animation: scr-enter 700ms var(--ease-out-expo) both;
+}
+
+.scr-progress {
+  position: absolute;
+  left: 0;
+  bottom: -1.4cqmin;
+  width: 100%;
+  height: 0.4cqmin;
+  background: var(--scr-accent);
+  opacity: 0.6;
+  transform-origin: left center;
+  animation-name: scr-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+
+/* Menu columns */
+.scr-columns {
+  height: 100%;
+  column-gap: 5cqmin;
+  column-rule: var(--scr-hair) solid var(--scr-line);
+}
+
+.scr-category {
+  break-inside: avoid;
+  margin-bottom: calc(2.6cqmin * var(--air, 1));
+}
+
+/* Heading, then a hairline: the same budget as before (HEADING_ROWS in loop.ts), the gap now under the rule. */
+.scr-cat-title {
+  display: flex;
+  align-items: baseline;
+  gap: 1.6cqmin;
+  padding-bottom: 0.6cqmin;
+  border-bottom: var(--scr-hair) solid var(--scr-line);
+  font-family: var(--scr-display);
+  font-stretch: var(--scr-narrow);
+  font-size: 5.2cqmin;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--scr-ink);
+}
+
+/* The English heading keeps its one line (it wraps only if it alone is wider than the column); the Hindi
+   beside it gives way and trims, so the heading's height stays in budget. */
+.scr-cat-name {
+  flex: none;
+  max-width: 100%;
+}
+
+.scr-cat-title .scr-hi {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  padding-block: 0.15em;
+  font-family: var(--font-sans);
+  font-size: 2.9cqmin;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.scr-row {
+  display: flex;
+  align-items: center;
+  gap: 1.4cqmin;
+  /* Standard row: 3.9cqmin of text plus 1.3cqmin of padding. Roomy pages stretch the padding (--air). */
+  padding: calc((5.2cqmin * var(--air, 1) - 3.9cqmin) / 2) 0;
+  font-size: 3.4cqmin;
+}
+
+/* Prices never shrink or overlap; the name trims only if it alone is wider than its column. */
+.scr-row-name {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* A badge that doesn't fit beside the name drops to its own line under it; nothing is cut off. */
+.scr-row-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5cqmin 1.2cqmin;
+  min-width: 0;
+  font-weight: 600;
+  /* Geist runs wider than a signage face; a touch of tracking keeps long names like "Gulab jamun, 2 pieces" whole in a Split column. */
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.scr-row-label {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.scr-row-title .scr-badge {
+  flex: none;
+}
+
+.scr-row .scr-price,
+.scr-row .scr-sizes,
+.scr-row .scr-sold-out {
+  flex: none;
+}
+
+/* Half and full: side by side on a Spotlight, stacked in a menu row so the dish name keeps its width. */
+.scr-sizes {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 1.6cqmin;
+}
+
+.scr-row .scr-sizes {
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5cqmin;
+}
+
+.scr-size {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.6cqmin;
+}
+
+.scr-size-label {
+  font-family: var(--scr-mono);
+  font-size: 0.56em;
+  font-weight: 500;
+  color: var(--scr-dim);
+}
+
+.scr-hi {
+  font-size: 0.8em;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--scr-dim);
+}
+
+.scr-leader {
+  flex: 1;
+  min-width: 2cqmin;
+  align-self: flex-end;
+  margin-bottom: 1.1cqmin;
+  border-bottom: var(--scr-hair) dotted var(--scr-line);
+}
+
+.scr-price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.03em;
+  font-family: var(--scr-display);
+  font-stretch: var(--scr-narrow);
+  font-size: 1.18em;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--scr-price);
+  white-space: nowrap;
+}
+
+.scr-rupee {
+  font-family: var(--font-sans);
+  font-size: 0.68em;
+  font-weight: 700;
+}
+
+.scr-was {
+  margin-right: 0.35em;
+  font-size: 0.5em;
+  font-weight: 700;
+  color: var(--scr-dim);
+  text-decoration-thickness: 0.09em;
+}
+
+.scr-row.is-sold-out .scr-row-title {
+  text-decoration: line-through;
+  text-decoration-thickness: 0.08em;
+  opacity: 0.55;
+}
+
+.scr-sold-out {
+  padding: 0.25em 0.6em;
+  border: var(--scr-hair) solid var(--scr-dim);
+  color: var(--scr-dim);
+  font-family: var(--scr-mono);
+  font-size: 0.58em;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* FSSAI marks: green circle in a green square for veg, brown triangle in a brown square for non-veg. */
+.scr-diet {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.3cqmin;
+  height: 2.3cqmin;
+  border: 0.3cqmin solid;
+  border-radius: 0.15cqmin;
+  background: #fff;
+}
+
+.scr-diet-veg {
+  border-color: #138a3e;
+}
+
+.scr-diet-veg span {
+  width: 1.05cqmin;
+  height: 1.05cqmin;
+  border-radius: 50%;
+  background: #138a3e;
+}
+
+.scr-diet-nonveg {
+  border-color: #7a3b16;
+}
+
+.scr-diet-nonveg span {
+  width: 0;
+  height: 0;
+  border-right: 0.62cqmin solid transparent;
+  border-bottom: 1.05cqmin solid #7a3b16;
+  border-left: 0.62cqmin solid transparent;
+}
+
+/* Badges are the site's labels: Geist Mono in a square box. Only Bestseller is filled with the accent. */
+.scr-badge {
+  padding: 0.25em 0.55em;
+  border: var(--scr-hair) solid var(--scr-accent);
+  background: var(--scr-accent);
+  color: var(--scr-on-accent);
+  font-family: var(--scr-mono);
+  font-size: 0.52em;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.scr-badge-new {
+  border-color: var(--scr-ink);
+  background: var(--scr-ink);
+  color: var(--scr-ground);
+}
+
+.scr-badge-chef {
+  border-color: var(--scr-ink);
+  background: none;
+  color: var(--scr-ink);
+}
+
+.scr-badge-spicy {
+  border-color: var(--scr-price);
+  background: none;
+  color: var(--scr-price);
+}
+
+.scr-badge-jain {
+  border-color: var(--scr-dim);
+  background: none;
+  color: var(--scr-dim);
+}
+
+/* A dish in a framed square cell, like the site's: the owner's photo, or its emoji in the demo. */
+.scr-plate {
+  position: relative;
+  display: grid;
+  flex: none;
+  place-items: center;
+  aspect-ratio: 1;
+  border: var(--scr-hair) solid var(--scr-line);
+  background: var(--scr-panel);
+  line-height: 1;
+}
+
+.scr-plate span {
+  filter: drop-shadow(0 0.8cqmin 1.2cqmin rgb(0 0 0 / 0.22));
+}
+
+.scr-plate img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Big dishes carry crosshair marks on their top corners. */
+.scr-plate-lg::before,
+.scr-plate-lg::after {
+  content: '';
+  position: absolute;
+  top: -1.2cqmin;
+  width: 2.2cqmin;
+  height: 2.2cqmin;
+  background:
+    linear-gradient(var(--scr-ink), var(--scr-ink)) center / var(--scr-hair) 100% no-repeat,
+    linear-gradient(var(--scr-ink), var(--scr-ink)) center / 100% var(--scr-hair) no-repeat;
+  opacity: 0.55;
+}
+
+.scr-plate-lg::before {
+  left: -1.2cqmin;
+}
+
+.scr-plate-lg::after {
+  right: -1.2cqmin;
+}
+
+.scr-plate-sm {
+  width: 6.2cqmin;
+  font-size: 3.6cqmin;
+}
+
+.scr-plate-md {
+  width: 22cqmin;
+  font-size: 12cqmin;
+}
+
+.scr-plate-lg {
+  width: 46cqmin;
+  font-size: 25cqmin;
+}
+
+.scr-plate-lg span {
+  animation: scr-bob 4.5s ease-in-out infinite alternate;
+}
+
+/* Promos and ads */
+.scr-promo {
+  display: grid;
+  align-items: center;
+  height: 100%;
+}
+
+.scr-promo-label,
+.scr-ad-label {
+  display: inline-block;
+  padding: 0.4em 0.8em;
+  border: var(--scr-hair) solid var(--scr-accent);
+  font-family: var(--scr-mono);
+  font-size: 2.6cqmin;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.scr-promo-label {
+  background: var(--scr-accent);
+  color: var(--scr-on-accent);
+}
+
+.scr-ad-label {
+  border-color: var(--scr-dim);
+  color: var(--scr-dim);
+}
+
+.scr-promo-headline {
+  margin: 2cqmin 0 1.2cqmin;
+  font-family: var(--scr-display);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.scr-promo-line {
+  color: var(--scr-dim);
+  text-wrap: balance;
+}
+
+.scr-qr {
+  display: block;
+  padding: 1.4cqmin;
+  border: var(--scr-hair) solid var(--scr-line);
+  background: #fff;
+}
+
+.scr-qr svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.scr-promo-takeover {
+  grid-template-columns: 1fr 1.15fr;
+  gap: 5cqmin;
+}
+
+.scr-promo-takeover .scr-promo-art {
+  display: grid;
+  place-items: center;
+}
+
+.scr-promo-takeover .scr-plate-lg {
+  width: 62cqmin;
+  font-size: 34cqmin;
+}
+
+.scr-promo-takeover .scr-promo-headline {
+  font-size: 12cqmin;
+}
+
+.scr-promo-takeover .scr-promo-line {
+  font-size: 3.6cqmin;
+}
+
+.scr-promo-takeover .scr-promo-price {
+  margin-top: 2.4cqmin;
+  font-size: 16cqmin;
+}
+
+.scr-promo-takeover .scr-qr {
+  width: 46cqmin;
+}
+
+/* Side and hero promos are framed cells with the accent along the top, the one action on the screen. */
+.scr-promo-side {
+  grid-template-rows: auto auto;
+  align-content: center;
+  justify-items: center;
+  padding: 4cqmin 3cqmin;
+  border: var(--scr-hair) solid var(--scr-line);
+  border-top: 1cqmin solid var(--scr-accent);
+  background: var(--scr-panel);
+  text-align: center;
+}
+
+.scr-promo-side .scr-promo-headline {
+  font-size: 7cqmin;
+}
+
+.scr-promo-side .scr-promo-line {
+  font-size: 2.9cqmin;
+}
+
+.scr-promo-side .scr-promo-price {
+  margin-top: 2cqmin;
+  font-size: 11cqmin;
+}
+
+.scr-promo-side .scr-plate-lg {
+  width: 30cqmin;
+  font-size: 17cqmin;
+}
+
+.scr-promo-side .scr-qr {
+  width: 26cqmin;
+  margin-bottom: 1cqmin;
+}
+
+.scr-promo-hero {
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 4cqmin;
+  padding: 3cqmin;
+  border: var(--scr-hair) solid var(--scr-line);
+  border-top: 1cqmin solid var(--scr-accent);
+  background: var(--scr-panel);
+}
+
+.scr-promo-hero .scr-promo-art {
+  display: grid;
+  place-items: center;
+}
+
+.scr-promo-hero .scr-plate-lg {
+  width: 40cqmin;
+  font-size: 22cqmin;
+}
+
+.scr-promo-hero .scr-promo-headline {
+  font-size: 9cqmin;
+}
+
+.scr-promo-hero .scr-promo-line {
+  font-size: 3.4cqmin;
+}
+
+.scr-promo-hero .scr-promo-price {
+  margin-top: 1.8cqmin;
+  font-size: 12cqmin;
+}
+
+.scr-promo-hero .scr-qr {
+  width: 34cqmin;
+}
+
+/* Spotlight */
+.scr-spotlight {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  align-items: center;
+  gap: 4cqmin;
+  height: 100%;
+}
+
+.scr-spotlight-art {
+  display: grid;
+  place-items: center;
+}
+
+.scr-spotlight-art .scr-plate-lg {
+  width: 74cqmin;
+  font-size: 40cqmin;
+}
+
+.scr-spotlight-badges {
+  display: flex;
+  gap: 1cqmin;
+  font-size: 4.4cqmin;
+}
+
+.scr-spotlight-name {
+  margin-top: 2cqmin;
+  font-family: var(--scr-display);
+  font-size: 11cqmin;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.scr-spotlight-hi {
+  margin-top: 1cqmin;
+  font-size: 4.2cqmin;
+}
+
+.scr-spotlight-price {
+  margin: 1.6cqmin 0 4cqmin;
+  font-size: 15cqmin;
+}
+
+.scr-pairs-title {
+  margin-bottom: 1.2cqmin;
+  font-family: var(--scr-mono);
+  font-size: 2.4cqmin;
+  color: var(--scr-dim);
+}
+
+/* Goes well with: rows between hairlines, like the site's cells. */
+.scr-pairs {
+  display: grid;
+  border-top: var(--scr-hair) solid var(--scr-line);
+}
+
+.scr-pairs li {
+  display: flex;
+  align-items: center;
+  gap: 1.6cqmin;
+  padding: 1cqmin 0;
+  border-bottom: var(--scr-hair) solid var(--scr-line);
+  font-size: 3.3cqmin;
+}
+
+.scr-pair-name {
+  flex: 1;
+  font-weight: 600;
+}
+
+/* Ticker band */
+.scr-ticker {
+  overflow: hidden;
+  padding: 1.3cqmin 0;
+  background: var(--scr-accent);
+  color: var(--scr-on-accent);
+  font-size: 3.2cqmin;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.scr-ticker-track {
+  display: inline-flex;
+  animation: scr-marquee 42s linear infinite;
+}
+
+.scr-ticker-run {
+  display: inline-flex;
+}
+
+.scr-ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 3cqmin;
+  padding-left: 3cqmin;
+}
+
+.scr-ticker-item::before {
+  content: "";
+  width: 0.9cqmin;
+  height: 0.9cqmin;
+  background: currentColor;
+}
+
+/* Layout grids */
+.scr-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr);
+  gap: 3.5cqmin;
+  height: 100%;
+}
+
+.scr-lbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 3cqmin 3.5cqmin;
+  height: 100%;
+}
+
+.scr-lbar .scr-ticker {
+  grid-column: 1 / -1;
+}
+
+.scr-tickerlayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 2.4cqmin;
+  height: 100%;
+}
+
+.scr-portrait {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 0.75fr) minmax(0, 1fr);
+  gap: 3cqmin;
+  height: 100%;
+}
+
+.scr-powered {
+  position: absolute;
+  right: 4.5cqw;
+  bottom: 1.2cqh;
+  font-family: var(--scr-mono);
+  font-size: 1.6cqmin;
+  color: var(--scr-dim);
+}
+
+/* The wordmark, as on the site: Archivo, with "On" lit in the accent. */
+.scr-powered b {
+  font-family: var(--scr-display);
+  font-size: 1.15em;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--scr-ink);
+}
+
+.scr-powered b span {
+  color: var(--scr-price);
+}
+
+/* The full-screen player on a TV. Landscape layouts never get narrower than 16:9 (a 16:10 laptop gets thin bars
+   above and below), so names fit as they do on a TV; a portrait layout on a landscape window is centred at 9:16. */
+.scr-player {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #000;
+  cursor: none;
+  outline: none;
+}
+
+.scr-player > .scr {
+  width: 100vw;
+  height: min(100dvh, 56.25vw);
+}
+
+.scr-player > .scr-layout-portrait {
+  width: min(100vw, 56.25dvh);
+  height: min(100dvh, 177.78vw);
+}
+
+/* Staff-only: a small dot in the corner when the TV can't reach us. Guests keep seeing the menu. */
+.scr-offline {
+  position: absolute;
+  top: 1.6cqmin;
+  right: 1.6cqmin;
+  width: 1.4cqmin;
+  height: 1.4cqmin;
+  border-radius: 50%;
+  background: #e8392f;
+  box-shadow: 0 0 0 0.4cqmin rgb(0 0 0 / 0.35);
+}
+
+.scr-player .scr-offline {
+  position: fixed;
+  width: 14px;
+  height: 14px;
+}
+
+/* Shown on a TV whose link was removed or rotated. */
+.scr-message {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 1.5rem;
+  padding: 6vmin;
+  /* The brand at night: the TV is the only light (DESIGN.md). */
+  background: #0f0e0d;
+  color: #f2f0ea;
+  font-family: var(--font-geist), var(--font-mukta), ui-sans-serif, system-ui, sans-serif;
+  text-align: center;
+}
+
+.scr-message-title {
+  font-family: var(--font-archivo), ui-sans-serif, sans-serif;
+  font-stretch: 108%;
+  font-size: clamp(2rem, 6.5vmin, 4.6rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.scr-message-body {
+  font-size: clamp(1.1rem, 3.2vmin, 2.1rem);
+  color: rgb(242 240 234 / 0.72);
+}
+
+.scr-message-body strong {
+  color: #ffb35c;
+}
+
+/* /tv-check (MT-12): a verdict in big type a few steps from the TV, one line per finding. */
+.scr-check {
+  justify-items: start;
+  text-align: start;
+  max-width: 64rem;
+  margin-inline: auto;
+}
+
+.scr-check-lines {
+  display: grid;
+  gap: 0.9rem;
+  list-style: none;
+  font-size: clamp(1.1rem, 3vmin, 2rem);
+  line-height: 1.25;
+}
+
+.scr-check-line {
+  display: grid;
+  grid-template-columns: 1.6em 1fr;
+  align-items: baseline;
+}
+
+.scr-check-line::before {
+  font-size: 1.2em;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-weight: 700;
+}
+
+.scr-check-line.is-good::before {
+  content: '✓';
+  color: #7fc98f;
+}
+
+.scr-check-line.is-warn::before {
+  content: '!';
+  color: #ffb35c;
+}
+
+.scr-check-line.is-bad::before {
+  content: '×';
+  color: #ff6a4d;
+}
+
+.scr-check-track {
+  width: min(40rem, 70vw);
+  height: 0.5rem;
+  overflow: hidden;
+  background: rgb(242 240 234 / 0.12);
+}
+
+.scr-check-bar {
+  width: 30%;
+  height: 100%;
+  background: #e2582a;
+  animation: scr-check-slide 1.2s linear infinite alternate;
+}
+
+/* ?lab on a TV link (MT-12): the 72-hour lab panel, small in a corner so the menu still plays around it. */
+.scr-lab {
+  position: fixed;
+  left: 1vmin;
+  bottom: 1vmin;
+  z-index: 10;
+  padding: 0.6em 0.8em;
+  background: rgb(15 14 13 / 0.82);
+  color: #f2f0ea;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: clamp(0.7rem, 1.4vmin, 1.1rem);
+  line-height: 1.45;
+  white-space: pre-line;
+  pointer-events: none;
+}
+
+@keyframes scr-check-slide {
+  to {
+    transform: translateX(233%);
+  }
+}
+
+.scr-pair-code {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: clamp(4rem, 19vmin, 12rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: 0.06em;
+  color: #ffb35c;
+  font-variant-numeric: tabular-nums;
+}
+
+.scr-pair-qr {
+  justify-self: center;
+  width: clamp(9rem, 26vmin, 16rem);
+  padding: 0.75rem;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.scr-pair-qr svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@keyframes scr-enter {
+  from {
+    opacity: 0;
+    transform: translateY(2cqmin) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes scr-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes scr-bob {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-1.2cqmin);
+  }
+}
+
+@keyframes scr-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* A few pixels each minute so static headings never burn into older panels. */
+@keyframes scr-shift {
+  0% { translate: 0 0; }
+  25% { translate: 0.15cqmin 0; }
+  50% { translate: 0.15cqmin 0.15cqmin; }
+  75% { translate: 0 0.15cqmin; }
+}

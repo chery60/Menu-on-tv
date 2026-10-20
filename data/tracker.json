@@ -1,0 +1,3538 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "seed-001",
+      "key": "MT-1",
+      "title": "Market research with sources",
+      "icon": "🔎",
+      "status": "done",
+      "priority": "high",
+      "phase": "phase-0",
+      "area": "foundations",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 5,
+      "owner": "Claude",
+      "tags": [
+        "research"
+      ],
+      "summary": "Landscape, eight findings and sizing for menu screens and screen ads. See docs/research.md.",
+      "body": "**Why.** Every later decision (price, wedge, channel) needs a sourced view of the market.\n\n**What.** Landscape of 11 competitor types, findings on making, updating, selling and earning, legibility rules, FSSAI calorie rules, and a sizing summary.",
+      "checklist": [
+        {
+          "id": "seed-001-c1",
+          "text": "Every figure has a source or is labelled",
+          "done": true
+        },
+        {
+          "id": "seed-001-c2",
+          "text": "Landscape table with how each competitor earns",
+          "done": true
+        },
+        {
+          "id": "seed-001-c3",
+          "text": "Risks with mitigations",
+          "done": true
+        }
+      ],
+      "rank": 1024,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-002",
+      "key": "MT-2",
+      "title": "Competitor teardown with REA",
+      "icon": "🔬",
+      "status": "done",
+      "priority": "high",
+      "phase": "phase-0",
+      "area": "foundations",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 5,
+      "owner": "Claude",
+      "tags": [
+        "research",
+        "rea"
+      ],
+      "summary": "13 competitor pages captured with REA, plus ScreenCloud’s web player taken apart. See docs/teardown.md.",
+      "body": "**Why.** We need to know exactly what competitors ship and charge, not what blogs say about them.\n\n**What.** REA inspect_web_page captures (Evidence IDs), analyze_web_bundle on a shipped web player, the shared seven-step loop, product teardowns, a gap map and what to copy or avoid.",
+      "checklist": [
+        {
+          "id": "seed-002-c1",
+          "text": "Evidence ID for every observed claim",
+          "done": true
+        },
+        {
+          "id": "seed-002-c2",
+          "text": "Shipped player analysed",
+          "done": true
+        },
+        {
+          "id": "seed-002-c3",
+          "text": "Gap map against our plan",
+          "done": true
+        }
+      ],
+      "rank": 2048,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-003",
+      "key": "MT-3",
+      "title": "Market size, money and go-to-market",
+      "icon": "📈",
+      "status": "done",
+      "priority": "high",
+      "phase": "phase-0",
+      "area": "growth",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 3,
+      "owner": "Claude",
+      "tags": [
+        "research",
+        "gtm"
+      ],
+      "summary": "How competitors earn, how we earn, sizing, the pitch and the 60-second demo. See docs/market-size.md.",
+      "body": "**Why.** The user asked how competitors make money and why any restaurant should take MenuOnTV.\n\n**What.** Ten business models with examples, our nine revenue streams, India and abroad sizing with inputs shown, the owner pitch, objections, channels, funnel targets and launch sequence.",
+      "checklist": [
+        {
+          "id": "seed-003-c1",
+          "text": "Revenue streams with prices to validate",
+          "done": true
+        },
+        {
+          "id": "seed-003-c2",
+          "text": "Pitch and objection handling",
+          "done": true
+        },
+        {
+          "id": "seed-003-c3",
+          "text": "Funnel targets for the pilot",
+          "done": true
+        }
+      ],
+      "rank": 3072,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-004",
+      "key": "MT-4",
+      "title": "Name: MenuOnTV. Buy the domains",
+      "icon": "📺",
+      "status": "in_review",
+      "priority": "urgent",
+      "phase": "phase-0",
+      "area": "foundations",
+      "effort": "xs",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "Charan",
+      "tags": [
+        "brand",
+        "v0-launch"
+      ],
+      "summary": "The owner chose MenuOnTV on 19 October 2026: it says what it does in words owners already use. menuontv.in and menuontv.app were free that day.",
+      "body": "**Why.** A name that says \"menu on the TV\" helps owners, search engines and AI assistants understand us in one word. The working name MenuTelly was hard to say and to relate to; telly is not how Indian owners talk about a TV.\n\n**What.** Buy menuontv.in and menuontv.app (menuontv.com was registered in June 2026), reserve the Instagram and WhatsApp Business handles, and run an Indian trademark search in classes 9, 35 and 42.\n\nRegistry checks on 19 October 2026: menuontv.in available (NIXI), menuontv.app available (Google RDAP 404), menuontv.com registered 2026-06-15. Also free that day: menutv.in, menuscreen.in and menuscreen.app. A web search found no menu-board product named MenuTV or MenuScreen.\n\n**Re-checked 20 October 2026.** menuontv.in (NIXI) and menuontv.app (Google registry) still unregistered; menuontv.com registered 2026-06-15. A web search found no product or mark named MenuOnTV. The formal search on the Indian Trade Marks Registry’s public search sits behind a CAPTCHA, so Charan runs it (classes 9, 35 and 42).",
+      "checklist": [
+        {
+          "id": "seed-004-c1",
+          "text": "Name confirmed",
+          "done": true
+        },
+        {
+          "id": "seed-004-c2",
+          "text": "Domains bought",
+          "done": false
+        },
+        {
+          "id": "seed-004-c3",
+          "text": "Social handles reserved",
+          "done": false
+        },
+        {
+          "id": "seed-004-c4",
+          "text": "Trademark search clear",
+          "done": false
+        }
+      ],
+      "rank": 4096,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-20T07:30:00.000Z"
+    },
+    {
+      "id": "seed-005",
+      "key": "MT-5",
+      "title": "Product brief and PRD",
+      "icon": "📄",
+      "status": "in_review",
+      "priority": "high",
+      "phase": "phase-0",
+      "area": "foundations",
+      "effort": "s",
+      "impact": 5,
+      "confidence": 4,
+      "owner": "Claude",
+      "tags": [
+        "plan"
+      ],
+      "summary": "PRODUCT.md and the PRD: who, pain, hypothesis, metrics, scope, milestones, open questions and risks.",
+      "body": "**Why.** One place that says what we are building and how we know it works.\n\n**What.** Product brief with anti-goals and a go/no-go, and a PRD with evidence, users, hypothesis, success metrics, v0 scope and milestones.\n\n**20 October 2026.** Each PRD open question now says how it gets answered: Q1 and Q5 to Q7 by the owner interviews (docs/owner-interviews.md marks its questions [Q1] to [Q7]), Q2 by /tv-check in interviews and the TV lab, Q3 by menu photos collected in interviews, Q4 by five advertiser conversations.",
+      "checklist": [
+        {
+          "id": "seed-005-c1",
+          "text": "Brief and PRD written",
+          "done": true
+        },
+        {
+          "id": "seed-005-c2",
+          "text": "Reviewed by Charan",
+          "done": false
+        },
+        {
+          "id": "seed-005-c3",
+          "text": "Open questions assigned to owner interviews",
+          "done": true
+        }
+      ],
+      "rank": 5120,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-20T07:30:00.000Z"
+    },
+    {
+      "id": "seed-006",
+      "key": "MT-6",
+      "title": "Screen design playbook",
+      "icon": "🎨",
+      "status": "done",
+      "priority": "high",
+      "phase": "phase-0",
+      "area": "screens",
+      "effort": "s",
+      "impact": 5,
+      "confidence": 4,
+      "owner": "Claude",
+      "tags": [
+        "design"
+      ],
+      "summary": "The rules that make every screen clear in three seconds from three metres. See docs/screen-design.md.",
+      "body": "**Why.** What guests see is the product. Owners shouldn’t be able to make an unreadable board.\n\n**What.** Legibility rules computed from screen height, six layouts, the loop timing, motion rules, three themes, burn-in care, languages and what we never do.",
+      "checklist": [
+        {
+          "id": "seed-006-c1",
+          "text": "Rules with numbers",
+          "done": true
+        },
+        {
+          "id": "seed-006-c2",
+          "text": "Six layouts described",
+          "done": true
+        },
+        {
+          "id": "seed-006-c3",
+          "text": "Live demo screen at /screen/demo",
+          "done": true
+        }
+      ],
+      "rank": 6144,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-007",
+      "key": "MT-7",
+      "title": "Platform plan and architecture",
+      "icon": "🗺️",
+      "status": "done",
+      "priority": "high",
+      "phase": "phase-0",
+      "area": "foundations",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 3,
+      "owner": "Claude",
+      "tags": [
+        "plan"
+      ],
+      "summary": "v0 to v3, the v0 build order and the system design. See docs/platform-plan.md and docs/architecture.md.",
+      "body": "**Why.** The board needs a build order, and the player needs a design that survives weak TV browsers.\n\n**What.** UX principles, product map, modules per phase, the v0 build order (the Planned column), more feature ideas, and an architecture with ADRs.\n\n**Stack confirmed 20 October 2026 (ADR-009).** Charan chose Netlify and GitHub. Netlify hosts the app, Netlify Database (Postgres) keeps accounts, menus, screens, the tracker and early access, and Netlify Blobs keeps dish photos.",
+      "checklist": [
+        {
+          "id": "seed-007-c1",
+          "text": "Platform plan written",
+          "done": true
+        },
+        {
+          "id": "seed-007-c2",
+          "text": "Architecture and ADRs written",
+          "done": true
+        },
+        {
+          "id": "seed-007-c3",
+          "text": "Stack confirmed by Charan",
+          "done": true
+        }
+      ],
+      "rank": 7168,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-20T07:30:00.000Z"
+    },
+    {
+      "id": "seed-008",
+      "key": "MT-8",
+      "title": "Internal tracker",
+      "icon": "🗂️",
+      "status": "done",
+      "priority": "medium",
+      "phase": "phase-0",
+      "area": "foundations",
+      "effort": "s",
+      "impact": 4,
+      "confidence": 5,
+      "owner": "Claude",
+      "tags": [
+        "plan"
+      ],
+      "summary": "Notion-style board and table at /tracker with plan documents in the sidebar.",
+      "body": "**Why.** The roadmap should be editable, not a static document.\n\n**What.** Ported from the Fundraise tracker: board with drag and drop, table, side peek, ICE score, filters, light and dark, and the plan docs.",
+      "checklist": [
+        {
+          "id": "seed-008-c1",
+          "text": "Board, table and side peek",
+          "done": true
+        },
+        {
+          "id": "seed-008-c2",
+          "text": "Seeded with the full plan",
+          "done": true
+        },
+        {
+          "id": "seed-008-c3",
+          "text": "Basic Auth in production",
+          "done": true
+        }
+      ],
+      "rank": 8192,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-009",
+      "key": "MT-9",
+      "title": "Landing page with a live screen demo",
+      "icon": "🏠",
+      "status": "done",
+      "priority": "high",
+      "phase": "phase-0",
+      "area": "growth",
+      "effort": "m",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "Claude",
+      "tags": [
+        "site"
+      ],
+      "summary": "A home page with a working TV that plays the demo menu in every layout, plus early access.",
+      "body": "**Why.** Owners believe what they see on a TV. The site has to show the screen, not describe it.\n\n**What.** Hero with a live TV and a layout switcher, why owners switch, how it works, layouts, earning, pricing preview, questions and an early-access form with validation, honeypot and rate limit.",
+      "checklist": [
+        {
+          "id": "seed-009-c1",
+          "text": "Live TV in the hero",
+          "done": true
+        },
+        {
+          "id": "seed-009-c2",
+          "text": "Early-access form stores sign-ups",
+          "done": true
+        },
+        {
+          "id": "seed-009-c3",
+          "text": "Works at phone width",
+          "done": true
+        }
+      ],
+      "rank": 9216,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-010",
+      "key": "MT-10",
+      "title": "Search and AI-agent files",
+      "icon": "🤖",
+      "status": "done",
+      "priority": "medium",
+      "phase": "phase-0",
+      "area": "growth",
+      "effort": "s",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "Claude",
+      "tags": [
+        "seo",
+        "site"
+      ],
+      "summary": "Metadata, JSON-LD, sitemap, robots, llms.txt and a Markdown copy of the home page.",
+      "body": "**Why.** Owners search \"digital menu board\" and increasingly ask AI assistants. Both should find and describe us correctly.\n\n**What.** Title and description per page, Organization, WebSite, SoftwareApplication and FAQPage JSON-LD, sitemap.xml, robots.txt, /llms.txt and /index.md generated from the same content as the page.",
+      "checklist": [
+        {
+          "id": "seed-010-c1",
+          "text": "JSON-LD valid",
+          "done": true
+        },
+        {
+          "id": "seed-010-c2",
+          "text": "llms.txt lists the pages",
+          "done": true
+        },
+        {
+          "id": "seed-010-c3",
+          "text": "Markdown copy served for Accept: text/markdown",
+          "done": true
+        }
+      ],
+      "rank": 10240,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-011",
+      "key": "MT-11",
+      "title": "Interview 15 restaurant owners",
+      "icon": "🎙️",
+      "status": "in_progress",
+      "priority": "urgent",
+      "phase": "phase-0",
+      "area": "growth",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 4,
+      "owner": "Charan",
+      "tags": [
+        "research",
+        "v0-launch"
+      ],
+      "summary": "Price, pain and the TV they have. Before setting final prices.",
+      "body": "**Why.** Prices, the free tier and the ad share are assumptions until owners react to them.\n\n**What.** Interview 15 owners across cafés, QSR, bakeries and sweet shops in one city. Show the demo screen. Ask what they pay to reprint, what plays on their TV, and how they react to ₹499 per screen and to ads that pay them.\n\n**Ready to run, 20 October 2026.** docs/owner-interviews.md has who to talk to, the privacy rules (codes, never names or numbers), eleven questions tied to the PRD’s open questions, the log and the summary to write after the fifteenth. The interviews themselves are Charan’s.",
+      "checklist": [
+        {
+          "id": "seed-011-guide",
+          "text": "Interview guide and log ready (docs/owner-interviews.md)",
+          "done": true
+        },
+        {
+          "id": "seed-011-c1",
+          "text": "15 interviews logged",
+          "done": false
+        },
+        {
+          "id": "seed-011-c2",
+          "text": "Price reaction summarised",
+          "done": false
+        },
+        {
+          "id": "seed-011-c3",
+          "text": "Top three pains ranked",
+          "done": false
+        },
+        {
+          "id": "seed-011-c4",
+          "text": "PRD open questions answered or re-opened",
+          "done": false
+        }
+      ],
+      "rank": 11264,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-20T07:30:00.000Z"
+    },
+    {
+      "id": "seed-012",
+      "key": "MT-12",
+      "title": "TV compatibility lab",
+      "icon": "🧪",
+      "status": "in_progress",
+      "priority": "urgent",
+      "phase": "phase-0",
+      "area": "devices",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 4,
+      "owner": "Charan",
+      "tags": [
+        "player",
+        "v0-launch"
+      ],
+      "summary": "Run the demo screen for 72 hours on 10 real TVs and sticks.",
+      "body": "**Why.** Every competitor warns that TV browsers are unreliable. We need our own numbers before promising \"just a link\".\n\n**What.** Test on common Indian TVs (Samsung Tizen, LG webOS, Android and Google TV, Mi, a Vega OS Fire TV stick, a cheap Android box). Log memory, frame drops, sleep behaviour and recovery after Wi-Fi loss.\n\n**Lab ready, 20 October 2026.** docs/tv-lab.md: the procedure, ten devices and the results sheet. /tv-check tells anyone, in plain words, whether a TV can show the menu (it runs the player’s own bundle, so a browser too old for the player fails it too). A TV link opened with ?lab keeps a 72-hour score in a corner (frames a second, longest freeze, Wi-Fi drops, memory) that survives the daily reload. The player is 13.8 KB of JavaScript, gzipped. Samsung’s own table says 2023 and older Samsung TVs run Chromium 94 or older, without the container units every screen is sized in; MT-88 holds what to do about it.",
+      "checklist": [
+        {
+          "id": "seed-012-tools",
+          "text": "Lab tools: /tv-check and the ?lab panel on a TV link",
+          "done": true
+        },
+        {
+          "id": "seed-012-c1",
+          "text": "10 devices tested for 72 hours",
+          "done": false
+        },
+        {
+          "id": "seed-012-c2",
+          "text": "Pass, workaround or fail per device",
+          "done": false
+        },
+        {
+          "id": "seed-012-c3",
+          "text": "Recommended stick chosen",
+          "done": false
+        },
+        {
+          "id": "seed-012-c4",
+          "text": "Player budget confirmed (under 100 KB JavaScript)",
+          "done": true
+        }
+      ],
+      "rank": 12288,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-20T07:30:00.000Z"
+    },
+    {
+      "id": "seed-013",
+      "key": "MT-13",
+      "title": "Pick the pilot neighbourhood and build the field kit",
+      "icon": "📍",
+      "status": "in_progress",
+      "priority": "high",
+      "phase": "phase-0",
+      "area": "growth",
+      "effort": "s",
+      "impact": 4,
+      "confidence": 3,
+      "owner": "Charan",
+      "tags": [
+        "gtm",
+        "v0-launch"
+      ],
+      "summary": "One dense food street, a demo stick, leave-behind cards and a script.",
+      "body": "**Why.** Density drives word of mouth now and the ad network later.\n\n**What.** Choose a neighbourhood with 60+ counter-ordering outlets within 2 km. Prepare a demo phone, a demo stick, QR leave-behind cards and the 60-second demo script.\n\n**20 October 2026.** /kit prints ten leave-behind cards to an A4 sheet with a QR to the site. docs/field-kit.md: how to choose the neighbourhood, the outlet list, the kit, the 60-second demo and answers to push-back. Choosing the neighbourhood, buying the demo stick and rehearsing are Charan’s.",
+      "checklist": [
+        {
+          "id": "seed-013-cards",
+          "text": "Leave-behind cards printable from /kit",
+          "done": true
+        },
+        {
+          "id": "seed-013-script",
+          "text": "The 60-second demo, answers to push-back and the outlet list (docs/field-kit.md)",
+          "done": true
+        },
+        {
+          "id": "seed-013-c1",
+          "text": "Neighbourhood chosen with an outlet list",
+          "done": false
+        },
+        {
+          "id": "seed-013-c2",
+          "text": "Field kit ready",
+          "done": false
+        },
+        {
+          "id": "seed-013-c3",
+          "text": "Script rehearsed on 3 friendly owners",
+          "done": false
+        }
+      ],
+      "rank": 13312,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-20T07:30:00.000Z"
+    },
+    {
+      "id": "seed-014",
+      "key": "MT-14",
+      "title": "Choose the stack and open accounts",
+      "icon": "🧱",
+      "status": "in_progress",
+      "priority": "high",
+      "phase": "phase-0",
+      "area": "foundations",
+      "effort": "s",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "Claude",
+      "tags": [
+        "infra",
+        "v0-launch"
+      ],
+      "summary": "Hosting, Postgres, file storage, realtime, Razorpay, WhatsApp Business and the AI gateway.",
+      "body": "**Why.** v0 can’t start without accounts, and some (Razorpay, WhatsApp) take days to approve.\n\n**What.** Confirm the stack in docs/architecture.md, open the accounts, and set environment variables per environment.\n\n**20 October 2026 (ADR-009).** Stack: Netlify for hosting, Netlify Database (Postgres, one row per JSON document, row-locked writes) and Netlify Blobs for dish photos (src/lib/document-store.ts, netlify.toml, netlify/database/migrations). Checked with Netlify’s own build and local server: pages, the proxy, sign-in, setup, a photo saved to Blobs, pairing and a sold-out change reaching the TV in about 2 seconds, with the TV’s stream closing at 50 seconds under the 60-second function limit. Still to open: Resend (email codes), Twilio (+91 text codes), Razorpay and WhatsApp Business (v1), and an Anthropic key (MT-19). Until a sign-in provider is set, a test site may set SIGN_IN_CODES_ON_SCREEN=true, which shows codes on screen and lets anyone sign in as anyone.",
+      "checklist": [
+        {
+          "id": "seed-014-c1",
+          "text": "Accounts open",
+          "done": false
+        },
+        {
+          "id": "seed-014-c2",
+          "text": "Secrets in the host’s env store",
+          "done": false
+        },
+        {
+          "id": "seed-014-c3",
+          "text": "Staging deploy from main",
+          "done": false
+        }
+      ],
+      "rank": 14336,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-20T07:30:00.000Z"
+    },
+    {
+      "id": "seed-015",
+      "key": "MT-15",
+      "title": "Sign in and set up the restaurant",
+      "icon": "🔐",
+      "status": "in_review",
+      "priority": "urgent",
+      "phase": "phase-1",
+      "area": "foundations",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "auth",
+        "v0-launch"
+      ],
+      "summary": "Phone OTP or email link; restaurant name, outlet, city and currency.",
+      "body": "**Why.** Owners live on their phones and forget passwords.\n\n**What.** Sign in with a phone OTP (WhatsApp or SMS) or an email link. Create the restaurant and its first outlet. Roles: owner and staff.\n\n**Built 19 October 2026.** One field for a mobile number or an email, then a 6-digit code (a code, not an email link: email scanners spend one-time links; see docs/accounts-and-menu.md). Codes and sessions are stored as hashes; 5 tries, 10 minutes, 30 seconds between codes, 5 an hour per address, per-connection limits, and texts only to +91 numbers against SMS-pumping fraud. Setup makes the restaurant and first outlet with an empty or sample menu. Owners add staff by number or email (they join on first sign-in, with a WhatsApp or email link to send them). Staff edit the menu and sold out; screens, TVs and people are owner-only. **Waiting on:** Resend and Twilio accounts (MT-14) before production sign-in works; in development the code shows on screen.",
+      "checklist": [
+        {
+          "id": "seed-015-c1",
+          "text": "Phone OTP and email link sign-in",
+          "done": false
+        },
+        {
+          "id": "seed-015-c2",
+          "text": "Restaurant and outlet created in under a minute",
+          "done": true
+        },
+        {
+          "id": "seed-015-c3",
+          "text": "Staff can do quick actions but not billing",
+          "done": true
+        }
+      ],
+      "rank": 15360,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-19T07:02:28.842Z"
+    },
+    {
+      "id": "seed-016",
+      "key": "MT-16",
+      "title": "Menu model with veg marks, calories and allergens",
+      "icon": "🧾",
+      "status": "in_review",
+      "priority": "urgent",
+      "phase": "phase-1",
+      "area": "menu",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 5,
+      "owner": "",
+      "tags": [
+        "menu",
+        "v0-launch"
+      ],
+      "summary": "Categories, items, sizes, prices, badges, availability, veg mark, calories and allergens.",
+      "body": "**Why.** A menu stored as data can be laid out, translated, synced and kept compliant. A picture can’t.\n\n**What.** Validated schema (zod) for categories and items: name, description, sizes (half and full), price with tax included, veg or non-veg, badges, calories per serving, allergens, photo, available today, sort order.\n\n**Built 19 October 2026.** `src/features/menu`: zod schema with one price or up to three sizes (paise), veg or non-veg, labels, calories and serving size, FSSAI allergens, photo, sold out for today (back by itself tomorrow, India time) and hidden. Edits are pure functions applied to the latest menu on the server, so two phones never overwrite each other. TVs play the owner's own menu; bestsellers, new dishes and chef's picks become promo slides until the promo studio ships.",
+      "checklist": [
+        {
+          "id": "seed-016-c1",
+          "text": "Schema validated at every boundary",
+          "done": true
+        },
+        {
+          "id": "seed-016-c2",
+          "text": "Prices stored in paise, shown in rupees",
+          "done": true
+        },
+        {
+          "id": "seed-016-c3",
+          "text": "Calories and allergens optional but supported",
+          "done": true
+        }
+      ],
+      "rank": 16384,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-19T07:02:28.842Z"
+    },
+    {
+      "id": "seed-017",
+      "key": "MT-17",
+      "title": "Menu editor on the phone",
+      "icon": "✏️",
+      "status": "in_review",
+      "priority": "urgent",
+      "phase": "phase-1",
+      "area": "menu",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "menu",
+        "v0-launch"
+      ],
+      "summary": "Add, edit, reorder and hide items with one thumb.",
+      "body": "**Why.** Owners update menus between orders, standing at the counter.\n\n**What.** Mobile-first editor: categories as sections, drag to reorder, swipe to hide, inline price edit, photo from camera.\n\n**Built 19 October 2026.** /studio/menu: categories as sections, drag to reorder (touch hold, mouse or keyboard), swipe left to hide, prices typed straight into each row, one-tap sold out, a sheet for everything else, photos from the camera shrunk on the phone to 800 px, and a live preview from the same code the TVs run. Checked as an owner on a 375 px phone and a laptop; a change reached a paired TV in under 20 seconds.",
+      "checklist": [
+        {
+          "id": "seed-017-c1",
+          "text": "Every field editable on a 360 px screen",
+          "done": true
+        },
+        {
+          "id": "seed-017-c2",
+          "text": "Reorder by drag and by keyboard",
+          "done": true
+        },
+        {
+          "id": "seed-017-c3",
+          "text": "Changes reach screens in under 10 seconds",
+          "done": true
+        }
+      ],
+      "rank": 17408,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-19T07:02:28.842Z"
+    },
+    {
+      "id": "seed-018",
+      "key": "MT-18",
+      "title": "Paste or spreadsheet import",
+      "icon": "📋",
+      "status": "in_review",
+      "priority": "high",
+      "phase": "phase-1",
+      "area": "menu",
+      "effort": "s",
+      "impact": 4,
+      "confidence": 5,
+      "owner": "",
+      "tags": [
+        "menu",
+        "v0-launch"
+      ],
+      "summary": "Paste lines like \"Masala chai 30\" or upload a CSV or Excel file.",
+      "body": "**Why.** Many owners already have the menu in a billing system export or a WhatsApp message.\n\n**What.** A forgiving parser for pasted text and CSV/XLSX, with a preview to fix mistakes before saving.\n\n**Built 19 October 2026.** On /studio/menu, \"Paste or upload\" reads a WhatsApp message, a billing export, cells copied from a spreadsheet, or a CSV, text or Excel (.xlsx) file. Headings become categories; half and full, S/M/L and \"180/320\" become sizes; ₹, Rs., /- and 1,200 are read as prices; header rows are mapped to name, price, category, size and veg columns, and a dish listed once per size is joined. Lines it can't read cleanly are flagged, never guessed, and the owner fixes them in a preview before one save. A dish already on the menu gets the new price instead of a copy. Excel is unzipped with the browser's own DecompressionStream, so no new dependency. Checked as an owner on a 375 px phone: a 16-line WhatsApp menu with half and full prices became 11 dishes in 3 categories on a paired TV, and an Excel export then updated a price and added dishes live.",
+      "checklist": [
+        {
+          "id": "seed-018-c1",
+          "text": "Pasted text with prices parsed",
+          "done": true
+        },
+        {
+          "id": "seed-018-c2",
+          "text": "CSV and XLSX import with column mapping",
+          "done": true
+        },
+        {
+          "id": "seed-018-c3",
+          "text": "Preview before save",
+          "done": true
+        }
+      ],
+      "rank": 18432,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-19T11:00:28.862Z"
+    },
+    {
+      "id": "seed-019",
+      "key": "MT-19",
+      "title": "AI menu import from a photo",
+      "icon": "📸",
+      "status": "in_progress",
+      "priority": "urgent",
+      "phase": "phase-1",
+      "area": "ai",
+      "effort": "l",
+      "impact": 5,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "ai-first",
+        "v0-launch"
+      ],
+      "summary": "Photograph the paper menu or flex board; get a structured menu to approve.",
+      "body": "**Why.** Making the menu is the step every competitor leaves to the owner. This is our wedge and our demo.\n\n**What.** A vision model reads the photo into categories, items, sizes and prices. Low-confidence fields are highlighted. The owner approves before anything reaches a screen.\n\n**Built 20 October 2026.** \"Add your menu\" on /studio/menu leads with \"Take or choose photos\" (up to 4). Each photo is shrunk on the phone and read by Claude (claude-opus-5-5) through the Anthropic SDK into a zod-checked list of dishes, with the fields it was unsure of. A price it can't read stays empty for the owner to type; unsure names, prices and veg marks are outlined in the same preview the paste import uses, and nothing is saved until the owner checks and saves. The photo is kept nowhere; one restaurant can read 40 photos a day. Checked end to end on a 375 px phone against a local stand-in for the API (no key or money spent). Details: docs/accounts-and-menu.md, \"Menu from a photo\". Golden set: evals/menu-photos/.",
+      "checklist": [
+        {
+          "id": "photo-key",
+          "text": "Anthropic API key set on the server (ANTHROPIC_API_KEY)",
+          "done": false
+        },
+        {
+          "id": "seed-019-c1",
+          "text": "Golden set of 30 real menu photos",
+          "done": false
+        },
+        {
+          "id": "seed-019-c2",
+          "text": "95% of prices read correctly on the golden set",
+          "done": false
+        },
+        {
+          "id": "seed-019-c3",
+          "text": "Every uncertain field highlighted",
+          "done": true
+        },
+        {
+          "id": "seed-019-c4",
+          "text": "Nothing publishes without approval",
+          "done": true
+        }
+      ],
+      "rank": 19456,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-20T04:00:00.000Z"
+    },
+    {
+      "id": "seed-020",
+      "key": "MT-20",
+      "title": "Six layouts in two brand themes",
+      "icon": "🖼️",
+      "status": "in_progress",
+      "priority": "urgent",
+      "phase": "phase-1",
+      "area": "screens",
+      "effort": "l",
+      "impact": 5,
+      "confidence": 4,
+      "owner": "Claude",
+      "tags": [
+        "screens",
+        "v0-launch"
+      ],
+      "summary": "Full board, Split, Spotlight, L-bar, Ticker and Portrait, in Paper and Night (Chalk, Neon and Fresh were retired for the brand on 2026-10-20, MT-87).",
+      "body": "**Why.** Eye-catching, readable screens are the product. Owners choose; the layout enforces the rules.\n\n**What.** Layouts sized from the screen height per docs/screen-design.md, with menu pagination, ad slots and themes. Prototype running on the demo menu at /screen/demo.",
+      "checklist": [
+        {
+          "id": "seed-020-c1",
+          "text": "Prototype of all six layouts on the demo menu",
+          "done": true
+        },
+        {
+          "id": "seed-020-c2",
+          "text": "Two brand themes, Paper and Night, with a contrast test",
+          "done": true
+        },
+        {
+          "id": "seed-020-c3",
+          "text": "Pagination by layout, with bilingual rows and an overflow audit",
+          "done": true
+        },
+        {
+          "id": "seed-020-c4",
+          "text": "Contrast check for brand colours",
+          "done": false
+        },
+        {
+          "id": "seed-020-c5",
+          "text": "Tested on 10 TVs",
+          "done": false
+        }
+      ],
+      "rank": 20480,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-20T03:00:00.000Z"
+    },
+    {
+      "id": "seed-021",
+      "key": "MT-21",
+      "title": "Screen player on a link",
+      "icon": "📺",
+      "status": "in_review",
+      "priority": "urgent",
+      "phase": "phase-1",
+      "area": "screens",
+      "effort": "l",
+      "impact": 5,
+      "confidence": 4,
+      "owner": "Claude",
+      "tags": [
+        "player",
+        "v0-launch"
+      ],
+      "summary": "A light web player that runs on TV browsers, keeps playing offline and reloads itself daily.",
+      "body": "**Why.** The TV browser is where competitors fail. A light, resilient player is our engineering moat.\n\n**What.** Wall-clock loop so screens stay in sync, CSS-only motion, a service worker that keeps the page, assets and last bundle for offline playback, a daily reload that waits for the server, burn-in shift, and clock correction from the heartbeat. Built: /s/<token> plays live; /screen/demo plays the sample.\n\n**Standalone player, 20 October 2026.** /s/<token> now answers plain HTML that loads one 12 KB script (Preact running the same LivePlayer and ScreenStage) and one stylesheet, instead of 139 KB of Next.js and React. Pairing, sold out in 7.7 s, offline reload and \"connect again\" were checked on a production build. ADR-005 in docs/architecture.md.",
+      "checklist": [
+        {
+          "id": "seed-021-c1",
+          "text": "Wall-clock loop with tests",
+          "done": true
+        },
+        {
+          "id": "seed-021-c2",
+          "text": "Runs full screen at /screen/demo",
+          "done": true
+        },
+        {
+          "id": "seed-021-c3",
+          "text": "Daily self-reload and burn-in shift",
+          "done": true
+        },
+        {
+          "id": "seed-021-c4",
+          "text": "Offline cache with a service worker",
+          "done": true
+        },
+        {
+          "id": "seed-021-c5",
+          "text": "Clock corrected from the heartbeat",
+          "done": true
+        },
+        {
+          "id": "seed-021-c6",
+          "text": "Bundle under 100 KB (12 KB gzipped with the standalone player, ADR-005)",
+          "done": true
+        },
+        {
+          "id": "player-real-tv",
+          "text": "Checked on real TVs (Android TV, Tizen, webOS browsers)",
+          "done": false
+        }
+      ],
+      "rank": 21504,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-20T05:00:00.000Z"
+    },
+    {
+      "id": "seed-022",
+      "key": "MT-22",
+      "title": "Pairing with a link, a code or a QR",
+      "icon": "🔗",
+      "status": "in_review",
+      "priority": "urgent",
+      "phase": "phase-1",
+      "area": "devices",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 4,
+      "owner": "Claude",
+      "tags": [
+        "player",
+        "v0-launch"
+      ],
+      "summary": "Open a secret link on the TV, or type a 6-character code, or scan a QR.",
+      "body": "**Why.** Typing with a TV remote is painful. Pairing must survive cleared storage.\n\n**What.** Each TV has its own unguessable link (32 random bytes, stored only as a SHA-256 hash). /pair shows a 6-character code with no look-alike letters and a QR for the owner's phone. The owner enters it in /studio; the TV's link is created only when the TV collects it with its own secret, so no token is ever stored. Rotating one TV's link never touches the others.",
+      "checklist": [
+        {
+          "id": "seed-022-c1",
+          "text": "Token link works with no pairing",
+          "done": true
+        },
+        {
+          "id": "seed-022-c2",
+          "text": "Code and QR pairing",
+          "done": true
+        },
+        {
+          "id": "seed-022-c3",
+          "text": "Rotate a token and the old link stops",
+          "done": true
+        }
+      ],
+      "rank": 22528,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T15:19:53.000Z"
+    },
+    {
+      "id": "seed-023",
+      "key": "MT-23",
+      "title": "Live updates in under ten seconds",
+      "icon": "⚡",
+      "status": "in_review",
+      "priority": "urgent",
+      "phase": "phase-1",
+      "area": "screens",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 4,
+      "owner": "Claude",
+      "tags": [
+        "player",
+        "v0-launch"
+      ],
+      "summary": "Server-sent events plus a heartbeat every minute; new content swaps in at the next slide.",
+      "body": "**Why.** \"Sold out\" that takes a minute is worse than none. Sockets drop silently on cheap TVs.\n\n**What.** A versioned bundle with an ETag (304 when unchanged), server-sent events that announce a new version within about 3 seconds, and a 60-second heartbeat as the safety net. The player swaps content at the next slide boundary (or within 20 seconds), never mid-slide.",
+      "checklist": [
+        {
+          "id": "seed-023-c1",
+          "text": "Changes reach every TV within 10 seconds, at the next slide",
+          "done": true
+        },
+        {
+          "id": "seed-023-c2",
+          "text": "Recovers from a dropped stream (heartbeat every minute)",
+          "done": true
+        },
+        {
+          "id": "seed-023-c3",
+          "text": "No visible flash on update",
+          "done": true
+        }
+      ],
+      "rank": 23552,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T15:19:53.000Z"
+    },
+    {
+      "id": "seed-024",
+      "key": "MT-24",
+      "title": "Loops and dayparts",
+      "icon": "🕒",
+      "status": "in_review",
+      "priority": "high",
+      "phase": "phase-1",
+      "area": "screens",
+      "effort": "m",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "screens",
+        "v0-launch"
+      ],
+      "summary": "Breakfast, lunch and dinner menus; how long menu and promo slides show.",
+      "body": "**Why.** A café sells different things at 8 am and 8 pm.\n\n**What.** Dayparts by time and weekday, per screen. Loop timing defaults from the playbook, editable within limits.\n\n**Built 20 October 2026.** Dayparts are set per category (from, until and days, past midnight allowed), because owners think \"breakfast dishes in the morning\", and every screen of the restaurant follows them; the server leaves a category out of the bundle outside its time, so TVs switch within seconds with no TV change. Timing is set per screen on the TVs page: menu pages 12 to 60 seconds, promos 5 to 15, defaults 18 and 7. Each screen on the TVs page previews its live loop. Checked on a production build: a daypart ended at 2:28 am and the TV changed at 2:28:05; promos set to 10 seconds turned every 10.0 seconds. Details: docs/accounts-and-menu.md and docs/screen-design.md.",
+      "checklist": [
+        {
+          "id": "seed-024-c1",
+          "text": "Dayparts switch on time",
+          "done": true
+        },
+        {
+          "id": "seed-024-c2",
+          "text": "Timing editable within limits",
+          "done": true
+        },
+        {
+          "id": "seed-024-c3",
+          "text": "Preview the loop on the phone",
+          "done": true
+        }
+      ],
+      "rank": 24576,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-20T06:00:00.000Z"
+    },
+    {
+      "id": "seed-025",
+      "key": "MT-25",
+      "title": "Quick actions: sold out, today’s special, price change",
+      "icon": "👆",
+      "status": "planned",
+      "priority": "urgent",
+      "phase": "phase-1",
+      "area": "menu",
+      "effort": "s",
+      "impact": 5,
+      "confidence": 5,
+      "owner": "",
+      "tags": [
+        "menu",
+        "v0-launch"
+      ],
+      "summary": "The three things owners do every day, one tap each.",
+      "body": "**Why.** Petpooja leads with it; owners expect it. It is the daily reason to open the app.\n\n**What.** A home screen with sold-out toggles, a \"today’s special\" picker and quick price edits, available to staff.",
+      "checklist": [
+        {
+          "id": "seed-025-c1",
+          "text": "Each action in one tap from home",
+          "done": false
+        },
+        {
+          "id": "seed-025-c2",
+          "text": "Staff can use them",
+          "done": false
+        },
+        {
+          "id": "seed-025-c3",
+          "text": "Screens change in under 10 seconds",
+          "done": false
+        }
+      ],
+      "rank": 25600,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-026",
+      "key": "MT-26",
+      "title": "Promo studio with six templates",
+      "icon": "🏷️",
+      "status": "planned",
+      "priority": "high",
+      "phase": "phase-1",
+      "area": "promos",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "promos",
+        "v0-launch"
+      ],
+      "summary": "Combo, happy hour, new item, festival, today’s special and scan-the-QR.",
+      "body": "**Why.** Promos are how screens sell. Owners won’t design them from a blank canvas.\n\n**What.** Template-driven promo slides that pull items and prices from the menu, with schedules and an optional countdown.",
+      "checklist": [
+        {
+          "id": "seed-026-c1",
+          "text": "Six templates",
+          "done": false
+        },
+        {
+          "id": "seed-026-c2",
+          "text": "Prices come from the menu, never retyped",
+          "done": false
+        },
+        {
+          "id": "seed-026-c3",
+          "text": "Schedule start and end",
+          "done": false
+        }
+      ],
+      "rank": 26624,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-027",
+      "key": "MT-27",
+      "title": "AI promo writer",
+      "icon": "✨",
+      "status": "planned",
+      "priority": "medium",
+      "phase": "phase-1",
+      "area": "ai",
+      "effort": "s",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "ai-first",
+        "v0-launch"
+      ],
+      "summary": "Pick a dish or a goal (\"push cold coffee this week\"); get three promo drafts.",
+      "body": "**Why.** Owners know what they want to sell, not how to say it in six words.\n\n**What.** Drafts headline and line in English and Hindi within the slide’s character limits. Never invents prices or discounts; those come from the menu and the owner.",
+      "checklist": [
+        {
+          "id": "seed-027-c1",
+          "text": "Three drafts in under 5 seconds",
+          "done": false
+        },
+        {
+          "id": "seed-027-c2",
+          "text": "Character limits respected",
+          "done": false
+        },
+        {
+          "id": "seed-027-c3",
+          "text": "Numbers only from the menu",
+          "done": false
+        }
+      ],
+      "rank": 27648,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-028",
+      "key": "MT-28",
+      "title": "Hindi on screen",
+      "icon": "🔤",
+      "status": "planned",
+      "priority": "medium",
+      "phase": "phase-1",
+      "area": "screens",
+      "effort": "s",
+      "impact": 3,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "languages",
+        "v0-launch"
+      ],
+      "summary": "Item names in English and Hindi, side by side or alternating each loop.",
+      "body": "**Why.** Many guests read Hindi first; no generic signage tool handles it per item.\n\n**What.** Second-language fields per item, Noto Devanagari, per-script sizing and an AI translation draft the owner approves.",
+      "checklist": [
+        {
+          "id": "seed-028-c1",
+          "text": "Both display modes",
+          "done": false
+        },
+        {
+          "id": "seed-028-c2",
+          "text": "Devanagari never smaller than Latin",
+          "done": false
+        },
+        {
+          "id": "seed-028-c3",
+          "text": "Translation drafts need approval",
+          "done": false
+        }
+      ],
+      "rank": 28672,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-029",
+      "key": "MT-29",
+      "title": "FSSAI display mode",
+      "icon": "🥗",
+      "status": "planned",
+      "priority": "medium",
+      "phase": "phase-1",
+      "area": "trust",
+      "effort": "s",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "compliance",
+        "v0-launch"
+      ],
+      "summary": "Calories per serving, the 2,000 kcal line, allergens and veg marks, on every screen.",
+      "body": "**Why.** Chains with 10+ outlets must show calories on menu boards. A data menu can do it automatically.\n\n**What.** A per-restaurant switch that adds calories and serving size to items, the reference line to each menu slide, and allergen icons.",
+      "checklist": [
+        {
+          "id": "seed-029-c1",
+          "text": "Switch per restaurant",
+          "done": false
+        },
+        {
+          "id": "seed-029-c2",
+          "text": "Reference line on every menu slide",
+          "done": false
+        },
+        {
+          "id": "seed-029-c3",
+          "text": "Missing calories flagged before publishing",
+          "done": false
+        }
+      ],
+      "rank": 29696,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-030",
+      "key": "MT-30",
+      "title": "Screen health and offline alerts",
+      "icon": "🩺",
+      "status": "in_progress",
+      "priority": "high",
+      "phase": "phase-1",
+      "area": "devices",
+      "effort": "s",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "Claude",
+      "tags": [
+        "player",
+        "v0-launch"
+      ],
+      "summary": "Online, offline, last seen and what is playing, with a WhatsApp or email alert.",
+      "body": "**Why.** A blank TV is worse than a paper menu. Owners should know before guests do.\n\n**What.** Heartbeat from each player, a status list in the app and an alert after 15 minutes offline during opening hours.",
+      "checklist": [
+        {
+          "id": "seed-030-c1",
+          "text": "Status per screen",
+          "done": true
+        },
+        {
+          "id": "seed-030-c2",
+          "text": "Alert after 15 minutes offline in opening hours",
+          "done": false
+        },
+        {
+          "id": "seed-030-c3",
+          "text": "Shows the slide currently playing",
+          "done": true
+        }
+      ],
+      "rank": 30720,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T15:19:53.000Z"
+    },
+    {
+      "id": "seed-031",
+      "key": "MT-31",
+      "title": "Proof of play",
+      "icon": "🧮",
+      "status": "planned",
+      "priority": "medium",
+      "phase": "phase-1",
+      "area": "analytics",
+      "effort": "s",
+      "impact": 3,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "analytics",
+        "v0-launch"
+      ],
+      "summary": "Which slide played, where and how often. The base for sales lift and ads later.",
+      "body": "**Why.** Sales lift (v1) and ad billing (v2) both need a trustworthy play log.\n\n**What.** Batched play events from players, stored per screen per hour, with a simple report.",
+      "checklist": [
+        {
+          "id": "seed-031-c1",
+          "text": "Play log per slide per hour",
+          "done": false
+        },
+        {
+          "id": "seed-031-c2",
+          "text": "Survives offline (uploads later)",
+          "done": false
+        },
+        {
+          "id": "seed-031-c3",
+          "text": "Export as CSV",
+          "done": false
+        }
+      ],
+      "rank": 31744,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-032",
+      "key": "MT-32",
+      "title": "Privacy and security baseline",
+      "icon": "🛡️",
+      "status": "in_progress",
+      "priority": "high",
+      "phase": "phase-1",
+      "area": "trust",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 4,
+      "owner": "Claude",
+      "tags": [
+        "security",
+        "v0-launch"
+      ],
+      "summary": "No guest tracking, isolated tenants, safe screen tokens, rate limits and an audit log.",
+      "body": "**Why.** Screen links are public by nature; menus and accounts are not.\n\n**What.** Every query scoped to the restaurant, unguessable rotatable screen tokens, rate limits on public endpoints, security headers, an audit log of who changed what, and a privacy page.",
+      "checklist": [
+        {
+          "id": "seed-032-c1",
+          "text": "Tenant isolation tests",
+          "done": false
+        },
+        {
+          "id": "seed-032-c2",
+          "text": "Token rotation",
+          "done": true
+        },
+        {
+          "id": "seed-032-c3",
+          "text": "Rate limits on pairing and play endpoints",
+          "done": true
+        },
+        {
+          "id": "seed-032-c4",
+          "text": "Privacy page live",
+          "done": false
+        }
+      ],
+      "rank": 32768,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T15:19:53.000Z"
+    },
+    {
+      "id": "seed-033",
+      "key": "MT-33",
+      "title": "Free badge and Plus billing",
+      "icon": "💳",
+      "status": "planned",
+      "priority": "high",
+      "phase": "phase-1",
+      "area": "billing",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "billing",
+        "v0-launch"
+      ],
+      "summary": "One free screen with a small badge; Plus per screen via Razorpay subscriptions with GST invoices.",
+      "body": "**Why.** Free is the norm at the bottom of this market. The badge is free marketing; Plus is the business.\n\n**What.** Plan limits enforced server-side, Razorpay subscription per restaurant with screen quantity, GST invoices, upgrade from the phone.",
+      "checklist": [
+        {
+          "id": "seed-033-c1",
+          "text": "Badge on free screens only",
+          "done": false
+        },
+        {
+          "id": "seed-033-c2",
+          "text": "Upgrade and downgrade from the phone",
+          "done": false
+        },
+        {
+          "id": "seed-033-c3",
+          "text": "GST invoice emailed",
+          "done": false
+        },
+        {
+          "id": "seed-033-c4",
+          "text": "Failed payment grace period",
+          "done": false
+        }
+      ],
+      "rank": 33792,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-034",
+      "key": "MT-34",
+      "title": "Ten-minute onboarding",
+      "icon": "🚀",
+      "status": "planned",
+      "priority": "urgent",
+      "phase": "phase-1",
+      "area": "growth",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "onboarding",
+        "v0-launch"
+      ],
+      "summary": "Photo, layout, link on the TV. First screen live in under ten minutes.",
+      "body": "**Why.** Time to the first screen on the wall decides whether an owner keeps it.\n\n**What.** A three-step flow: snap or paste the menu, pick a layout and theme with a live preview, open the link or pair the TV. Then one nudge to add a promo.",
+      "checklist": [
+        {
+          "id": "seed-034-c1",
+          "text": "Median under 10 minutes in the pilot",
+          "done": false
+        },
+        {
+          "id": "seed-034-c2",
+          "text": "Works with no laptop",
+          "done": false
+        },
+        {
+          "id": "seed-034-c3",
+          "text": "Drop-off measured per step",
+          "done": false
+        }
+      ],
+      "rank": 34816,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-035",
+      "key": "MT-35",
+      "title": "Field demo mode",
+      "icon": "🎬",
+      "status": "planned",
+      "priority": "high",
+      "phase": "phase-1",
+      "area": "growth",
+      "effort": "s",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "gtm",
+        "v0-launch"
+      ],
+      "summary": "A rep builds the owner’s menu on the rep’s phone and shows it on their TV in 60 seconds.",
+      "body": "**Why.** The 60-second demo is our main sales channel.\n\n**What.** A rep account that creates a draft restaurant from a photo, shows a QR and short link for the TV, and hands the draft over to the owner’s phone number.",
+      "checklist": [
+        {
+          "id": "seed-035-c1",
+          "text": "Draft from photo in under 60 seconds",
+          "done": false
+        },
+        {
+          "id": "seed-035-c2",
+          "text": "Hand over to the owner",
+          "done": false
+        },
+        {
+          "id": "seed-035-c3",
+          "text": "Rep attribution recorded",
+          "done": false
+        }
+      ],
+      "rank": 35840,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-036",
+      "key": "MT-36",
+      "title": "Product analytics and funnel",
+      "icon": "📊",
+      "status": "planned",
+      "priority": "medium",
+      "phase": "phase-1",
+      "area": "analytics",
+      "effort": "s",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "analytics",
+        "v0-launch"
+      ],
+      "summary": "Sign-up to first screen live to paid, by channel and by rep.",
+      "body": "**Why.** The pilot exists to measure the funnel targets in docs/market-size.md.\n\n**What.** Privacy-friendly product events for the onboarding steps, first screen live, quick actions used and upgrades. No guest data.",
+      "checklist": [
+        {
+          "id": "seed-036-c1",
+          "text": "Funnel dashboard",
+          "done": false
+        },
+        {
+          "id": "seed-036-c2",
+          "text": "Time to first screen per restaurant",
+          "done": false
+        },
+        {
+          "id": "seed-036-c3",
+          "text": "Weekly active owners",
+          "done": false
+        }
+      ],
+      "rank": 36864,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-037",
+      "key": "MT-37",
+      "title": "Pilot in one neighbourhood",
+      "icon": "🏁",
+      "status": "planned",
+      "priority": "urgent",
+      "phase": "phase-1",
+      "area": "growth",
+      "effort": "l",
+      "impact": 5,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "gtm",
+        "v0-launch"
+      ],
+      "summary": "30 outlets live in one neighbourhood, measured against the funnel targets.",
+      "body": "**Why.** v0 is done when real owners keep real screens on.\n\n**What.** Field sales with the demo kit, weekly check-ins, fixes within 48 hours, and a short write-up of what worked.",
+      "checklist": [
+        {
+          "id": "seed-037-c1",
+          "text": "30 outlets with a live screen",
+          "done": false
+        },
+        {
+          "id": "seed-037-c2",
+          "text": "Funnel measured against targets",
+          "done": false
+        },
+        {
+          "id": "seed-037-c3",
+          "text": "10 owners interviewed after 30 days",
+          "done": false
+        },
+        {
+          "id": "seed-037-c4",
+          "text": "Go or no-go for the city launch",
+          "done": false
+        }
+      ],
+      "rank": 37888,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-038",
+      "key": "MT-38",
+      "title": "POS sync for prices and sold-out items",
+      "icon": "🔄",
+      "status": "backlog",
+      "priority": "urgent",
+      "phase": "phase-2",
+      "area": "integrations",
+      "effort": "l",
+      "impact": 5,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "pos"
+      ],
+      "summary": "UrbanPiper, Restroworks, DotPe and smaller Indian POS first; Square and Toast abroad.",
+      "body": "**Why.** Owners shouldn’t change a price twice. POS companies are also a distribution channel.\n\n**What.** Adapters that read menus and stock from each POS, map items once, and keep screens in sync. Toast publishes a signage cookbook; Square menus reach boards through partners.",
+      "checklist": [
+        {
+          "id": "seed-038-c1",
+          "text": "Two Indian POS adapters live",
+          "done": false
+        },
+        {
+          "id": "seed-038-c2",
+          "text": "Item mapping saved",
+          "done": false
+        },
+        {
+          "id": "seed-038-c3",
+          "text": "Price and sold-out sync under a minute",
+          "done": false
+        }
+      ],
+      "rank": 38912,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-039",
+      "key": "MT-39",
+      "title": "Sales lift per featured item",
+      "icon": "📈",
+      "status": "backlog",
+      "priority": "high",
+      "phase": "phase-2",
+      "area": "analytics",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "pos",
+        "analytics"
+      ],
+      "summary": "Compare an item’s sales while featured against when it isn’t.",
+      "body": "**Why.** Published lift numbers are vendor claims. Our own number per restaurant is the best retention and sales tool.\n\n**What.** Join proof of play with POS sales by hour, show lift with a plain confidence note, and suggest what to feature next.",
+      "checklist": [
+        {
+          "id": "seed-039-c1",
+          "text": "Lift report per featured item",
+          "done": false
+        },
+        {
+          "id": "seed-039-c2",
+          "text": "Honest \"not enough data yet\" state",
+          "done": false
+        },
+        {
+          "id": "seed-039-c3",
+          "text": "Weekly WhatsApp summary",
+          "done": false
+        }
+      ],
+      "rank": 39936,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-040",
+      "key": "MT-40",
+      "title": "Order-ready numbers on screen",
+      "icon": "🔔",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-2",
+      "area": "integrations",
+      "effort": "m",
+      "impact": 4,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "pos"
+      ],
+      "summary": "\"Order 42 is ready\" over the menu, from the POS or a staff tap.",
+      "body": "**Why.** Guests watch the screen while they wait; token displays are a separate box today.\n\n**What.** An overlay band in every layout, driven by POS events or a staff keypad on the phone.",
+      "checklist": [
+        {
+          "id": "seed-040-c1",
+          "text": "Overlay in all layouts",
+          "done": false
+        },
+        {
+          "id": "seed-040-c2",
+          "text": "Staff keypad",
+          "done": false
+        },
+        {
+          "id": "seed-040-c3",
+          "text": "POS-driven for one adapter",
+          "done": false
+        }
+      ],
+      "rank": 40960,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-041",
+      "key": "MT-41",
+      "title": "Queue and wait-time display",
+      "icon": "⏳",
+      "status": "backlog",
+      "priority": "low",
+      "phase": "phase-2",
+      "area": "integrations",
+      "effort": "s",
+      "impact": 3,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "ideas"
+      ],
+      "summary": "Show \"about 8 minutes\" at peak, from order times.",
+      "body": "**Why.** Honest wait times calm queues and cut \"how long?\" questions.\n\n**What.** Estimate from recent order-to-ready times; owner can switch it off.",
+      "checklist": [
+        {
+          "id": "seed-041-c1",
+          "text": "Estimate within 2 minutes on pilot data",
+          "done": false
+        },
+        {
+          "id": "seed-041-c2",
+          "text": "Owner switch",
+          "done": false
+        }
+      ],
+      "rank": 41984,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-042",
+      "key": "MT-42",
+      "title": "QR codes to order, review or chat",
+      "icon": "🔳",
+      "status": "backlog",
+      "priority": "high",
+      "phase": "phase-2",
+      "area": "promos",
+      "effort": "s",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "promos"
+      ],
+      "summary": "Scan to order online, leave a Google review or message on WhatsApp.",
+      "body": "**Why.** The screen reaches the guest; the phone completes the action.\n\n**What.** QR blocks sized for distance, short links per slide, and scan counts in reports.",
+      "checklist": [
+        {
+          "id": "seed-042-c1",
+          "text": "QR readable from 3 metres",
+          "done": false
+        },
+        {
+          "id": "seed-042-c2",
+          "text": "Scan counts per slide",
+          "done": false
+        }
+      ],
+      "rank": 43008,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-043",
+      "key": "MT-43",
+      "title": "Loyalty QR with WhatsApp opt-in",
+      "icon": "🎁",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-2",
+      "area": "promos",
+      "effort": "m",
+      "impact": 4,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "ideas"
+      ],
+      "summary": "\"Scan for 10% off your next visit\": the screen grows the owner’s own customer list.",
+      "body": "**Why.** Owners want repeat guests and own almost no customer data.\n\n**What.** A scan-to-claim flow with explicit WhatsApp consent, a code the counter can check, and a list the owner owns and can export.",
+      "checklist": [
+        {
+          "id": "seed-043-c1",
+          "text": "Explicit consent recorded",
+          "done": false
+        },
+        {
+          "id": "seed-043-c2",
+          "text": "Code check at the counter",
+          "done": false
+        },
+        {
+          "id": "seed-043-c3",
+          "text": "Owner can export and delete",
+          "done": false
+        }
+      ],
+      "rank": 44032,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-044",
+      "key": "MT-44",
+      "title": "Google rating and reviews slide",
+      "icon": "⭐",
+      "status": "backlog",
+      "priority": "low",
+      "phase": "phase-2",
+      "area": "promos",
+      "effort": "s",
+      "impact": 3,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "ideas"
+      ],
+      "summary": "Live rating and a chosen review, with a QR to add one.",
+      "body": "**Why.** Social proof sells and invites new reviews.\n\n**What.** Read the rating from the Google Business Profile; the owner picks which reviews may show.",
+      "checklist": [
+        {
+          "id": "seed-044-c1",
+          "text": "Rating updates daily",
+          "done": false
+        },
+        {
+          "id": "seed-044-c2",
+          "text": "Owner approves each review shown",
+          "done": false
+        }
+      ],
+      "rank": 45056,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-045",
+      "key": "MT-45",
+      "title": "Many outlets: one menu, local prices",
+      "icon": "🏬",
+      "status": "backlog",
+      "priority": "high",
+      "phase": "phase-2",
+      "area": "menu",
+      "effort": "m",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "chains"
+      ],
+      "summary": "Edit once, override prices or items per outlet.",
+      "body": "**Why.** Small chains are the first upsell and need consistency.\n\n**What.** Outlet overrides on top of a brand menu, with a clear \"differs from brand\" marker.",
+      "checklist": [
+        {
+          "id": "seed-045-c1",
+          "text": "Overrides per outlet",
+          "done": false
+        },
+        {
+          "id": "seed-045-c2",
+          "text": "Bulk publish to all outlets",
+          "done": false
+        }
+      ],
+      "rank": 46080,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-046",
+      "key": "MT-46",
+      "title": "Happy-hour pricing rules",
+      "icon": "🍹",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-2",
+      "area": "menu",
+      "effort": "s",
+      "impact": 4,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "ideas"
+      ],
+      "summary": "Prices that change by time, shown with the old price struck through.",
+      "body": "**Why.** Time-based offers fill quiet hours, and screens can show them the moment they start.\n\n**What.** Rules by time and weekday, a countdown option, and matching POS prices where synced.",
+      "checklist": [
+        {
+          "id": "seed-046-c1",
+          "text": "Rules by time and weekday",
+          "done": false
+        },
+        {
+          "id": "seed-046-c2",
+          "text": "Countdown on screen",
+          "done": false
+        },
+        {
+          "id": "seed-046-c3",
+          "text": "Screen and POS agree",
+          "done": false
+        }
+      ],
+      "rank": 47104,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-047",
+      "key": "MT-47",
+      "title": "Brand kit with contrast guard",
+      "icon": "🎨",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-2",
+      "area": "screens",
+      "effort": "s",
+      "impact": 3,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "screens"
+      ],
+      "summary": "Logo, one brand colour and a font pair, checked for legibility.",
+      "body": "**Why.** Owners want their brand; guests need contrast.\n\n**What.** Upload a logo, pick a colour (rejected if contrast fails), choose a font pair per script.",
+      "checklist": [
+        {
+          "id": "seed-047-c1",
+          "text": "Contrast check blocks unreadable colours",
+          "done": false
+        },
+        {
+          "id": "seed-047-c2",
+          "text": "Brand applied to all layouts",
+          "done": false
+        }
+      ],
+      "rank": 48128,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-048",
+      "key": "MT-48",
+      "title": "Weather and time triggers",
+      "icon": "🌦️",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-2",
+      "area": "screens",
+      "effort": "s",
+      "impact": 3,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "ideas"
+      ],
+      "summary": "Hot afternoon: cold coffee first. Rain: chai and pakora.",
+      "body": "**Why.** Relevant promos sell more and make the screen feel alive.\n\n**What.** Rules that reorder promos by local weather and time, with a preview.",
+      "checklist": [
+        {
+          "id": "seed-048-c1",
+          "text": "Weather rule per promo",
+          "done": false
+        },
+        {
+          "id": "seed-048-c2",
+          "text": "Preview by condition",
+          "done": false
+        }
+      ],
+      "rank": 49152,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-049",
+      "key": "MT-49",
+      "title": "Festival packs",
+      "icon": "🪔",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-2",
+      "area": "promos",
+      "effort": "s",
+      "impact": 3,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "promos"
+      ],
+      "summary": "Diwali, Eid, Christmas, Holi and IPL themes that switch on and off by date.",
+      "body": "**Why.** Festivals are when owners spend on promotion.\n\n**What.** Seasonal themes and promo templates on a calendar, opt-in per restaurant.",
+      "checklist": [
+        {
+          "id": "seed-049-c1",
+          "text": "Six packs",
+          "done": false
+        },
+        {
+          "id": "seed-049-c2",
+          "text": "Auto on and off by date",
+          "done": false
+        }
+      ],
+      "rank": 50176,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-050",
+      "key": "MT-50",
+      "title": "Regional scripts",
+      "icon": "🗣️",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-2",
+      "area": "screens",
+      "effort": "m",
+      "impact": 3,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "languages"
+      ],
+      "summary": "Tamil, Telugu, Kannada, Marathi and Bengali next to English.",
+      "body": "**Why.** South and East Indian cities are big café markets.\n\n**What.** Noto fonts per script, per-script sizing and translation drafts with approval.",
+      "checklist": [
+        {
+          "id": "seed-050-c1",
+          "text": "Five scripts",
+          "done": false
+        },
+        {
+          "id": "seed-050-c2",
+          "text": "Sizes tuned per script on a real TV",
+          "done": false
+        }
+      ],
+      "rank": 51200,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-051",
+      "key": "MT-51",
+      "title": "Update the menu over WhatsApp",
+      "icon": "💬",
+      "status": "backlog",
+      "priority": "high",
+      "phase": "phase-2",
+      "area": "ai",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "ai-first"
+      ],
+      "summary": "\"Paneer roll sold out\", \"chai 35 from today\": done, with a confirmation.",
+      "body": "**Why.** Owners already run their business on WhatsApp.\n\n**What.** A WhatsApp Business number that parses short messages into quick actions, confirms before applying, and only accepts the owner’s or staff’s numbers.",
+      "checklist": [
+        {
+          "id": "seed-051-c1",
+          "text": "Sold out, special and price change by message",
+          "done": false
+        },
+        {
+          "id": "seed-051-c2",
+          "text": "Confirmation before applying",
+          "done": false
+        },
+        {
+          "id": "seed-051-c3",
+          "text": "Unknown numbers ignored",
+          "done": false
+        }
+      ],
+      "rank": 52224,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-052",
+      "key": "MT-52",
+      "title": "Menu engineering suggestions",
+      "icon": "🧠",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-2",
+      "area": "ai",
+      "effort": "m",
+      "impact": 4,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "ai-first",
+        "pos"
+      ],
+      "summary": "Which items to feature, from sales and margin: stars, plough-horses, puzzles and dogs.",
+      "body": "**Why.** The highest-margin items aren’t always the ones on the screen.\n\n**What.** Classify items from POS sales and owner-entered costs; suggest a feature plan the owner approves.",
+      "checklist": [
+        {
+          "id": "seed-052-c1",
+          "text": "Classification shown with reasons",
+          "done": false
+        },
+        {
+          "id": "seed-052-c2",
+          "text": "One-tap \"feature these\"",
+          "done": false
+        }
+      ],
+      "rank": 53248,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-053",
+      "key": "MT-53",
+      "title": "Android TV app and kiosk boot",
+      "icon": "📦",
+      "status": "backlog",
+      "priority": "high",
+      "phase": "phase-2",
+      "area": "devices",
+      "effort": "m",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "player"
+      ],
+      "summary": "A thin wrapper around the web player that starts on boot and stays awake.",
+      "body": "**Why.** For TVs whose browser fails the compatibility lab.\n\n**What.** A small Android TV app (trusted web activity or WebView) with auto-start, keep-awake and the same player.",
+      "checklist": [
+        {
+          "id": "seed-053-c1",
+          "text": "Starts on boot",
+          "done": false
+        },
+        {
+          "id": "seed-053-c2",
+          "text": "Same player code",
+          "done": false
+        },
+        {
+          "id": "seed-053-c3",
+          "text": "On the Play Store",
+          "done": false
+        }
+      ],
+      "rank": 54272,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-054",
+      "key": "MT-54",
+      "title": "MenuOnTV Stick",
+      "icon": "🔌",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-2",
+      "area": "devices",
+      "effort": "m",
+      "impact": 4,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "hardware"
+      ],
+      "summary": "A preloaded Android TV stick at cost, free with a two-year plan.",
+      "body": "**Why.** Removes the last \"will it work on my TV?\" objection.\n\n**What.** Source a reliable stick from the lab results, preload the app, ship with a pairing card.",
+      "checklist": [
+        {
+          "id": "seed-054-c1",
+          "text": "Supplier and price fixed",
+          "done": false
+        },
+        {
+          "id": "seed-054-c2",
+          "text": "Pairing card in the box",
+          "done": false
+        },
+        {
+          "id": "seed-054-c3",
+          "text": "Return process",
+          "done": false
+        }
+      ],
+      "rank": 55296,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-055",
+      "key": "MT-55",
+      "title": "Pro plan, yearly billing and GST invoices",
+      "icon": "🧾",
+      "status": "backlog",
+      "priority": "high",
+      "phase": "phase-2",
+      "area": "billing",
+      "effort": "s",
+      "impact": 4,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "billing"
+      ],
+      "summary": "Pro at ₹999 per screen with POS sync and lift reports; yearly discounts.",
+      "body": "**Why.** Selling features justify a second tier.\n\n**What.** Plan matrix, yearly prepay, proration, GST invoices and dunning.",
+      "checklist": [
+        {
+          "id": "seed-055-c1",
+          "text": "Pro plan live",
+          "done": false
+        },
+        {
+          "id": "seed-055-c2",
+          "text": "Yearly plans",
+          "done": false
+        },
+        {
+          "id": "seed-055-c3",
+          "text": "Dunning emails",
+          "done": false
+        }
+      ],
+      "rank": 56320,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-056",
+      "key": "MT-56",
+      "title": "Installer and POS partner program",
+      "icon": "🤝",
+      "status": "backlog",
+      "priority": "high",
+      "phase": "phase-2",
+      "area": "growth",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "gtm"
+      ],
+      "summary": "Recurring share for partners, and white label for installers and agencies.",
+      "body": "**Why.** Partners reach hundreds of restaurants at once.\n\n**What.** Partner accounts, referral links, a revenue share ledger and a white-label option.",
+      "checklist": [
+        {
+          "id": "seed-056-c1",
+          "text": "Partner dashboard",
+          "done": false
+        },
+        {
+          "id": "seed-056-c2",
+          "text": "Monthly payouts",
+          "done": false
+        },
+        {
+          "id": "seed-056-c3",
+          "text": "White-label domain",
+          "done": false
+        }
+      ],
+      "rank": 57344,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-057",
+      "key": "MT-57",
+      "title": "Approvals for chains",
+      "icon": "✅",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-2",
+      "area": "trust",
+      "effort": "s",
+      "impact": 3,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "chains"
+      ],
+      "summary": "Outlet managers propose; brand managers approve.",
+      "body": "**Why.** Chains need control over what every screen shows.\n\n**What.** Roles, an approvals queue and an audit trail.",
+      "checklist": [
+        {
+          "id": "seed-057-c1",
+          "text": "Approvals queue",
+          "done": false
+        },
+        {
+          "id": "seed-057-c2",
+          "text": "Audit trail per change",
+          "done": false
+        }
+      ],
+      "rank": 58368,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-058",
+      "key": "MT-58",
+      "title": "Done-for-you setup service",
+      "icon": "🧑‍🍳",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-2",
+      "area": "growth",
+      "effort": "s",
+      "impact": 3,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "gtm"
+      ],
+      "summary": "We build the menu and promos from photos for ₹1,999, free with a yearly plan.",
+      "body": "**Why.** Some owners will never do it themselves.\n\n**What.** An internal queue, a 24-hour turnaround promise, and a handover call.",
+      "checklist": [
+        {
+          "id": "seed-058-c1",
+          "text": "Order flow",
+          "done": false
+        },
+        {
+          "id": "seed-058-c2",
+          "text": "24-hour turnaround met in the pilot",
+          "done": false
+        }
+      ],
+      "rank": 59392,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-059",
+      "key": "MT-59",
+      "title": "Photos and short videos tuned for TVs",
+      "icon": "🎞️",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-2",
+      "area": "promos",
+      "effort": "s",
+      "impact": 3,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "player"
+      ],
+      "summary": "Uploads resized and re-encoded so cheap TVs play them smoothly.",
+      "body": "**Why.** Big phone videos stutter on weak players.\n\n**What.** Server-side resize and encode to TV-safe profiles; warn on long or heavy files.",
+      "checklist": [
+        {
+          "id": "seed-059-c1",
+          "text": "Encode profiles chosen in the lab",
+          "done": false
+        },
+        {
+          "id": "seed-059-c2",
+          "text": "Upload warnings",
+          "done": false
+        }
+      ],
+      "rank": 60416,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-060",
+      "key": "MT-60",
+      "title": "Install the owner app and get notifications",
+      "icon": "📱",
+      "status": "backlog",
+      "priority": "low",
+      "phase": "phase-2",
+      "area": "foundations",
+      "effort": "s",
+      "impact": 3,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "app"
+      ],
+      "summary": "A home-screen web app with push for offline screens and weekly summaries.",
+      "body": "**Why.** Faster daily access than a browser tab.\n\n**What.** Web app manifest, install prompt and push notifications.",
+      "checklist": [
+        {
+          "id": "seed-060-c1",
+          "text": "Installable on Android",
+          "done": false
+        },
+        {
+          "id": "seed-060-c2",
+          "text": "Push for offline alerts",
+          "done": false
+        }
+      ],
+      "rank": 61440,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-061",
+      "key": "MT-61",
+      "title": "Advertiser booking by neighbourhood",
+      "icon": "📣",
+      "status": "backlog",
+      "priority": "urgent",
+      "phase": "phase-3",
+      "area": "ads",
+      "effort": "l",
+      "impact": 5,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "ads"
+      ],
+      "summary": "Local businesses pick an area, dates and a budget; see screens and estimated plays.",
+      "body": "**Why.** A single café can’t sell ads; a neighbourhood of 40 can.\n\n**What.** Self-serve booking per screen per day or per play, UPI and card payment, and creative upload or AI-built creative.",
+      "checklist": [
+        {
+          "id": "seed-061-c1",
+          "text": "Book and pay in under 5 minutes",
+          "done": false
+        },
+        {
+          "id": "seed-061-c2",
+          "text": "Price per screen per day and per play",
+          "done": false
+        },
+        {
+          "id": "seed-061-c3",
+          "text": "Invoices with GST",
+          "done": false
+        }
+      ],
+      "rank": 62464,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-062",
+      "key": "MT-62",
+      "title": "Owner ad controls",
+      "icon": "🎚️",
+      "status": "backlog",
+      "priority": "urgent",
+      "phase": "phase-3",
+      "area": "ads",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "ads",
+        "trust"
+      ],
+      "summary": "Approve each ad, block categories, cap ads at one slot in three.",
+      "body": "**Why.** Owners must trust that ads never hurt their own sales or brand.\n\n**What.** Approval queue, blocked categories (competitors, alcohol, tobacco, politics by default), share-of-loop cap and a pause button.",
+      "checklist": [
+        {
+          "id": "seed-062-c1",
+          "text": "Nothing plays without approval",
+          "done": false
+        },
+        {
+          "id": "seed-062-c2",
+          "text": "Category blocks",
+          "done": false
+        },
+        {
+          "id": "seed-062-c3",
+          "text": "Hard cap on share of loop",
+          "done": false
+        }
+      ],
+      "rank": 63488,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-063",
+      "key": "MT-63",
+      "title": "Ad review and policy",
+      "icon": "📜",
+      "status": "backlog",
+      "priority": "high",
+      "phase": "phase-3",
+      "area": "trust",
+      "effort": "m",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "ads",
+        "trust"
+      ],
+      "summary": "Clear rules, an automated first check and human review.",
+      "body": "**Why.** Ads in family restaurants need a higher bar.\n\n**What.** Written ad policy, automated checks (text, image), human review before first run, and takedown within an hour.",
+      "checklist": [
+        {
+          "id": "seed-063-c1",
+          "text": "Policy published",
+          "done": false
+        },
+        {
+          "id": "seed-063-c2",
+          "text": "Review before first run",
+          "done": false
+        },
+        {
+          "id": "seed-063-c3",
+          "text": "Takedown under an hour",
+          "done": false
+        }
+      ],
+      "rank": 64512,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-064",
+      "key": "MT-64",
+      "title": "Revenue share ledger and payouts",
+      "icon": "💸",
+      "status": "backlog",
+      "priority": "urgent",
+      "phase": "phase-3",
+      "area": "billing",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "ads",
+        "billing"
+      ],
+      "summary": "Owners see earnings per ad and get paid monthly to their bank or UPI.",
+      "body": "**Why.** \"Your screen pays for itself\" only works if the money arrives.\n\n**What.** A ledger from proof of play, monthly statements, automatic plan offset and bank payouts with TDS handling.",
+      "checklist": [
+        {
+          "id": "seed-064-c1",
+          "text": "Earnings per screen per ad",
+          "done": false
+        },
+        {
+          "id": "seed-064-c2",
+          "text": "Plan fee offset automatically",
+          "done": false
+        },
+        {
+          "id": "seed-064-c3",
+          "text": "Monthly payouts with statements",
+          "done": false
+        }
+      ],
+      "rank": 65536,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-065",
+      "key": "MT-65",
+      "title": "Proof-of-play reports for advertisers",
+      "icon": "🧾",
+      "status": "backlog",
+      "priority": "high",
+      "phase": "phase-3",
+      "area": "analytics",
+      "effort": "s",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "ads"
+      ],
+      "summary": "Plays per screen per hour, with photos of real screens on request.",
+      "body": "**Why.** Advertisers renew when they can see delivery.\n\n**What.** Reports from the play log, plus an optional staff photo check-in.",
+      "checklist": [
+        {
+          "id": "seed-065-c1",
+          "text": "Report per campaign",
+          "done": false
+        },
+        {
+          "id": "seed-065-c2",
+          "text": "Photo check-in option",
+          "done": false
+        }
+      ],
+      "rank": 66560,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-066",
+      "key": "MT-66",
+      "title": "Audience estimates without cameras",
+      "icon": "👥",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-3",
+      "area": "analytics",
+      "effort": "m",
+      "impact": 4,
+      "confidence": 2,
+      "owner": "",
+      "tags": [
+        "ads",
+        "trust"
+      ],
+      "summary": "Estimate viewers from orders and opening hours, never from cameras.",
+      "body": "**Why.** Advertisers want reach; guests deserve privacy.\n\n**What.** A transparent model from POS order counts or owner estimates per hour, published with its method.",
+      "checklist": [
+        {
+          "id": "seed-066-c1",
+          "text": "Method published",
+          "done": false
+        },
+        {
+          "id": "seed-066-c2",
+          "text": "Estimates per screen per hour",
+          "done": false
+        }
+      ],
+      "rank": 67584,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-067",
+      "key": "MT-67",
+      "title": "Brand-sponsored screens",
+      "icon": "🥤",
+      "status": "backlog",
+      "priority": "high",
+      "phase": "phase-3",
+      "area": "ads",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 2,
+      "owner": "",
+      "tags": [
+        "ads"
+      ],
+      "summary": "A drinks or ice-cream brand pays the plan; it gets one slot per loop.",
+      "body": "**Why.** Brands already pay for printed shop boards; this is the digital version, with proof.\n\n**What.** A sponsor program for brands, with outlet lists, slot rules and reporting. Validate the assumption in field interviews first.",
+      "checklist": [
+        {
+          "id": "seed-067-c1",
+          "text": "Assumption validated with 2 brands",
+          "done": false
+        },
+        {
+          "id": "seed-067-c2",
+          "text": "Sponsor slot rules",
+          "done": false
+        },
+        {
+          "id": "seed-067-c3",
+          "text": "Monthly sponsor report",
+          "done": false
+        }
+      ],
+      "rank": 68608,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-068",
+      "key": "MT-68",
+      "title": "Neighbourhood density map",
+      "icon": "🗺️",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-3",
+      "area": "growth",
+      "effort": "s",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "gtm",
+        "ads"
+      ],
+      "summary": "Where screens cluster, where to sell next, and what an area is worth to advertisers.",
+      "body": "**Why.** Sales and ad sales both run on density.\n\n**What.** An internal map of live screens, prospects and estimated plays by area.",
+      "checklist": [
+        {
+          "id": "seed-068-c1",
+          "text": "Map of live screens and prospects",
+          "done": false
+        },
+        {
+          "id": "seed-068-c2",
+          "text": "Estimated plays per area",
+          "done": false
+        }
+      ],
+      "rank": 69632,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-069",
+      "key": "MT-69",
+      "title": "Ad pilot with 10 local advertisers",
+      "icon": "🧪",
+      "status": "backlog",
+      "priority": "urgent",
+      "phase": "phase-3",
+      "area": "growth",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "gtm",
+        "ads"
+      ],
+      "summary": "Once 40 screens sit within 2 km: four weeks, real money, published results.",
+      "body": "**Why.** Ad income is the biggest assumption in the plan.\n\n**What.** Sign gyms, salons, coaching centres, clinics and event organisers; run four weeks; pay owners their share; publish the numbers.",
+      "checklist": [
+        {
+          "id": "seed-069-c1",
+          "text": "10 advertisers paid",
+          "done": false
+        },
+        {
+          "id": "seed-069-c2",
+          "text": "Owners paid their share",
+          "done": false
+        },
+        {
+          "id": "seed-069-c3",
+          "text": "Renewal rate measured",
+          "done": false
+        }
+      ],
+      "rank": 70656,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-070",
+      "key": "MT-70",
+      "title": "AI ad builder for local businesses",
+      "icon": "🪄",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-3",
+      "area": "ai",
+      "effort": "s",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "ai-first",
+        "ads"
+      ],
+      "summary": "A gym types one line and gets three TV-ready ads that pass the policy.",
+      "body": "**Why.** Small advertisers don’t have creative.\n\n**What.** Template-based ad drafts with the advertiser’s logo and offer, checked against the ad policy before submission.",
+      "checklist": [
+        {
+          "id": "seed-070-c1",
+          "text": "Three drafts per request",
+          "done": false
+        },
+        {
+          "id": "seed-070-c2",
+          "text": "Policy check before submission",
+          "done": false
+        }
+      ],
+      "rank": 71680,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-071",
+      "key": "MT-71",
+      "title": "Guest trivia and games while waiting",
+      "icon": "🎲",
+      "status": "backlog",
+      "priority": "low",
+      "phase": "phase-3",
+      "area": "screens",
+      "effort": "m",
+      "impact": 3,
+      "confidence": 2,
+      "owner": "",
+      "tags": [
+        "ideas"
+      ],
+      "summary": "Food trivia between menu loops, answered on the guest’s phone.",
+      "body": "**Why.** Atmosphere shows trivia keeps guests watching; attention lifts ad value.\n\n**What.** Short trivia slides with a QR to answer; never covers the menu at the counter.",
+      "checklist": [
+        {
+          "id": "seed-071-c1",
+          "text": "Trivia pack",
+          "done": false
+        },
+        {
+          "id": "seed-071-c2",
+          "text": "Owner switch",
+          "done": false
+        },
+        {
+          "id": "seed-071-c3",
+          "text": "Never on menu-only screens",
+          "done": false
+        }
+      ],
+      "rank": 72704,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-072",
+      "key": "MT-72",
+      "title": "Live score widget for match nights",
+      "icon": "🏏",
+      "status": "backlog",
+      "priority": "low",
+      "phase": "phase-3",
+      "area": "screens",
+      "effort": "s",
+      "impact": 3,
+      "confidence": 2,
+      "owner": "",
+      "tags": [
+        "ideas",
+        "risk"
+      ],
+      "summary": "A small live score in the corner during big matches. Check licensing first.",
+      "body": "**Why.** Cricket nights pull crowds; owners switch the TV to the match today.\n\n**What.** A score band from a licensed data feed, owner-scheduled. Blocked until rights are clear.",
+      "checklist": [
+        {
+          "id": "seed-072-c1",
+          "text": "Data licence confirmed",
+          "done": false
+        },
+        {
+          "id": "seed-072-c2",
+          "text": "Score band in two layouts",
+          "done": false
+        }
+      ],
+      "rank": 73728,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-073",
+      "key": "MT-73",
+      "title": "Approved Instagram wall",
+      "icon": "📷",
+      "status": "backlog",
+      "priority": "low",
+      "phase": "phase-3",
+      "area": "promos",
+      "effort": "s",
+      "impact": 2,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "ideas"
+      ],
+      "summary": "Guests’ tagged photos on screen, after the owner approves each one.",
+      "body": "**Why.** Guests love seeing themselves; it drives tags and reach.\n\n**What.** Pull tagged posts, approval queue, display slide.",
+      "checklist": [
+        {
+          "id": "seed-073-c1",
+          "text": "Approval before display",
+          "done": false
+        },
+        {
+          "id": "seed-073-c2",
+          "text": "Takedown in one tap",
+          "done": false
+        }
+      ],
+      "rank": 74752,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-074",
+      "key": "MT-74",
+      "title": "Public API and webhooks",
+      "icon": "🔧",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-4",
+      "area": "platform",
+      "effort": "l",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "api"
+      ],
+      "summary": "Menus, screens, promos and play logs over a documented API.",
+      "body": "**Why.** POS vendors, agencies and chains want to build on us.\n\n**What.** Versioned REST API, scoped keys, webhooks for menu and screen events.",
+      "checklist": [
+        {
+          "id": "seed-074-c1",
+          "text": "Docs published",
+          "done": false
+        },
+        {
+          "id": "seed-074-c2",
+          "text": "Scoped keys",
+          "done": false
+        },
+        {
+          "id": "seed-074-c3",
+          "text": "Webhooks with retries",
+          "done": false
+        }
+      ],
+      "rank": 75776,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-075",
+      "key": "MT-75",
+      "title": "MCP server for AI assistants",
+      "icon": "🤖",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-4",
+      "area": "platform",
+      "effort": "m",
+      "impact": 4,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "api",
+        "ai-first"
+      ],
+      "summary": "Let an owner’s AI assistant update the menu and screens, with approvals.",
+      "body": "**Why.** Assistants are becoming users of business software.\n\n**What.** An MCP server over the public API with the same scopes and approvals as people.",
+      "checklist": [
+        {
+          "id": "seed-075-c1",
+          "text": "Read and propose tools",
+          "done": false
+        },
+        {
+          "id": "seed-075-c2",
+          "text": "Approvals enforced",
+          "done": false
+        }
+      ],
+      "rank": 76800,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-076",
+      "key": "MT-76",
+      "title": "Programmatic ad demand",
+      "icon": "🛰️",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-4",
+      "area": "ads",
+      "effort": "l",
+      "impact": 4,
+      "confidence": 2,
+      "owner": "",
+      "tags": [
+        "ads"
+      ],
+      "summary": "Fill unsold slots through DOOH exchanges such as Vistar or Hivestack.",
+      "body": "**Why.** Local demand won’t fill every slot in every area.\n\n**What.** Supply integration with one exchange, floor prices, and owner category controls applied to programmatic ads.",
+      "checklist": [
+        {
+          "id": "seed-076-c1",
+          "text": "One exchange live",
+          "done": false
+        },
+        {
+          "id": "seed-076-c2",
+          "text": "Owner controls still apply",
+          "done": false
+        }
+      ],
+      "rank": 77824,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-077",
+      "key": "MT-77",
+      "title": "Chains: SSO, roles and rollouts",
+      "icon": "🏢",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-4",
+      "area": "platform",
+      "effort": "l",
+      "impact": 4,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "chains"
+      ],
+      "summary": "For brands with 10 to 200 outlets.",
+      "body": "**Why.** Chains pay more and churn less.\n\n**What.** SSO, custom roles, staged rollouts and an outlet health dashboard.",
+      "checklist": [
+        {
+          "id": "seed-077-c1",
+          "text": "SSO",
+          "done": false
+        },
+        {
+          "id": "seed-077-c2",
+          "text": "Staged rollouts",
+          "done": false
+        },
+        {
+          "id": "seed-077-c3",
+          "text": "Health dashboard",
+          "done": false
+        }
+      ],
+      "rank": 78848,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-078",
+      "key": "MT-78",
+      "title": "Self-order kiosks",
+      "icon": "🖐️",
+      "status": "backlog",
+      "priority": "low",
+      "phase": "phase-4",
+      "area": "screens",
+      "effort": "xl",
+      "impact": 4,
+      "confidence": 2,
+      "owner": "",
+      "tags": [
+        "ideas"
+      ],
+      "summary": "Touch screens that take orders, from the same menu.",
+      "body": "**Why.** The menu data is already here; kiosks are the next screen.\n\n**What.** A touch layout, cart and payment through the POS.",
+      "checklist": [
+        {
+          "id": "seed-078-c1",
+          "text": "Pilot in two outlets",
+          "done": false
+        }
+      ],
+      "rank": 79872,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-079",
+      "key": "MT-79",
+      "title": "Drive-through and outdoor boards",
+      "icon": "🚗",
+      "status": "backlog",
+      "priority": "low",
+      "phase": "phase-4",
+      "area": "devices",
+      "effort": "l",
+      "impact": 3,
+      "confidence": 2,
+      "owner": "",
+      "tags": [
+        "ideas"
+      ],
+      "summary": "High-brightness boards with dayparts and weather.",
+      "body": "**Why.** A later segment with bigger budgets.\n\n**What.** Outdoor hardware partners and brightness-aware themes.",
+      "checklist": [
+        {
+          "id": "seed-079-c1",
+          "text": "One hardware partner",
+          "done": false
+        }
+      ],
+      "rank": 80896,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-080",
+      "key": "MT-80",
+      "title": "Go abroad: UAE, UK and US",
+      "icon": "🌍",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-4",
+      "area": "growth",
+      "effort": "l",
+      "impact": 4,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "gtm"
+      ],
+      "summary": "Local prices, taxes, calorie rules and payment methods.",
+      "body": "**Why.** Prices abroad are 3x India’s for the same product.\n\n**What.** Currency and tax per country, FDA and UK calorie rules, Stripe billing.",
+      "checklist": [
+        {
+          "id": "seed-080-c1",
+          "text": "One country launched",
+          "done": false
+        },
+        {
+          "id": "seed-080-c2",
+          "text": "Calorie rules per country",
+          "done": false
+        }
+      ],
+      "rank": 81920,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-081",
+      "key": "MT-81",
+      "title": "Fire TV (Vega OS), Tizen and webOS apps",
+      "icon": "🧩",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-4",
+      "area": "devices",
+      "effort": "m",
+      "impact": 3,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "player"
+      ],
+      "summary": "Native store listings that wrap the same web player.",
+      "body": "**Why.** Store apps survive better than browser bookmarks; Vega OS favours web apps.\n\n**What.** Packaging per TV platform with auto-start where allowed.",
+      "checklist": [
+        {
+          "id": "seed-081-c1",
+          "text": "Two stores live",
+          "done": false
+        }
+      ],
+      "rank": 82944,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-082",
+      "key": "MT-82",
+      "title": "Template marketplace for designers",
+      "icon": "🛍️",
+      "status": "backlog",
+      "priority": "low",
+      "phase": "phase-4",
+      "area": "platform",
+      "effort": "l",
+      "impact": 3,
+      "confidence": 2,
+      "owner": "",
+      "tags": [
+        "ideas"
+      ],
+      "summary": "Designers sell themes and promo packs; we enforce legibility rules.",
+      "body": "**Why.** More variety without diluting quality.\n\n**What.** Submission, review against the playbook, revenue share.",
+      "checklist": [
+        {
+          "id": "seed-082-c1",
+          "text": "10 approved themes",
+          "done": false
+        }
+      ],
+      "rank": 83968,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "id": "seed-083",
+      "key": "MT-83",
+      "title": "Synced video walls",
+      "icon": "🧱",
+      "status": "backlog",
+      "priority": "low",
+      "phase": "phase-4",
+      "area": "screens",
+      "effort": "m",
+      "impact": 3,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "ideas"
+      ],
+      "summary": "Three TVs as one menu, already in sync through the wall-clock loop.",
+      "body": "**Why.** Bigger counters use two or three TVs side by side.\n\n**What.** Span layouts across screens with a position per TV.",
+      "checklist": [
+        {
+          "id": "seed-083-c1",
+          "text": "Two- and three-screen spans",
+          "done": false
+        }
+      ],
+      "rank": 84992,
+      "archived": false,
+      "createdAt": "2026-10-18T00:00:00.000Z",
+      "updatedAt": "2026-10-18T00:00:00.000Z"
+    },
+    {
+      "icon": "📌",
+      "status": "in_review",
+      "priority": "high",
+      "phase": "phase-0",
+      "area": "growth",
+      "effort": "l",
+      "impact": 3,
+      "confidence": 3,
+      "owner": "Charan",
+      "summary": "The public site tells the problem on a café plan and plays the fix on the real screen: ink on paper, and the only light is the TV.",
+      "body": "**Why.** Owners need to see, in one visit, why a screen beats shouting, chalk, print, posters and neon, and that MenuOnTV keeps every lesson. The old white page looked like the Fundraise template it came from.\n\n**What.** A Victorian overture (curtains, wood type, wax seal) and playbill; a pinned time machine that scrolls (or is dialled) through seven eras from 1750 to 2026, each dressed in its era with an exhibit built from React Bits components, while the masthead changes era with it; the visitor types their café and dishes and sees them play on a three.js telly, then carries the name into early access; How it works and Pricing pages (tear-off ticket plans). New brand: speech-balloon screen mark, indigo actions, newsprint to porcelain. See DESIGN.md.\n\n**v4 (2026-10-19).** A hero first: a café at night where the owner's phone marks dishes sold out, nudges a price and picks today's special on the real screen. React Bits removed at the owner's request; every effect rewritten in src/components/effects (no WebGL but the 3D telly), with gsap and motion uninstalled: home first-load JS 323 to 209 KB gzip. Ideas from React Bits Pro's catalogue, our own code: live bento tiles, drifting menus behind early access, a lit footer wordmark, a monthly-bill calculator, the FAQ as a chat, and a no-signal 404. See docs/site-v4-plan.md.\n\n**Problems as hairline figures (2026-10-20).** The four problem drawings are hairline figures (github.com/lucasmarkes/hairline, MIT; skill hairline-create): a crooked pile of reprinted price sheets, steel pans with one bare, a queue leaning out to read a small board, and combo flyers by the till. Each answers the pointer and walks its own tour while on screen, in ink with chilli as the bright stroke. Engine vendored at src/components/home/hairline/kernel.mjs.\n\n**Done when.** The owner signs off the look; the site passes typecheck, lint, tests and a production build; every page works on desktop and a phone and with reduced motion; it is checked on a real mid-range Android phone and Safari.\n\n**v5 (2026-10-19).** The owner found the Victorian site not good-looking and its flow broken, and asked for a redesign from heronaiapp.com and giga.ai. Rebuilt as one drawing language (docs/site-v5-plan.md, DESIGN.md): a café counter that traces itself and a TV that switches on; a sentence lit word by word; the problem in four cells; a pinned café plan that builds, flags the printed board’s problems and fixes them with a TV; a pinned demo of one afternoon on the real screen; three steps; who it’s for; the screen rules and the free plan; try it with your own menu; early access. Archivo, Geist and Geist Mono on paper, chilli for problems and the one action. The overture, time machine, exhibits, 3D telly, effects folder and three.js packages are gone.",
+      "title": "Public website: the counter, drawn",
+      "tags": [
+        "brand",
+        "website"
+      ],
+      "checklist": [
+        {
+          "id": "story-1",
+          "text": "Overture, playbill and seven acts",
+          "done": true
+        },
+        {
+          "id": "story-2",
+          "text": "How it works and Pricing pages",
+          "done": true
+        },
+        {
+          "id": "story-5",
+          "text": "Time machine, tuning dial and menu builder (v3)",
+          "done": true
+        },
+        {
+          "id": "story-6",
+          "text": "Live hero, own effects (React Bits removed), section upgrades (v4)",
+          "done": true
+        },
+        {
+          "id": "story-7",
+          "text": "Redesign from Heron and Giga: drawn café, pinned plan and demo (v5)",
+          "done": true
+        },
+        {
+          "id": "story-3",
+          "text": "Owner review of the look",
+          "done": false
+        },
+        {
+          "id": "story-4",
+          "text": "Real-device check: Android Chrome and iOS Safari",
+          "done": false
+        }
+      ],
+      "id": "e8946c8e-c496-49d2-a5ab-e8d8eadf3bdc",
+      "key": "MT-84",
+      "rank": 86016,
+      "archived": false,
+      "createdAt": "2026-10-18T19:28:31.083Z",
+      "updatedAt": "2026-10-19T19:31:08.816Z"
+    },
+    {
+      "icon": "🧭",
+      "status": "in_review",
+      "priority": "high",
+      "phase": "phase-0",
+      "area": "platform",
+      "effort": "m",
+      "impact": 4,
+      "confidence": 3,
+      "owner": "Charan",
+      "summary": "The owner app wears the site’s brand and is laid out by how often an owner does each job, with a live view of what the TVs play.",
+      "body": "**Why.** The owner found the app’s flow broken, its navigation dull and the look out of step with the new site.\n\n**What.** The owner app, sign-in, setup and the TV pairing screen moved to the site’s ink, paper and chilli, Archivo headings and square corners (DESIGN.md, Owner app). Four tabs, most frequent first: Today (live TV preview, sold out today, first-screen checklist), Menu (editor with the TV beside it), TVs (connect by code, screens, links; read-only for staff) and Restaurant. A bottom tab bar on phones, the site’s framed bar on computers. The house TV theme, Paper, became the default for new screens. Walkthrough and fixes: docs/accounts-and-menu.md.\n\n**Done when.**",
+      "title": "Owner app in the brand: Today, Menu, TVs, Restaurant",
+      "tags": [
+        "owner-app",
+        "brand"
+      ],
+      "checklist": [
+        {
+          "id": "app-1",
+          "text": "Brand and four tabs, on phone and computer",
+          "done": true
+        },
+        {
+          "id": "app-2",
+          "text": "Walked through as a new owner and as staff; issues fixed",
+          "done": true
+        },
+        {
+          "id": "app-3",
+          "text": "Owner review of the app",
+          "done": false
+        },
+        {
+          "id": "app-4",
+          "text": "Checked on a real Android phone and a real TV",
+          "done": false
+        }
+      ],
+      "id": "7dff605a-f3bd-429a-992f-c3837d4f4c79",
+      "key": "MT-85",
+      "rank": 87040,
+      "archived": false,
+      "createdAt": "2026-10-19T18:13:19.447Z",
+      "updatedAt": "2026-10-19T18:13:19.447Z"
+    },
+    {
+      "icon": "🎥",
+      "status": "in_review",
+      "priority": "high",
+      "phase": "phase-0",
+      "area": "growth",
+      "effort": "m",
+      "impact": 4,
+      "confidence": 3,
+      "owner": "Charan",
+      "summary": "The live demo is a page of the site: the sample café in 3D on a busy square, its menu playing on the TV out front.",
+      "body": "**Why.** The nav’s live demo opened the TV player full screen, with no way back to the site, and showed a screen rather than a shop.\n\n**What.** /demo, in the site’s header and footer: a three.js scene (three@0.186, no React Three Fiber) of Masala Mornings at the centre of a square. A big TV in front plays the demo menu from the same loop real TVs run, so the sold-out kathi roll and the chai and samosa combo show as on a real screen. A person at the counter takes orders, three guests queue and step up every 8 seconds, and nine people walk the square. A button glides the camera to the TV and back. Pure, tested logic in src/features/plaza; scope in docs/demo-plaza.md. /screen/demo now shows a way back to the site when the pointer moves.\n\n**Done when.**",
+      "title": "Live demo: the café on the square, in 3D",
+      "tags": [
+        "site",
+        "demo",
+        "3d"
+      ],
+      "checklist": [
+        {
+          "id": "demo-1",
+          "text": "Scene, queue, counter and walkers, with the real menu on the TV",
+          "done": true
+        },
+        {
+          "id": "demo-2",
+          "text": "Reduced motion, no WebGL and phone layouts handled",
+          "done": true
+        },
+        {
+          "id": "demo-3",
+          "text": "Owner review of the demo",
+          "done": false
+        },
+        {
+          "id": "demo-4",
+          "text": "Checked on a real phone (frame rate and heat)",
+          "done": false
+        }
+      ],
+      "id": "b33d4dfe-3fe0-44bf-997f-26bccb46cc12",
+      "key": "MT-86",
+      "rank": 88064,
+      "archived": false,
+      "createdAt": "2026-10-19T19:31:08.816Z",
+      "updatedAt": "2026-10-19T19:31:08.816Z"
+    },
+    {
+      "icon": "📺",
+      "status": "in_review",
+      "priority": "high",
+      "phase": "phase-0",
+      "area": "platform",
+      "effort": "m",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "Charan",
+      "summary": "Every TV menu, on the site and in the owner app, wears the MenuOnTV brand: the site's faces, hairline rules and square shapes, in Paper or Night.",
+      "body": "**Why.** The owner saw the menus on the site and in the app still looking like generic signage (pills, glowing plates, Neon and Chalk colours), out of step with the site and the app.\n\n**What.** The screen CSS (.scr-*) now uses Archivo, Geist and Geist Mono, hairline rules with crosshair marks, square badges and labels, framed dish cells and promo cells with a chilli top rule. Themes are colours only and down to Paper and Night; screens saved with Chalk or Neon read as Night, Fresh as Paper. The site's gallery plays Paper, the 3D demo's TV draws the same Split screen, the full-screen player keeps 16:9 on 16:10 laptops, and long names and bilingual headings fit. DESIGN.md, Screen.\n\n**Done when.**",
+      "title": "TV menus in the brand, on the site and in the app",
+      "tags": [
+        "screen",
+        "brand"
+      ],
+      "checklist": [
+        {
+          "id": "tvb-1",
+          "text": "Six layouts in Paper and Night, English and Hindi, nothing trimmed or overflowing at 1920 by 1080",
+          "done": true
+        },
+        {
+          "id": "tvb-2",
+          "text": "Site TVs, the 3D demo and the owner app previews checked",
+          "done": true
+        },
+        {
+          "id": "tvb-3",
+          "text": "Owner review of the menus",
+          "done": false
+        },
+        {
+          "id": "tvb-4",
+          "text": "Checked on a real TV",
+          "done": false
+        }
+      ],
+      "id": "ac247c35-7d1d-45ef-80f1-8fe44c7b831f",
+      "key": "MT-87",
+      "rank": 89088,
+      "archived": false,
+      "createdAt": "2026-10-20T02:00:00.000Z",
+      "updatedAt": "2026-10-20T02:00:00.000Z"
+    },
+    {
+      "id": "8aef7e3a-8a6f-4944-9563-a7c4790a6de4",
+      "key": "MT-88",
+      "title": "Menus on older smart-TV browsers",
+      "icon": "📺",
+      "status": "backlog",
+      "priority": "high",
+      "phase": "phase-1",
+      "area": "devices",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "player",
+        "devices"
+      ],
+      "summary": "Samsung TVs from 2023 and older (Chromium 94 or below) lack the container units every screen is sized in. Decide: a viewport-unit build of the player, or a stick for those owners.",
+      "body": "**Why.** Samsung’s own table of TV web engines puts 2023 sets at Chromium 94 and older ones lower; container queries arrived in Chromium 105. Many restaurant TVs in India are 2019 to 2023 sets, so without a fallback those owners need a stick, which weakens \"just a link\".\n\n**What.** After the TV lab (MT-12) confirms which TVs fail: either build a second player stylesheet where container units become viewport units (on a TV the stage is nearly always the whole 16:9 screen, so the two match) and load it when `CSS.supports('width: 1cqw')` is false, or tell those owners which stick to buy. Check the ES2019 floor too (Chromium 73).\n\n**Done when.**",
+      "checklist": [
+        {
+          "id": "mt88-1",
+          "text": "TV lab results for 2022 and 2023 Samsung and LG sets",
+          "done": false
+        },
+        {
+          "id": "mt88-2",
+          "text": "Owner decides: fallback build or stick",
+          "done": false
+        },
+        {
+          "id": "mt88-3",
+          "text": "A 2022 Samsung TV passes /tv-check and plays a 72-hour run, or the stick advice is in the app",
+          "done": false
+        }
+      ],
+      "rank": 86016,
+      "archived": false,
+      "createdAt": "2026-10-20T07:30:00.000Z",
+      "updatedAt": "2026-10-20T07:30:00.000Z"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "name": "menutelly",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm run player && next dev",
+    "build": "npm run player && next build",
+    "start": "next start",
+    "lint": "eslint src next.config.ts vitest.config.mts eslint.config.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit",
+    "player": "node scripts/build-player.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.135.0",
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "@netlify/blobs": "^11.1.4",
+    "@netlify/database": "^2.0.1",
+    "lucide-react": "^1.55.0",
+    "next": "16.4.0",
+    "qrcode": "^1.5.4",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "three": "^0.186.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@netlify/database-dev": "^1.0.1",
+    "@tailwindcss/turbopack": "^4",
+    "@testing-library/react": "^16.3.3",
+    "@types/node": "^22.20.5",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/three": "^0.186.0",
+    "@vitest/coverage-v8": "^5.0.3",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.0",
+    "jsdom": "^28.1.0",
+    "preact": "^11.0.1",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.3"
+  }
+}

@@ -1,0 +1,260 @@
+import { Camera, Check, HandCoins, IndianRupee, Plus, ShieldCheck, TrendingUp, Tv } from 'lucide-react';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { LiveTelly } from '@/components/marketing/live-telly';
+import { Telly } from '@/components/marketing/telly';
+import { buttonPrimary, buttonSecondary, container, sectionTitle } from '@/components/marketing/ui';
+import { WaitlistForm } from '@/components/marketing/waitlist-form';
+import { siteConfig } from '@/config/site';
+import { DEMO_RESTAURANT } from '@/content/demo-restaurant';
+import { comparison, earlyAccess, earn, faq, hero, howItWorks, layoutsSection, pricing, screenRules, why } from '@/content/site-content';
+import { ScreenStage } from '@/features/screen/components/screen-stage';
+import { buildQrCodes } from '@/features/screen/qr';
+import { LAYOUTS, type LayoutId, type ThemeId } from '@/features/screen/types';
+import { homeJsonLd, serializeJsonLd } from '@/lib/structured-data';
+
+export const metadata: Metadata = {
+  title: { absolute: siteConfig.title },
+  description: siteConfig.description,
+  alternates: { canonical: '/', types: { 'text/markdown': '/index.md' } },
+  openGraph: { type: 'website', url: '/', siteName: siteConfig.name, title: siteConfig.title, description: siteConfig.description, locale: siteConfig.locale },
+  twitter: { card: 'summary_large_image', title: siteConfig.title, description: siteConfig.description },
+};
+
+const WHY_ICONS = [Camera, TrendingUp, Tv, IndianRupee, HandCoins, ShieldCheck] as const;
+
+/** Each gallery TV shows a different theme, so visitors see all three without touching anything. */
+const GALLERY_THEMES: Readonly<Record<LayoutId, ThemeId>> = {
+  board: 'chalk',
+  split: 'neon',
+  spotlight: 'fresh',
+  lbar: 'chalk',
+  ticker: 'fresh',
+  portrait: 'neon',
+};
+
+export default async function HomePage() {
+  const qrCodes = await buildQrCodes(DEMO_RESTAURANT);
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(homeJsonLd()) }} />
+
+      <section aria-labelledby="hero-title" className="overflow-hidden">
+        <div className={`${container} grid items-center gap-12 py-12 lg:grid-cols-[1fr_1.2fr] lg:py-20`}>
+          <div>
+            <h1 id="hero-title" className="font-display text-[clamp(2.9rem,7vw,5.4rem)] leading-[1] text-night">
+              {hero.title}
+            </h1>
+            <p className="mt-6 max-w-[34rem] text-[1.2rem] leading-relaxed text-night-soft">{hero.lead}</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href={hero.primary.href} className={buttonPrimary}>
+                {hero.primary.label}
+              </a>
+              <Link href={hero.secondary.href} className={buttonSecondary}>
+                {hero.secondary.label}
+              </Link>
+            </div>
+            <p className="mt-5 text-sm font-semibold text-night-dim">{hero.note}</p>
+          </div>
+          <div className="rounded-panel bg-telly px-5 pt-6 pb-6 sm:px-8">
+            <LiveTelly restaurant={DEMO_RESTAURANT} qrCodes={qrCodes} label={`${DEMO_RESTAURANT.name} demo menu screen`} />
+          </div>
+        </div>
+        <div className="colour-bars" aria-hidden="true" />
+      </section>
+
+      <section id="why" aria-labelledby="why-title" className={`${container} scroll-mt-20 py-20`}>
+        <h2 id="why-title" className={sectionTitle}>
+          {why.title}
+        </h2>
+        <ul className="mt-10 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
+          {why.items.map((item, index) => {
+            const Icon = WHY_ICONS[index];
+            return (
+              <li key={item.title} className="border-t-2 border-night pt-5">
+                <Icon className="size-6 text-masala" aria-hidden="true" />
+                <h3 className="mt-3 text-[1.3rem] font-bold leading-snug">{item.title}</h3>
+                <p className="mt-2 leading-relaxed text-night-soft">{item.body}</p>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+
+      <section id="how-it-works" aria-labelledby="how-title" className="scroll-mt-20 bg-mist py-20">
+        <div className={container}>
+          <h2 id="how-title" className={sectionTitle}>
+            {howItWorks.title}
+          </h2>
+          <ol className="mt-10 grid gap-8 md:grid-cols-3">
+            {howItWorks.steps.map((step, index) => (
+              <li key={step.title}>
+                <span aria-hidden="true" className="font-display text-[3.5rem] leading-none text-telly-deep">
+                  {index + 1}
+                </span>
+                <h3 className="mt-3 text-[1.3rem] font-bold">{step.title}</h3>
+                <p className="mt-2 max-w-[24rem] leading-relaxed text-night-soft">{step.body}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section id="layouts" aria-labelledby="layouts-title" className={`${container} scroll-mt-20 py-20`}>
+        <h2 id="layouts-title" className={sectionTitle}>
+          {layoutsSection.title}
+        </h2>
+        <p className="mt-4 max-w-[40rem] text-[1.1rem] leading-relaxed text-night-soft">{layoutsSection.lead}</p>
+        <ul className="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+          {LAYOUTS.map((layout) => (
+            <li key={layout.id} className="flex flex-col">
+              <div className="flex flex-1 items-end rounded-card bg-telly-soft px-5 pb-4">
+                <Telly portrait={layout.portrait} className={layout.portrait ? 'mx-auto w-[42%]' : 'w-full'}>
+                  <ScreenStage
+                    restaurant={DEMO_RESTAURANT}
+                    layout={layout.id}
+                    theme={GALLERY_THEMES[layout.id]}
+                    qrCodes={qrCodes}
+                    label={`${layout.name} layout example`}
+                  />
+                </Telly>
+              </div>
+              <h3 className="mt-4 text-[1.25rem] font-bold">{layout.name}</h3>
+              {/* Two lines reserved, so every panel in a row ends at the same height. */}
+              <p className="mt-1 text-night-soft sm:min-h-[3rem]">{layoutsSection.bestFor[layout.id]}.</p>
+              <Link href={`/screen/demo?layout=${layout.id}&theme=${GALLERY_THEMES[layout.id]}`} className="mt-2 w-fit font-semibold underline decoration-2 underline-offset-4 hover:decoration-masala">
+                Open {layout.name.toLowerCase()} full screen
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section aria-labelledby="rules-title" className="bg-night py-20 text-white">
+        <div className={container}>
+          <h2 id="rules-title" className="font-display text-[clamp(2rem,4.4vw,3.25rem)] leading-[1.08] text-telly">
+            {screenRules.title}
+          </h2>
+          <ul className="mt-10 grid gap-x-10 gap-y-8 sm:grid-cols-2">
+            {screenRules.items.map((item) => (
+              <li key={item.title} className="border-t border-white/25 pt-5">
+                <h3 className="text-[1.25rem] font-bold">{item.title}</h3>
+                <p className="mt-2 max-w-[30rem] leading-relaxed text-white/80">{item.body}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section aria-labelledby="earn-title" className={`${container} py-20`}>
+        <div className="grid gap-10 rounded-panel border-2 border-night p-8 sm:p-12 lg:grid-cols-[1.1fr_1fr]">
+          <div>
+            <h2 id="earn-title" className={sectionTitle}>
+              {earn.title}
+            </h2>
+            <p className="mt-5 max-w-[34rem] text-[1.1rem] leading-relaxed text-night-soft">{earn.body}</p>
+          </div>
+          <ul className="space-y-4 self-center">
+            {earn.points.map((point) => (
+              <li key={point} className="flex gap-3 text-[1.1rem] font-semibold">
+                <Check className="mt-1 size-5 shrink-0 text-chutney-deep" aria-hidden="true" />
+                {point}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section id="pricing" aria-labelledby="pricing-title" className="scroll-mt-20 bg-mist py-20">
+        <div className={container}>
+          <h2 id="pricing-title" className={sectionTitle}>
+            {pricing.title}
+          </h2>
+          <p className="mt-4 max-w-[40rem] text-[1.1rem] leading-relaxed text-night-soft">{pricing.lead}</p>
+          <ul className="mt-10 grid gap-6 lg:grid-cols-3">
+            {pricing.plans.map((plan) => (
+              <li key={plan.name} className={`rounded-card p-7 ${plan.highlight ? 'bg-night text-white' : 'bg-white text-night'}`}>
+                <h3 className="text-[1.3rem] font-bold">{plan.name}</h3>
+                <p className="mt-3">
+                  <span className="font-display text-[2.6rem] leading-none">{plan.price}</span>
+                  <span className={`ml-2 text-sm font-semibold ${plan.highlight ? 'text-white/75' : 'text-night-dim'}`}>{plan.cadence}</span>
+                </p>
+                <p className={`mt-3 ${plan.highlight ? 'text-white/85' : 'text-night-soft'}`}>{plan.summary}</p>
+                <ul className="mt-5 space-y-2.5">
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex gap-2.5">
+                      <Check className={`mt-1 size-4 shrink-0 ${plan.highlight ? 'text-telly' : 'text-chutney-deep'}`} aria-hidden="true" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-6 text-sm text-night-dim">{pricing.footnote}</p>
+
+          <h3 className="mt-16 text-[1.5rem] font-bold">{comparison.title}</h3>
+          <div className="mt-5 overflow-x-auto rounded-card bg-white">
+            <table className="w-full min-w-[40rem] text-left text-[0.98rem]">
+              <thead>
+                <tr className="border-b border-hairline">
+                  <td className="p-4" />
+                  {comparison.columns.map((column, index) => (
+                    <th key={column} scope="col" className={`p-4 font-bold ${index === 0 ? 'text-masala' : ''}`}>
+                      {column}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {comparison.rows.map(([label, ...cells]) => (
+                  <tr key={label} className="border-b border-hairline last:border-0">
+                    <th scope="row" className="p-4 font-semibold">
+                      {label}
+                    </th>
+                    {cells.map((cell, index) => (
+                      <td key={`${label}-${index}`} className={`p-4 ${index === 0 ? 'font-semibold' : 'text-night-soft'}`}>
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-3 text-sm text-night-dim">{comparison.note}</p>
+        </div>
+      </section>
+
+      <section aria-labelledby="faq-title" className={`${container} py-20`}>
+        <h2 id="faq-title" className={sectionTitle}>
+          {faq.title}
+        </h2>
+        <div className="faq mt-8 max-w-[52rem] divide-y-2 divide-night border-y-2 border-night">
+          {faq.items.map((entry) => (
+            <details key={entry.question} className="group">
+              <summary className="flex items-center justify-between gap-6 py-5 text-[1.15rem] font-bold">
+                {entry.question}
+                <Plus className="faq-plus size-5 shrink-0 transition-transform duration-200" aria-hidden="true" />
+              </summary>
+              <p className="max-w-[44rem] pb-6 leading-relaxed text-night-soft">{entry.answer}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section id="early-access" aria-labelledby="early-title" className="scroll-mt-20 bg-telly py-20">
+        <div className={`${container} grid gap-10 lg:grid-cols-[1fr_1.1fr]`}>
+          <div>
+            <h2 id="early-title" className={sectionTitle}>
+              {earlyAccess.title}
+            </h2>
+            <p className="mt-5 max-w-[30rem] text-[1.1rem] leading-relaxed text-night">{earlyAccess.body}</p>
+          </div>
+          <WaitlistForm />
+        </div>
+      </section>
+    </>
+  );
+}

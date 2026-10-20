@@ -1,0 +1,484 @@
+/* ==================================================================
+   Inner pages v5: How it works and Prices. Same sheet, cells and ink
+   as the home page, with no story on arrival.
+   ================================================================== */
+
+.mtv-page-head-grid {
+  display: grid;
+}
+
+.mtv-page-head-grid > * {
+  padding: clamp(40px, 6vw, 88px) var(--mt-gutter);
+}
+
+.mtv-page-title {
+  font-size: clamp(2.5rem, 6vw, 5.4rem);
+}
+
+.mtv-page-head-side {
+  display: grid;
+  gap: 24px;
+  align-content: end;
+}
+
+@media (min-width: 900px) {
+  .mtv-page-head-grid {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  }
+
+  .mtv-page-head-side {
+    border-left: 1px solid var(--mt-line);
+  }
+}
+
+@media (max-width: 899px) {
+  .mtv-page-head-side {
+    border-top: 1px solid var(--mt-line);
+  }
+}
+
+/* ------------------------------------------------------------------
+   How it works
+------------------------------------------------------------------- */
+
+.mtv-how-step {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.mtv-how-visual {
+  display: grid;
+  align-items: center;
+  min-height: 250px;
+  margin-bottom: 12px;
+}
+
+.mtv-scan {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+}
+
+.mtv-scan-paper {
+  width: 100%;
+  height: auto;
+  background: #fbfaf7;
+}
+
+.mtv-scan-line {
+  position: absolute;
+  left: 0;
+  width: 44%;
+  height: 2px;
+  background: var(--mt-chilli);
+  box-shadow: 0 0 14px 2px rgb(242 74 20 / 0.45);
+  animation: mtv-scan-paper 2.6s ease-in-out infinite alternate;
+}
+
+@keyframes mtv-scan-paper {
+  from {
+    top: 6%;
+  }
+
+  to {
+    top: 94%;
+  }
+}
+
+.mtv-scan-read ul {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.mtv-scan-read li {
+  padding: 8px 10px;
+  border: 1px solid var(--mt-line-strong);
+  background: #fbfaf7;
+  font-family: var(--mt-mono);
+  font-size: 0.82rem;
+}
+
+.mtv-pair {
+  display: grid;
+  gap: 14px;
+}
+
+.mtv-pair-screen {
+  display: grid;
+  place-items: center;
+  background: var(--mt-night);
+}
+
+.mtv-pair-code {
+  display: flex;
+  gap: 0.4em;
+}
+
+.mtv-pair-code span {
+  display: grid;
+  place-items: center;
+  width: 1.4em;
+  height: 1.7em;
+  border: 1px solid rgb(242 240 234 / 0.3);
+  color: var(--mt-paper);
+  font-family: var(--mt-mono);
+  font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+  font-weight: 600;
+}
+
+.mtv-gallery-item {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+
+.mtv-gallery-stage {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 10;
+  margin-bottom: 8px;
+}
+
+.mtv-gallery-stage > .mtv-tv {
+  width: 100%;
+}
+
+.mtv-gallery-stage.is-portrait > .mtv-tv {
+  width: auto;
+  height: 100%;
+}
+
+.mtv-gallery-stage.is-portrait .mtv-tv-screen {
+  aspect-ratio: 9 / 16;
+  height: 100%;
+}
+
+/* ------------------------------------------------------------------
+   Prices
+------------------------------------------------------------------- */
+
+.mtv-plan-cell {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.mtv-plan-cell[data-highlight='true'] {
+  background: var(--mt-paper-2);
+}
+
+.mtv-plan-cell[data-highlight='true']::before {
+  content: '';
+  position: absolute;
+  inset: -1px 0 auto;
+  height: 4px;
+  background: var(--mt-chilli);
+}
+
+.mtv-plan-price {
+  font-family: var(--mt-display);
+  font-size: clamp(2.6rem, 4.4vw, 3.6rem);
+  font-weight: 800;
+  font-stretch: 112%;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.mtv-plan-cell > .mtv-btn {
+  justify-self: start;
+  margin-top: 12px;
+}
+
+.mtv-plan-features {
+  display: grid;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.mtv-plan-features li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.mtv-plan-features svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  color: var(--mt-leaf);
+}
+
+.mtv-calc {
+  display: grid;
+  gap: 24px;
+  padding: clamp(28px, 4vw, 48px) var(--mt-gutter);
+  border-bottom: 1px solid var(--mt-line);
+}
+
+.mtv-calc-control {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+.mtv-calc-control output {
+  font-weight: 700;
+  color: var(--mt-chilli-deep);
+}
+
+.mtv-range {
+  width: 100%;
+  height: 28px;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.mtv-range::-webkit-slider-runnable-track {
+  height: 4px;
+  background: linear-gradient(90deg, var(--mt-chilli) var(--filled), var(--mt-line-strong) var(--filled));
+}
+
+.mtv-range::-moz-range-track {
+  height: 4px;
+  background: linear-gradient(90deg, var(--mt-chilli) var(--filled), var(--mt-line-strong) var(--filled));
+}
+
+.mtv-range::-webkit-slider-thumb {
+  width: 22px;
+  height: 22px;
+  margin-top: -9px;
+  appearance: none;
+  border: 1px solid var(--mt-ink);
+  background: var(--mt-paper);
+}
+
+.mtv-range::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--mt-ink);
+  border-radius: 0;
+  background: var(--mt-paper);
+}
+
+.mtv-calc-plans {
+  display: grid;
+  border-top: 1px solid var(--mt-line);
+}
+
+.mtv-calc-plans li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--mt-line);
+}
+
+.mtv-calc-plans li[data-out='true'] {
+  opacity: 0.55;
+}
+
+.mtv-calc-name {
+  font-weight: 600;
+}
+
+.mtv-calc-bill {
+  font-family: var(--mt-display);
+  font-size: 1.7rem;
+  font-weight: 800;
+  font-stretch: 110%;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.mtv-pricing-foot {
+  padding: 20px var(--mt-gutter) 40px;
+}
+
+@media (min-width: 900px) {
+  .mtv-calc {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 64px;
+  }
+}
+
+.mtv-table-wrap {
+  overflow-x: auto;
+  padding: 0 var(--mt-gutter) clamp(40px, 6vw, 72px);
+}
+
+.mtv-table {
+  width: 100%;
+  min-width: 680px;
+  border-collapse: collapse;
+}
+
+.mtv-table th,
+.mtv-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--mt-line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.mtv-table thead th {
+  font-family: var(--mt-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--mt-ink-soft);
+}
+
+.mtv-table tbody th {
+  font-weight: 600;
+}
+
+.mtv-table .is-us {
+  background: var(--mt-paper-2);
+  font-weight: 600;
+}
+
+.mtv-table thead .is-us {
+  color: var(--mt-ink);
+  box-shadow: inset 0 4px 0 var(--mt-chilli);
+}
+
+.mtv-earn-grid {
+  display: grid;
+}
+
+.mtv-earn-grid > * {
+  padding: clamp(48px, 6vw, 88px) var(--mt-gutter);
+}
+
+.mtv-earn-body {
+  margin: 20px 0 24px;
+}
+
+.mtv-earn-figure {
+  display: grid;
+  align-content: center;
+  gap: 12px;
+  background: var(--mt-night);
+  color: var(--mt-paper);
+}
+
+.mtv-earn-figure .mtv-body {
+  max-width: 24ch;
+  color: rgb(242 240 234 / 0.7);
+}
+
+.mtv-earn-number {
+  font-family: var(--mt-display);
+  font-size: clamp(5rem, 14vw, 11rem);
+  font-weight: 800;
+  font-stretch: 118%;
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  color: var(--mt-glow);
+}
+
+@media (min-width: 900px) {
+  .mtv-earn-grid {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  }
+}
+
+.mtv-faq-grid {
+  display: grid;
+  gap: 28px;
+  padding: clamp(48px, 6vw, 88px) var(--mt-gutter);
+}
+
+@media (min-width: 900px) {
+  .mtv-faq-grid {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 64px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mtv-scan-line {
+    animation: none;
+    top: 50%;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Live demo: the café on the square (three.js, src/components/demo)
+------------------------------------------------------------------- */
+
+.mtv-plaza-section {
+  border-bottom: 1px solid var(--mt-line);
+}
+
+.mtv-plaza-stage {
+  position: relative;
+  height: clamp(420px, 68svh, 760px);
+  overflow: hidden;
+  background: var(--mt-paper);
+  border-bottom: 1px solid var(--mt-line);
+}
+
+.mtv-plaza-host,
+.mtv-plaza-host > .mtv-plaza-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mtv-plaza-canvas {
+  display: block;
+  cursor: grab;
+}
+
+.mtv-plaza-canvas:active {
+  cursor: grabbing;
+}
+
+.mtv-plaza-note {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 24px;
+  text-align: center;
+  font: 500 13px/1.5 var(--mt-mono);
+  color: var(--mt-ink-soft);
+}
+
+.mtv-plaza-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  padding: 16px var(--mt-gutter);
+}
+
+.mtv-plaza-hint {
+  font: 500 12px/1.4 var(--mt-mono);
+  color: var(--mt-ink-soft);
+}
+
+.mtv-plaza-full {
+  margin-left: auto;
+}
+
+@media (max-width: 599px) {
+  .mtv-plaza-stage {
+    height: 62svh;
+    min-height: 380px;
+  }
+
+  .mtv-plaza-full {
+    margin-left: 0;
+  }
+}

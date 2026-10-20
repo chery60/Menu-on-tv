@@ -1,0 +1,71 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# local data: the waitlist holds personal emails; never commit it
+/data/waitlist.json
+# screen links (hashed) and pairing requests: per-environment data
+/data/screens.json
+/data/workspace.json
+/data/*.tmp
+
+# env template is safe to commit
+!.env.example
+
+# Netlify CLI link and local build output
+/.netlify
+
+# owner data: phone numbers, emails, menus and dish photos stay out of the repository
+/data/accounts.json
+/data/menus.json
+/data/photos/
+
+# the standalone TV player, built by scripts/build-player.mjs (npm run player)
+/public/player/
+
+# extra build folders for a second dev server or build beside the usual one (NEXT_DIST_DIR)
+/.next-*/
+
+# one-off debugging screenshots
+/plaza-zoom-*.png
+
+# per-machine Claude Code permissions
+.claude/settings.local.json

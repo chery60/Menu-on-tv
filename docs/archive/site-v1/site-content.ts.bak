@@ -1,0 +1,319 @@
+/**
+ * Every word on the public site. The home page, JSON-LD, /llms.txt and /index.md all read from here,
+ * so humans, search engines and AI assistants get the same story. Tell each idea once.
+ */
+
+export interface TextItem {
+  readonly title: string;
+  readonly body: string;
+}
+
+export interface FaqEntry {
+  readonly question: string;
+  readonly answer: string;
+}
+
+export const hero = {
+  title: 'Your menu, on the telly.',
+  lead: 'MenuTelly turns the TV you already own into a menu board that sells. Snap a photo of your menu, open one link on the TV, and change prices, sold-out items and today’s special from your phone.',
+  primary: { label: 'Get early access', href: '#early-access' },
+  secondary: { label: 'Open the live demo screen', href: '/screen/demo' },
+  note: 'Free for one screen. No installer, no designer.',
+  switcherLabel: 'Try a layout',
+} as const;
+
+export const why = {
+  title: 'Why restaurants switch.',
+  items: [
+    { title: 'It makes your menu for you', body: 'Take a photo of your paper menu. In about ten minutes you have a board that reads from across the room, with your prices, veg marks and dishes.' },
+    { title: 'It sells while you work', body: 'Combos, specials and add-ons rotate in front of every guest. Sold out and today’s special are one tap on your phone, and the TV changes in seconds.' },
+    { title: 'It works on the TV you have', body: 'Open one link in the TV’s browser. If your TV can’t, a small stick in the HDMI port does it. No wiring, no installer.' },
+    { title: 'It costs nothing to start', body: 'One screen is free forever. Pay only when you want more screens or want the small MenuTelly badge gone.' },
+    { title: 'It can pay for itself', body: 'Later, nearby businesses can book a slot on your screen. You approve every ad and keep half of what it earns.' },
+    { title: 'It keeps you on the right side of the rules', body: 'Veg and non-veg marks on every item. Calories and allergens the way FSSAI asks, from the same menu, on every screen.' },
+  ] satisfies readonly TextItem[],
+} as const;
+
+export const howItWorks = {
+  title: 'Three steps. About ten minutes.',
+  steps: [
+    { title: 'Snap your menu', body: 'Photograph the paper menu or the board on your wall, or paste it from WhatsApp. Check the prices the AI read, then approve.' },
+    { title: 'Pick a layout', body: 'Full board, split with promos, spotlight and more. Every layout keeps prices big enough to read from the counter.' },
+    { title: 'Open the link on your TV', body: 'Type the short link or scan the code on the TV. Your menu appears, and keeps playing even if the internet drops.' },
+  ] satisfies readonly TextItem[],
+} as const;
+
+export const layoutsSection = {
+  title: 'Six layouts. Pick one, change it any time.',
+  lead: 'Every layout splits the screen between your menu and your promos in a different way. Each one is live below, playing the same sample café.',
+  bestFor: {
+    board: 'Counters where the menu is the main job',
+    split: 'Most cafés: menu always visible, offers always moving',
+    spotlight: 'Launching a new dish or pushing a combo',
+    lbar: 'Busy counters with many offers and order numbers',
+    ticker: 'A calm menu with offers in the corner of the eye',
+    portrait: 'TVs mounted on their side, by the door or the queue',
+  },
+} as const;
+
+export const screenRules = {
+  title: 'Built to be read in three seconds from three metres.',
+  items: [
+    { title: 'Big prices, always', body: 'Text is sized from the height of the screen, so prices stay readable from the counter on any TV.' },
+    { title: 'One moving thing at a time', body: 'Only the slide that changes moves. Everything else stays still, so guests aren’t dazzled.' },
+    { title: 'Your promos come first', body: 'Your offers take the first slots. Local ads, when you switch them on, take at most one slot in three and never cover prices.' },
+    { title: 'Never a blank TV', body: 'If the internet drops, the screen keeps playing your last menu and catches up when it’s back.' },
+  ] satisfies readonly TextItem[],
+} as const;
+
+export const earn = {
+  title: 'Later, your screen can pay for itself.',
+  body: 'When enough cafés near you use MenuTelly, local businesses (gyms, coaching classes, salons, clinics) can book a slot on your screen. Planned for neighbourhoods with enough screens; we’ll switch it on street by street.',
+  points: [
+    'You approve every ad before it plays.',
+    'You keep half of what your screen earns.',
+    'Ads take at most one slot in three, never over your prices.',
+    'Block whole categories, like competitors or alcohol.',
+  ],
+} as const;
+
+export interface Plan {
+  readonly name: string;
+  readonly price: string;
+  readonly cadence: string;
+  readonly summary: string;
+  readonly features: readonly string[];
+  readonly highlight?: boolean;
+}
+
+export const pricing = {
+  title: 'Free for one screen.',
+  lead: 'Early-access prices, in rupees, per screen. We’ll confirm them with our first restaurants before launch.',
+  plans: [
+    { name: 'Free', price: '₹0', cadence: 'one screen, forever', summary: 'Everything you need for one TV.', features: ['All six layouts and three themes', 'Menu from a photo', 'Sold out and today’s special', 'Your own promos', 'Small “Powered by MenuTelly” badge'] },
+    { name: 'Plus', price: '₹499', cadence: 'per screen a month', summary: 'For more screens and more selling.', features: ['Everything in Free, without the badge', 'Breakfast, lunch and dinner menus', 'Scheduled promos and countdowns', 'Hindi next to English', 'Many outlets'], highlight: true },
+    { name: 'Pro', price: '₹999', cadence: 'per screen a month', summary: 'For owners who want proof.', features: ['Everything in Plus', 'Prices and sold-out from your POS', 'Which promos sold more, item by item', 'Brand kit and approvals'] },
+  ] satisfies readonly Plan[],
+  footnote: 'Prices include the software only. A TV stick, if your TV needs one, costs about ₹3,000. Taxes extra.',
+} as const;
+
+export const comparison = {
+  title: 'How MenuTelly compares.',
+  columns: ['MenuTelly', 'General signage apps', 'Free ad-funded TV'],
+  rows: [
+    ['Makes the menu from a photo', 'Yes', 'No: templates', 'No'],
+    ['Readable from the counter, enforced', 'Yes', 'Up to you', 'Not a menu product'],
+    ['Price', 'Free for 1 screen, then ₹499', 'About $5 to $45 per screen', 'Free'],
+    ['Whose ads play', 'Yours first; local ads you approve', 'Yours', 'Theirs'],
+    ['Who keeps ad money', 'You keep half', 'You, at 100+ screens', 'The network'],
+    ['Veg marks, Hindi, FSSAI calories', 'Built in', 'Rarely', 'No'],
+  ],
+  note: 'Competitor prices as published on their sites in October 2026.',
+} as const;
+
+export const faq = {
+  title: 'Questions owners ask.',
+  items: [
+    { question: 'Will it work on my TV?', answer: 'Most smart TVs can open a link in their browser. If yours can’t, or if it’s an older TV, any HDMI port and a small Android TV stick will run it.' },
+    { question: 'What if our internet goes down?', answer: 'The screen keeps playing your last menu and updates as soon as the connection is back. Guests never see a blank TV.' },
+    { question: 'How do I change prices or mark something sold out?', answer: 'From your phone, one tap each. Every screen in your shop updates within seconds.' },
+    { question: 'Do I need a designer?', answer: 'No. Take a photo of your menu; MenuTelly lays it out. You can change the layout and theme any time.' },
+    { question: 'My TV plays cricket. Can I still use it?', answer: 'Yes. Schedule the menu for when there’s no match, or put it on a second TV. Live sport stays yours.' },
+    { question: 'Can the menu show Hindi?', answer: 'Yes. Item names can show in English and Hindi, side by side. More Indian languages are planned.' },
+    { question: 'Do you watch my customers?', answer: 'No. There are no cameras and no tracking of guests. We count how often a slide played, not who saw it.' },
+    { question: 'When can I put ads on my screen?', answer: 'Your own promos work from day one. Paid local ads come later, area by area, once enough restaurants nearby use MenuTelly.' },
+  ] satisfies readonly FaqEntry[],
+} as const;
+
+export const earlyAccess = {
+  title: 'Put your menu on the telly.',
+  body: 'We’re starting with cafés, quick-service counters and bakeries in one neighbourhood at a time. Leave your details and we’ll set up your first screen with you, free.',
+  roles: ['Restaurant or café owner', 'Manager at a chain', 'Signage installer or POS partner', 'Local business that wants to advertise', 'Something else'] as const,
+  submit: 'Get early access',
+  success: 'You’re on the list. We’ll message you before your first screen goes live.',
+  privacy: 'We use your details only to contact you about MenuTelly.',
+} as const;
+
+export const footer = {
+  line: 'MenuTelly is a working name for a menu-screen product being built in India.',
+} as const;
+
+/* ------------------------------------------------------------------
+   The story. The home page is a Victorian showman's tour of how food
+   sellers have shown their menus, from the street cry to the telly.
+   The narration may flourish; product facts above stay plain.
+------------------------------------------------------------------- */
+
+export const overture = {
+  wordmark: 'MenuTelly',
+  tagline: 'Your menu, on the telly.',
+  seal: '✶ Menus for every age ✶ Established MMXXVI ',
+  skip: 'Skip the overture',
+} as const;
+
+export const playbill = {
+  presents: 'By popular demand, the proprietors of MenuTelly present',
+  title: 'The remarkable history of the menu.',
+  subtitle: 'From the street cry to the telly on your wall, in seven acts.',
+  lead: 'Step this way. For centuries, sellers of food have shouted, chalked, printed, pasted and lit up their menus. Each way did one job well and failed at another. Scroll on to meet them all, and the screen that finally does every job at once.',
+  begin: { label: 'Begin the tour', href: '#act-1' },
+  admission: 'Admission free. Seven acts and a marvel.',
+  ribbon: 'Hear ye ✶ Chalk it up ✶ Bill of fare ✶ Post no bills ✶ Electric light ✶ Now showing ✶ Your menu, on the telly ✶ ',
+} as const;
+
+export interface Act {
+  readonly id: string;
+  readonly numeral: string;
+  /** Roughly when the act is set; the chapter plate counts up to it from the act before. */
+  readonly year: number;
+  readonly era: string;
+  readonly title: string;
+  readonly body: string;
+  readonly moral: string;
+}
+
+export const acts = [
+  {
+    id: 'act-1',
+    numeral: 'I',
+    year: 1750,
+    era: 'The street cry',
+    title: 'Hear ye, hear ye.',
+    body: 'Before anything was written down, the menu was a voice. Pie men, oyster sellers and chai wallahs sang out what they had and what it cost. Loud, cheap and hard to ignore, until the seller lost his voice or turned the corner.',
+    moral: 'A menu has to carry across a busy room.',
+  },
+  {
+    id: 'act-2',
+    numeral: 'II',
+    year: 1820,
+    era: 'The slate',
+    title: 'Chalk it up.',
+    body: 'Taverns and coffee houses hung a slate by the door. The day’s fare went up in chalk and came off with a damp cloth. A price could change in seconds and a finished dish could vanish with one swipe: the first quick action. But chalk smudges, fades and is hard to read from the door.',
+    moral: 'Changing the menu should take seconds.',
+  },
+  {
+    id: 'act-3',
+    numeral: 'III',
+    year: 1860,
+    era: 'The printing press',
+    title: 'The bill of fare.',
+    body: 'Then came the printing press and the grand dining room. Menus were set in metal type, inked and pressed onto card: handsome, orderly and the same at every table. They were also wrong the morning a price changed, so many a fine bill of fare ended its days in the stove.',
+    moral: 'Every reprint costs money. Every stale price costs trust.',
+  },
+  {
+    id: 'act-4',
+    numeral: 'IV',
+    year: 1885,
+    era: 'Posters and sandwich men',
+    title: 'Post no bills.',
+    body: 'By the 1880s, every blank wall in town was papered with posters, and men walked the streets between two painted boards. Food went looking for hungry people. But Monday’s poster still shouted Monday’s prices on Friday, and a sandwich man could stand on only one corner.',
+    moral: 'Show today’s special where guests are standing.',
+  },
+  {
+    id: 'act-5',
+    numeral: 'V',
+    year: 1935,
+    era: 'Electric light',
+    title: 'Electric light!',
+    body: 'Electricity turned signs into beacons. Bulbs chased round cinema marquees, neon glowed over diners, and menu boards got rows of slots for snap-in letters and prices. Bright enough to read from across the street. Changing one took a ladder, a box of letters and a steady hand.',
+    moral: 'Light gets noticed. Ladders don’t get climbed.',
+  },
+  {
+    id: 'act-6',
+    numeral: 'VI',
+    year: 1980,
+    era: 'The television',
+    title: 'Now showing.',
+    body: 'Then came television, and before long every café had a set on the wall. It showed cricket, film songs and the news while the menu stayed on paper: the brightest thing in the shop was selling someone else’s show. Signage screens followed, with a computer, a designer and a pen drive for every change.',
+    moral: 'The brightest thing in the room should sell your food.',
+  },
+  {
+    id: 'act-7',
+    numeral: 'VII',
+    year: 2026,
+    era: 'The telly',
+    title: 'The telly, at last.',
+    body: 'Ladies and gentlemen, the marvel of the age. Every lesson above, in one link: a menu that carries across the room, changes from your phone in seconds, never needs a reprint, puts today’s special where guests are standing, and glows on the TV you already own.',
+    moral: 'Your menu, on the telly.',
+  },
+] as const satisfies readonly Act[];
+
+export const crierExhibit = {
+  shout: 'Hear ye!',
+  cries: ['Hot pies, hot!', 'Garam chai, garam!', 'Sweet oranges, sweet!', 'Fresh samosa, fresh!', 'Muffins, ho!'],
+  bell: 'Ring the bell',
+} as const;
+
+export const slateExhibit = {
+  heading: 'Today’s fare',
+  items: [
+    { name: 'Pea soup', price: '3d' },
+    { name: 'Mutton chop', price: '8d' },
+    { name: 'Steak pudding', price: '9d' },
+    { name: 'Plum pudding', price: '4d' },
+  ],
+  soldOutIndex: 2,
+  soldOut: 'All gone',
+  rubOut: 'Rub out the steak pudding',
+  chalkBack: 'Chalk the steak pudding back',
+} as const;
+
+export interface Artwork {
+  readonly src: string;
+  readonly alt: string;
+}
+
+export const printExhibit = {
+  bills: [
+    { src: '/story/bill-coffee-house.webp', alt: 'Bill of fare for the Copper Kettle coffee house: coffee, chocolate, muffins, pea soup, Welsh rabbit, mutton chop and plum pudding, priced in pence.' },
+    { src: '/story/bill-refreshment-room.webp', alt: 'Railway refreshment room tariff: tea, coffee, bread and butter, curry and rice, mutton cutlets and soda water, priced in annas.' },
+    { src: '/story/bill-table-dhote.webp', alt: 'Grand hotel table d’hôte: six French courses for five shillings, dinner at seven.' },
+    { src: '/story/bill-tiffin-room.webp', alt: 'Brass Lantern Tiffin Room bill: idli, medu vada, upma, masala dosa, kesari bath and filter coffee, priced in annas.' },
+  ] satisfies readonly Artwork[],
+  stackHint: 'Drag a bill aside to see the next one.',
+  stale: { src: '/story/bill-yesterday.webp', alt: 'Monday’s bill of fare, with four prices crossed out and new ones pencilled in, and a note to reprint for Tuesday.' },
+  crumpleHint: 'Press and hold to crumple Monday’s bill.',
+  credit: 'Illustrations made for this page in the style of the time. The shops are invented.',
+} as const;
+
+export const posterExhibit = {
+  posters: [
+    { src: '/story/poster-hot-pies.webp', alt: 'Poster: Hot pies! Mutton, pork and eel, fresh from the oven every hour, at the sign of the Copper Kettle.' },
+    { src: '/story/poster-chai.webp', alt: 'Poster: Garam chai, two pice the cup, day and night at the station gate.' },
+    { src: '/story/poster-oysters.webp', alt: 'Poster: Grand opening of the oyster rooms this evening at six.' },
+    { src: '/story/poster-ices.webp', alt: 'Poster: Ices! Kulfi, sherbet and ice cream by the sea front.' },
+    { src: '/story/poster-sandwich-men.webp', alt: 'Poster: Wanted, six stout sandwich men, one shilling a day and dinner.' },
+    { src: '/story/poster-dosa.webp', alt: 'Poster: Now serving masala dosa, crisp and hot, two annas.' },
+  ] satisfies readonly Artwork[],
+  notice: { src: '/story/poster-post-no-bills.webp', alt: 'Notice: Post no bills. Bill stickers will be prosecuted.' },
+  ribbon: 'Post no bills ✶ Bill stickers will be prosecuted ✶ Fresh pies daily ✶ Wanted, sandwich men ✶ ',
+  peelHint: 'Peel the notice off the wall.',
+} as const;
+
+export const electricExhibit = {
+  neon: 'Eat',
+  board: ['MASALA DOSA 40', 'FILTER COFFEE 15', 'IDLI VADA 30', 'DOSA SOLD OUT'],
+  boardLabel: 'A changeable letter board, one tile at a time.',
+} as const;
+
+export const televisionExhibit = {
+  dial: 'Turn the dial',
+  channels: ['No signal', 'Test card', 'Cricket, live', 'Your menu?'],
+  score: 'IND 287/4 · 48.2 overs',
+} as const;
+
+export const marvelExhibit = {
+  hint: 'Drag the telly to turn it. Pick a layout to change what it plays.',
+  fallback: 'Your browser can’t draw the 3D telly, so here is the same live screen, flat.',
+} as const;
+
+export const howPage = {
+  title: 'A demonstration in three steps.',
+  lead: 'No designer, no installer and no ladder. About ten minutes from a photo of your paper menu to a live board on the TV you already own.',
+} as const;
+
+export const pricingPage = {
+  title: 'Prices of admission.',
+  tearHint: 'Pull the stub to tear the ticket.',
+  torn: 'Torn. Leave your details below and we’ll set up this plan with you.',
+} as const;

@@ -1,0 +1,1617 @@
+/* ==================================================================
+   Home page v5 (docs/site-v5-plan.md). Drawings trace themselves; the
+   pinned scenes read `--scene-p` (0 to 1) from useScene.
+   ================================================================== */
+
+/* ------------------------------------------------------------------
+   Drawing ink, shared by every drawing on the page
+------------------------------------------------------------------- */
+
+/*
+ * Stroke widths are in each drawing's own units (set per drawing below), not non-scaling: a
+ * non-scaling stroke measures its dashes on screen, which cuts traced lines short when a drawing is
+ * shown larger than its viewBox.
+ */
+.mtv-site svg .mtv-ink,
+.mtv-site svg .mtv-ink-faint,
+.mtv-site svg .mtv-chilli,
+.mtv-site svg .mtv-dash,
+.mtv-site svg .mtv-ink *,
+.mtv-site svg .mtv-ink-faint * {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mtv-site svg .mtv-ink,
+.mtv-site svg .mtv-ink * {
+  stroke: var(--mt-ink);
+  stroke-width: var(--ink-w, 1.4);
+}
+
+.mtv-site svg .mtv-ink-faint,
+.mtv-site svg .mtv-ink-faint * {
+  stroke: var(--mt-line-strong);
+  stroke-width: var(--ink-faint-w, 1);
+}
+
+.mtv-site svg .mtv-chilli {
+  stroke: var(--mt-chilli);
+  stroke-width: var(--chilli-w, 1.8);
+}
+
+.mtv-site svg .mtv-dash {
+  stroke: var(--mt-ink);
+  stroke-width: var(--ink-faint-w, 1);
+  stroke-dasharray: 4 5;
+}
+
+/* Widths per drawing, so a line reads about 1.2px wherever it is shown. */
+.mtv-hero-svg {
+  --ink-w: 1.7;
+  --ink-faint-w: 1.2;
+  --chilli-w: 2;
+}
+
+.mtv-rule-art {
+  --ink-w: 1.05;
+  --ink-faint-w: 0.8;
+  --chilli-w: 1.3;
+}
+
+.mtv-plan-svg {
+  --ink-w: 1.6;
+  --ink-faint-w: 1.1;
+}
+
+.mtv-poster-svg {
+  --ink-w: 2.2;
+  --ink-faint-w: 1.4;
+}
+
+@media (max-width: 999px) {
+  .mtv-plan-svg {
+    --ink-w: 3;
+    --ink-faint-w: 2.2;
+  }
+}
+
+/* Traced once, as the page opens (the hero). */
+.mtv-draw [pathLength] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: mtv-trace 1100ms var(--mt-ease) forwards;
+  animation-delay: calc(var(--i, 0) * 120ms);
+}
+
+/*
+ * Traced by the reader's scroll as each drawing comes into view, where the browser can. The range is
+ * tied to the drawing's own box, so it is always finished by the time all of it is on screen.
+ */
+@supports (animation-timeline: view()) {
+  .mtv-draw-view {
+    view-timeline: --mtv-drawing block;
+  }
+
+  .mtv-draw-view [pathLength] {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: mtv-trace linear both;
+    animation-timeline: --mtv-drawing;
+    animation-range: entry 15% entry 100%;
+  }
+}
+
+@keyframes mtv-trace {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes mtv-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes mtv-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+@keyframes mtv-log {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.mtv-section-head {
+  display: grid;
+  gap: 20px;
+  padding: clamp(56px, 7vw, 104px) var(--mt-gutter) clamp(32px, 4vw, 56px);
+}
+
+@media (min-width: 900px) {
+  .mtv-section-head {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    align-items: end;
+    column-gap: 48px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Hero: the counter, drawn, and its TV switching on
+------------------------------------------------------------------- */
+
+.mtv-hero-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: clamp(300px, calc(64svh - 60px), 640px);
+  overflow: hidden;
+}
+
+.mtv-hero-art {
+  position: relative;
+  flex: none;
+  height: 92%;
+  aspect-ratio: 2 / 1;
+}
+
+.mtv-hero-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.mtv-site .mtv-hero-svg .mtv-lamp-light path {
+  fill: none;
+  stroke: var(--mt-glow);
+  stroke-width: 1.2;
+  stroke-dasharray: 3 7;
+  vector-effect: non-scaling-stroke;
+  animation: mtv-fade-in 900ms 2300ms both;
+}
+
+.mtv-site .mtv-hero-svg .mtv-steam {
+  animation: mtv-steam 3.2s ease-in-out 2s infinite;
+}
+
+.mtv-site .mtv-hero-svg .mtv-steam path {
+  fill: none;
+  stroke: var(--mt-line-strong);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+
+@keyframes mtv-steam {
+  50% {
+    transform: translateY(-6px);
+    opacity: 0.45;
+  }
+}
+
+.mtv-site .mtv-hero-svg .mtv-sight line {
+  stroke: var(--mt-chilli);
+  stroke-width: 1.3;
+  stroke-dasharray: 5 6;
+  vector-effect: non-scaling-stroke;
+  animation: mtv-fade-in 700ms 1700ms both;
+}
+
+.mtv-hero-svg .mtv-annot {
+  animation: mtv-fade-in 700ms 1900ms both;
+}
+
+.mtv-hero-svg .mtv-annot circle {
+  fill: var(--mt-chilli);
+}
+
+.mtv-hero-svg .mtv-annot text {
+  font-family: var(--mt-mono);
+  font-size: 15px;
+  fill: var(--mt-chilli-deep);
+}
+
+/* The TV sits exactly over the drawn one (see counter-drawing.tsx), and switches on like a CRT. */
+.mtv-hero-tv {
+  position: absolute;
+  left: 31.667%;
+  top: 11.667%;
+  width: 36.667%;
+  height: 41.333%;
+  border-radius: 4px;
+  background: #11100f;
+  box-shadow:
+    0 0 0 1px var(--mt-ink),
+    0 0 70px 6px rgb(255 179 92 / 0.32);
+  animation: mtv-tv-on 900ms var(--mt-ease) 1500ms both;
+}
+
+.mtv-hero-tv .mtv-tv-screen {
+  position: absolute;
+  inset: 4.8% 2.7%;
+  aspect-ratio: auto;
+}
+
+@keyframes mtv-tv-on {
+  0% {
+    opacity: 0;
+    transform: scale(0.6, 0.012);
+    filter: brightness(4);
+    box-shadow: 0 0 0 1px var(--mt-ink);
+  }
+
+  35% {
+    opacity: 1;
+    transform: scale(1, 0.012);
+  }
+
+  70% {
+    transform: scale(1, 1.03);
+    filter: brightness(1.5);
+  }
+
+  100% {
+    transform: none;
+    filter: none;
+  }
+}
+
+/* The title block and the log sit in the drawing's empty top corners, on paper, over the ceiling line. */
+.mtv-hero-block,
+.mtv-hero-log {
+  position: absolute;
+  top: 18px;
+  display: none;
+  background: var(--mt-paper);
+}
+
+.mtv-hero-block {
+  left: var(--mt-gutter);
+  border: 1px solid var(--mt-line-strong);
+  animation: mtv-fade-in 600ms 400ms both;
+}
+
+.mtv-hero-block span {
+  display: block;
+  padding: 5px 12px;
+}
+
+.mtv-hero-block span + span {
+  border-top: 1px solid var(--mt-line);
+}
+
+.mtv-hero-block span:first-child {
+  color: var(--mt-ink);
+  font-weight: 600;
+}
+
+.mtv-hero-log {
+  right: var(--mt-gutter);
+  display: none;
+  gap: 2px;
+}
+
+.mtv-hero-log li {
+  display: flex;
+  gap: 12px;
+  opacity: 0;
+  animation: mtv-log 280ms var(--mt-ease) forwards;
+  animation-delay: calc(400ms + var(--i) * 300ms);
+}
+
+.mtv-hero-log li:last-child {
+  color: var(--mt-leaf);
+}
+
+.mtv-hero-log li:last-child::after {
+  content: '';
+  width: 7px;
+  height: 7px;
+  margin: auto 0;
+  border-radius: 50%;
+  background: var(--mt-leaf);
+  animation: mtv-blink 1.6s 2.4s infinite;
+}
+
+@keyframes mtv-blink {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+.mtv-hero-log-n {
+  color: var(--mt-line-strong);
+}
+
+@media (min-width: 1100px) {
+  .mtv-hero-block,
+  .mtv-hero-log {
+    display: grid;
+  }
+}
+
+.mtv-hero-copy {
+  display: grid;
+  border-top: 1px solid var(--mt-line);
+}
+
+.mtv-hero-copy > * {
+  padding: clamp(28px, 4vw, 52px) var(--mt-gutter);
+}
+
+.mtv-hero-copy .mtv-h1 {
+  animation: mtv-rise 700ms var(--mt-ease) 200ms both;
+}
+
+.mtv-hero-side {
+  display: grid;
+  gap: 22px;
+  align-content: center;
+  animation: mtv-rise 700ms var(--mt-ease) 350ms both;
+}
+
+@media (min-width: 900px) {
+  .mtv-hero-copy {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  }
+
+  .mtv-hero-side {
+    border-left: 1px solid var(--mt-line);
+  }
+}
+
+@media (max-width: 899px) {
+  .mtv-hero-copy > * + * {
+    border-top: 1px solid var(--mt-line);
+  }
+}
+
+@media (max-width: 700px) {
+  .mtv-hero-stage {
+    height: auto;
+    aspect-ratio: 5 / 4;
+  }
+
+  .mtv-hero-art {
+    height: 100%;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Statement: lit word by word while it holds the screen
+------------------------------------------------------------------- */
+
+.mtv-statement {
+  position: relative;
+  height: 180svh;
+}
+
+.mtv-statement-stage {
+  position: sticky;
+  top: 60px;
+  display: flex;
+  align-items: center;
+  height: calc(100svh - 60px);
+}
+
+.mtv-statement-sheet {
+  width: 100%;
+  padding: clamp(40px, 8vw, 120px) var(--mt-gutter);
+}
+
+.mtv-statement-text {
+  max-width: 1180px;
+  font-family: var(--mt-display);
+  font-size: clamp(1.85rem, 4.3vw, 3.9rem);
+  font-weight: 700;
+  font-stretch: 108%;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  text-wrap: pretty;
+}
+
+.mtv-statement-text span {
+  opacity: clamp(0.14, calc(var(--scene-p, 0) * (var(--n) + 4) - var(--i)), 1);
+}
+
+.mtv-ribbon {
+  overflow: hidden;
+  border-block: 1px solid var(--mt-line);
+}
+
+.mtv-ribbon-track {
+  display: flex;
+  width: max-content;
+  animation: mtv-marquee 48s linear infinite;
+}
+
+.mtv-ribbon ul {
+  display: flex;
+}
+
+.mtv-ribbon li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 30px;
+  border-right: 1px solid var(--mt-line);
+  font-family: var(--mt-mono);
+  font-size: 0.86rem;
+  white-space: nowrap;
+}
+
+.mtv-ribbon li::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  background: var(--mt-chilli);
+}
+
+.mtv-ribbon:hover .mtv-ribbon-track {
+  animation-play-state: paused;
+}
+
+@keyframes mtv-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Problems, steps and rules: numbered cells with a small drawing each
+------------------------------------------------------------------- */
+
+.mtv-problem,
+.mtv-step,
+.mtv-rule {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+/* The problems are hairline figures (src/components/home/hairline), themed in the site's ink, chilli for what goes wrong. */
+.mtv-problem-art {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  margin: 4px 0 10px;
+  --hairline-plate: var(--mt-paper);
+  --hairline-hi: var(--mt-chilli);
+  --hairline-edge: var(--mt-ink-soft);
+  --hairline-mid: #a19c91;
+  --hairline-lo: #d2ccc0;
+  --hairline-stroke: 1;
+}
+
+.mtv-problem-read {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font: 500 11px/1 var(--mt-mono);
+  color: var(--mt-ink-soft);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+.mtv-rule-art {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  margin-bottom: 8px;
+}
+
+.mtv-rule-price {
+  font-family: var(--mt-display);
+  font-size: 46px;
+  font-weight: 800;
+  font-stretch: 110%;
+  fill: var(--mt-ink);
+}
+
+.mtv-rule-yours {
+  fill: var(--mt-chilli);
+}
+
+.mtv-flow {
+  padding: 0 var(--mt-gutter) clamp(28px, 4vw, 48px);
+}
+
+.mtv-flow-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+}
+
+.mtv-site .mtv-flow-svg .mtv-strand {
+  fill: none;
+  stroke: var(--mt-ink);
+  stroke-width: 0.9;
+  opacity: 0.55;
+}
+
+.mtv-flow-text {
+  font-family: var(--mt-mono);
+  font-size: 15px;
+  fill: var(--mt-ink);
+}
+
+.mtv-flow-dot {
+  fill: var(--mt-chilli);
+}
+
+.mtv-flow-on {
+  fill: var(--mt-leaf);
+}
+
+@media (max-width: 639px) {
+  .mtv-flow {
+    display: none;
+  }
+}
+
+.mtv-free {
+  display: grid;
+  gap: 24px;
+  padding: clamp(40px, 6vw, 80px) var(--mt-gutter);
+  background: var(--mt-chilli);
+}
+
+.mtv-free-body {
+  max-width: 34rem;
+  margin-bottom: 20px;
+  font-size: 1.12rem;
+  font-weight: 500;
+}
+
+.mtv-free .mtv-free-btn {
+  border-color: var(--mt-ink);
+}
+
+@media (min-width: 900px) {
+  .mtv-free {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    align-items: end;
+  }
+}
+
+/* ------------------------------------------------------------------
+   The plan: pinned while it builds, flags and fixes on it
+------------------------------------------------------------------- */
+
+.mtv-plan {
+  position: relative;
+  height: 440svh;
+}
+
+.mtv-plan-stage {
+  position: sticky;
+  top: 60px;
+  height: calc(100svh - 60px);
+}
+
+.mtv-plan-sheet {
+  display: grid;
+  grid-template-areas:
+    'title'
+    'art'
+    'legend'
+    'card';
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  height: 100%;
+}
+
+.mtv-plan-title {
+  grid-area: title;
+  padding: clamp(18px, 3vw, 32px) var(--mt-gutter) 0;
+  font-size: clamp(1.5rem, 2.6vw, 2.5rem);
+}
+
+.mtv-plan-art {
+  grid-area: art;
+  position: relative;
+  align-self: center;
+  justify-self: center;
+  width: min(calc(100% - 2 * var(--mt-gutter)), calc((100svh - 330px) * 1000 / 640));
+  aspect-ratio: 1000 / 640;
+}
+
+.mtv-plan-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.mtv-site .mtv-plan-svg .mtv-wall {
+  fill: none;
+  stroke: var(--mt-ink);
+  stroke-width: 9;
+  stroke-linecap: square;
+}
+
+.mtv-site .mtv-plan-svg .mtv-wall-thin {
+  fill: none;
+  stroke: var(--mt-ink);
+  stroke-width: 5;
+  stroke-linecap: square;
+}
+
+.mtv-site .mtv-plan-svg .mtv-dim {
+  fill: none;
+  stroke: var(--mt-ink-soft);
+  stroke-width: 0.8;
+}
+
+.mtv-plan-text {
+  font-family: var(--mt-mono);
+  font-size: 14px;
+  fill: var(--mt-ink-soft);
+}
+
+.mtv-plan-svg .mtv-guest {
+  fill: var(--mt-paper);
+  stroke: var(--mt-ink);
+  stroke-width: 1.5;
+}
+
+.mtv-site .mtv-plan-svg .mtv-board {
+  stroke: var(--mt-ink);
+  stroke-width: 7;
+}
+
+.mtv-site .mtv-plan-svg .mtv-sight-bad {
+  stroke: var(--mt-chilli);
+  stroke-width: 1.3;
+  stroke-dasharray: 5 6;
+  transition: opacity 500ms var(--mt-ease);
+}
+
+.mtv-site .mtv-plan-svg .mtv-sight-good {
+  stroke: var(--mt-leaf);
+  stroke-width: 1.6;
+  stroke-dasharray: 2 5;
+}
+
+.mtv-plan-svg .mtv-tv-plan {
+  fill: var(--mt-ink);
+}
+
+.mtv-plan-svg .mtv-tv-glow {
+  fill: rgb(255 179 92 / 0.55);
+}
+
+.mtv-plan-svg .mtv-phone-plan {
+  fill: var(--mt-chilli);
+}
+
+.mtv-site .mtv-plan-svg .mtv-signal {
+  fill: none;
+  stroke: var(--mt-leaf);
+  stroke-width: 1.4;
+  stroke-dasharray: 2 6;
+  animation: mtv-signal 900ms linear infinite;
+}
+
+@keyframes mtv-signal {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+
+.mtv-plan-text-tv {
+  fill: var(--mt-ink);
+  font-weight: 600;
+}
+
+.mtv-plan-text-good {
+  fill: var(--mt-leaf);
+  font-weight: 600;
+}
+
+/* The plan builds with the reader's scroll: walls, then rooms, then furniture, then dimensions. */
+.mtv-plan .l-walls [pathLength] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - clamp(0, var(--scene-p, 0) * 14, 1));
+}
+
+.mtv-plan .l-rooms [pathLength] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - clamp(0, var(--scene-p, 0) * 14 - 0.6, 1));
+}
+
+.mtv-plan .l-furniture [pathLength] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - clamp(0, var(--scene-p, 0) * 14 - 1.2, 1));
+}
+
+.mtv-plan .l-dims [pathLength] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - clamp(0, var(--scene-p, 0) * 14 - 1.8, 1));
+}
+
+.mtv-plan .l-dims text,
+.mtv-plan .l-labels,
+.mtv-plan .l-queue {
+  opacity: clamp(0, calc(var(--scene-p, 0) * 14 - 2.2), 1);
+}
+
+.mtv-plan .l-board,
+.mtv-plan .l-tv,
+.mtv-plan .l-phone {
+  opacity: 0;
+  transition: opacity 600ms var(--mt-ease);
+}
+
+.mtv-plan .is-on {
+  opacity: 1;
+}
+
+.mtv-plan:is([data-step='2'], [data-step='3']) .mtv-sight-bad {
+  opacity: 0.12;
+}
+
+.mtv-flag,
+.mtv-flag-key {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--mt-ink);
+  background: var(--mt-chilli);
+  color: var(--mt-ink);
+  font-family: var(--mt-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  transition:
+    background-color 400ms var(--mt-ease),
+    color 400ms var(--mt-ease);
+}
+
+.mtv-flag svg,
+.mtv-flag-key svg {
+  width: 14px;
+  height: 14px;
+}
+
+.mtv-flag {
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.5);
+  transition:
+    opacity 300ms var(--mt-ease),
+    transform 400ms var(--mt-ease),
+    background-color 400ms var(--mt-ease),
+    color 400ms var(--mt-ease);
+  transition-delay: calc(var(--i) * 140ms);
+}
+
+.mtv-flag[data-on='true'] {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+
+.mtv-flag[data-on='true'][data-fixed='false']::after {
+  content: '';
+  position: absolute;
+  inset: -7px;
+  border: 1px solid var(--mt-chilli);
+  animation: mtv-ping 1.6s var(--mt-ease) infinite;
+}
+
+@keyframes mtv-ping {
+  from {
+    opacity: 1;
+    transform: scale(0.7);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+.mtv-flag[data-fixed='true'],
+.mtv-plan-legend [data-fixed='true'] .mtv-flag-key {
+  background: var(--mt-leaf);
+  color: var(--mt-paper);
+}
+
+.mtv-plan-card {
+  grid-area: card;
+  display: grid;
+  gap: 8px;
+  padding: 20px var(--mt-gutter) 22px;
+  border-top: 1px solid var(--mt-line);
+  background: rgb(242 240 234 / 0.94);
+}
+
+.mtv-plan-beat {
+  animation: mtv-rise 420ms var(--mt-ease) both;
+}
+
+.mtv-plan-meter {
+  height: 2px;
+  margin-top: 10px;
+  background: var(--mt-line);
+}
+
+.mtv-plan-meter span {
+  display: block;
+  width: calc(var(--scene-p, 0) * 100%);
+  height: 100%;
+  background: var(--mt-chilli);
+}
+
+/* On phones the flags are listed under the plan, compact. */
+.mtv-plan-legend {
+  grid-area: legend;
+  padding: 0 var(--mt-gutter) 12px;
+  opacity: 0.35;
+  transition: opacity 400ms var(--mt-ease);
+}
+
+.mtv-plan-legend[data-on='true'] {
+  opacity: 1;
+}
+
+.mtv-plan-legend li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.mtv-plan-legend .mtv-flag-key {
+  flex: none;
+  width: 22px;
+  height: 22px;
+}
+
+@media (min-width: 1000px) {
+  .mtv-plan-sheet {
+    grid-template-areas:
+      'title legend'
+      'art legend'
+      'art card';
+    grid-template-columns: minmax(0, 1fr) 360px;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+  }
+
+  .mtv-plan-art {
+    width: min(calc(100% - 2 * var(--mt-gutter)), calc((100svh - 200px) * 1000 / 640));
+  }
+
+  .mtv-plan-legend {
+    align-self: start;
+    padding: 28px var(--mt-gutter) 0;
+    border-left: 1px solid var(--mt-line);
+    height: 100%;
+  }
+
+  .mtv-plan-legend li {
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--mt-line);
+    font-size: 0.98rem;
+  }
+
+  .mtv-plan-legend .mtv-flag-key {
+    width: 26px;
+    height: 26px;
+  }
+
+  .mtv-plan-card {
+    border-left: 1px solid var(--mt-line);
+    background: none;
+  }
+}
+
+@media (max-width: 999px) {
+  .mtv-flag {
+    width: 20px;
+    height: 20px;
+    font-size: 0.7rem;
+  }
+
+  .mtv-flag svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  .mtv-plan-text {
+    font-size: 22px;
+  }
+
+  .mtv-plan .l-dims,
+  .mtv-plan .l-labels {
+    display: none;
+  }
+
+  .mtv-plan-hint {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   The demo: steps on the left, the night device on the right
+------------------------------------------------------------------- */
+
+.mtv-demo {
+  position: relative;
+  height: 520svh;
+}
+
+.mtv-demo-stage {
+  position: sticky;
+  top: 60px;
+  height: calc(100svh - 60px);
+}
+
+.mtv-demo-sheet {
+  display: grid;
+  height: 100%;
+}
+
+.mtv-demo-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: clamp(20px, 3.4vw, 52px) var(--mt-gutter);
+}
+
+.mtv-demo-copy .mtv-h2 {
+  font-size: clamp(1.6rem, 3.1vw, 3rem);
+}
+
+.mtv-demo-steps {
+  margin-top: auto;
+  border-top: 1px solid var(--mt-line);
+}
+
+.mtv-demo-steps li {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--mt-line);
+  font-weight: 600;
+  color: rgb(29 28 25 / 0.42);
+  transition: color 300ms var(--mt-ease);
+}
+
+.mtv-demo-steps li[data-state='done'] {
+  color: var(--mt-ink-soft);
+}
+
+.mtv-demo-steps li[data-state='now'] {
+  color: var(--mt-ink);
+}
+
+.mtv-demo-steps li[data-state='now'] .mtv-num {
+  color: var(--mt-chilli-deep);
+}
+
+/* How far through this step the reader is. */
+.mtv-demo-steps li[data-state='now']::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  width: calc(clamp(0, var(--scene-p, 0) * 5 - var(--step, 0), 1) * 100%);
+  background: var(--mt-chilli);
+}
+
+.mtv-demo-device {
+  display: grid;
+  gap: 12px;
+  align-self: center;
+  margin: 0 var(--mt-gutter) var(--mt-gutter);
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow:
+    0 0 0 1px #000,
+    0 40px 80px -40px rgb(15 14 13 / 0.7);
+}
+
+.mtv-demo-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 4px;
+  font-family: var(--mt-mono);
+  font-size: 0.82rem;
+}
+
+.mtv-demo-status-text {
+  animation: mtv-fade-in 300ms both;
+}
+
+.mtv-demo-where {
+  margin-left: auto;
+  color: rgb(242 240 234 / 0.55);
+}
+
+.mtv-demo-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--mt-chilli);
+  animation: mtv-blink 1s infinite;
+}
+
+.mtv-demo-dot[data-live='true'] {
+  background: var(--mt-leaf-bright);
+  animation-duration: 2s;
+}
+
+.mtv-demo-tv {
+  box-shadow: 0 0 0 1px rgb(242 240 234 / 0.12);
+}
+
+.mtv-demo-tv .scr {
+  transition: filter 600ms var(--mt-ease);
+}
+
+.mtv-demo[data-step='0'] .mtv-demo-tv .scr {
+  filter: blur(3px) grayscale(0.7) brightness(0.55);
+}
+
+.mtv-demo-scan {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 28%;
+  background: linear-gradient(transparent, rgb(255 179 92 / 0.32), transparent);
+  border-bottom: 1px solid rgb(255 179 92 / 0.8);
+  animation: mtv-scan 1.8s linear infinite;
+}
+
+@keyframes mtv-scan {
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(360%);
+  }
+}
+
+.mtv-demo-feed {
+  display: grid;
+  gap: 12px;
+  padding: 4px;
+}
+
+.mtv-demo-phone {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.mtv-demo-msg {
+  justify-self: start;
+  padding: 10px 14px;
+  border-radius: 14px 14px 14px 3px;
+  background: var(--mt-paper);
+  color: var(--mt-ink);
+  font-weight: 600;
+  line-height: 1.3;
+  animation: mtv-pop 380ms var(--mt-ease) both;
+}
+
+.mtv-demo-msg-quiet {
+  background: none;
+  border: 1px dashed rgb(242 240 234 / 0.3);
+  color: rgb(242 240 234 / 0.5);
+}
+
+@keyframes mtv-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+}
+
+.mtv-demo-log {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+}
+
+.mtv-demo-log li {
+  position: relative;
+  padding-left: 18px;
+  font-family: var(--mt-mono);
+  font-size: 0.8rem;
+  color: rgb(242 240 234 / 0.78);
+  opacity: 0;
+  animation: mtv-log 300ms var(--mt-ease) forwards;
+  animation-delay: calc(160ms + var(--i) * 240ms);
+}
+
+.mtv-demo-log li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--mt-leaf-bright);
+}
+
+@media (min-width: 640px) {
+  .mtv-demo-feed {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 1000px) {
+  .mtv-demo-sheet {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr);
+  }
+
+  .mtv-demo-copy {
+    border-right: 1px solid var(--mt-line);
+  }
+
+  .mtv-demo-device {
+    width: min(calc(100% - 2 * var(--mt-gutter)), calc((100svh - 300px) * 16 / 9 + 24px));
+    justify-self: center;
+    margin: 0;
+  }
+}
+
+@media (max-width: 999px) {
+  .mtv-demo-sheet {
+    grid-template-rows: auto 1fr;
+  }
+
+  .mtv-demo-copy .mtv-lead {
+    display: none;
+  }
+
+  .mtv-demo-steps li:not([data-state='now']) {
+    display: none;
+  }
+
+  .mtv-demo-steps {
+    margin-top: 0;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Made for: a poster and an accordion
+------------------------------------------------------------------- */
+
+.mtv-madefor-grid {
+  display: grid;
+}
+
+.mtv-madefor-art {
+  display: grid;
+  place-items: center;
+  padding: clamp(28px, 4vw, 56px);
+  background: var(--mt-paper-2);
+  border-bottom: 1px solid var(--mt-line);
+}
+
+.mtv-poster-svg {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+}
+
+.mtv-poster-sun {
+  fill: var(--mt-chilli);
+}
+
+.mtv-poster-slab {
+  fill: var(--mt-ink);
+}
+
+.mtv-poster-screen {
+  fill: var(--mt-night);
+}
+
+.mtv-poster-menu path {
+  fill: none;
+  stroke: var(--mt-glow);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+
+.mtv-poster-menu rect {
+  fill: var(--mt-chilli);
+}
+
+.mtv-madefor-copy {
+  display: grid;
+  align-content: start;
+  gap: 28px;
+  padding: clamp(40px, 6vw, 88px) var(--mt-gutter);
+}
+
+.mtv-accordion details {
+  border-top: 1px solid var(--mt-line);
+}
+
+.mtv-accordion details:last-child {
+  border-bottom: 1px solid var(--mt-line);
+}
+
+.mtv-accordion summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.mtv-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.mtv-accordion summary:hover .mtv-h3 {
+  color: var(--mt-chilli-deep);
+}
+
+.mtv-accordion-sign {
+  position: relative;
+  flex: none;
+  width: 14px;
+  height: 14px;
+}
+
+.mtv-accordion-sign::before,
+.mtv-accordion-sign::after {
+  content: '';
+  position: absolute;
+  inset: 6px 0;
+  background: var(--mt-ink);
+  transition: transform 260ms var(--mt-ease);
+}
+
+.mtv-accordion-sign::after {
+  transform: rotate(90deg);
+}
+
+.mtv-accordion details[open] .mtv-accordion-sign::after {
+  transform: rotate(0deg);
+}
+
+.mtv-accordion details p {
+  max-width: 46ch;
+  padding-bottom: 22px;
+}
+
+.mtv-accordion details[open] p {
+  animation: mtv-rise 360ms var(--mt-ease) both;
+}
+
+@media (min-width: 900px) {
+  .mtv-madefor-grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  }
+
+  .mtv-madefor-art {
+    border-bottom: 0;
+    border-right: 1px solid var(--mt-line);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Try it: the visitor's own menu on the TV
+------------------------------------------------------------------- */
+
+.mtv-try-grid {
+  display: grid;
+}
+
+.mtv-try-copy {
+  display: grid;
+  align-content: start;
+  gap: 22px;
+  padding: clamp(48px, 6vw, 88px) var(--mt-gutter);
+}
+
+.mtv-try-copy > .mtv-btn {
+  justify-self: start;
+}
+
+.mtv-try-form {
+  display: grid;
+  gap: 4px;
+}
+
+.mtv-try-dishes {
+  margin: 18px 0 8px;
+  padding: 0;
+  border: 0;
+}
+
+.mtv-try-dishes ul {
+  display: grid;
+  gap: 8px;
+}
+
+.mtv-try-dish {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 96px auto 46px;
+  gap: 8px;
+  align-items: center;
+}
+
+.mtv-try-price {
+  position: relative;
+}
+
+.mtv-try-price > span {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--mt-ink-soft);
+}
+
+.mtv-try-price .mtv-field {
+  padding-left: 26px;
+}
+
+.mtv-try-diet {
+  display: flex;
+  height: 48px;
+  border: 1px solid var(--mt-line-strong);
+  border-radius: 2px;
+}
+
+.mtv-try-diet button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  cursor: pointer;
+  opacity: 0.45;
+}
+
+.mtv-try-diet button + button {
+  border-left: 1px solid var(--mt-line);
+}
+
+.mtv-try-diet button[aria-pressed='true'] {
+  background: var(--mt-paper-2);
+  opacity: 1;
+}
+
+/* FSSAI marks: a green dot in a green square for veg, a brown triangle in a brown square for non-veg. */
+.mtv-diet {
+  position: relative;
+  display: block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #0f7a40;
+  background: #fff;
+}
+
+.mtv-diet::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: #0f7a40;
+}
+
+.mtv-diet.is-nonveg {
+  border-color: #7a3410;
+}
+
+.mtv-diet.is-nonveg::after {
+  inset: 2px 2px 3px;
+  border-radius: 0;
+  background: #7a3410;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.mtv-try-remove {
+  display: grid;
+  place-items: center;
+  height: 48px;
+  border: 1px solid var(--mt-line-strong);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.mtv-try-remove:hover:not(:disabled) {
+  background: var(--mt-ink);
+  color: var(--mt-paper);
+}
+
+.mtv-try-remove:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.mtv-try-remove svg {
+  width: 16px;
+  height: 16px;
+}
+
+.mtv-try-add {
+  justify-self: start;
+  margin-top: 10px;
+}
+
+.mtv-try-tv {
+  padding: clamp(28px, 4vw, 56px) var(--mt-gutter);
+  background: var(--mt-paper-2);
+  border-top: 1px solid var(--mt-line);
+}
+
+@media (min-width: 1000px) {
+  .mtv-try-grid {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  }
+
+  .mtv-try-tv {
+    border-top: 0;
+    border-left: 1px solid var(--mt-line);
+  }
+
+  .mtv-try-tv > .mtv-tv {
+    position: sticky;
+    top: 110px;
+  }
+}
+
+@media (max-width: 520px) {
+  .mtv-try-dish {
+    grid-template-columns: minmax(0, 1fr) 84px 46px;
+  }
+
+  .mtv-try-diet {
+    grid-column: 1 / 3;
+    justify-self: start;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Early access: the one night band, with the form on paper
+------------------------------------------------------------------- */
+
+.mtv-early {
+  border-top: 1px solid var(--mt-line);
+}
+
+.mtv-early .mtv-sheet {
+  border-inline-color: var(--mt-night-line);
+}
+
+.mtv-early-grid {
+  display: grid;
+  gap: 36px;
+  padding: clamp(56px, 8vw, 112px) var(--mt-gutter);
+}
+
+.mtv-early-grid .mtv-lead {
+  margin-top: 20px;
+}
+
+@media (min-width: 1000px) {
+  .mtv-early-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 64px;
+  }
+}
+
+.mtv-form-card {
+  position: relative;
+  display: grid;
+  gap: 18px;
+  padding: clamp(22px, 3vw, 36px);
+  border-radius: 2px;
+  background: var(--mt-paper);
+  color: var(--mt-ink);
+}
+
+.mtv-form-pair {
+  display: grid;
+  gap: 18px;
+}
+
+@media (min-width: 600px) {
+  .mtv-form-pair {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.mtv-form-submit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+}
+
+.mtv-form-optional {
+  font-family: var(--mt-text);
+  color: var(--mt-ink-soft);
+}
+
+.mtv-form-gap {
+  margin-top: 8px;
+}
+
+.mtv-form-live {
+  min-height: 1.4em;
+}
+
+.mtv-select-chevron {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--mt-ink-soft);
+}
+
+.mtv-form-tick {
+  width: 36px;
+  height: 36px;
+  color: var(--mt-leaf);
+}
+
+.mtv-form-done {
+  gap: 12px;
+}
+
+.mtv-footer-note {
+  margin-top: 12px;
+  max-width: 30ch;
+}
+
+/* ------------------------------------------------------------------
+   Reduced motion: every drawing finished, every word lit, no ribbon run.
+------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .mtv-site [pathLength] {
+    stroke-dashoffset: 0 !important;
+    animation: none !important;
+  }
+
+  .mtv-statement-text span {
+    opacity: 1;
+  }
+
+  .mtv-ribbon-track {
+    animation: none;
+    flex-wrap: wrap;
+    width: auto;
+  }
+
+  .mtv-ribbon ul + ul {
+    display: none;
+  }
+
+  .mtv-plan .l-dims text,
+  .mtv-plan .l-labels,
+  .mtv-plan .l-queue {
+    opacity: 1;
+  }
+}

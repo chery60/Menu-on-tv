@@ -1,0 +1,713 @@
+/* ==================================================================
+   MenuOnTV site v5: the counter, drawn (docs/site-v5-plan.md).
+   Ink on paper for the problem; the only light is the TV.
+   ================================================================== */
+
+.mtv-site {
+  --mt-paper: #f2f0ea;
+  --mt-paper-2: #e7e4db;
+  --mt-ink: #1d1c19;
+  /* 6:1 on paper. */
+  --mt-ink-soft: #5c5a55;
+  --mt-line: rgb(29 28 25 / 0.16);
+  --mt-line-strong: rgb(29 28 25 / 0.34);
+  /* Problems, the one action and the TV's on-light. Ink on chilli is 4.7:1; white on it fails. */
+  --mt-chilli: #f24a14;
+  /* Chilli for small text on paper, 4.7:1. */
+  --mt-chilli-deep: #c8330a;
+  --mt-night: #0f0e0d;
+  --mt-night-2: #1a1816;
+  --mt-night-line: rgb(242 240 234 / 0.14);
+  --mt-glow: #ffb35c;
+  /* Live and fixed. 4.8:1 on paper. */
+  --mt-leaf: #0f7a40;
+  --mt-leaf-bright: #36d07f;
+
+  --mt-display: var(--font-archivo), 'Arial Black', ui-sans-serif, system-ui, sans-serif;
+  --mt-text: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --mt-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --mt-gutter: clamp(16px, 3.2vw, 40px);
+  --mt-ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+
+  /* The crosshair marks hang past the sheet's edge; clip (not hidden) keeps sticky stages working. */
+  overflow-x: clip;
+  background-color: var(--mt-paper);
+  /* Paper grain: a few percent of noise, so the sheet reads as paper and not as a flat fill. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.11 0 0 0 0 0.11 0 0 0 0 0.1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  color: var(--mt-ink);
+  font-family: var(--mt-text);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.mtv-site ::selection {
+  background: var(--mt-chilli);
+  color: var(--mt-ink);
+}
+
+.mtv-site :focus-visible {
+  outline: 2px solid var(--mt-chilli);
+  outline-offset: 3px;
+}
+
+.mtv-skip {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 80;
+  transform: translateY(-160%);
+  background: var(--mt-ink);
+  color: var(--mt-paper);
+  padding: 10px 16px;
+  font-weight: 600;
+}
+
+.mtv-skip:focus {
+  transform: none;
+}
+
+/* ------------------------------------------------------------------
+   The sheet: one framed column with hairline rules, like a drawing.
+------------------------------------------------------------------- */
+
+.mtv-sheet {
+  position: relative;
+  max-width: 1440px;
+  margin-inline: auto;
+  border-inline: 1px solid var(--mt-line);
+}
+
+.mtv-band {
+  position: relative;
+  border-top: 1px solid var(--mt-line);
+}
+
+/* Crosshair marks where a band's top rule meets the sheet's edges. */
+.mtv-band::before,
+.mtv-band::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  width: 11px;
+  height: 11px;
+  background:
+    linear-gradient(var(--mt-ink), var(--mt-ink)) center / 1px 100% no-repeat,
+    linear-gradient(var(--mt-ink), var(--mt-ink)) center / 100% 1px no-repeat;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.mtv-band::before {
+  left: -6px;
+}
+
+.mtv-band::after {
+  right: -6px;
+}
+
+.mtv-pad {
+  padding: clamp(56px, 8vw, 112px) var(--mt-gutter);
+}
+
+.mtv-wrap {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: var(--mt-gutter);
+}
+
+/* Cells: a grid whose rules are the cells' own borders, so the drawing stays one sheet. */
+.mtv-cells {
+  display: grid;
+  border-top: 1px solid var(--mt-line);
+}
+
+.mtv-cells > * {
+  border-bottom: 1px solid var(--mt-line);
+  padding: clamp(24px, 3vw, 40px) var(--mt-gutter);
+}
+
+@media (min-width: 900px) {
+  .mtv-cells-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .mtv-cells-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .mtv-cells-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mtv-cells > * + * {
+    border-left: 1px solid var(--mt-line);
+  }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  .mtv-cells-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mtv-cells-4 > :nth-child(even) {
+    border-left: 1px solid var(--mt-line);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Type
+------------------------------------------------------------------- */
+
+.mtv-h1,
+.mtv-h2,
+.mtv-h3 {
+  font-family: var(--mt-display);
+  color: var(--mt-ink);
+  text-wrap: balance;
+}
+
+.mtv-h1 {
+  font-size: clamp(2.75rem, 7.4vw, 6.6rem);
+  font-weight: 800;
+  font-stretch: 118%;
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+}
+
+.mtv-h2 {
+  font-size: clamp(2.1rem, 4.6vw, 4.1rem);
+  font-weight: 800;
+  font-stretch: 112%;
+  line-height: 0.96;
+  letter-spacing: -0.035em;
+}
+
+.mtv-h3 {
+  font-size: clamp(1.25rem, 1.7vw, 1.5rem);
+  font-weight: 700;
+  font-stretch: 106%;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+
+.mtv-lead {
+  max-width: 38rem;
+  font-size: clamp(1.08rem, 1.35vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--mt-ink-soft);
+  text-wrap: pretty;
+}
+
+.mtv-body {
+  color: var(--mt-ink-soft);
+  text-wrap: pretty;
+}
+
+.mtv-mono {
+  font-family: var(--mt-mono);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  color: var(--mt-ink-soft);
+}
+
+/* A cell's number: [01]. */
+.mtv-num {
+  font-family: var(--mt-mono);
+  font-size: 0.78rem;
+  color: var(--mt-ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.mtv-num::before {
+  content: '[';
+}
+
+.mtv-num::after {
+  content: ']';
+}
+
+/* ------------------------------------------------------------------
+   Buttons: rectangles with an arrow that leans forward on hover.
+------------------------------------------------------------------- */
+
+.mtv-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 20px;
+  border: 1px solid var(--mt-ink);
+  border-radius: 2px;
+  font-family: var(--mt-text);
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--mt-ink);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background-color 160ms var(--mt-ease),
+    color 160ms var(--mt-ease),
+    border-color 160ms var(--mt-ease);
+}
+
+.mtv-btn svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  transition: transform 220ms var(--mt-ease);
+}
+
+.mtv-btn:hover {
+  background: var(--mt-ink);
+  color: var(--mt-paper);
+}
+
+.mtv-btn:hover svg {
+  transform: translateX(3px);
+}
+
+.mtv-btn-primary {
+  background: var(--mt-chilli);
+  border-color: var(--mt-chilli);
+}
+
+.mtv-btn-primary:hover {
+  border-color: var(--mt-ink);
+}
+
+.mtv-btn:disabled {
+  cursor: wait;
+  opacity: 0.75;
+}
+
+.mtv-on-night .mtv-btn {
+  border-color: rgb(242 240 234 / 0.5);
+  color: var(--mt-paper);
+}
+
+.mtv-on-night .mtv-btn:hover {
+  background: var(--mt-paper);
+  color: var(--mt-ink);
+}
+
+.mtv-on-night .mtv-btn-primary {
+  border-color: var(--mt-chilli);
+  color: var(--mt-ink);
+}
+
+.mtv-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.mtv-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.mtv-link:hover {
+  color: var(--mt-chilli-deep);
+}
+
+/* ------------------------------------------------------------------
+   Header: one framed bar of cells, the same on every page and at every
+   scroll position (the owner turned down a bar that changes).
+------------------------------------------------------------------- */
+
+.mtv-nav {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: rgb(242 240 234 / 0.88);
+  backdrop-filter: blur(10px) saturate(1.2);
+  -webkit-backdrop-filter: blur(10px) saturate(1.2);
+  border-bottom: 1px solid var(--mt-line);
+}
+
+.mtv-nav-bar {
+  display: flex;
+  align-items: stretch;
+  max-width: 1440px;
+  height: 60px;
+  margin-inline: auto;
+  border-inline: 1px solid var(--mt-line);
+}
+
+.mtv-nav-brand {
+  display: flex;
+  align-items: center;
+  padding-inline: var(--mt-gutter);
+  margin-right: auto;
+  color: var(--mt-ink);
+}
+
+.mtv-nav-links {
+  display: none;
+}
+
+.mtv-nav-links ul {
+  display: flex;
+  height: 100%;
+}
+
+.mtv-nav-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
+  padding-inline: 22px;
+  border-left: 1px solid var(--mt-line);
+  font-size: 0.94rem;
+  font-weight: 500;
+  color: var(--mt-ink);
+  transition:
+    background-color 160ms var(--mt-ease),
+    color 160ms var(--mt-ease);
+}
+
+.mtv-nav-cell:hover {
+  background: var(--mt-paper-2);
+}
+
+/* The page you are on: a small chilli square, like a flag on the plan. */
+.mtv-nav-cell[aria-current='page']::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  background: var(--mt-chilli);
+}
+
+.mtv-nav-signin {
+  display: none;
+}
+
+.mtv-nav-cta {
+  background: var(--mt-chilli);
+  font-weight: 600;
+}
+
+.mtv-nav-cta:hover {
+  background: var(--mt-ink);
+  color: var(--mt-paper);
+}
+
+.mtv-nav-cta svg {
+  width: 15px;
+  height: 15px;
+}
+
+.mtv-nav-toggle {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  border-left: 1px solid var(--mt-line);
+  color: var(--mt-ink);
+  cursor: pointer;
+}
+
+.mtv-nav-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+@media (min-width: 640px) {
+  .mtv-nav-signin {
+    display: flex;
+  }
+}
+
+@media (min-width: 980px) {
+  .mtv-nav-links {
+    display: block;
+  }
+
+  .mtv-nav-toggle {
+    display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .mtv-nav-cta {
+    padding-inline: 14px;
+    font-size: 0.88rem;
+  }
+
+  .mtv-nav-cta svg {
+    display: none;
+  }
+}
+
+/* On the narrowest phones the main button moves into the menu sheet; the hero carries it too. */
+@media (max-width: 400px) {
+  .mtv-nav-cta {
+    display: none;
+  }
+
+  /* Its place goes to signing in, so an owner never has to open the menu to find it. */
+  .mtv-nav-signin {
+    display: flex;
+    padding-inline: 16px;
+  }
+}
+
+.mtv-nav-signin-short {
+  display: none;
+}
+
+@media (max-width: 639px) {
+  .mtv-nav-signin-long {
+    display: none;
+  }
+
+  .mtv-nav-signin-short {
+    display: inline;
+  }
+}
+
+.mtv-menu a.mtv-menu-cta {
+  background: var(--mt-chilli);
+}
+
+/* Phones: the links open in a sheet under the bar, on the browser's own popover. */
+.mtv-menu {
+  inset: 60px 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--mt-line-strong);
+  background: var(--mt-paper);
+  color: var(--mt-ink);
+}
+
+.mtv-menu::backdrop {
+  background: rgb(15 14 13 / 0.35);
+}
+
+.mtv-menu a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px var(--mt-gutter);
+  border-top: 1px solid var(--mt-line);
+  font-family: var(--mt-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-stretch: 108%;
+  letter-spacing: -0.02em;
+}
+
+.mtv-menu a[aria-current='page'] {
+  color: var(--mt-chilli-deep);
+}
+
+.mtv-menu a svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ------------------------------------------------------------------
+   Footer
+------------------------------------------------------------------- */
+
+.mtv-footer {
+  border-top: 1px solid var(--mt-line);
+}
+
+.mtv-footer-top {
+  display: grid;
+  gap: 0;
+}
+
+.mtv-footer-top > * {
+  padding: clamp(28px, 4vw, 48px) var(--mt-gutter);
+  border-bottom: 1px solid var(--mt-line);
+}
+
+.mtv-footer-title {
+  font-family: var(--mt-display);
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  font-weight: 800;
+  font-stretch: 112%;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.mtv-footer-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.mtv-footer-list a {
+  color: var(--mt-ink);
+}
+
+.mtv-footer-list a:hover {
+  color: var(--mt-chilli-deep);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@media (min-width: 900px) {
+  .mtv-footer-top {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+  }
+
+  .mtv-footer-top > * + * {
+    border-left: 1px solid var(--mt-line);
+  }
+}
+
+/* The wordmark in construction lines: guides first, then the letters drawn over them. */
+.mtv-wordmark {
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: clamp(16px, 3vw, 40px) var(--mt-gutter) 0;
+  color: var(--mt-ink);
+  overflow: visible;
+}
+
+.mtv-wordmark text {
+  font-family: var(--mt-display);
+  font-weight: 800;
+  font-stretch: 118%;
+  letter-spacing: -0.04em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.1;
+}
+
+.mtv-wordmark-guide {
+  stroke: var(--mt-line-strong);
+  stroke-width: 0.6;
+  stroke-dasharray: 3 4;
+}
+
+.mtv-wordmark-dot {
+  fill: var(--mt-chilli);
+}
+
+.mtv-footer-base {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding: 18px var(--mt-gutter) 28px;
+  border-top: 1px solid var(--mt-line);
+}
+
+/* ------------------------------------------------------------------
+   Forms
+------------------------------------------------------------------- */
+
+.mtv-field {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--mt-line-strong);
+  border-radius: 2px;
+  background: #fbfaf7;
+  color: var(--mt-ink);
+  font: inherit;
+  transition: border-color 160ms var(--mt-ease);
+}
+
+.mtv-field::placeholder {
+  color: rgb(92 90 85 / 0.75);
+}
+
+.mtv-field:hover {
+  border-color: var(--mt-ink);
+}
+
+.mtv-field:focus {
+  border-color: var(--mt-ink);
+  outline: 2px solid var(--mt-chilli);
+  outline-offset: 0;
+}
+
+.mtv-label {
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--mt-mono);
+  font-size: 0.8rem;
+  color: var(--mt-ink);
+}
+
+.mtv-error {
+  color: #b3261e;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------------
+   Night: the TV and the device are the only dark things on the sheet.
+------------------------------------------------------------------- */
+
+.mtv-night {
+  background: var(--mt-night);
+  color: var(--mt-paper);
+}
+
+.mtv-night .mtv-h1,
+.mtv-night .mtv-h2,
+.mtv-night .mtv-h3 {
+  color: var(--mt-paper);
+}
+
+.mtv-night .mtv-lead,
+.mtv-night .mtv-body,
+.mtv-night .mtv-mono,
+.mtv-night .mtv-num {
+  color: rgb(242 240 234 / 0.68);
+}
+
+/* A TV drawn in ink: a black bezel, a hairline stand, and the screen inside. */
+.mtv-tv {
+  position: relative;
+  padding: clamp(5px, 0.7vw, 9px);
+  background: #11100f;
+  border-radius: 6px;
+  box-shadow:
+    0 0 0 1px var(--mt-ink),
+    0 30px 60px -32px rgb(15 14 13 / 0.7);
+}
+
+.mtv-tv-screen {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #050505;
+}
+
+.mtv-tv-screen > .scr {
+  position: absolute;
+  inset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mtv-site *,
+  .mtv-site *::before,
+  .mtv-site *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}
