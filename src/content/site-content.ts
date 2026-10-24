@@ -14,8 +14,8 @@ export interface FaqEntry {
 }
 
 export const hero = {
-  title: 'Your menu, on your TV.',
-  lead: 'MenuOnTV turns the TV you already own into a menu board that sells. Snap a photo of your menu, open one link on the TV, and change prices, sold-out items and today’s special from your phone.',
+  title: 'A digital menu board on your TV.',
+  lead: 'MenuOnTV turns the TV you already own into a digital menu board that sells. Snap a photo of your menu, open one link on the TV, and change prices, sold-out items and today’s special from your phone.',
   primary: { label: 'Get early access', href: '#early-access' },
   secondary: { label: 'Watch it work', href: '#demo' },
   note: 'Free for one screen. No installer, no designer.',
@@ -207,7 +207,9 @@ export const comparison = {
 export const faq = {
   title: 'Questions owners ask.',
   items: [
-    { question: 'Will it work on my TV?', answer: 'Most smart TVs can open a link in their browser. If yours can’t, or if it’s an older TV, any HDMI port and a small Android TV stick will run it.' },
+    { question: 'What is a digital menu board?', answer: 'A menu shown on a screen instead of printed. MenuOnTV plays yours on a TV with prices big enough to read from the queue, and you change it from your phone instead of reprinting.' },
+    { question: 'How much does a digital menu board cost in India?', answer: 'MenuOnTV is free for one screen. Plus is ₹499 and Pro is ₹999 per screen a month, before tax. If your TV can’t open a link, a TV stick costs about ₹3,000.' },
+    { question: 'Can I show my menu on a smart TV without an app?', answer: 'Yes. Open one link in the TV’s browser and your menu plays full screen, with nothing to install. If your TV can’t, or if it’s an older TV, any HDMI port and a small Android TV stick will run it.' },
     { question: 'What if our internet goes down?', answer: 'The screen keeps playing your last menu and updates as soon as the connection is back. Guests never see a blank TV.' },
     { question: 'How do I change prices or mark something sold out?', answer: 'From your phone, one tap each. Every screen in your shop updates within seconds.' },
     { question: 'Do I need a designer?', answer: 'No. Take a photo of your menu; MenuOnTV lays it out. You can change the layout and theme any time.' },

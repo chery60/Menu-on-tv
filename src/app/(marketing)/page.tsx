@@ -9,6 +9,7 @@ import { Rules } from '@/components/home/rules';
 import { Statement } from '@/components/home/statement';
 import { Steps } from '@/components/home/steps';
 import { TryIt } from '@/components/home/try-it';
+import { Faq } from '@/components/pages/pricing-sections';
 import { siteConfig } from '@/config/site';
 import { DEMO_RESTAURANT } from '@/content/demo-restaurant';
 import { buildQrCodes } from '@/features/screen/qr';
@@ -29,7 +30,7 @@ const NO_SCRIPT_STYLES = '<style>.mtv-plan,.mtv-demo,.mtv-statement{height:auto!
  * The home page (docs/site-v5-plan.md): a café counter drawn in ink whose TV switches on, a sentence
  * lit word by word, the problem in four cells, a café plan that builds and gets fixed as you scroll,
  * one afternoon played on the real screen, three steps, who it's for, the screen rules and the free
- * plan, the visitor's own menu on the TV, and early access.
+ * plan, the visitor's own menu on the TV, the questions owners ask (the FAQPage JSON-LD describes them), and early access.
  */
 export default async function HomePage() {
   const qrCodes = await buildQrCodes(DEMO_RESTAURANT);
@@ -47,6 +48,7 @@ export default async function HomePage() {
       <MadeFor />
       <Rules />
       <TryIt />
+      <Faq />
       <EarlyAccess />
     </>
   );

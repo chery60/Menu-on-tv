@@ -18,8 +18,8 @@ The head term is "digital menu board". Every page signal leads with it, in plain
 
 1. **Title, 60 characters or fewer, head term first:** "Digital menu board for restaurants, on any TV · MenuOnTV". The live title is about 70 characters and Google cuts it.
 2. **Description, 160 characters or fewer.** The live one is about 250 characters and gets cut. It also feeds the JSON-LD, `/llms.txt` and `/index.md`.
-3. **H1 and lead say what it is:** "A digital menu board on the TV you already own." The brand line "Your menu, on your TV." stays on the leave-behind card.
-4. **The FAQ shows on the home page.** The home page's JSON-LD already describes a FAQPage that only `/pricing` showed; markup must match what people see. Three questions people search for are added: what a digital menu board is, what it costs in India, and showing a menu on a smart TV without an app. One content source, so `/pricing`, `/llms.txt` and `/index.md` get them too.
+3. **H1 and lead say what it is:** "A digital menu board on your TV." The brand line "Your menu, on your TV." stays on the leave-behind card.
+4. **The FAQ shows on the home page.** The home page's JSON-LD already describes a FAQPage that only `/pricing` showed; markup must match what people see. Two questions people search for are added (what a digital menu board is, and what it costs in India), and "Will it work on my TV?" becomes "Can I show my menu on a smart TV without an app?". One content source, so `/pricing`, `/llms.txt` and `/index.md` get them too.
 5. **Search Console:** `GOOGLE_SITE_VERIFICATION` adds Google's verification tag, so the owner can verify the site and submit the sitemap.
 6. **Sitemap date** moves to today.
 7. **A test** keeps the title at 60 characters or fewer and the description at 160 or fewer.

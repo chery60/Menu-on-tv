@@ -25,6 +25,8 @@ export const metadata: Metadata = {
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,
   formatDetection: { telephone: false, email: false, address: false },
+  // Google Search Console's HTML-tag check; unset, no tag is rendered.
+  verification: { google: process.env.GOOGLE_SITE_VERIFICATION },
 };
 
 export const viewport: Viewport = {

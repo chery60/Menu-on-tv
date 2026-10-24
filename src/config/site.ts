@@ -17,10 +17,11 @@ function resolveSiteUrl(): string {
 
 export const siteConfig = {
   name: 'MenuOnTV',
-  title: 'MenuOnTV: digital menu boards and screen ads for restaurants, on any TV',
+  /** Search results cut titles past about 60 characters and descriptions past about 160, so the head term comes first. */
+  title: 'Digital menu board for restaurants, on any TV · MenuOnTV',
   tagline: 'Your menu, on your TV',
   description:
-    'Turn the TV you already own into a digital menu board that sells. Build it from a photo of your menu, open one link on the TV, change prices and sold-out items from your phone, and run your own promos between menu slides. Free for one screen.',
+    'Digital menu board for cafés and restaurants in India. Made from a photo of your menu, plays on any TV, prices change from your phone. Free for one screen.',
   url: resolveSiteUrl(),
   locale: 'en_IN',
   keywords: [
