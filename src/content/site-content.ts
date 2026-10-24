@@ -11,6 +11,49 @@ export interface TextItem {
 export interface FaqEntry {
   readonly question: string;
   readonly answer: string;
+  /** A page that answers the question in full. */
+  readonly link?: { readonly label: string; readonly href: string };
+}
+
+export interface LinkItem extends TextItem {
+  readonly href: string;
+}
+
+/** A page's search title (without the site suffix) and description. */
+export interface PageMeta {
+  readonly title: string;
+  readonly description: string;
+}
+
+export interface CellSection {
+  readonly id: string;
+  readonly title: string;
+  readonly lead?: string;
+  readonly items: readonly TextItem[];
+  readonly numbered?: boolean;
+}
+
+export interface ComparisonTable {
+  readonly title: string;
+  readonly columns: readonly string[];
+  readonly rows: readonly (readonly string[])[];
+  readonly note: string;
+}
+
+export interface FaqSection {
+  readonly title: string;
+  readonly items: readonly FaqEntry[];
+}
+
+export interface GuidePage {
+  readonly path: string;
+  readonly meta: PageMeta;
+  readonly title: string;
+  readonly lead: string;
+  readonly sections: readonly CellSection[];
+  readonly table?: ComparisonTable;
+  readonly faq?: FaqSection;
+  readonly next: readonly LinkItem[];
 }
 
 export const hero = {
@@ -202,14 +245,14 @@ export const comparison = {
     ['Veg marks, Hindi, FSSAI calories', 'Built in', 'Rarely', 'No'],
   ],
   note: 'Competitor prices as published on their sites in October 2026.',
-} as const;
+} as const satisfies ComparisonTable;
 
 export const faq = {
   title: 'Questions owners ask.',
   items: [
     { question: 'What is a digital menu board?', answer: 'A menu shown on a screen instead of printed. MenuOnTV plays yours on a TV with prices big enough to read from the queue, and you change it from your phone instead of reprinting.' },
-    { question: 'How much does a digital menu board cost in India?', answer: 'MenuOnTV is free for one screen. Plus is ₹499 and Pro is ₹999 per screen a month, before tax. If your TV can’t open a link, a TV stick costs about ₹3,000.' },
-    { question: 'Can I show my menu on a smart TV without an app?', answer: 'Yes. Open one link in the TV’s browser and your menu plays full screen, with nothing to install. If your TV can’t, or if it’s an older TV, any HDMI port and a small Android TV stick will run it.' },
+    { question: 'How much does a digital menu board cost in India?', answer: 'MenuOnTV is free for one screen. Plus is ₹499 and Pro is ₹999 per screen a month, before tax. If your TV can’t open a link, a TV stick costs about ₹3,000.', link: { label: 'See what one café pays', href: '/pricing' } },
+    { question: 'Can I show my menu on a smart TV without an app?', answer: 'Yes. Open one link in the TV’s browser and your menu plays full screen, with nothing to install. If your TV can’t, or if it’s an older TV, any HDMI port and a small Android TV stick will run it.', link: { label: 'Read the setup guide', href: '/how-to-show-menu-on-tv' } },
     { question: 'What if our internet goes down?', answer: 'The screen keeps playing your last menu and updates as soon as the connection is back. Guests never see a blank TV.' },
     { question: 'How do I change prices or mark something sold out?', answer: 'From your phone, one tap each. Every screen in your shop updates within seconds.' },
     { question: 'Do I need a designer?', answer: 'No. Take a photo of your menu; MenuOnTV lays it out. You can change the layout and theme any time.' },
@@ -258,7 +301,11 @@ export const madeFor = {
     { title: 'Outlets of one brand', body: 'Change a price once and the TVs in every outlet follow.' },
   ] satisfies readonly TextItem[],
   drawingLabel: 'A drawing of a TV on a café wall, playing a menu.',
+  more: { label: 'See menu boards for cafés and counters', href: '/digital-menu-board-for-cafes' },
 } as const;
+
+/** One shared heading for every “next pages” block. */
+export const readNextTitle = 'Read next.';
 
 /** The band after the screen rules: the free plan, and the way to the prices page. */
 export const freeBand = {
@@ -286,6 +333,12 @@ export const builder = {
 } as const;
 
 export const howPage = {
+  meta: { title: 'How MenuOnTV works: menu photo to TV', description: 'Snap your paper menu, pick one of six layouts and open one link on the TV you already own. About ten minutes, with no designer and no installer.' } satisfies PageMeta,
+  next: [
+    { title: 'How to put it on your TV', body: 'What you need, and how to check your TV first.', href: '/how-to-show-menu-on-tv' },
+    { title: 'Menu boards for cafés and counters', body: 'Which layout suits your counter.', href: '/digital-menu-board-for-cafes' },
+    { title: 'What the free plan covers', body: 'One screen, for good.', href: '/free-digital-menu-board' },
+  ] satisfies readonly LinkItem[],
   title: 'From a photo to the TV in ten minutes.',
   lead: 'No designer, no installer and no ladder. Snap your paper menu, pick a layout and open one link on the TV you already own.',
   scanning: 'Reading your prices',
@@ -295,15 +348,35 @@ export const howPage = {
   galleryLink: 'Open full screen',
 } as const;
 
+const TWO_SCREENS_A_MONTH = `₹${(pricing.plans[1].perScreen * 2).toLocaleString('en-IN')}`;
+
 export const pricingPage = {
-  title: 'Prices in rupees, per screen.',
+  meta: { title: 'Digital menu board price in India', description: 'MenuOnTV is free for one screen. Plus is ₹499 and Pro is ₹999 per screen a month, before tax. See what one café pays in all, TV stick included.' } satisfies PageMeta,
+  title: 'What a digital menu board costs in India.',
   lead: 'One screen is free, for good. Pay only when you want more screens, more selling or proof of what sold.',
   choose: 'Choose',
   keepHalf: 'of what your screen earns from local ads is yours.',
+  cost: {
+    title: 'What one café pays in all.',
+    columns: ['One TV', 'Two TVs'],
+    rows: [
+      ['MenuOnTV', '₹0 on Free', `${TWO_SCREENS_A_MONTH} a month on Plus`],
+      ['The TV', 'The one you already have', 'The ones you already have'],
+      ['A TV stick', 'About ₹3,000 once, only if your TV can’t open a link', 'The same, for each TV that needs one'],
+      ['Installer, designer, reprints', 'None', 'None'],
+    ],
+    note: 'Early-access prices, before tax.',
+  } satisfies ComparisonTable,
+  next: [
+    { title: 'What the free plan covers', body: 'One screen, for good.', href: '/free-digital-menu-board' },
+    { title: 'How to put it on your TV', body: 'What you need, and how to check your TV first.', href: '/how-to-show-menu-on-tv' },
+    { title: 'Compare it with printed and QR menus', body: 'When each one is enough.', href: '/digital-menu-board-vs-printed-menu' },
+  ] satisfies readonly LinkItem[],
 } as const;
 
 /** The live demo page: the sample café in 3D, its menu on a TV out front. */
 export const demoPage = {
+  meta: { title: 'Live demo: a café menu on a TV', description: 'Masala Mornings, our sample café, in 3D. Its TV plays the menu the way yours would: prices sized for the queue, sold-out dishes marked, combos between slides.' } satisfies PageMeta,
   title: 'A café with its menu on a TV.',
   lead: 'This is Masala Mornings, our sample café. The TV out front plays its menu the way yours would: prices sized for the queue, sold-out dishes marked, and the combo between menu slides.',
   sceneLabel: 'A 3D café on a busy square. A big TV in front of it plays the menu, a guest orders at the counter and more wait in line.',
@@ -333,3 +406,191 @@ export const leaveBehindCard = {
   scan: 'Scan to try it with your own menu.',
   contact: 'Ask for',
 } as const;
+
+const earlyLinks = {
+  how: { title: 'How to put it on your TV', body: 'What you need, and how to check your TV first.', href: '/how-to-show-menu-on-tv' },
+  free: { title: 'What the free plan covers', body: 'One screen, for good.', href: '/free-digital-menu-board' },
+  cost: { title: 'What one café pays', body: 'Plans in rupees, TV stick included.', href: '/pricing' },
+} satisfies Record<string, LinkItem>;
+
+/** /how-to-show-menu-on-tv: the how-to, and the “will my TV work?” part of the TV question. */
+export const menuOnTvGuide = {
+  path: '/how-to-show-menu-on-tv',
+  meta: { title: 'How to show your menu on a TV, no app', description: 'Open one link in your TV’s browser and your menu plays full screen, with no app to install. What you need, how to check your TV, and what if the Wi-Fi drops.' },
+  title: 'Your menu on a TV, with no app to install.',
+  lead: 'Open one link in your TV’s browser and the menu plays full screen. You run it from your phone. Here is what you need, the four steps, and how to check your TV first.',
+  sections: [
+    {
+      id: 'need',
+      title: 'What you need.',
+      items: [
+        { title: 'A TV that can open a web page', body: 'If it has a web browser, that is all. If it doesn’t, a small stick in the HDMI port adds one, for about ₹3,000.' },
+        { title: 'Wi-Fi in the shop', body: 'The TV uses it to get your changes. If it drops, the menu keeps playing.' },
+        { title: 'Your phone', body: 'You make the menu and change it from your phone. No laptop, no designer.' },
+      ],
+    },
+    {
+      id: 'steps',
+      title: 'Four steps. About ten minutes.',
+      lead: 'During early access we set up your first screen with you.',
+      numbered: true,
+      items: [
+        { title: 'Photograph your menu', body: 'Snap the paper menu or the board on your wall, or paste it from WhatsApp. Check the prices it read, then approve.' },
+        { title: 'Pick a layout', body: 'Six layouts, and every one keeps prices big enough to read from the counter.' },
+        { title: 'Open the pairing page on the TV', body: 'In the TV’s browser, type the short address from your phone. A code appears on the screen.' },
+        { title: 'Enter the code on your phone', body: 'The TV keeps the link and plays your menu full screen.' },
+      ],
+    },
+    {
+      id: 'check',
+      title: 'Check your TV first.',
+      items: [
+        { title: 'Check it in a few seconds', body: 'Open the TV check in the TV’s browser. It says in plain words whether the menu will play, and changes nothing on the TV.' },
+        { title: 'If the browser is too old', body: 'A small TV stick in the HDMI port runs the menu. It costs about ₹3,000, once.' },
+      ],
+    },
+    {
+      id: 'after',
+      title: 'Once it’s on the wall.',
+      items: [
+        { title: 'Change a price', body: 'One tap on your phone, and every TV in the shop updates within seconds.' },
+        { title: 'Mark something sold out', body: 'One tap. Guests stop ordering it, and nobody has to say sorry.' },
+        { title: 'If the internet drops', body: 'The screen keeps playing your last menu and catches up when it’s back.' },
+      ],
+    },
+  ],
+  tvCheck: { label: 'Open the TV check', href: '/tv-check' },
+  next: [
+    { title: 'See the six layouts', body: 'Each one live, playing the same café.', href: '/how-it-works' },
+    earlyLinks.free,
+    earlyLinks.cost,
+  ],
+} satisfies GuidePage & { readonly tvCheck: { readonly label: string; readonly href: string } };
+
+export const freePage = {
+  path: '/free-digital-menu-board',
+  meta: { title: 'Free digital menu board for one TV', description: 'Yes, it’s free: one TV, for good, with all six layouts and your own promos. The catch is a small MenuOnTV badge. What’s free and what you pay for.' },
+  title: 'A free digital menu board, for one TV.',
+  lead: 'Yes, it’s free. One screen, for good, with all six layouts, your own promos and sold out in one tap. The catch is a small “Powered by MenuOnTV” badge on the screen.',
+  sections: [
+    {
+      id: 'free',
+      title: 'What’s free, and what isn’t.',
+      items: [
+        { title: 'Free, for good', body: 'One TV, all six layouts, light or dark, your menu from a photo, sold out, today’s special and your own promos.' },
+        { title: 'The badge', body: 'A small “Powered by MenuOnTV” badge shows on the free screen. Plus takes it off.' },
+        { title: 'What you pay for', body: 'More screens, breakfast, lunch and dinner menus, Hindi next to English and scheduled promos are on Plus, at ₹499 per screen a month.' },
+        { title: 'The one cost outside us', body: 'If your TV can’t open a link, a TV stick costs about ₹3,000, once.' },
+      ],
+    },
+    {
+      id: 'elsewhere',
+      title: 'Free here, and free elsewhere.',
+      items: [
+        { title: 'A free QR menu', body: 'It opens on the guest’s own phone. It doesn’t put anything on your TV.' },
+        { title: 'Free ad-funded TV', body: 'It costs nothing, but it fills your TV with someone else’s channel and they keep the ad money. MenuOnTV plays your menu and your promos.' },
+      ],
+    },
+  ],
+  faq: {
+    title: 'Questions about the free plan.',
+    items: [
+      { question: 'Is the free plan free forever?', answer: 'Yes. One screen is free, for good. Plus and Pro are early-access prices that we’ll confirm with our first restaurants before launch.' },
+      { question: 'What happens when I want a second TV?', answer: 'Move to Plus, at ₹499 per screen a month before tax. Every screen then plays without the badge.' },
+      { question: 'Do I need to buy any hardware?', answer: 'Not if your TV can open a web page. If it can’t, a small TV stick in the HDMI port costs about ₹3,000, once.' },
+    ],
+  },
+  next: [
+    earlyLinks.cost,
+    { title: 'How to put it on your TV', body: 'What you need, and how to check your TV first.', href: '/how-to-show-menu-on-tv' },
+    { title: 'Compare it with printed and QR menus', body: 'When each one is enough.', href: '/digital-menu-board-vs-printed-menu' },
+  ],
+} satisfies GuidePage;
+
+export const cafesPage = {
+  path: '/digital-menu-board-for-cafes',
+  meta: { title: 'Digital menu board for cafés, bakeries, QSR', description: 'A TV menu board for cafés, chai shops, bakeries and quick-service counters in India. Which layout suits your counter, and what to put on the screen.' },
+  title: 'A digital menu board for your café or counter.',
+  lead: 'Cafés, chai shops, bakeries and quick-service counters sell from a queue. Here is what to put on the TV for each, and which of the six layouts fits.',
+  sections: [
+    {
+      id: 'outlets',
+      title: 'What goes on the screen, by counter.',
+      items: [
+        { title: 'Cafés and chai shops', body: 'A short menu and a big rush. The Split layout keeps the menu still while today’s special and your combos take turns beside it.' },
+        { title: 'Bakeries and sweet shops', body: 'Mark what’s finished the moment the tray is empty, and put festival boxes on screen in season. Spotlight puts one cake or box on the whole screen.' },
+        { title: 'Quick-service counters', body: 'Combos and add-ons on the screen guests face while they queue. The L-bar layout fits many offers beside the menu.' },
+        { title: 'Food courts and pickup windows', body: 'A board that reads from across the hall, in English and Hindi. A TV mounted on its side uses the Portrait layout.' },
+      ],
+    },
+    {
+      id: 'every',
+      title: 'What every counter gets.',
+      items: [
+        { title: 'Prices sized for the queue', body: 'Text is sized from the height of the screen, so prices read from the counter on any TV.' },
+        { title: 'Sold out in one tap', body: 'From your phone, and every TV in the shop follows within seconds.' },
+        { title: 'Veg marks and FSSAI calories', body: 'Veg and non-veg marks on every item, with calories and allergens the way FSSAI asks.' },
+        { title: 'Breakfast, lunch and dinner', body: 'On Plus, each menu takes over at its time, with Hindi next to English.' },
+      ],
+    },
+  ],
+  faq: {
+    title: 'Questions from café and counter owners.',
+    items: [
+      { question: 'Which layout suits a small café?', answer: 'Split, for most cafés: the menu always shows and your offers keep moving. You can switch layouts any time.' },
+      { question: 'Can the TV be mounted on its side?', answer: 'Yes. The Portrait layout is made for TVs on their side, by the door or the queue.' },
+      { question: 'Can I show a different menu in the morning?', answer: 'Yes, on Plus. Breakfast, lunch and dinner menus each take over at their time.' },
+    ],
+  },
+  next: [
+    { title: 'How to put it on your TV', body: 'What you need, and how to check your TV first.', href: '/how-to-show-menu-on-tv' },
+    { title: 'See a café with its menu on a TV', body: 'The live demo.', href: '/demo' },
+    earlyLinks.cost,
+  ],
+} satisfies GuidePage;
+
+export const versusPage = {
+  path: '/digital-menu-board-vs-printed-menu',
+  meta: { title: 'Digital menu board vs printed menu vs QR', description: 'Printed board, QR menu or a menu on your TV? An honest look at changing prices, sold-out items and what guests see, and when a printed board is enough.' },
+  title: 'Digital menu board, printed menu or QR menu.',
+  lead: 'Each one does a different job. Here is an honest comparison for one counter, and when a printed board or a QR code is all you need.',
+  table: {
+    title: 'How they compare.',
+    columns: ['MenuOnTV on your TV', 'Printed board', 'QR menu'],
+    rows: [
+      ['Changing a price', 'One tap on your phone; the TV changes in seconds', 'A reprint, a sticker or a pen mark', 'Edit it online'],
+      ['Sold out', 'Marked on the screen in one tap', 'Said out loud at the counter', 'Depends on the menu app'],
+      ['Where guests read it', 'On the TV, from the queue', 'On the wall or the counter', 'On their own phone, after a scan'],
+      ['Specials and combos', 'Play between menu slides', 'A flyer by the till', 'Inside the menu, if they scroll to it'],
+      ['Cost to start', '₹0 for one screen, plus a stick (about ₹3,000) if the TV needs one', 'A print run, and another for each change', 'Depends on the app'],
+    ],
+    note: 'MenuOnTV prices are early-access prices, before tax.',
+  },
+  sections: [
+    {
+      id: 'enough',
+      title: 'When printed or QR is enough.',
+      items: [
+        { title: 'Your prices hardly change', body: 'If the menu stays the same for months and nothing sells out, a good printed board does the job.' },
+        { title: 'Guests order at the table', body: 'If people sit down first and order there, a QR code on the table works. A TV helps most where people queue at a counter.' },
+        { title: 'Use both', body: 'A QR code on the table for people sitting down, the TV over the counter for the queue. They do different jobs.' },
+      ],
+    },
+  ],
+  faq: {
+    title: 'Questions about switching.',
+    items: [
+      { question: 'Is a digital menu board cheaper than reprinting?', answer: 'Changing a price on MenuOnTV costs nothing, and one screen is free. A printed board costs a reprint or a sticker every time a price changes.' },
+      { question: 'Is a QR menu the same as a digital menu board?', answer: 'No. A QR menu opens on the guest’s own phone. A digital menu board plays on a screen everyone in the queue can read, without scanning anything.' },
+      { question: 'Can I keep my printed menu too?', answer: 'Yes. Keep it for takeaway if you like; the TV shows the prices that are right today.' },
+    ],
+  },
+  next: [
+    earlyLinks.free,
+    { title: 'How to put it on your TV', body: 'What you need, and how to check your TV first.', href: '/how-to-show-menu-on-tv' },
+    earlyLinks.cost,
+  ],
+} satisfies GuidePage;
+
+/** The four search pages, for Markdown, llms.txt and tests. */
+export const guidePages: readonly GuidePage[] = [menuOnTvGuide, freePage, cafesPage, versusPage];

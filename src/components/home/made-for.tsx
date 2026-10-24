@@ -1,3 +1,5 @@
+import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 import { madeFor } from '@/content/site-content';
 
 /** A poster of the product: one chilli sun, and a TV on a café wall playing its menu. */
@@ -49,6 +51,10 @@ export function MadeFor() {
               </details>
             ))}
           </div>
+          <Link href={madeFor.more.href} className="mtv-link">
+            {madeFor.more.label}
+            <ArrowRight aria-hidden="true" className="size-4" />
+          </Link>
         </div>
       </div>
     </section>

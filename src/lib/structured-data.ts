@@ -1,11 +1,35 @@
 import { absoluteUrl, siteConfig } from '@/config/site';
-import { faq, pricing } from '@/content/site-content';
+import { faq, pricing, type FaqEntry } from '@/content/site-content';
 
 /** schema.org JSON-LD for the home page. It only describes what is actually on the page. */
 
 export type JsonLd = Record<string, unknown>;
 
 const ORGANIZATION_ID = `${siteConfig.url}/#organization`;
+
+/** A FAQPage node; its questions must be the ones the page shows. */
+export function faqPageJsonLd(items: readonly FaqEntry[]): JsonLd {
+  return {
+    '@type': 'FAQPage',
+    mainEntity: items.map((entry) => ({ '@type': 'Question', name: entry.question, acceptedAnswer: { '@type': 'Answer', text: entry.answer } })),
+  };
+}
+
+/** Home, then the page. */
+export function breadcrumbJsonLd(page: { readonly name: string; readonly path: string }): JsonLd {
+  return {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
+      { '@type': 'ListItem', position: 2, name: page.name, item: absoluteUrl(page.path) },
+    ],
+  };
+}
+
+/** Wraps nodes in one JSON-LD document. */
+export function pageJsonLd(...nodes: readonly JsonLd[]): JsonLd {
+  return { '@context': 'https://schema.org', '@graph': nodes };
+}
 
 export function homeJsonLd(): JsonLd {
   return {
@@ -45,14 +69,7 @@ export function homeJsonLd(): JsonLd {
           description: `${plan.cadence}. ${plan.summary}`,
         })),
       },
-      {
-        '@type': 'FAQPage',
-        mainEntity: faq.items.map((entry) => ({
-          '@type': 'Question',
-          name: entry.question,
-          acceptedAnswer: { '@type': 'Answer', text: entry.answer },
-        })),
-      },
+      faqPageJsonLd(faq.items),
     ],
   };
 }

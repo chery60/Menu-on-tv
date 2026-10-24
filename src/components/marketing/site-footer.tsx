@@ -39,6 +39,16 @@ export function SiteFooter() {
             </ul>
           </div>
           <div>
+            <p className="mtv-mono">Guides</p>
+            <ul className="mtv-footer-list">
+              {siteConfig.guides.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href}>{item.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
             <p className="mtv-mono">Owners</p>
             <ul className="mtv-footer-list">
               <li>

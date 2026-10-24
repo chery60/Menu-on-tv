@@ -49,6 +49,17 @@ export const siteConfig = {
     { path: '/how-it-works', markdownPath: '/index.md' },
     { path: '/pricing', markdownPath: '/index.md' },
     { path: '/demo', markdownPath: '/index.md' },
+    { path: '/how-to-show-menu-on-tv', markdownPath: '/index.md' },
+    { path: '/free-digital-menu-board', markdownPath: '/index.md' },
+    { path: '/digital-menu-board-for-cafes', markdownPath: '/index.md' },
+    { path: '/digital-menu-board-vs-printed-menu', markdownPath: '/index.md' },
+  ],
+  /** The search guides, listed in the footer's Guides column. */
+  guides: [
+    { label: 'Menu on a TV, no app', href: '/how-to-show-menu-on-tv' },
+    { label: 'Free menu board', href: '/free-digital-menu-board' },
+    { label: 'For cafés and counters', href: '/digital-menu-board-for-cafes' },
+    { label: 'Against printed and QR', href: '/digital-menu-board-vs-printed-menu' },
   ],
   agentFiles: [
     { label: 'llms.txt', href: '/llms.txt' },
