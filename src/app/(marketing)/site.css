@@ -565,7 +565,7 @@
 
 @media (min-width: 900px) {
   .mtv-footer-top {
-    grid-template-columns: 2fr 1fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
   }
 
   .mtv-footer-top > * + * {

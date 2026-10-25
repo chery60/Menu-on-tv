@@ -68,5 +68,5 @@ export function proxy(request: NextRequest): NextResponse {
 
 export const config = {
   // Static strings only: Next reads the matcher at build time. Keep in step with siteConfig.pages.
-  matcher: ['/', '/how-it-works', '/pricing', '/demo', '/tracker', '/tracker/:path*', '/api/tracker/:path*', '/studio', '/studio/:path*'],
+  matcher: ['/', '/how-it-works', '/pricing', '/demo', '/how-to-show-menu-on-tv', '/free-digital-menu-board', '/digital-menu-board-for-cafes', '/digital-menu-board-vs-printed-menu', '/tracker', '/tracker/:path*', '/api/tracker/:path*', '/studio', '/studio/:path*'],
 };

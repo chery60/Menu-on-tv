@@ -17,10 +17,11 @@ function resolveSiteUrl(): string {
 
 export const siteConfig = {
   name: 'MenuOnTV',
-  title: 'MenuOnTV: digital menu boards and screen ads for restaurants, on any TV',
+  /** Search results cut titles past about 60 characters and descriptions past about 160, so the head term comes first. */
+  title: 'Digital menu board for restaurants, on any TV · MenuOnTV',
   tagline: 'Your menu, on your TV',
   description:
-    'Turn the TV you already own into a digital menu board that sells. Build it from a photo of your menu, open one link on the TV, change prices and sold-out items from your phone, and run your own promos between menu slides. Free for one screen.',
+    'Digital menu board for cafés and restaurants in India. Made from a photo of your menu, plays on any TV, prices change from your phone. Free for one screen.',
   url: resolveSiteUrl(),
   locale: 'en_IN',
   keywords: [
@@ -48,6 +49,17 @@ export const siteConfig = {
     { path: '/how-it-works', markdownPath: '/index.md' },
     { path: '/pricing', markdownPath: '/index.md' },
     { path: '/demo', markdownPath: '/index.md' },
+    { path: '/how-to-show-menu-on-tv', markdownPath: '/index.md' },
+    { path: '/free-digital-menu-board', markdownPath: '/index.md' },
+    { path: '/digital-menu-board-for-cafes', markdownPath: '/index.md' },
+    { path: '/digital-menu-board-vs-printed-menu', markdownPath: '/index.md' },
+  ],
+  /** The search guides, listed in the footer's Guides column. */
+  guides: [
+    { label: 'Menu on a TV, no app', href: '/how-to-show-menu-on-tv' },
+    { label: 'Free menu board', href: '/free-digital-menu-board' },
+    { label: 'For cafés and counters', href: '/digital-menu-board-for-cafes' },
+    { label: 'Against printed and QR', href: '/digital-menu-board-vs-printed-menu' },
   ],
   agentFiles: [
     { label: 'llms.txt', href: '/llms.txt' },

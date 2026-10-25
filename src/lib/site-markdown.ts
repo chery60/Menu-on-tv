@@ -1,5 +1,5 @@
 import { absoluteUrl, siteConfig } from '@/config/site';
-import { comparison, earlyAccess, earn, faq, hero, howItWorks, layoutsSection, madeFor, pricing, problems, screenRules, why, type TextItem } from '@/content/site-content';
+import { comparison, earlyAccess, earn, faq, guidePages, hero, howItWorks, howPage, layoutsSection, madeFor, pricing, pricingPage, problems, screenRules, why, type CellSection, type ComparisonTable, type GuidePage, type TextItem } from '@/content/site-content';
 import { LAYOUTS } from '@/features/screen/types';
 
 /**
@@ -14,6 +14,27 @@ const section = (title: string, lines: readonly string[]): string => [`## ${titl
 
 export const MARKDOWN_HEADERS = { 'Content-Type': 'text/markdown; charset=utf-8', 'Cache-Control': 'public, max-age=3600' } as const;
 export const PLAIN_TEXT_HEADERS = { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'public, max-age=3600' } as const;
+
+function tableLines(table: ComparisonTable): readonly string[] {
+  return [
+    `| | ${table.columns.join(' | ')} |`,
+    `| --- | ${table.columns.map(() => '---').join(' | ')} |`,
+    ...table.rows.map((row) => `| ${row.join(' | ')} |`),
+    '',
+    table.note,
+  ];
+}
+
+function cellSectionLines(cells: CellSection): readonly string[] {
+  const items = cells.items.map((item, index) => (cells.numbered ? `${index + 1}. **${item.title}.** ${item.body}` : boldItem(item)));
+  return [`### ${cells.title}`, '', ...(cells.lead ? [cells.lead, ''] : []), ...items, ''];
+}
+
+function guideSection(page: GuidePage): string {
+  const faqLines = page.faq ? [`### ${page.faq.title}`, '', ...page.faq.items.flatMap((entry) => [`#### ${entry.question}`, '', entry.answer, ''])] : [];
+  const tableBlock = page.table ? [`### ${page.table.title}`, '', ...tableLines(page.table), ''] : [];
+  return section(page.title, [page.lead, '', ...page.sections.flatMap(cellSectionLines), ...tableBlock, ...faqLines, `Page: ${absoluteUrl(page.path)}`]);
+}
 
 function summaryBlock(): string {
   return [
@@ -31,6 +52,9 @@ export function buildLlmsTxt(): string {
     '',
     section('Pages', [
       bullet(`[Home page](${absoluteUrl('/index.md')}): what ${siteConfig.name} is, why restaurants switch, how it works, the six layouts, pricing and questions.`),
+      bullet(`[How it works](${absoluteUrl('/how-it-works')}): ${howPage.meta.description}`),
+      bullet(`[Pricing](${absoluteUrl('/pricing')}): ${pricingPage.meta.description}`),
+      ...guidePages.map((page) => bullet(`[${page.meta.title}](${absoluteUrl(page.path)}): ${page.meta.description}`)),
       bullet(`[Live demo](${absoluteUrl('/demo')}): the sample café in 3D on a busy square, its menu playing on the TV in front of it.`),
       bullet(`[Live demo screen](${absoluteUrl('/screen/demo')}): the sample café running full screen, as a restaurant TV shows it. Add ?layout=board|split|spotlight|lbar|ticker|portrait, ?theme=night for the dark theme and ?lang=hi.`),
     ]),
@@ -60,14 +84,10 @@ export function buildHomeMarkdown(): string {
     section(screenRules.title, screenRules.items.map(boldItem)),
     section(earn.title, [earn.body, '', ...earn.points.map(bullet)]),
     section(pricing.title, [pricing.lead, '', ...pricing.plans.map((plan) => bullet(`**${plan.name}: ${plan.price} ${plan.cadence}.** ${plan.features.join('; ')}.`)), '', pricing.footnote]),
-    section(comparison.title, [
-      `| | ${comparison.columns.join(' | ')} |`,
-      `| --- | ${comparison.columns.map(() => '---').join(' | ')} |`,
-      ...comparison.rows.map((row) => `| ${row.join(' | ')} |`),
-      '',
-      comparison.note,
-    ]),
+    section(pricingPage.cost.title, tableLines(pricingPage.cost)),
+    section(comparison.title, tableLines(comparison)),
     section(faq.title, faq.items.flatMap((entry) => [`### ${entry.question}`, '', entry.answer, ''])),
+    ...guidePages.map(guideSection),
     section(earlyAccess.title, [earlyAccess.body, '', `Request a spot: ${absoluteUrl('/#early-access')}`]),
   ].join('\n');
 }

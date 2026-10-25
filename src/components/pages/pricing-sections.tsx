@@ -1,5 +1,6 @@
 import { ArrowRight, Check } from 'lucide-react';
-import { comparison, earn, faq, pricing, pricingPage } from '@/content/site-content';
+import Link from 'next/link';
+import { type ComparisonTable, comparison, earn, faq, type FaqSection, pricing, pricingPage } from '@/content/site-content';
 import { ScreensCalculator } from './screens-calculator';
 
 /** The three plans, one cell each, then the calculator. */
@@ -43,22 +44,24 @@ export function Plans() {
 }
 
 /** MenuOnTV against the alternatives, as published by them. */
-export function Comparison() {
+export function Comparison({ table = comparison, id = 'compare' }: { readonly table?: ComparisonTable; readonly id?: string }) {
+  const titleId = `${id}-title`;
+
   return (
-    <section className="mtv-compare" aria-labelledby="compare-title">
+    <section className="mtv-compare" aria-labelledby={titleId}>
       <div className="mtv-sheet mtv-band">
         <div className="mtv-section-head">
-          <h2 id="compare-title" className="mtv-h2">
-            {comparison.title}
+          <h2 id={titleId} className="mtv-h2">
+            {table.title}
           </h2>
-          <p className="mtv-mono">{comparison.note}</p>
+          <p className="mtv-mono">{table.note}</p>
         </div>
         <div className="mtv-table-wrap">
           <table className="mtv-table">
             <thead>
               <tr>
                 <td />
-                {comparison.columns.map((column, index) => (
+                {table.columns.map((column, index) => (
                   <th key={column} scope="col" className={index === 0 ? 'is-us' : undefined}>
                     {column}
                   </th>
@@ -66,7 +69,7 @@ export function Comparison() {
               </tr>
             </thead>
             <tbody>
-              {comparison.rows.map(([label, ...cells]) => (
+              {table.rows.map(([label, ...cells]) => (
                 <tr key={label}>
                   <th scope="row">{label}</th>
                   {cells.map((cell, index) => (
@@ -113,21 +116,27 @@ export function Earn() {
 }
 
 /** Questions owners ask, one open at a time. */
-export function Faq() {
+export function Faq({ section = faq }: { readonly section?: FaqSection }) {
   return (
     <section id="faq" className="mtv-faq" aria-labelledby="faq-title">
       <div className="mtv-sheet mtv-band mtv-faq-grid">
         <h2 id="faq-title" className="mtv-h2">
-          {faq.title}
+          {section.title}
         </h2>
         <div className="mtv-accordion">
-          {faq.items.map((entry) => (
+          {section.items.map((entry) => (
             <details key={entry.question} name="faq">
               <summary>
                 <span className="mtv-h3">{entry.question}</span>
                 <span className="mtv-accordion-sign" aria-hidden="true" />
               </summary>
               <p className="mtv-body">{entry.answer}</p>
+              {entry.link ? (
+                <Link href={entry.link.href} className="mtv-link">
+                  {entry.link.label}
+                  <ArrowRight aria-hidden="true" className="size-4" />
+                </Link>
+              ) : null}
             </details>
           ))}
         </div>

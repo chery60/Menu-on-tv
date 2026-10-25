@@ -1,27 +1,26 @@
 import { ArrowRight } from 'lucide-react';
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { EarlyAccess } from '@/components/home/early-access';
 import { Rules } from '@/components/home/rules';
 import { LayoutGallery, StepsDetail } from '@/components/pages/how-sections';
 import { PageHead } from '@/components/pages/page-head';
-import { siteConfig } from '@/config/site';
+import { ReadNext } from '@/components/pages/read-next';
 import { DEMO_RESTAURANT } from '@/content/demo-restaurant';
 import { hero, howPage, tryBuilder } from '@/content/site-content';
 import { buildQrCodes } from '@/features/screen/qr';
+import { pageMetadata } from '@/lib/page-metadata';
+import { breadcrumbJsonLd, pageJsonLd, serializeJsonLd } from '@/lib/structured-data';
 
-export const metadata: Metadata = {
-  title: 'How it works',
-  description: `${howPage.lead} Six layouts, light or dark, one link on the TV.`,
-  alternates: { canonical: '/how-it-works', types: { 'text/markdown': '/index.md' } },
-  openGraph: { type: 'website', url: '/how-it-works', siteName: siteConfig.name, title: `How ${siteConfig.name} works`, description: howPage.lead, locale: siteConfig.locale },
-};
+const PATH = '/how-it-works';
+
+export const metadata = pageMetadata({ ...howPage.meta, path: PATH });
 
 export default async function HowItWorksPage() {
   const qrCodes = await buildQrCodes(DEMO_RESTAURANT);
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(pageJsonLd(breadcrumbJsonLd({ name: howPage.meta.title, path: PATH }))) }} />
       <PageHead title={howPage.title} lead={howPage.lead}>
         <div className="mtv-actions">
           <a href={hero.primary.href} className="mtv-btn mtv-btn-primary">
@@ -36,6 +35,7 @@ export default async function HowItWorksPage() {
       <StepsDetail restaurant={DEMO_RESTAURANT} qrCodes={qrCodes} />
       <LayoutGallery restaurant={DEMO_RESTAURANT} qrCodes={qrCodes} />
       <Rules />
+      <ReadNext links={howPage.next} />
       <EarlyAccess />
     </>
   );
