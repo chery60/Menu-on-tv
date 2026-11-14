@@ -13,6 +13,7 @@ import { applyEdit, findItem } from '../edit';
 import type { Menu, MenuCategoryData, MenuEdit, MenuImport } from '../schema';
 import type { ScreenProfile } from '../to-screen';
 import { CategorySheet } from './category-sheet';
+import { dishAnnouncements, DISH_DRAG_INSTRUCTIONS } from './drag-announcements';
 import { ImportSheet } from './import-sheet';
 import { ItemRow } from './item-row';
 import { ItemSheet } from './item-sheet';
@@ -137,7 +138,7 @@ function CategorySection({
       {category.items.length === 0 ? (
         <p className="mt-3 px-1 text-night-soft">No dishes yet.</p>
       ) : (
-        <DndContext /* a stable id keeps dnd-kit's screen-reader ids the same on the server and in the browser */ id={`dishes-${category.id}`} sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+        <DndContext /* a stable id keeps dnd-kit's screen-reader ids the same on the server and in the browser */ id={`dishes-${category.id}`} sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd} accessibility={{ announcements: dishAnnouncements(category), screenReaderInstructions: DISH_DRAG_INSTRUCTIONS }}>
           <SortableContext items={category.items.map((item) => item.id)} strategy={verticalListSortingStrategy}>
             <ul className="mt-3 space-y-2">
               {category.items.map((item) => (
