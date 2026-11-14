@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { FileScreensRepository, MAX_LINKS_PER_SCREEN, MAX_PENDING_PAIRINGS, MAX_SCREENS, PAIRING_TTL_MS, ScreensLimitError } from './repository';
 import type { ScreenInput } from './schema';
+import { hashSecret, PAIRING_ALPHABET } from './tokens';
 
 let directory: string;
 let file: string;
@@ -139,7 +140,18 @@ describe('pairing', () => {
   });
 
   it(`refuses new requests past ${MAX_PENDING_PAIRINGS} waiting, and forgets expired ones`, async () => {
-    for (let i = 0; i < MAX_PENDING_PAIRINGS; i += 1) await repo.startPairing(NOW);
+    // Seeded in one write: 199 startPairing calls each rewrite the whole file, which timed out under load
+    // and kept writing into the next test's store.
+    const code = (i: number): string => `${PAIRING_ALPHABET[Math.floor(i / PAIRING_ALPHABET.length)]}${PAIRING_ALPHABET[i % PAIRING_ALPHABET.length]}AAAA`;
+    const waiting = Array.from({ length: MAX_PENDING_PAIRINGS - 1 }, (_, i) => ({
+      code: code(i),
+      deviceSecretHash: hashSecret(`secret-${i}`),
+      createdAt: NOW.toISOString(),
+      expiresAt: later(PAIRING_TTL_MS).toISOString(),
+      screenId: null,
+    }));
+    await writeFile(file, JSON.stringify({ version: 2, screens: [], pairings: waiting }));
+    await expect(repo.startPairing(NOW)).resolves.toMatchObject({ code: expect.any(String) });
     await expect(repo.startPairing(NOW)).rejects.toBeInstanceOf(ScreensLimitError);
     await expect(repo.startPairing(later(PAIRING_TTL_MS + 1))).resolves.toMatchObject({ code: expect.any(String) });
     expect((await repo.read()).pairings).toHaveLength(1);

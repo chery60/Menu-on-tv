@@ -27,7 +27,7 @@ A Promos page lists every promo with its state: On air now, Starts (day and time
 Every promo also has:
 - **Headline** (required) and **line** (optional), filled in from the dish names and description and editable. Starting limits: 30 and 60 characters, which Design confirms fit every layout at 3 metres.
 - **Picture:** the first dish's photo or plate. No uploads.
-- **When:** starts now or at a date and time; ends never or at a date and time; and, if wanted, only at certain times and days, with the same picker categories use for dayparts. Happy hour must have times.
+- **When:** starts now or at a date and time; ends never or at a date and time; and, if wanted, only at certain times and days, with the same picker categories use for dayparts. Happy hour must have times and days, which it repeats on.
 - **Countdown** (offered only when the promo has an end): the TV shows the time left, like "Ends in 40 min", in the last 3 hours (starting value).
 - **Actions:** save, edit, pause, resume and remove (remove asks first). Up to 20 promos per restaurant (starting value).
 
@@ -69,7 +69,7 @@ On a 375 px phone as the owner, with a TV on `/s/<token>` beside it (Split, then
 3. Prices come from the menu, never retyped: change chai to ₹35 in the Menu tab, and the struck-through price becomes ₹55 without touching the promo. The only price typed is the combo or happy-hour deal, and it starts at the menu price.
 4. Try a combo price of ₹50 or more: it doesn't save, and the message says why.
 5. Mark samosa sold out: the combo leaves the TV within 10 seconds, and comes back when samosa is in stock.
-6. Happy hour on chai at ₹20, from 2 minutes from now to 10 minutes from now, today, countdown on. It doesn't play before the start, plays within 10 seconds of it, counts down, and leaves at the end.
+6. Happy hour on chai at ₹20, with its times set from 2 minutes from now to 10 minutes from now on today's day of the week, countdown on. It doesn't play before the start, plays within 10 seconds of it, counts down, and leaves at the end.
 7. Cut the TV's network before a happy hour ends: it still leaves the screen at its end.
 8. All six templates make a slide. Festival (Diwali, with two dates) plays only between them.
 9. Scan the TV's QR with a phone: it opens exactly the owner's link. "zomato.com/x" without https, and "hello", are refused.

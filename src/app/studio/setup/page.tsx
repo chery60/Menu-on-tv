@@ -30,7 +30,7 @@ async function SetupContent() {
         </form>
       </div>
       <p className="mt-2 text-night-soft">You’ll be the owner. Add staff later from the Restaurant page.</p>
-      <p className="mt-2 text-sm text-night-dim">Joining a restaurant someone else set up? Ask its owner to add your number, then sign in again.</p>
+      <p className="mt-2 text-sm text-night-dim">Joining a restaurant someone else set up? Ask its owner to add your mobile number or email, then sign in again.</p>
       <SetupForm canReadPhotos={canReadMenuPhotos()} />
     </>
   );

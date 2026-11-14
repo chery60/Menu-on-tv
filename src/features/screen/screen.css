@@ -121,11 +121,12 @@
   min-width: 0;
 }
 
+/* Breaks onto a second line beside a long name rather than running under a Split's side panel. */
 .scr-note {
   font-family: var(--scr-mono);
   font-size: 1.9cqmin;
   color: var(--scr-dim);
-  white-space: nowrap;
+  text-wrap: balance;
 }
 
 .scr-zone {
@@ -215,7 +216,7 @@
   font-size: 3.4cqmin;
 }
 
-/* Prices never shrink or overlap; the name trims only if it alone is wider than its column. */
+/* Prices never shrink or overlap; the name goes narrow, then two lines (with sizes), and trims only after that. */
 .scr-row-name {
   display: flex;
   flex: 0 1 auto;
@@ -241,6 +242,24 @@
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* Names over 24 characters (LONG_NAME_CHARS) in Archivo's narrow width, as on the header. */
+.scr-row-label.is-long {
+  font-family: var(--scr-display);
+  font-stretch: var(--scr-narrow);
+  letter-spacing: 0;
+}
+
+/* Half and full stack into two lines in the price slot, so the name may take two lines beside them instead of trimming. */
+.scr-row-label.is-wrap {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  line-height: 1.12;
+  white-space: normal;
+  text-wrap: balance;
 }
 
 .scr-row-title .scr-badge {

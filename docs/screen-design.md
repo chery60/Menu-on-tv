@@ -23,7 +23,7 @@ These are not suggestions. Layouts compute sizes from the screen's height, so an
 | Promo price | 12 to 18% of screen height | The single biggest thing on a promo slide |
 | Items per menu column | 10 at most; overflow becomes a second menu slide | Long lists turn into wallpaper |
 | Spare room | Rows spread apart (up to 1.6x their height); text size never changes | Menu columns run out of width before height, so bigger text would collide with prices |
-| Long names | A badge that doesn't fit drops under the name; a name trims only if it alone is wider than its column; prices never shrink or overlap | The price is the one thing a guest must read |
+| Long names | Over 24 characters, a name is set in Archivo's narrow width. A dish with half and full prices may use two lines for its name, since its stacked prices already do (not when a badge or a Hindi line takes the second). A badge that doesn't fit drops under the name. Only then does a name trim, with an ellipsis; prices never shrink or overlap. The tax note in the header breaks onto two lines rather than running under a side panel | The price is the one thing a guest must read, and the name is how they choose |
 | Two languages | A bilingual item counts as 1.6 rows when the menu is split into pages | Two-line rows must never push a category off the screen |
 | Contrast | Text at least 7:1 against its background | Mid-contrast collapses under shop lights and glare |
 | Prices | Tabular figures, right-aligned, no "Rs." clutter: a single ₹ in the heading | Easy to compare down a column |

@@ -632,11 +632,11 @@
         "v0-launch"
       ],
       "summary": "Phone OTP or email link; restaurant name, outlet, city and currency.",
-      "body": "**Why.** Owners live on their phones and forget passwords.\n\n**What.** Sign in with a phone OTP (WhatsApp or SMS) or an email link. Create the restaurant and its first outlet. Roles: owner and staff.\n\n**Built 19 October 2026.** One field for a mobile number or an email, then a 6-digit code (a code, not an email link: email scanners spend one-time links; see docs/accounts-and-menu.md). Codes and sessions are stored as hashes; 5 tries, 10 minutes, 30 seconds between codes, 5 an hour per address, per-connection limits, and texts only to +91 numbers against SMS-pumping fraud. Setup makes the restaurant and first outlet with an empty or sample menu. Owners add staff by number or email (they join on first sign-in, with a WhatsApp or email link to send them). Staff edit the menu and sold out; screens, TVs and people are owner-only. **Waiting on:** Resend and Twilio accounts (MT-14) before production sign-in works; in development the code shows on screen.",
+      "body": "**Why.** Owners live on their phones and forget passwords.\n\n**What.** Sign in with a phone OTP (WhatsApp or SMS) or an email link. Create the restaurant and its first outlet. Roles: owner and staff.\n\n**Built 19 October 2026.** One field for a mobile number or an email, then a 6-digit code (a code, not an email link: email scanners spend one-time links; see docs/accounts-and-menu.md). Codes and sessions are stored as hashes; 5 tries, 10 minutes, 30 seconds between codes, 5 an hour per address, per-connection limits, and texts only to +91 numbers against SMS-pumping fraud. Setup makes the restaurant and first outlet with an empty or sample menu. Owners add staff by number or email (they join on first sign-in, with a WhatsApp or email link to send them). Staff edit the menu and sold out; screens, TVs and people are owner-only. **Waiting on:** Resend and Twilio accounts (MT-14) before production sign-in works; in development the code shows on screen.\n\n**QA, 15 November 2026.** Sign-in is a 6-digit code by phone or email, not an email link (a deliberate change, docs/accounts-and-menu.md); it works end to end with the code shown on the test site. Real SMS and email delivery waits on MT-14’s providers (Resend, Twilio). Setup in under a minute and the staff limits are verified; billing waits on MT-33. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-015-c1",
-          "text": "Phone OTP and email link sign-in",
+          "text": "Sign-in with a 6-digit code by SMS or email",
           "done": false
         },
         {
@@ -646,21 +646,26 @@
         },
         {
           "id": "seed-015-c3",
-          "text": "Staff can do quick actions but not billing",
+          "text": "Staff edit the menu and sold out, but not TVs, screens or people",
           "done": true
+        },
+        {
+          "id": "seed-015-c4",
+          "text": "Staff can’t change billing (waits on MT-33)",
+          "done": false
         }
       ],
       "rank": 15360,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-19T07:02:28.842Z"
+      "updatedAt": "2026-11-15T06:15:00.000Z"
     },
     {
       "id": "seed-016",
       "key": "MT-16",
       "title": "Menu model with veg marks, calories and allergens",
       "icon": "🧾",
-      "status": "in_review",
+      "status": "done",
       "priority": "urgent",
       "phase": "phase-1",
       "area": "menu",
@@ -673,7 +678,7 @@
         "v0-launch"
       ],
       "summary": "Categories, items, sizes, prices, badges, availability, veg mark, calories and allergens.",
-      "body": "**Why.** A menu stored as data can be laid out, translated, synced and kept compliant. A picture can’t.\n\n**What.** Validated schema (zod) for categories and items: name, description, sizes (half and full), price with tax included, veg or non-veg, badges, calories per serving, allergens, photo, available today, sort order.\n\n**Built 19 October 2026.** `src/features/menu`: zod schema with one price or up to three sizes (paise), veg or non-veg, labels, calories and serving size, FSSAI allergens, photo, sold out for today (back by itself tomorrow, India time) and hidden. Edits are pure functions applied to the latest menu on the server, so two phones never overwrite each other. TVs play the owner's own menu; bestsellers, new dishes and chef's picks become promo slides until the promo studio ships.",
+      "body": "**Why.** A menu stored as data can be laid out, translated, synced and kept compliant. A picture can’t.\n\n**What.** Validated schema (zod) for categories and items: name, description, sizes (half and full), price with tax included, veg or non-veg, badges, calories per serving, allergens, photo, available today, sort order.\n\n**Built 19 October 2026.** `src/features/menu`: zod schema with one price or up to three sizes (paise), veg or non-veg, labels, calories and serving size, FSSAI allergens, photo, sold out for today (back by itself tomorrow, India time) and hidden. Edits are pure functions applied to the latest menu on the server, so two phones never overwrite each other. TVs play the owner's own menu; bestsellers, new dishes and chef's picks become promo slides until the promo studio ships.\n\n**Done (QA verified, 15 November 2026).** Every Done-when verified. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-016-c1",
@@ -694,14 +699,14 @@
       "rank": 16384,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-19T07:02:28.842Z"
+      "updatedAt": "2026-11-15T06:15:00.000Z"
     },
     {
       "id": "seed-017",
       "key": "MT-17",
       "title": "Menu editor on the phone",
       "icon": "✏️",
-      "status": "in_review",
+      "status": "done",
       "priority": "urgent",
       "phase": "phase-1",
       "area": "menu",
@@ -714,7 +719,7 @@
         "v0-launch"
       ],
       "summary": "Add, edit, reorder and hide items with one thumb.",
-      "body": "**Why.** Owners update menus between orders, standing at the counter.\n\n**What.** Mobile-first editor: categories as sections, drag to reorder, swipe to hide, inline price edit, photo from camera.\n\n**Built 19 October 2026.** /studio/menu: categories as sections, drag to reorder (touch hold, mouse or keyboard), swipe left to hide, prices typed straight into each row, one-tap sold out, a sheet for everything else, photos from the camera shrunk on the phone to 800 px, and a live preview from the same code the TVs run. Checked as an owner on a 375 px phone and a laptop; a change reached a paired TV in under 20 seconds.",
+      "body": "**Why.** Owners update menus between orders, standing at the counter.\n\n**What.** Mobile-first editor: categories as sections, drag to reorder, swipe to hide, inline price edit, photo from camera.\n\n**Built 19 October 2026.** /studio/menu: categories as sections, drag to reorder (touch hold, mouse or keyboard), swipe left to hide, prices typed straight into each row, one-tap sold out, a sheet for everything else, photos from the camera shrunk on the phone to 800 px, and a live preview from the same code the TVs run. Checked as an owner on a 375 px phone and a laptop; a change reached a paired TV in under 20 seconds.\n\n**Stays in review (QA, 15 November 2026).** Every Done-when verified, but on a 360 px phone the dish sheet’s Save is reached only by scrolling to its foot. It moves to Done when Design’s fixes merge: #13 (Save kept in reach) and #11 (“Saved” above the tab bar). The drag announcements reading IDs follow as a Design fix. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).\n\n**Done (15 November 2026).** Design’s #13 (Save kept in reach) and #11 (“Saved” above the tab bar) merged, as QA asked. The drag announcements reading IDs follow as a Design fix.",
       "checklist": [
         {
           "id": "seed-017-c1",
@@ -735,14 +740,14 @@
       "rank": 17408,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-19T07:02:28.842Z"
+      "updatedAt": "2026-11-15T07:00:00.000Z"
     },
     {
       "id": "seed-018",
       "key": "MT-18",
       "title": "Paste or spreadsheet import",
       "icon": "📋",
-      "status": "in_review",
+      "status": "done",
       "priority": "high",
       "phase": "phase-1",
       "area": "menu",
@@ -755,7 +760,7 @@
         "v0-launch"
       ],
       "summary": "Paste lines like \"Masala chai 30\" or upload a CSV or Excel file.",
-      "body": "**Why.** Many owners already have the menu in a billing system export or a WhatsApp message.\n\n**What.** A forgiving parser for pasted text and CSV/XLSX, with a preview to fix mistakes before saving.\n\n**Built 19 October 2026.** On /studio/menu, \"Paste or upload\" reads a WhatsApp message, a billing export, cells copied from a spreadsheet, or a CSV, text or Excel (.xlsx) file. Headings become categories; half and full, S/M/L and \"180/320\" become sizes; ₹, Rs., /- and 1,200 are read as prices; header rows are mapped to name, price, category, size and veg columns, and a dish listed once per size is joined. Lines it can't read cleanly are flagged, never guessed, and the owner fixes them in a preview before one save. A dish already on the menu gets the new price instead of a copy. Excel is unzipped with the browser's own DecompressionStream, so no new dependency. Checked as an owner on a 375 px phone: a 16-line WhatsApp menu with half and full prices became 11 dishes in 3 categories on a paired TV, and an Excel export then updated a price and added dishes live.",
+      "body": "**Why.** Many owners already have the menu in a billing system export or a WhatsApp message.\n\n**What.** A forgiving parser for pasted text and CSV/XLSX, with a preview to fix mistakes before saving.\n\n**Built 19 October 2026.** On /studio/menu, \"Paste or upload\" reads a WhatsApp message, a billing export, cells copied from a spreadsheet, or a CSV, text or Excel (.xlsx) file. Headings become categories; half and full, S/M/L and \"180/320\" become sizes; ₹, Rs., /- and 1,200 are read as prices; header rows are mapped to name, price, category, size and veg columns, and a dish listed once per size is joined. Lines it can't read cleanly are flagged, never guessed, and the owner fixes them in a preview before one save. A dish already on the menu gets the new price instead of a copy. Excel is unzipped with the browser's own DecompressionStream, so no new dependency. Checked as an owner on a 375 px phone: a 16-line WhatsApp menu with half and full prices became 11 dishes in 3 categories on a paired TV, and an Excel export then updated a price and added dishes live.\n\n**Done (QA verified, 15 November 2026).** Every Done-when verified. Two low import findings follow as fixes (Platform): \"Chicken 65 220\" is flagged as two sizes, and an unpriced last line of section words is dropped instead of flagged. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-018-c1",
@@ -776,7 +781,7 @@
       "rank": 18432,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-19T11:00:28.862Z"
+      "updatedAt": "2026-11-15T06:15:00.000Z"
     },
     {
       "id": "seed-019",
@@ -793,10 +798,11 @@
       "owner": "",
       "tags": [
         "ai-first",
-        "v0-launch"
+        "v0-launch",
+        "waiting-on-founder"
       ],
       "summary": "Photograph the paper menu or flex board; get a structured menu to approve.",
-      "body": "**Why.** Making the menu is the step every competitor leaves to the owner. This is our wedge and our demo.\n\n**What.** A vision model reads the photo into categories, items, sizes and prices. Low-confidence fields are highlighted. The owner approves before anything reaches a screen.\n\n**Built 20 October 2026.** \"Add your menu\" on /studio/menu leads with \"Take or choose photos\" (up to 4). Each photo is shrunk on the phone and read by Claude (claude-opus-5-5) through the Anthropic SDK into a zod-checked list of dishes, with the fields it was unsure of. A price it can't read stays empty for the owner to type; unsure names, prices and veg marks are outlined in the same preview the paste import uses, and nothing is saved until the owner checks and saves. The photo is kept nowhere; one restaurant can read 40 photos a day. Checked end to end on a 375 px phone against a local stand-in for the API (no key or money spent). Details: docs/accounts-and-menu.md, \"Menu from a photo\". Golden set: evals/menu-photos/.",
+      "body": "**Why.** Making the menu is the step every competitor leaves to the owner. This is our wedge and our demo.\n\n**What.** A vision model reads the photo into categories, items, sizes and prices. Low-confidence fields are highlighted. The owner approves before anything reaches a screen.\n\n**Built 20 October 2026.** \"Add your menu\" on /studio/menu leads with \"Take or choose photos\" (up to 4). Each photo is shrunk on the phone and read by Claude (claude-opus-5-5) through the Anthropic SDK into a zod-checked list of dishes, with the fields it was unsure of. A price it can't read stays empty for the owner to type; unsure names, prices and veg marks are outlined in the same preview the paste import uses, and nothing is saved until the owner checks and saves. The photo is kept nowhere; one restaurant can read 40 photos a day. Checked end to end on a 375 px phone against a local stand-in for the API (no key or money spent). Details: docs/accounts-and-menu.md, \"Menu from a photo\". Golden set: evals/menu-photos/.\n\n**Waiting on the founder (D2, 15 November 2026).** An Anthropic API key on the server (ANTHROPIC_API_KEY), and 30 real menu photos for the golden set. Not built or stubbed until then.",
       "checklist": [
         {
           "id": "photo-key",
@@ -827,7 +833,7 @@
       "rank": 19456,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-20T04:00:00.000Z"
+      "updatedAt": "2026-11-15T03:30:00.000Z"
     },
     {
       "id": "seed-020",
@@ -847,7 +853,7 @@
         "v0-launch"
       ],
       "summary": "Full board, Split, Spotlight, L-bar, Ticker and Portrait, in Paper and Night (Chalk, Neon and Fresh were retired for the brand on 2026-10-20, MT-87).",
-      "body": "**Why.** Eye-catching, readable screens are the product. Owners choose; the layout enforces the rules.\n\n**What.** Layouts sized from the screen height per docs/screen-design.md, with menu pagination, ad slots and themes. Prototype running on the demo menu at /screen/demo.",
+      "body": "**Why.** Eye-catching, readable screens are the product. Owners choose; the layout enforces the rules.\n\n**What.** Layouts sized from the screen height per docs/screen-design.md, with menu pagination, ad slots and themes. Prototype running on the demo menu at /screen/demo.\n\n**Layout picker (walkthrough finding 5, 15 November 2026).** Owners now pick layouts from six live screens playing their own menu, in onboarding and on the TVs tab: built as MT-34 slice 2 (docs/prd/mt-34-ten-minute-onboarding.md).",
       "checklist": [
         {
           "id": "seed-020-c1",
@@ -878,7 +884,7 @@
       "rank": 20480,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-20T03:00:00.000Z"
+      "updatedAt": "2026-11-15T06:30:00.000Z"
     },
     {
       "id": "seed-021",
@@ -898,7 +904,7 @@
         "v0-launch"
       ],
       "summary": "A light web player that runs on TV browsers, keeps playing offline and reloads itself daily.",
-      "body": "**Why.** The TV browser is where competitors fail. A light, resilient player is our engineering moat.\n\n**What.** Wall-clock loop so screens stay in sync, CSS-only motion, a service worker that keeps the page, assets and last bundle for offline playback, a daily reload that waits for the server, burn-in shift, and clock correction from the heartbeat. Built: /s/<token> plays live; /screen/demo plays the sample.\n\n**Standalone player, 20 October 2026.** /s/<token> now answers plain HTML that loads one 12 KB script (Preact running the same LivePlayer and ScreenStage) and one stylesheet, instead of 139 KB of Next.js and React. Pairing, sold out in 7.7 s, offline reload and \"connect again\" were checked on a production build. ADR-005 in docs/architecture.md.",
+      "body": "**Why.** The TV browser is where competitors fail. A light, resilient player is our engineering moat.\n\n**What.** Wall-clock loop so screens stay in sync, CSS-only motion, a service worker that keeps the page, assets and last bundle for offline playback, a daily reload that waits for the server, burn-in shift, and clock correction from the heartbeat. Built: /s/<token> plays live; /screen/demo plays the sample.\n\n**Standalone player, 20 October 2026.** /s/<token> now answers plain HTML that loads one 12 KB script (Preact running the same LivePlayer and ScreenStage) and one stylesheet, instead of 139 KB of Next.js and React. Pairing, sold out in 7.7 s, offline reload and \"connect again\" were checked on a production build. ADR-005 in docs/architecture.md.\n\n**Stays in review (QA, 15 November 2026).** Bug B2: after an offline reload the TV plays the menu embedded in its cached page, not the newer cached bundle, so dishes marked sold out come back; Platform is fixing it tonight. B3: the daily reload has no test yet. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-021-c1",
@@ -918,7 +924,7 @@
         {
           "id": "seed-021-c4",
           "text": "Offline cache with a service worker",
-          "done": true
+          "done": false
         },
         {
           "id": "seed-021-c5",
@@ -939,14 +945,14 @@
       "rank": 21504,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-20T05:00:00.000Z"
+      "updatedAt": "2026-11-15T06:15:00.000Z"
     },
     {
       "id": "seed-022",
       "key": "MT-22",
       "title": "Pairing with a link, a code or a QR",
       "icon": "🔗",
-      "status": "in_review",
+      "status": "done",
       "priority": "urgent",
       "phase": "phase-1",
       "area": "devices",
@@ -959,7 +965,7 @@
         "v0-launch"
       ],
       "summary": "Open a secret link on the TV, or type a 6-character code, or scan a QR.",
-      "body": "**Why.** Typing with a TV remote is painful. Pairing must survive cleared storage.\n\n**What.** Each TV has its own unguessable link (32 random bytes, stored only as a SHA-256 hash). /pair shows a 6-character code with no look-alike letters and a QR for the owner's phone. The owner enters it in /studio; the TV's link is created only when the TV collects it with its own secret, so no token is ever stored. Rotating one TV's link never touches the others.",
+      "body": "**Why.** Typing with a TV remote is painful. Pairing must survive cleared storage.\n\n**What.** Each TV has its own unguessable link (32 random bytes, stored only as a SHA-256 hash). /pair shows a 6-character code with no look-alike letters and a QR for the owner's phone. The owner enters it in /studio; the TV's link is created only when the TV collects it with its own secret, so no token is ever stored. Rotating one TV's link never touches the others.\n\n**Done (QA verified, 15 November 2026).** Every Done-when verified. The old TV shows \"connect again\" only at its next heartbeat (up to 60 s) until the live-stream fix (B1, MT-23) lands. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-022-c1",
@@ -980,7 +986,7 @@
       "rank": 22528,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T15:19:53.000Z"
+      "updatedAt": "2026-11-15T06:15:00.000Z"
     },
     {
       "id": "seed-023",
@@ -1000,7 +1006,7 @@
         "v0-launch"
       ],
       "summary": "Server-sent events plus a heartbeat every minute; new content swaps in at the next slide.",
-      "body": "**Why.** \"Sold out\" that takes a minute is worse than none. Sockets drop silently on cheap TVs.\n\n**What.** A versioned bundle with an ETag (304 when unchanged), server-sent events that announce a new version within about 3 seconds, and a 60-second heartbeat as the safety net. The player swaps content at the next slide boundary (or within 20 seconds), never mid-slide.",
+      "body": "**Why.** \"Sold out\" that takes a minute is worse than none. Sockets drop silently on cheap TVs.\n\n**What.** A versioned bundle with an ETag (304 when unchanged), server-sent events that announce a new version within about 3 seconds, and a 60-second heartbeat as the safety net. The player swaps content at the next slide boundary (or within 20 seconds), never mid-slide.\n\n**Stays in review (QA, 15 November 2026).** Bug B1: after one failed reconnect the live stream never reopens, so changes arrive only with the 60-second heartbeat; Platform is fixing it tonight. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-023-c1",
@@ -1010,7 +1016,7 @@
         {
           "id": "seed-023-c2",
           "text": "Recovers from a dropped stream (heartbeat every minute)",
-          "done": true
+          "done": false
         },
         {
           "id": "seed-023-c3",
@@ -1021,14 +1027,14 @@
       "rank": 23552,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T15:19:53.000Z"
+      "updatedAt": "2026-11-15T06:15:00.000Z"
     },
     {
       "id": "seed-024",
       "key": "MT-24",
       "title": "Loops and dayparts",
       "icon": "🕒",
-      "status": "in_review",
+      "status": "done",
       "priority": "high",
       "phase": "phase-1",
       "area": "screens",
@@ -1041,7 +1047,7 @@
         "v0-launch"
       ],
       "summary": "Breakfast, lunch and dinner menus; how long menu and promo slides show.",
-      "body": "**Why.** A café sells different things at 8 am and 8 pm.\n\n**What.** Dayparts by time and weekday, per screen. Loop timing defaults from the playbook, editable within limits.\n\n**Built 20 October 2026.** Dayparts are set per category (from, until and days, past midnight allowed), because owners think \"breakfast dishes in the morning\", and every screen of the restaurant follows them; the server leaves a category out of the bundle outside its time, so TVs switch within seconds with no TV change. Timing is set per screen on the TVs page: menu pages 12 to 60 seconds, promos 5 to 15, defaults 18 and 7. Each screen on the TVs page previews its live loop. Checked on a production build: a daypart ended at 2:28 am and the TV changed at 2:28:05; promos set to 10 seconds turned every 10.0 seconds. Details: docs/accounts-and-menu.md and docs/screen-design.md.",
+      "body": "**Why.** A café sells different things at 8 am and 8 pm.\n\n**What.** Dayparts by time and weekday, per screen. Loop timing defaults from the playbook, editable within limits.\n\n**Built 20 October 2026.** Dayparts are set per category (from, until and days, past midnight allowed), because owners think \"breakfast dishes in the morning\", and every screen of the restaurant follows them; the server leaves a category out of the bundle outside its time, so TVs switch within seconds with no TV change. Timing is set per screen on the TVs page: menu pages 12 to 60 seconds, promos 5 to 15, defaults 18 and 7. Each screen on the TVs page previews its live loop. Checked on a production build: a daypart ended at 2:28 am and the TV changed at 2:28:05; promos set to 10 seconds turned every 10.0 seconds. Details: docs/accounts-and-menu.md and docs/screen-design.md.\n\n**Done (QA verified, 15 November 2026).** Every Done-when verified. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-024-c1",
@@ -1062,7 +1068,7 @@
       "rank": 24576,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-20T06:00:00.000Z"
+      "updatedAt": "2026-11-15T06:15:00.000Z"
     },
     {
       "id": "seed-025",
@@ -1161,10 +1167,11 @@
       "owner": "",
       "tags": [
         "ai-first",
-        "v0-launch"
+        "v0-launch",
+        "waiting-on-founder"
       ],
       "summary": "Pick a dish or a goal (\"push cold coffee this week\"); get three promo drafts.",
-      "body": "**Why.** Owners know what they want to sell, not how to say it in six words.\n\n**What.** Drafts headline and line in English and Hindi within the slide’s character limits. Never invents prices or discounts; those come from the menu and the owner.",
+      "body": "**Why.** Owners know what they want to sell, not how to say it in six words.\n\n**What.** Drafts headline and line in English and Hindi within the slide’s character limits. Never invents prices or discounts; those come from the menu and the owner.\n\n**Waiting on the founder (D2, 15 November 2026).** An AI key: the promo writer calls a model to draft headlines. Not built or stubbed until then.",
       "checklist": [
         {
           "id": "seed-027-c1",
@@ -1185,7 +1192,7 @@
       "rank": 27648,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T03:30:00.000Z"
     },
     {
       "id": "seed-028",
@@ -1205,7 +1212,7 @@
         "v0-launch"
       ],
       "summary": "Item names in English and Hindi, side by side or alternating each loop.",
-      "body": "**Why.** Many guests read Hindi first; no generic signage tool handles it per item.\n\n**What.** Second-language fields per item, Noto Devanagari, per-script sizing and an AI translation draft the owner approves.",
+      "body": "**Why.** Many guests read Hindi first; no generic signage tool handles it per item.\n\n**What.** Second-language fields per item, Noto Devanagari, per-script sizing and an AI translation draft the owner approves.\n\n**PRD.** docs/prd/mt-28-hindi-on-screen.md (approved, 15 November 2026). The AI translation drafts wait on the founder (an AI key, D2).",
       "checklist": [
         {
           "id": "seed-028-c1",
@@ -1226,7 +1233,7 @@
       "rank": 28672,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T05:45:00.000Z"
     },
     {
       "id": "seed-029",
@@ -1246,7 +1253,7 @@
         "v0-launch"
       ],
       "summary": "Calories per serving, the 2,000 kcal line, allergens and veg marks, on every screen.",
-      "body": "**Why.** Chains with 10+ outlets must show calories on menu boards. A data menu can do it automatically.\n\n**What.** A per-restaurant switch that adds calories and serving size to items, the reference line to each menu slide, and allergen icons.",
+      "body": "**Why.** Chains with 10+ outlets must show calories on menu boards. A data menu can do it automatically.\n\n**What.** A per-restaurant switch that adds calories and serving size to items, the reference line to each menu slide, and allergen icons.\n\n**PRD.** docs/prd/mt-29-fssai-display.md (approved, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-029-c1",
@@ -1267,7 +1274,7 @@
       "rank": 29696,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T05:45:00.000Z"
     },
     {
       "id": "seed-030",
@@ -1328,7 +1335,7 @@
         "v0-launch"
       ],
       "summary": "Which slide played, where and how often. The base for sales lift and ads later.",
-      "body": "**Why.** Sales lift (v1) and ad billing (v2) both need a trustworthy play log.\n\n**What.** Batched play events from players, stored per screen per hour, with a simple report.",
+      "body": "**Why.** Sales lift (v1) and ad billing (v2) both need a trustworthy play log.\n\n**What.** Batched play events from players, stored per screen per hour, with a simple report.\n\n**PRD.** docs/prd/mt-31-proof-of-play.md (draft, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-031-c1",
@@ -1349,7 +1356,7 @@
       "rank": 31744,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T05:30:00.000Z"
     },
     {
       "id": "seed-032",
@@ -1412,10 +1419,11 @@
       "owner": "",
       "tags": [
         "billing",
-        "v0-launch"
+        "v0-launch",
+        "waiting-on-founder"
       ],
       "summary": "One free screen with a small badge; Plus per screen via Razorpay subscriptions with GST invoices.",
-      "body": "**Why.** Free is the norm at the bottom of this market. The badge is free marketing; Plus is the business.\n\n**What.** Plan limits enforced server-side, Razorpay subscription per restaurant with screen quantity, GST invoices, upgrade from the phone.",
+      "body": "**Why.** Free is the norm at the bottom of this market. The badge is free marketing; Plus is the business.\n\n**What.** Plan limits enforced server-side, Razorpay subscription per restaurant with screen quantity, GST invoices, upgrade from the phone.\n\n**Waiting on the founder (D2, 15 November 2026).** A payment provider account (Razorpay) for subscriptions and GST invoices. Not built or stubbed until then.",
       "checklist": [
         {
           "id": "seed-033-c1",
@@ -1441,7 +1449,7 @@
       "rank": 33792,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T03:30:00.000Z"
     },
     {
       "id": "seed-034",
@@ -1461,7 +1469,7 @@
         "v0-launch"
       ],
       "summary": "Photo, layout, link on the TV. First screen live in under ten minutes.",
-      "body": "**Why.** Time to the first screen on the wall decides whether an owner keeps it.\n\n**What.** A three-step flow: snap or paste the menu, pick a layout and theme with a live preview, open the link or pair the TV. Then one nudge to add a promo.",
+      "body": "**Why.** Time to the first screen on the wall decides whether an owner keeps it.\n\n**What.** A three-step flow: snap or paste the menu, pick a layout and theme with a live preview, open the link or pair the TV. Then one nudge to add a promo.\n\n**PRD.** docs/prd/mt-34-ten-minute-onboarding.md (draft, 15 November 2026). Its first check (median under 10 minutes) can only be measured in the pilot (MT-37).",
       "checklist": [
         {
           "id": "seed-034-c1",
@@ -1482,7 +1490,7 @@
       "rank": 34816,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T05:30:00.000Z"
     },
     {
       "id": "seed-035",
@@ -1502,7 +1510,7 @@
         "v0-launch"
       ],
       "summary": "A rep builds the owner’s menu on the rep’s phone and shows it on their TV in 60 seconds.",
-      "body": "**Why.** The 60-second demo is our main sales channel.\n\n**What.** A rep account that creates a draft restaurant from a photo, shows a QR and short link for the TV, and hands the draft over to the owner’s phone number.",
+      "body": "**Why.** The 60-second demo is our main sales channel.\n\n**What.** A rep account that creates a draft restaurant from a photo, shows a QR and short link for the TV, and hands the draft over to the owner’s phone number.\n\n**PRD.** docs/prd/mt-35-field-demo-mode.md (draft, 15 November 2026). Drafts from a photo wait on the AI key (D2).",
       "checklist": [
         {
           "id": "seed-035-c1",
@@ -1523,7 +1531,7 @@
       "rank": 35840,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T05:30:00.000Z"
     },
     {
       "id": "seed-036",
@@ -1543,7 +1551,7 @@
         "v0-launch"
       ],
       "summary": "Sign-up to first screen live to paid, by channel and by rep.",
-      "body": "**Why.** The pilot exists to measure the funnel targets in docs/market-size.md.\n\n**What.** Privacy-friendly product events for the onboarding steps, first screen live, quick actions used and upgrades. No guest data.",
+      "body": "**Why.** The pilot exists to measure the funnel targets in docs/market-size.md.\n\n**What.** Privacy-friendly product events for the onboarding steps, first screen live, quick actions used and upgrades. No guest data.\n\n**PRD.** docs/prd/mt-36-owner-funnel.md (draft, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-036-c1",
@@ -1564,7 +1572,7 @@
       "rank": 36864,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T05:30:00.000Z"
     },
     {
       "id": "seed-037",
@@ -1581,10 +1589,11 @@
       "owner": "",
       "tags": [
         "gtm",
-        "v0-launch"
+        "v0-launch",
+        "waiting-on-founder"
       ],
       "summary": "30 outlets live in one neighbourhood, measured against the funnel targets.",
-      "body": "**Why.** v0 is done when real owners keep real screens on.\n\n**What.** Field sales with the demo kit, weekly check-ins, fixes within 48 hours, and a short write-up of what worked.",
+      "body": "**Why.** v0 is done when real owners keep real screens on.\n\n**What.** Field sales with the demo kit, weekly check-ins, fixes within 48 hours, and a short write-up of what worked.\n\n**Waiting on the founder (D2, 15 November 2026).** Field work: signing up 30 outlets in one neighbourhood and visiting them. Not built or stubbed until then.",
       "checklist": [
         {
           "id": "seed-037-c1",
@@ -1610,7 +1619,7 @@
       "rank": 37888,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T03:30:00.000Z"
     },
     {
       "id": "seed-038",
@@ -1696,42 +1705,53 @@
     {
       "id": "seed-040",
       "key": "MT-40",
-      "title": "Order-ready numbers on screen",
+      "title": "Ready for pickup on the TV",
       "icon": "🔔",
       "status": "backlog",
       "priority": "medium",
       "phase": "phase-2",
-      "area": "integrations",
+      "area": "orders",
       "effort": "m",
       "impact": 4,
       "confidence": 3,
       "owner": "",
       "tags": [
-        "pos"
+        "orders",
+        "tv"
       ],
-      "summary": "\"Order 42 is ready\" over the menu, from the POS or a staff tap.",
-      "body": "**Why.** Guests watch the screen while they wait; token displays are a separate box today.\n\n**What.** An overlay band in every layout, driven by POS events or a staff keypad on the phone.",
+      "summary": "Ready order numbers on every layout, from the kitchen board. Never over prices, never with names.",
+      "body": "**Why.** Guests watch the screen while they wait; token displays are a separate box today.\n\n**What.** A “Ready for pickup” band on every layout, fed by the kitchen board (MT-91). Numbers leave when collected or after 15 minutes. A POS feed comes later (MT-38).\n\n**Plan.** docs/ordering-plan.md (D2).",
       "checklist": [
         {
           "id": "seed-040-c1",
-          "text": "Overlay in all layouts",
+          "text": "Ready numbers on every layout, never over prices",
           "done": false
         },
         {
           "id": "seed-040-c2",
-          "text": "Staff keypad",
+          "text": "From the kitchen board, within 10 seconds",
           "done": false
         },
         {
           "id": "seed-040-c3",
-          "text": "POS-driven for one adapter",
+          "text": "Numbers only, never names",
+          "done": false
+        },
+        {
+          "id": "seed-040-c4",
+          "text": "Leave when collected or after 15 minutes",
+          "done": false
+        },
+        {
+          "id": "seed-040-c5",
+          "text": "The owner can switch it off for each screen",
           "done": false
         }
       ],
-      "rank": 40960,
+      "rank": 94208,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T04:30:00.000Z"
     },
     {
       "id": "seed-041",
@@ -1741,16 +1761,17 @@
       "status": "backlog",
       "priority": "low",
       "phase": "phase-2",
-      "area": "integrations",
+      "area": "orders",
       "effort": "s",
       "impact": 3,
       "confidence": 3,
       "owner": "",
       "tags": [
-        "ideas"
+        "ideas",
+        "orders"
       ],
       "summary": "Show \"about 8 minutes\" at peak, from order times.",
-      "body": "**Why.** Honest wait times calm queues and cut \"how long?\" questions.\n\n**What.** Estimate from recent order-to-ready times; owner can switch it off.",
+      "body": "**Why.** Honest wait times calm queues and cut \"how long?\" questions.\n\n**What.** Estimate from recent order-to-ready times; owner can switch it off.\n\n**Orders (D2).** Wait times now come from the kitchen board’s order times (MT-91). **Plan.** docs/ordering-plan.md (D2).",
       "checklist": [
         {
           "id": "seed-041-c1",
@@ -1763,15 +1784,15 @@
           "done": false
         }
       ],
-      "rank": 41984,
+      "rank": 96768,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T04:30:00.000Z"
     },
     {
       "id": "seed-042",
       "key": "MT-42",
-      "title": "QR codes to order, review or chat",
+      "title": "QR codes for reviews and chat",
       "icon": "🔳",
       "status": "backlog",
       "priority": "high",
@@ -1784,8 +1805,8 @@
       "tags": [
         "promos"
       ],
-      "summary": "Scan to order online, leave a Google review or message on WhatsApp.",
-      "body": "**Why.** The screen reaches the guest; the phone completes the action.\n\n**What.** QR blocks sized for distance, short links per slide, and scan counts in reports.",
+      "summary": "Scan to leave a Google review or message on WhatsApp. Ordering by QR is now MT-89 and MT-90.",
+      "body": "**Why.** The screen reaches the guest; the phone completes the action.\n\n**What.** QR blocks sized for distance, short links per slide, and scan counts in reports.\n\n**Orders (D2).** Scan to order moved to the ordering plan (MT-89, MT-90). This card keeps reviews and chat.",
       "checklist": [
         {
           "id": "seed-042-c1",
@@ -1801,7 +1822,7 @@
       "rank": 43008,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T04:30:00.000Z"
     },
     {
       "id": "seed-043",
@@ -3543,6 +3564,457 @@
       "archived": false,
       "createdAt": "2026-10-20T07:30:00.000Z",
       "updatedAt": "2026-10-20T07:30:00.000Z"
+    },
+    {
+      "id": "36f6b32c-1c8a-42e5-8677-0a6de4b9a5bb",
+      "key": "MT-89",
+      "title": "QR menu at the table and counter",
+      "icon": "🔳",
+      "status": "backlog",
+      "priority": "high",
+      "phase": "phase-2",
+      "area": "orders",
+      "effort": "m",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "orders",
+        "qr"
+      ],
+      "summary": "A QR card on each table and the counter opens the live menu on the guest’s phone. No app, no sign-up.",
+      "body": "**Why.** Every order starts with the guest seeing the menu on their own phone. Tables and QR cards are what the rest of ordering hangs on.\n\n**What.** Owners add tables and print QR cards. Each card opens the same menu the TV plays, live, with sold-out marks. No cart yet.\n\n**PRD.** docs/prd/mt-89-qr-menu.md (draft, 15 November 2026).\n\n**Plan.** docs/ordering-plan.md (D2).",
+      "checklist": [
+        {
+          "id": "36f6b32c-1c8a-42e5-8677-0a6de4b9a5bb-c1",
+          "text": "Tables added one by one or as a range, and printed on A4",
+          "done": false
+        },
+        {
+          "id": "36f6b32c-1c8a-42e5-8677-0a6de4b9a5bb-c2",
+          "text": "Scanning a card opens the live menu within 3 seconds on 4G",
+          "done": false
+        },
+        {
+          "id": "36f6b32c-1c8a-42e5-8677-0a6de4b9a5bb-c3",
+          "text": "Sold out shows on an open page within 30 seconds",
+          "done": false
+        },
+        {
+          "id": "36f6b32c-1c8a-42e5-8677-0a6de4b9a5bb-c4",
+          "text": "A replaced or removed card stops working",
+          "done": false
+        },
+        {
+          "id": "36f6b32c-1c8a-42e5-8677-0a6de4b9a5bb-c5",
+          "text": "No cookies, no third-party scripts, noindex",
+          "done": false
+        }
+      ],
+      "rank": 90112,
+      "archived": false,
+      "createdAt": "2026-11-15T04:30:00.000Z",
+      "updatedAt": "2026-11-15T04:30:00.000Z"
+    },
+    {
+      "id": "407b9b52-b92d-442c-b773-27a50cd819cc",
+      "key": "MT-90",
+      "title": "Order from the phone",
+      "icon": "🛒",
+      "status": "backlog",
+      "priority": "high",
+      "phase": "phase-2",
+      "area": "orders",
+      "effort": "l",
+      "impact": 5,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "orders"
+      ],
+      "summary": "Pick dishes, sizes and notes, place the order and get a number. The server sets every price.",
+      "body": "**Why.** Guests order without waiting for staff, and the kitchen gets exactly what they asked for.\n\n**What.** A cart on the QR menu, an order priced by the server from the live menu, a daily order number per outlet, and a status-page link kept on the guest’s phone. Starts with an ADR for an orders table in Netlify Database.\n\n**Plan.** docs/ordering-plan.md (D2).",
+      "checklist": [
+        {
+          "id": "407b9b52-b92d-442c-b773-27a50cd819cc-c1",
+          "text": "Prices come from the live menu, never from the phone",
+          "done": false
+        },
+        {
+          "id": "407b9b52-b92d-442c-b773-27a50cd819cc-c2",
+          "text": "Sold-out or out-of-hours dishes refused with a clear message",
+          "done": false
+        },
+        {
+          "id": "407b9b52-b92d-442c-b773-27a50cd819cc-c3",
+          "text": "Order numbers start at 1 each day in the outlet’s time zone",
+          "done": false
+        },
+        {
+          "id": "407b9b52-b92d-442c-b773-27a50cd819cc-c4",
+          "text": "Caps and rate limits per QR link",
+          "done": false
+        },
+        {
+          "id": "407b9b52-b92d-442c-b773-27a50cd819cc-c5",
+          "text": "No guest account, phone number or cookie",
+          "done": false
+        }
+      ],
+      "rank": 91136,
+      "archived": false,
+      "createdAt": "2026-11-15T04:30:00.000Z",
+      "updatedAt": "2026-11-15T04:30:00.000Z"
+    },
+    {
+      "id": "56897361-dd5c-43bd-af11-caab28708d29",
+      "key": "MT-91",
+      "title": "Kitchen order board",
+      "icon": "🧑‍🍳",
+      "status": "backlog",
+      "priority": "high",
+      "phase": "phase-2",
+      "area": "orders",
+      "effort": "l",
+      "impact": 5,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "orders"
+      ],
+      "summary": "New, being made and ready, on a phone or tablet in the kitchen, with a chime for each new order.",
+      "body": "**Why.** Orders are only as good as the kitchen seeing them. Staff need big buttons and no typing.\n\n**What.** An Orders tab in the owner app: accept, or reject with a reason; mark ready; mark collected or served; mark paid; pause ordering. Live within seconds, with a chime after one tap turns sound on, and the screen kept awake.\n\n**Plan.** docs/ordering-plan.md (D2).",
+      "checklist": [
+        {
+          "id": "56897361-dd5c-43bd-af11-caab28708d29-c1",
+          "text": "A new order shows on the board within 5 seconds, with a chime",
+          "done": false
+        },
+        {
+          "id": "56897361-dd5c-43bd-af11-caab28708d29-c2",
+          "text": "Each move is one tap",
+          "done": false
+        },
+        {
+          "id": "56897361-dd5c-43bd-af11-caab28708d29-c3",
+          "text": "Staff and owners can use it",
+          "done": false
+        },
+        {
+          "id": "56897361-dd5c-43bd-af11-caab28708d29-c4",
+          "text": "Pause stops new orders at once",
+          "done": false
+        },
+        {
+          "id": "56897361-dd5c-43bd-af11-caab28708d29-c5",
+          "text": "Open orders close at midnight in the outlet’s time zone",
+          "done": false
+        }
+      ],
+      "rank": 92160,
+      "archived": false,
+      "createdAt": "2026-11-15T04:30:00.000Z",
+      "updatedAt": "2026-11-15T04:30:00.000Z"
+    },
+    {
+      "id": "bd500c7d-861d-4908-84f7-12559d6e1215",
+      "key": "MT-92",
+      "title": "Live order status and the ready alert",
+      "icon": "📲",
+      "status": "backlog",
+      "priority": "high",
+      "phase": "phase-2",
+      "area": "orders",
+      "effort": "m",
+      "impact": 5,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "orders"
+      ],
+      "summary": "The guest’s phone follows the order live and says, with sound and vibration, when it’s ready.",
+      "body": "**Why.** Telling guests their food is ready is the founder’s goal (D2), and this needs no SMS or app.\n\n**What.** A status page: placed, being made, ready, completed, or rejected with the reason. Live updates, an alert when ready where the phone allows, and a note to tell the staff if nobody accepts within 5 minutes.\n\n**Plan.** docs/ordering-plan.md (D2).",
+      "checklist": [
+        {
+          "id": "bd500c7d-861d-4908-84f7-12559d6e1215-c1",
+          "text": "Status changes reach the page within 5 seconds",
+          "done": false
+        },
+        {
+          "id": "bd500c7d-861d-4908-84f7-12559d6e1215-c2",
+          "text": "Ready plays a sound and vibrates where the phone allows",
+          "done": false
+        },
+        {
+          "id": "bd500c7d-861d-4908-84f7-12559d6e1215-c3",
+          "text": "Not accepted after 5 minutes: the page says to tell the staff",
+          "done": false
+        },
+        {
+          "id": "bd500c7d-861d-4908-84f7-12559d6e1215-c4",
+          "text": "Only someone with the order’s link can see it",
+          "done": false
+        }
+      ],
+      "rank": 93184,
+      "archived": false,
+      "createdAt": "2026-11-15T04:30:00.000Z",
+      "updatedAt": "2026-11-15T04:30:00.000Z"
+    },
+    {
+      "id": "80eb2c35-d1dc-47fa-a117-6bbaf81137ba",
+      "key": "MT-93",
+      "title": "Pay at the counter or by the owner’s UPI",
+      "icon": "💸",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-2",
+      "area": "orders",
+      "effort": "s",
+      "impact": 4,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "orders",
+        "upi"
+      ],
+      "summary": "Pay at the counter, or tap a UPI link to the owner’s own UPI ID with the amount filled in. Staff mark it paid.",
+      "body": "**Why.** Most guests in India pay by UPI. A link to the owner’s own UPI ID needs no gateway, and no money passes through us.\n\n**What.** The owner sets a UPI ID and payee name. The status page offers a UPI link with the amount and order number, and the UPI ID and amount to copy, because iPhones often ignore UPI links. Staff mark orders paid on the board; we never check payments.\n\n**Plan.** docs/ordering-plan.md (D2).",
+      "checklist": [
+        {
+          "id": "80eb2c35-d1dc-47fa-a117-6bbaf81137ba-c1",
+          "text": "On Android, the UPI link opens a UPI app with the amount and order number",
+          "done": false
+        },
+        {
+          "id": "80eb2c35-d1dc-47fa-a117-6bbaf81137ba-c2",
+          "text": "UPI ID and amount can be copied",
+          "done": false
+        },
+        {
+          "id": "80eb2c35-d1dc-47fa-a117-6bbaf81137ba-c3",
+          "text": "Staff mark paid, and the guest’s page never says we checked",
+          "done": false
+        },
+        {
+          "id": "80eb2c35-d1dc-47fa-a117-6bbaf81137ba-c4",
+          "text": "With no UPI ID set, guests pay at the counter",
+          "done": false
+        }
+      ],
+      "rank": 95232,
+      "archived": false,
+      "createdAt": "2026-11-15T04:30:00.000Z",
+      "updatedAt": "2026-11-15T04:30:00.000Z"
+    },
+    {
+      "id": "6e2ecd38-dc91-4e5f-9f96-2691aa9cbb8c",
+      "key": "MT-94",
+      "title": "Today’s orders for the owner",
+      "icon": "📒",
+      "status": "backlog",
+      "priority": "medium",
+      "phase": "phase-2",
+      "area": "orders",
+      "effort": "s",
+      "impact": 3,
+      "confidence": 4,
+      "owner": "",
+      "tags": [
+        "orders"
+      ],
+      "summary": "Today’s orders and their total, and the last 30 days. Not a bill and not a GST report.",
+      "body": "**Why.** Owners want to see how ordering went today without opening their POS.\n\n**What.** A list of the day’s orders with their state, place and total, the day’s total, and the last 30 days. Names and notes are cleared after a day, and orders are deleted after 30 days.\n\n**Plan.** docs/ordering-plan.md (D2).",
+      "checklist": [
+        {
+          "id": "6e2ecd38-dc91-4e5f-9f96-2691aa9cbb8c-c1",
+          "text": "Today’s list and total",
+          "done": false
+        },
+        {
+          "id": "6e2ecd38-dc91-4e5f-9f96-2691aa9cbb8c-c2",
+          "text": "The last 30 days, then deleted",
+          "done": false
+        },
+        {
+          "id": "6e2ecd38-dc91-4e5f-9f96-2691aa9cbb8c-c3",
+          "text": "No names or notes after a day",
+          "done": false
+        },
+        {
+          "id": "6e2ecd38-dc91-4e5f-9f96-2691aa9cbb8c-c4",
+          "text": "Owners only",
+          "done": false
+        }
+      ],
+      "rank": 96256,
+      "archived": false,
+      "createdAt": "2026-11-15T04:30:00.000Z",
+      "updatedAt": "2026-11-15T04:30:00.000Z"
+    },
+    {
+      "id": "0366be13-0fcf-4b39-9d31-0dc5d84e698a",
+      "key": "MT-95",
+      "title": "Ready message by SMS or WhatsApp",
+      "icon": "💬",
+      "status": "backlog",
+      "priority": "low",
+      "phase": "phase-2",
+      "area": "orders",
+      "effort": "m",
+      "impact": 4,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "orders",
+        "waiting-on-founder"
+      ],
+      "summary": "A text when the order is ready, for guests who type a number. Waits on a provider account.",
+      "body": "**Why.** Guests who walk away from the counter still get told.\n\n**What.** An optional phone number when ordering, used for this one message and deleted with the order’s pickup name.\n\n**Waiting on the founder (D2, 15 November 2026).** An SMS provider with a DLT-registered template, or a WhatsApp Business account. Not built or stubbed until then.\n\n**Plan.** docs/ordering-plan.md (D2).",
+      "checklist": [
+        {
+          "id": "0366be13-0fcf-4b39-9d31-0dc5d84e698a-c1",
+          "text": "The number is optional and used once",
+          "done": false
+        },
+        {
+          "id": "0366be13-0fcf-4b39-9d31-0dc5d84e698a-c2",
+          "text": "Deleted after a day",
+          "done": false
+        },
+        {
+          "id": "0366be13-0fcf-4b39-9d31-0dc5d84e698a-c3",
+          "text": "Message within 10 seconds of ready",
+          "done": false
+        }
+      ],
+      "rank": 97280,
+      "archived": false,
+      "createdAt": "2026-11-15T04:30:00.000Z",
+      "updatedAt": "2026-11-15T04:30:00.000Z"
+    },
+    {
+      "id": "87eeaaa1-0b3b-472e-9697-b0e27fcf26ca",
+      "key": "MT-96",
+      "title": "Web push when an order is ready",
+      "icon": "🔔",
+      "status": "backlog",
+      "priority": "low",
+      "phase": "phase-2",
+      "area": "orders",
+      "effort": "s",
+      "impact": 3,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "orders",
+        "waiting-on-founder"
+      ],
+      "summary": "A notification even with the status page in the background. Waits on web push keys.",
+      "body": "**Why.** Status pages often sit in a background tab while the guest waits.\n\n**What.** Opt-in push for one order, dropped when the order closes.\n\n**Waiting on the founder (D2, 15 November 2026).** Web push keys. Not built or stubbed until then.\n\n**Plan.** docs/ordering-plan.md (D2).",
+      "checklist": [
+        {
+          "id": "87eeaaa1-0b3b-472e-9697-b0e27fcf26ca-c1",
+          "text": "Opt-in for each order",
+          "done": false
+        },
+        {
+          "id": "87eeaaa1-0b3b-472e-9697-b0e27fcf26ca-c2",
+          "text": "Subscription deleted when the order closes",
+          "done": false
+        },
+        {
+          "id": "87eeaaa1-0b3b-472e-9697-b0e27fcf26ca-c3",
+          "text": "Ready reaches the phone within 10 seconds",
+          "done": false
+        }
+      ],
+      "rank": 98304,
+      "archived": false,
+      "createdAt": "2026-11-15T04:30:00.000Z",
+      "updatedAt": "2026-11-15T04:30:00.000Z"
+    },
+    {
+      "id": "8e2b5345-3341-41b1-a1ac-2f4fa33ab71a",
+      "key": "MT-97",
+      "title": "Online payment through a gateway",
+      "icon": "💳",
+      "status": "backlog",
+      "priority": "low",
+      "phase": "phase-2",
+      "area": "orders",
+      "effort": "m",
+      "impact": 4,
+      "confidence": 3,
+      "owner": "",
+      "tags": [
+        "orders",
+        "waiting-on-founder"
+      ],
+      "summary": "Guests pay online and the order is marked paid by itself. Waits on a payment gateway account.",
+      "body": "**Why.** Staff stop checking UPI apps by hand.\n\n**What.** A gateway payment for the order total, the paid mark set from the gateway’s confirmation, and a refund when the kitchen rejects a paid order.\n\n**Waiting on the founder (D2, 15 November 2026).** A payment gateway account (Razorpay). Not built or stubbed until then.\n\n**Plan.** docs/ordering-plan.md (D2).",
+      "checklist": [
+        {
+          "id": "8e2b5345-3341-41b1-a1ac-2f4fa33ab71a-c1",
+          "text": "Paid is set from the gateway, never from the phone",
+          "done": false
+        },
+        {
+          "id": "8e2b5345-3341-41b1-a1ac-2f4fa33ab71a-c2",
+          "text": "Refund when the kitchen rejects a paid order",
+          "done": false
+        },
+        {
+          "id": "8e2b5345-3341-41b1-a1ac-2f4fa33ab71a-c3",
+          "text": "No card details touch our servers",
+          "done": false
+        }
+      ],
+      "rank": 99328,
+      "archived": false,
+      "createdAt": "2026-11-15T04:30:00.000Z",
+      "updatedAt": "2026-11-15T04:30:00.000Z"
+    },
+    {
+      "id": "c9e6c329-461e-4525-ae84-5f80327308b2",
+      "key": "MT-98",
+      "title": "“Try it” on phones: the TV stays in view",
+      "icon": "📱",
+      "status": "planned",
+      "priority": "high",
+      "phase": "phase-1",
+      "area": "growth",
+      "effort": "xs",
+      "impact": 3,
+      "confidence": 5,
+      "owner": "",
+      "tags": [
+        "site",
+        "v0-launch"
+      ],
+      "summary": "On a phone, the home page’s live TV stays in view while an owner types their café and dishes.",
+      "body": "**Why.** “The TV plays them as you type” is the section’s whole pitch, but on a phone the TV sits 796 px below the first field, out of sight behind the keyboard (owner walkthrough, finding 8).\n\n**What.** On phones, the TV is in view while any Try it field has focus; computers stay as they are.\n\n**PRD.** docs/prd/mt-98-try-it-on-phones.md (draft, 15 November 2026).",
+      "checklist": [
+        {
+          "id": "c9e6c329-461e-4525-ae84-5f80327308b2-c1",
+          "text": "The TV stays in view while typing in every field at 375 px",
+          "done": false
+        },
+        {
+          "id": "c9e6c329-461e-4525-ae84-5f80327308b2-c2",
+          "text": "No layout shift (CLS under 0.1)",
+          "done": false
+        },
+        {
+          "id": "c9e6c329-461e-4525-ae84-5f80327308b2-c3",
+          "text": "Computers unchanged",
+          "done": false
+        }
+      ],
+      "rank": 30208,
+      "archived": false,
+      "createdAt": "2026-11-15T06:30:00.000Z",
+      "updatedAt": "2026-11-15T06:30:00.000Z"
     }
   ]
 }

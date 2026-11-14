@@ -18,6 +18,11 @@ export const card = 'rounded-card border border-hairline bg-page p-5 sm:p-7';
 export const heading = 'font-display text-[1.45rem] leading-tight sm:text-[1.65rem]';
 /** Small mono label above a group, like the site's drawing labels. */
 export const kicker = 'font-brand-mono text-[0.78rem] text-night-dim';
+/**
+ * Bottom offset for anything fixed to the foot of an owner page: clears the phone tab bar
+ * (owner-frame.tsx: h-16, a 1 px rule and the safe area); computers have no tab bar.
+ */
+export const aboveTabBar = 'bottom-[calc(4rem+1px+env(safe-area-inset-bottom))] md:bottom-0';
 
 export interface Notice {
   readonly status: 'idle' | 'ok' | 'error';

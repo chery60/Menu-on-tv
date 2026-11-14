@@ -5,6 +5,7 @@ import { ROLES, type Role } from '@/features/accounts/schema';
 import { currentAccess, hasRestaurant, type RestaurantAccess } from '@/features/accounts/session';
 import { MenuEditError } from '@/features/menu/edit';
 import { PhotoRejectedError } from '@/features/menu/photos';
+import { PromoError } from '@/features/promos/repository';
 import { ScreensLimitError } from '@/features/screens/repository';
 import { logger } from '@/lib/logger';
 import type { ActionState } from './action-state';
@@ -33,7 +34,7 @@ export async function gate(roles: readonly Role[]): Promise<Gate> {
 
 /** The message for an error the owner can act on, or null for a fault, which is logged. */
 export function userMessage(error: unknown): string | null {
-  const known = error instanceof ScreensLimitError || error instanceof AccountsLimitError || error instanceof MenuEditError || error instanceof PhotoRejectedError;
+  const known = error instanceof ScreensLimitError || error instanceof AccountsLimitError || error instanceof MenuEditError || error instanceof PhotoRejectedError || error instanceof PromoError;
   return known ? error.message : null;
 }
 

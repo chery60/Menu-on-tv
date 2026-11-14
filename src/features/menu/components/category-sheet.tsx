@@ -6,7 +6,7 @@ import { Busy, field, hint, label, primary } from '@/components/owner/ui';
 import type { MenuResult } from '@/app/studio/menu/menu-result';
 import type { Daypart } from '../dayparts';
 import { MENU_LIMITS, type MenuCategoryData, type MenuEdit } from '../schema';
-import { closeSheet, Sheet } from './sheet';
+import { closeSheet, Sheet, sheetFooter } from './sheet';
 
 /** Monday first, as owners read a week; values are 0 (Sunday) to 6. */
 const DAYS = [
@@ -140,21 +140,23 @@ export function CategorySheet({ category, onSave, onClose }: CategorySheetProps)
             </div>
           ) : null}
         </fieldset>
-        {error ? (
-          <p role="alert" className="text-sm font-semibold text-masala">
-            {error}
-          </p>
-        ) : null}
-        <div className="flex flex-wrap items-center gap-3">
-          <button type="submit" className={primary} disabled={saving}>
-            <Busy pending={saving}>{category ? 'Save category' : 'Add category'}</Busy>
-          </button>
-          {category ? (
-            <button type="button" onClick={remove} disabled={saving} className="ml-auto inline-flex h-11 items-center gap-2 px-2 text-sm font-semibold text-masala underline underline-offset-4">
-              <Trash2 className="size-4" aria-hidden="true" />
-              Delete category
-            </button>
+        <div className={sheetFooter}>
+          {error ? (
+            <p role="alert" className="mb-2 text-sm font-semibold text-masala">
+              {error}
+            </p>
           ) : null}
+          <div className="flex flex-wrap items-center gap-3">
+            <button type="submit" className={primary} disabled={saving}>
+              <Busy pending={saving}>{category ? 'Save category' : 'Add category'}</Busy>
+            </button>
+            {category ? (
+              <button type="button" onClick={remove} disabled={saving} className="ml-auto inline-flex h-11 items-center gap-2 px-2 text-sm font-semibold text-masala underline underline-offset-4">
+                <Trash2 className="size-4" aria-hidden="true" />
+                Delete category
+              </button>
+            ) : null}
+          </div>
         </div>
       </form>
     </Sheet>

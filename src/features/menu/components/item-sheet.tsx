@@ -10,7 +10,7 @@ import { formatPaise, parseRupees } from '../money';
 import { ALLERGEN_LABELS, ALLERGENS, itemInputSchema, MENU_LIMITS, type Allergen, type ItemInput, type MenuEdit, type MenuItemData } from '../schema';
 import { Thumb } from './item-row';
 import { shrinkPhoto } from './resize-photo';
-import { closeSheet, Sheet } from './sheet';
+import { closeSheet, Sheet, sheetFooter } from './sheet';
 
 const chip = 'inline-flex h-10 cursor-pointer items-center rounded-control border border-night/30 px-3 text-sm font-semibold has-[:checked]:border-night has-[:checked]:bg-night has-[:checked]:text-white has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-night';
 
@@ -334,25 +334,26 @@ export function ItemSheet({ mode, categories, onSave, onUploadPhoto, onRemovePho
           </label>
         ) : null}
 
-        {error ? (
-          <p role="alert" className="text-sm font-semibold text-masala">
-            {error}
-          </p>
-        ) : null}
-
-        <div className="flex flex-wrap items-center gap-3">
-          <button type="submit" className={primary} disabled={saving || photoBusy}>
-            <Busy pending={saving}>
-              {item ? null : <Plus className="size-4" aria-hidden="true" />}
-              {item ? 'Save dish' : 'Add dish'}
-            </Busy>
-          </button>
-          {item ? (
-            <button type="button" onClick={() => void remove()} disabled={saving} className="ml-auto inline-flex h-11 items-center gap-2 px-2 text-sm font-semibold text-masala underline underline-offset-4">
-              <Trash2 className="size-4" aria-hidden="true" />
-              Delete dish
-            </button>
+        <div className={sheetFooter}>
+          {error ? (
+            <p role="alert" className="mb-2 text-sm font-semibold text-masala">
+              {error}
+            </p>
           ) : null}
+          <div className="flex flex-wrap items-center gap-3">
+            <button type="submit" className={primary} disabled={saving || photoBusy}>
+              <Busy pending={saving}>
+                {item ? null : <Plus className="size-4" aria-hidden="true" />}
+                {item ? 'Save dish' : 'Add dish'}
+              </Busy>
+            </button>
+            {item ? (
+              <button type="button" onClick={() => void remove()} disabled={saving} className="ml-auto inline-flex h-11 items-center gap-2 px-2 text-sm font-semibold text-masala underline underline-offset-4">
+                <Trash2 className="size-4" aria-hidden="true" />
+                Delete dish
+              </button>
+            ) : null}
+          </div>
         </div>
       </form>
     </Sheet>

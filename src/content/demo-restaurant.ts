@@ -70,7 +70,7 @@ export const DEMO_RESTAURANT: Restaurant = {
     { id: 'happy-hour', kind: 'happy-hour', label: 'Happy hour, 3 to 5 pm', headline: 'Cold coffee', line: 'Every day, while the sun is out', price: 99, wasPrice: 120, emoji: '🧋' },
     { id: 'new-cake', kind: 'new', label: 'New', headline: 'Choco lava cake', line: 'Warm and gooey, baked fresh at 11 am', price: 110, emoji: '🍫' },
     { id: 'special', kind: 'special', label: 'Today’s special', headline: 'Aloo tikki chaat', line: 'With sweet curd and green chutney', price: 80, emoji: '🥔' },
-    { id: 'diwali', kind: 'festival', label: 'Diwali', headline: 'Mithai boxes', line: 'Pre-order at the counter by 30 October', price: 499, emoji: '🪔' },
+    { id: 'diwali', kind: 'festival', label: 'Diwali', headline: 'Mithai boxes', line: 'Pre-order at the counter, a day ahead', price: 499, emoji: '🪔' },
     { id: 'scan', kind: 'scan', label: 'Like this screen?', headline: 'Put your menu on your TV', line: 'Scan to see how this café did it', emoji: '📺', qrUrl: '/?ref=demo-screen' },
   ],
   ads: [
@@ -82,6 +82,6 @@ export const DEMO_RESTAURANT: Restaurant = {
     'Happy hour 3 to 5 pm: cold coffee ₹99',
     'Jain bhel on request',
     'Free Wi-Fi: ask at the counter',
-    'Diwali mithai boxes: pre-order by 30 October',
+    'Mithai boxes for gifting: order a day ahead',
   ],
 };
