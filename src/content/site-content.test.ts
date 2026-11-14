@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { siteConfig } from '@/config/site';
 import { HERO_SPECIALS } from '@/features/screen/hero-demo';
+import { isPairingCode } from '@/features/screens/tokens';
+import { DEMO_RESTAURANT } from './demo-restaurant';
 import * as content from './site-content';
 
 /** Every string in the content module, wherever it is nested. */
@@ -88,6 +90,15 @@ describe('site content', () => {
     const plus = content.pricing.plans[1].perScreen;
     expect(content.pricingPage.cost.rows[0][2]).toContain(`₹${(plus * 2).toLocaleString('en-IN')}`);
     expect(content.pricingPage.cost.rows[0][2]).toContain('₹998');
+  });
+
+  it('shows a TV code on How it works the way a real TV shows one', () => {
+    expect(isPairingCode(content.howPage.pairCode)).toBe(true);
+  });
+
+  it('dates nothing in the sample café, so its screens never look out of date', () => {
+    const sample = strings([DEMO_RESTAURANT.ticker, DEMO_RESTAURANT.promos]).join(' ');
+    expect(sample).not.toMatch(/\b\d{1,2} (January|February|March|April|May|June|July|August|September|October|November|December)\b/);
   });
 
   it('names no TV or stick brand and makes no claim the owner has not approved', () => {
