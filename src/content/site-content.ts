@@ -343,7 +343,7 @@ export const howPage = {
   lead: 'No designer, no installer and no ladder. Snap your paper menu, pick a layout and open one link on the TV you already own.',
   scanning: 'Reading your prices',
   scanned: ['Idli, two: ₹40', 'Masala dosa: ₹70', 'Filter coffee: ₹30'],
-  pairCode: 'K7Q4',
+  pairCode: 'K7Q4MP',
   pairHint: 'Enter this code on your phone, or scan it. The TV keeps the link.',
   galleryLink: 'Open full screen',
 } as const;

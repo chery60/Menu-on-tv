@@ -4,7 +4,7 @@ import { useEffect, useMemo, type CSSProperties, type ReactNode } from 'react';
 import { BILINGUAL_ROW_WEIGHT, DEFAULT_TIMING, mainSlides, MENU_FRAMES, paginateMenu, sideLoop, slideLabel, type LoopTiming, type Slide, type SlideAt } from '../loop';
 import { themeStyle } from '../themes';
 import type { LayoutId, MenuItem, Restaurant, ThemeId } from '../types';
-import { AdCard, BadgePill, MenuColumns, Plate, Price, PromoCard, Sizes, TickerBand } from './parts';
+import { AdCard, BadgePill, LONG_NAME_CHARS, MenuColumns, Plate, Price, PromoCard, Sizes, TickerBand } from './parts';
 import { useLoopPositions } from './use-loop-positions';
 
 export interface ScreenStageProps {
@@ -72,8 +72,6 @@ function Spotlight({ item, pairs, bilingual }: { readonly item: MenuItem; readon
   );
 }
 
-/** Longer names are set in Archivo's narrow width, so they fit beside the menu on a Split or Portrait TV. */
-const LONG_NAME_CHARS = 24;
 
 function Header({ restaurant }: { readonly restaurant: Restaurant }) {
   return (

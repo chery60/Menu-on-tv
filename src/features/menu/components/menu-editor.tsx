@@ -17,6 +17,7 @@ import { ImportSheet } from './import-sheet';
 import { ItemRow } from './item-row';
 import { ItemSheet } from './item-sheet';
 import { MenuPreview, type PreviewScreen } from './menu-preview';
+import { SaveBar, type SaveStatus } from './save-bar';
 
 /** Edits that look instant: applied here first, then confirmed by the server's copy of the menu. */
 const OPTIMISTIC: ReadonlySet<MenuEdit['type']> = new Set(['set-prices', 'set-sold-out', 'set-hidden', 'move-item', 'move-category', 'remove-item']);
@@ -36,22 +37,6 @@ interface MenuEditorProps {
   readonly previewScreen: PreviewScreen;
   /** Whether the server can read menu photos; without it, adding a menu starts from paste. */
   readonly canReadPhotos: boolean;
-}
-
-type SaveStatus = { readonly kind: 'idle' } | { readonly kind: 'saving' } | { readonly kind: 'saved' } | { readonly kind: 'error'; readonly message: string };
-
-function SaveBar({ status }: { readonly status: SaveStatus }) {
-  const text = status.kind === 'saving' ? 'Saving…' : status.kind === 'saved' ? 'Saved. Your TVs update within seconds.' : status.kind === 'error' ? status.message : '';
-  return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-20 flex justify-center px-4 pb-4">
-      <p
-        role={status.kind === 'error' ? 'alert' : 'status'}
-        className={`rounded-control px-4 py-2 text-sm font-semibold shadow-tv ${text ? '' : 'sr-only'} ${status.kind === 'error' ? 'bg-masala text-white' : 'bg-night text-white'}`}
-      >
-        {text}
-      </p>
-    </div>
-  );
 }
 
 function CategorySection({

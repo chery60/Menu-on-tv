@@ -54,7 +54,7 @@ New:
 - AI estimates of calories.
 
 ## Slices
-1. **Platform: the switch and the bundle.** Owns `src/features/accounts/schema.ts`, `src/features/accounts/repository.ts`, `src/app/studio/restaurant/actions.ts` (owners only), `src/features/menu/to-screen.ts`, `src/features/screen/types.ts` and `src/features/screen/loop.ts` (row heights with the calorie line), with their tests. Changes the page-count checks in `loop.test.ts`.
+1. **Platform: the switch and the bundle.** Owns `src/features/accounts/schema.ts`, `src/features/accounts/repository.ts`, `src/app/studio/restaurant/actions.ts` (owners only), `src/features/menu/to-screen.ts`, `src/features/screen/types.ts` and `src/features/screen/loop.ts` (row heights with the calorie line), with their tests. Changes the page-count checks in `loop.test.ts`. The row count includes the calorie line under each dish and a footer band (the allergen key and the 2,000 kcal line) on menu and Spotlight slides (Design, PR #23).
 2. **Design: the switch and the missing-calories flags.** After slice 1. Owns `src/app/studio/restaurant/page.tsx`, `src/app/studio/restaurant/restaurant-forms.tsx`, `src/features/menu/components/item-row.tsx` and `src/features/menu/components/menu-editor.tsx`.
 3. **Design: calories, allergens and the reference line on the TV.** After slice 1. Owns `src/features/screen/components/parts.tsx`, `src/features/screen/components/screen-stage.tsx` and `src/features/screen/screen.css`. Checked with `npm run player` on a `/s/<token>` TV.
 
