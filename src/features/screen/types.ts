@@ -78,6 +78,8 @@ export interface Restaurant {
   readonly ticker: readonly string[];
   /** Today's special while it plays (in stock, its daypart on). It is the first promo and the first Spotlight dish. */
   readonly specialId?: string;
+  /** When today's special was set, in epoch milliseconds, while it plays: the side zone counts from it (loop.ts, sideLoopStart). */
+  readonly specialSetAt?: number;
   /** Calories, allergens and FSSAI's reference line on every menu and Spotlight slide (MT-29). */
   readonly fssai?: boolean;
 }

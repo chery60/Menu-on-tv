@@ -75,8 +75,11 @@ export const categorySchema = z.object({
 export const menuSchema = z.object({
   updatedAt: z.string(),
   categories: z.array(categorySchema).max(MENU_LIMITS.categories),
-  /** Today's special: one dish, for the day it was set on. Menus saved before MT-25 have none. */
-  special: z.object({ itemId: id, on: day }).nullable().optional(),
+  /**
+   * Today's special: one dish, for the day it was set on, and the moment it was set, which TVs count their side zone from
+   * so it comes up within seconds. Menus saved before MT-25 have none; specials set before that moment was kept have no `setAt`.
+   */
+  special: z.object({ itemId: id, on: day, setAt: z.iso.datetime().optional() }).nullable().optional(),
 });
 
 export const menusFileSchema = z.object({

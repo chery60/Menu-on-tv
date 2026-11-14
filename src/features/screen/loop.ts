@@ -2,7 +2,8 @@ import type { LayoutId, LocalAd, MenuCategory, MenuItem, Promo, Restaurant } fro
 
 /**
  * The screen loop. Pure functions only: the player passes in the wall-clock time, so every TV
- * in a shop shows the same slide at the same moment without talking to each other.
+ * in a shop shows the same slide at the same moment without talking to each other. The side zone
+ * counts from today's special when one is set (sideLoopStart); everything else counts from the clock's zero.
  * Timings follow docs/screen-design.md.
  */
 
@@ -253,6 +254,22 @@ export function sideLoop(restaurant: Restaurant, timing: LoopTiming = DEFAULT_TI
   return canAllEnd ? [...slides, { ...welcome, fallback: true }] : slides;
 }
 
+/** Time for a changed bundle to reach the TVs: the live stream checks for a new version every 3 s, then the TV fetches it. */
+export const SPECIAL_LEAD_MS = 3_000;
+
+/**
+ * When the side zone's loop starts, in wall-clock milliseconds. Every side slide lasts one promo beat, so the side zone
+ * changes on the same beat on every TV whatever plays. With today's special set, the loop counts from the first beat at
+ * least SPECIAL_LEAD_MS after it was set: the special, the loop's first slide, comes up then on every TV on the link,
+ * once the new bundle has landed, instead of waiting for the loop to come round (MT-25). A TV swaps bundles only between
+ * slides, so counting from the moment itself would join the special mid-slide or miss it.
+ */
+export function sideLoopStart(restaurant: Restaurant, timing: LoopTiming = DEFAULT_TIMING): number {
+  if (restaurant.specialSetAt === undefined) return 0;
+  const beat = durations(timing).promo;
+  return Math.ceil((restaurant.specialSetAt + SPECIAL_LEAD_MS) / beat) * beat;
+}
+
 export function loopLength(slides: readonly Slide[]): number {
   return slides.reduce((total, slide) => total + slide.durationMs, 0);
 }
@@ -271,12 +288,12 @@ export function liveSlides(slides: readonly Slide[], nowMs: number): readonly Sl
   return fallback.length > 0 ? fallback : slides;
 }
 
-/** Which slide is on screen at wall-clock time `nowMs`. Deterministic, so screens stay in sync. */
-export function slideAt(slides: readonly Slide[], nowMs: number): SlideAt {
+/** Which slide is on screen at wall-clock time `nowMs` in a loop counted from `startMs`. Deterministic, so screens stay in sync. */
+export function slideAt(slides: readonly Slide[], nowMs: number, startMs = 0): SlideAt {
   if (slides.length === 0) throw new Error('A screen loop needs at least one slide.');
   const playing = liveSlides(slides, Math.floor(nowMs));
   const total = loopLength(playing);
-  const position = ((Math.floor(nowMs) % total) + total) % total;
+  const position = (((Math.floor(nowMs) - startMs) % total) + total) % total;
   let start = 0;
   for (let index = 0; index < playing.length; index += 1) {
     const slide = playing[index];

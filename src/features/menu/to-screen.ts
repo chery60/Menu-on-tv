@@ -81,7 +81,7 @@ export function featuredPromos(categories: readonly MenuCategory[], skipId?: str
 }
 
 /** Today's special as a promo slide, while its dish is on screen now (its daypart on) and in stock. */
-function specialPromo(menu: Menu, categories: readonly MenuCategory[], today: string): { readonly promo: Promo; readonly itemId: string } | null {
+function specialPromo(menu: Menu, categories: readonly MenuCategory[], today: string): { readonly promo: Promo; readonly itemId: string; readonly setAt?: number } | null {
   const itemId = todaysSpecial(menu, today)?.item.id;
   const category = categories.find((entry) => entry.items.some((item) => item.id === itemId));
   const item = category?.items.find((entry) => entry.id === itemId);
@@ -97,7 +97,7 @@ function specialPromo(menu: Menu, categories: readonly MenuCategory[], today: st
     emoji: item.emoji,
     ...(item.photo ? { photo: item.photo } : {}),
   };
-  return { promo, itemId: item.id };
+  return { promo, itemId: item.id, ...(menu.special?.setAt ? { setAt: Date.parse(menu.special.setAt) } : {}) };
 }
 
 /** What the TVs play at `clock`: today's sold out marked, and only the categories whose daypart is on now. */
@@ -112,7 +112,7 @@ export function screenRestaurant(profile: ScreenProfile, menu: Menu, clock: Loca
   const rest = made.length > 0 ? made : featuredPromos(categories, special?.itemId);
   const promos = special ? [special.promo, ...rest] : rest;
   const ticker = promos.length > 0 ? promos.map(tickerLine) : [profile.name, profile.tagline].filter(Boolean);
-  return { name: profile.name, tagline: profile.tagline, categories, promos, ads: [], ticker, ...(special ? { specialId: special.itemId } : {}), ...(profile.fssai ? { fssai: true } : {}) };
+  return { name: profile.name, tagline: profile.tagline, categories, promos, ads: [], ticker, ...(special ? { specialId: special.itemId } : {}), ...(special?.setAt !== undefined ? { specialSetAt: special.setAt } : {}), ...(profile.fssai ? { fssai: true } : {}) };
 }
 
 const tickerLine = (promo: Promo): string => `${promo.label}: ${promo.headline}${promo.price !== undefined ? `, ₹${formatRupees(promo.price)}` : ''}`;

@@ -1,4 +1,4 @@
-import { HEADING_ROWS, itemRows, mainSlides, MENU_FRAMES, busiestColumn, paginateMenu, sideLoop, slideAt, type Slide } from '@/features/screen/loop';
+import { HEADING_ROWS, itemRows, mainSlides, MENU_FRAMES, busiestColumn, paginateMenu, sideLoop, sideLoopStart, slideAt, type Slide } from '@/features/screen/loop';
 import type { MenuCategory, Restaurant } from '@/features/screen/types';
 
 /** What the plaza's TV shows at one moment: the Split layout's menu page in columns, and its side slide. */
@@ -35,7 +35,7 @@ export function tvFrame(restaurant: Restaurant, nowMs: number): TvFrame {
   const frame = MENU_FRAMES.split;
   const pages = paginateMenu(restaurant.categories, frame);
   const main = slideAt(mainSlides('split', restaurant), nowMs);
-  const side = slideAt(sideLoop(restaurant), nowMs);
+  const side = slideAt(sideLoop(restaurant), nowMs, sideLoopStart(restaurant));
   const page = main.slide.kind === 'menu' ? Math.min(main.slide.page, pages.length - 1) : 0;
   return { key: `${page}:${side.index}`, columns: flowColumns(pages[page], frame.columns), side: side.slide, page, pages: pages.length };
 }

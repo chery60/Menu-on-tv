@@ -79,7 +79,9 @@ function setSpecial(menu: Menu, itemId: string | null, today: string, now: Date)
   const { item } = requireItem(menu, itemId);
   if (item.hidden) throw new MenuEditError('That dish is hidden from your TVs. Show it first, then make it the special.');
   if (isSoldOut(item, today)) throw new MenuEditError('That dish is sold out today. Pick another.');
-  return { ...menu, updatedAt: now.toISOString(), special: { itemId, on: today } };
+  // Picking today's special again changes nothing, so no TV's side zone jumps.
+  if (todaysSpecial(menu, today)?.item.id === itemId) return menu;
+  return { ...menu, updatedAt: now.toISOString(), special: { itemId, on: today, setAt: now.toISOString() } };
 }
 
 function mapItem(menu: Menu, itemId: string, change: (item: MenuItemData) => MenuItemData, now: Date): Menu {

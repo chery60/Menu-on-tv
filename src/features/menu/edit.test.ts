@@ -171,11 +171,20 @@ describe('today’s special', () => {
 
   it('is one dish for today: picking another replaces it, and null removes it', () => {
     const chai = run(cafe(), { type: 'set-special', itemId: 'id-3' });
-    expect(chai.special).toEqual({ itemId: 'id-3', on: '2026-10-19' });
+    expect(chai.special).toEqual({ itemId: 'id-3', on: '2026-10-19', setAt: NOW.toISOString() });
     expect(special(chai)).toBe('Masala chai');
     expect(todaysSpecial(chai, '2026-10-19')?.category.name).toBe('Chai');
     expect(special(run(chai, { type: 'set-special', itemId: 'id-5' }))).toBe('Samosa');
     expect(run(chai, { type: 'set-special', itemId: null }).special).toBeNull();
+  });
+
+  it('keeps the moment it was set, which TVs count their side zone from: picking it again or any other edit leaves it', () => {
+    const chai = run(cafe(), { type: 'set-special', itemId: 'id-3' });
+    const later = (minutes: number): EditContext => ({ ...context(), now: new Date(NOW.getTime() + minutes * 60_000) });
+    expect(applyEdit(chai, { type: 'set-special', itemId: 'id-3' }, later(5))).toBe(chai);
+    expect(applyEdit(chai, { type: 'set-prices', itemId: 'id-3', prices: [{ label: '', paise: 3500 }] }, later(5)).special).toEqual(chai.special);
+    expect(applyEdit(chai, { type: 'set-special', itemId: 'id-5' }, later(5)).special?.setAt).toBe(later(5).now.toISOString());
+    expect(applyEdit(chai, { type: 'set-special', itemId: 'id-3' }, { ...later(24 * 60), today: '2026-10-20' }).special).toEqual({ itemId: 'id-3', on: '2026-10-20', setAt: later(24 * 60).now.toISOString() });
   });
 
   it('ends by itself the next day in the outlet’s time zone', () => {

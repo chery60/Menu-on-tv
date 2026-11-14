@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, type CSSProperties, type ReactNode } from 'react';
 import { inHindi, itemInHindi, languageAt, promoInHindi, rowWeightFor } from '../language';
-import { DEFAULT_TIMING, mainSlides, menuFrame, paginateMenu, sideLoop, slideLabel, type LoopTiming, type Slide, type SlideAt } from '../loop';
+import { DEFAULT_TIMING, mainSlides, menuFrame, paginateMenu, sideLoop, sideLoopStart, slideLabel, type LoopTiming, type Slide, type SlideAt } from '../loop';
 import { themeStyle } from '../themes';
 import type { LayoutId, MenuItem, Restaurant, ScreenLanguage, ThemeId } from '../types';
 import { AdCard, BadgePill, LONG_NAME_CHARS, MenuColumns, Plate, Price, PromoCard, Sizes, TickerBand } from './parts';
@@ -108,7 +108,8 @@ export function ScreenStage({
   // The Hindi pass shows the same pages with Hindi names in place, so no dish moves between passes.
   const hindiPages = useMemo(() => (language === 'en-then-hi' ? paginateMenu(inHindi(restaurant).categories, frame, rowWeight) : pages), [language, restaurant, frame, rowWeight, pages]);
   const loops = useMemo(() => [mainSlides(layout, restaurant, rowWeight, timing), sideLoop(restaurant, timing)], [layout, restaurant, rowWeight, timing]);
-  const { positions, syncing } = useLoopPositions(loops, clockOffsetMs);
+  const starts = useMemo(() => [0, sideLoopStart(restaurant, timing)], [restaurant, timing]);
+  const { positions, syncing } = useLoopPositions(loops, clockOffsetMs, starts);
   const [mainPosition, sidePosition] = positions;
   const main = at(loops[0], mainPosition);
   const side = at(loops[1], sidePosition);

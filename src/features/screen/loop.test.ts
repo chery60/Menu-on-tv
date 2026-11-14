@@ -21,13 +21,16 @@ import {
   paginateMenu,
   PROMO_SLIDE_MS,
   sideLoop,
+  sideLoopStart,
   sideSlides,
   slideAt,
   slideLabel,
+  SPECIAL_LEAD_MS,
   spotlightSlides,
+  TIMING_CHOICES,
   type Slide,
 } from './loop';
-import { LAYOUT_IDS, type MenuCategory } from './types';
+import { LAYOUT_IDS, type MenuCategory, type Restaurant } from './types';
 
 const category = (id: string, count: number): MenuCategory => ({
   id,
@@ -245,9 +248,86 @@ describe('slideAt', () => {
     expect(() => slideAt([], 0)).toThrow(/at least one slide/);
   });
 
+  it('counts a loop from its start, and still gives when a slide ends by the wall clock', () => {
+    expect(slideAt(slides, 1000, 1000)).toMatchObject({ index: 0, elapsedMs: 0, endsAt: 2000 });
+    expect(slideAt(slides, 2200, 1000)).toMatchObject({ index: 1, elapsedMs: 200, endsAt: 2500 });
+    expect(slideAt(slides, 900, 1000)).toMatchObject({ index: 1, elapsedMs: 400, endsAt: 1000 });
+  });
+
   it('adds up the loop length', () => {
     expect(loopLength(slides)).toBe(1500);
     expect(loopLength(sideSlides(DEMO_RESTAURANT.promos, DEMO_RESTAURANT.ads))).toBe(8 * PROMO_SLIDE_MS);
+  });
+});
+
+describe('the side zone’s clock with today’s special (MT-25)', () => {
+  /** A moment in the evening, 2026-11-15, as the server's clock gives it. */
+  const SET_AT = 1_763_215_000_000;
+  const special = { ...DEMO_RESTAURANT.promos[0], id: 'special-adrak-chai', label: 'Today’s special' };
+  const withSpecial = (setAt: number, base: Restaurant = DEMO_RESTAURANT): Restaurant => ({ ...base, promos: [special, ...base.promos], specialId: 'adrak-chai', specialSetAt: setAt });
+  const side = (restaurant: Restaurant, nowMs: number, timing = DEFAULT_TIMING) => slideAt(sideLoop(restaurant, timing), nowMs, sideLoopStart(restaurant, timing));
+  const shows = (restaurant: Restaurant, nowMs: number, timing = DEFAULT_TIMING) => slideLabel(side(restaurant, nowMs, timing).slide);
+  /** Moments across one whole slide, a quarter second apart. */
+  const across = (beat: number) => Array.from({ length: beat / 250 }, (_, index) => index * 250);
+
+  it('counts from the clock’s zero with no special set, as before', () => {
+    expect(sideLoopStart(DEMO_RESTAURANT)).toBe(0);
+    expect(sideLoopStart({ ...DEMO_RESTAURANT, specialId: 'adrak-chai' })).toBe(0);
+  });
+
+  it('brings the special up from the start of a side slide, after the lead and within one more slide, for every slide length', () => {
+    for (const promoSeconds of TIMING_CHOICES.promoSeconds) {
+      const timing = { ...DEFAULT_TIMING, promoSeconds };
+      const beat = promoSeconds * 1000;
+      for (const offset of across(beat)) {
+        const restaurant = withSpecial(SET_AT + offset);
+        const start = sideLoopStart(restaurant, timing);
+        expect(start - (SET_AT + offset)).toBeGreaterThanOrEqual(SPECIAL_LEAD_MS);
+        expect(start - (SET_AT + offset)).toBeLessThan(SPECIAL_LEAD_MS + beat);
+        expect(side(restaurant, start, timing)).toMatchObject({ index: 0, elapsedMs: 0, endsAt: start + beat });
+        expect(shows(restaurant, start, timing)).toBe('promo:special-adrak-chai');
+      }
+    }
+  });
+
+  it('plays the special within 10 seconds of being set with the usual 7-second slides (QA measured 26.7 s on the clock’s zero)', () => {
+    for (const offset of across(PROMO_SLIDE_MS)) {
+      const restaurant = withSpecial(SET_AT + offset);
+      expect(sideLoopStart(restaurant) - (SET_AT + offset)).toBeLessThan(10_000);
+    }
+  });
+
+  it('plays the special first again after each full pass of the side zone', () => {
+    const restaurant = withSpecial(SET_AT);
+    const start = sideLoopStart(restaurant);
+    expect(shows(restaurant, start + loopLength(sideLoop(restaurant)))).toBe('promo:special-adrak-chai');
+    expect(shows(restaurant, start + PROMO_SLIDE_MS)).toBe(slideLabel(sideLoop(DEMO_RESTAURANT)[0]));
+  });
+
+  it('keeps the side zone on the same beat, so setting a special never cuts a slide short', () => {
+    for (const offset of across(PROMO_SLIDE_MS)) {
+      for (const now of [SET_AT, SET_AT + 4_321, SET_AT + 61_000]) {
+        expect(side(withSpecial(SET_AT + offset), now).endsAt % PROMO_SLIDE_MS).toBe(0);
+        expect(side(DEMO_RESTAURANT, now).endsAt % PROMO_SLIDE_MS).toBe(0);
+      }
+    }
+  });
+
+  it('gives every TV on the link the same side slide at the same moment', () => {
+    const restaurant = withSpecial(SET_AT + 1_234);
+    expect(side(restaurant, SET_AT + 9_876)).toEqual(side(structuredClone(restaurant), SET_AT + 9_876));
+  });
+
+  it('stays put when anything but the special changes', () => {
+    const restaurant = withSpecial(SET_AT);
+    const repriced = { ...restaurant, promos: restaurant.promos.map((promo) => ({ ...promo, price: 99 })), categories: restaurant.categories.slice(1) };
+    expect(sideLoopStart(repriced)).toBe(sideLoopStart(restaurant));
+  });
+
+  it('leaves Full board, Ticker and Spotlight on the clock’s zero', () => {
+    for (const layout of ['board', 'ticker', 'spotlight'] as const) {
+      expect(mainSlides(layout, withSpecial(SET_AT))).toEqual(mainSlides(layout, { ...withSpecial(SET_AT), specialSetAt: undefined }));
+    }
   });
 });
 
