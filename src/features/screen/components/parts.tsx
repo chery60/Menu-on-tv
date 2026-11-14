@@ -126,11 +126,13 @@ export function Plate({ emoji, photo, size = 'md' }: { readonly emoji: string; r
   );
 }
 
-export function PromoCard({ promo, qrSvg, variant }: { readonly promo: Promo; readonly qrSvg?: string; readonly variant: 'takeover' | 'side' | 'hero' }) {
+export function PromoCard({ promo, qrSvg, variant, bilingual = false }: { readonly promo: Promo; readonly qrSvg?: string; readonly variant: 'takeover' | 'side' | 'hero'; readonly bilingual?: boolean }) {
+  // MT-28: with both names on, a dish promo shows its Hindi name under the headline at the same size.
+  const hindi = bilingual && promo.headlineHi ? promo.headlineHi : null;
   // A featured dish with no badge is labelled with its category, which is also its line: say it once.
   const label = promo.label === promo.line ? null : promo.label;
   return (
-    <article className={`scr-promo scr-promo-${variant} scr-kind-${promo.kind}`}>
+    <article className={`scr-promo scr-promo-${variant} scr-kind-${promo.kind} ${hindi ? 'has-hi' : ''}`}>
       <div className="scr-promo-art">
         {qrSvg ? (
           <figure className="scr-qr-wrap">
@@ -144,6 +146,11 @@ export function PromoCard({ promo, qrSvg, variant }: { readonly promo: Promo; re
       <div className="scr-promo-copy">
         {label ? <span className="scr-promo-label">{label}</span> : null}
         <h2 className="scr-promo-headline">{promo.headline}</h2>
+        {hindi ? (
+          <p className="scr-promo-hi" lang="hi">
+            {hindi}
+          </p>
+        ) : null}
         {promo.line ? <p className="scr-promo-line">{promo.line}</p> : null}
         {promo.price ? <Price amount={promo.price} was={promo.wasPrice} className="scr-promo-price" /> : null}
         {promo.countdown && promo.endsAt !== undefined ? <PromoCountdown endsAt={promo.endsAt} /> : null}

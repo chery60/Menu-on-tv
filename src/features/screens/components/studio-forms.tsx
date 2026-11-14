@@ -8,7 +8,7 @@ import { connectTvAction, createScreenAction, disconnectTvAction, removeScreenAc
 import { setSoldOutAction } from '@/app/studio/menu/actions';
 import { Busy, Feedback, field, hint, label, primary, quiet } from '@/components/owner/ui';
 import { DEFAULT_TIMING, TIMING_CHOICES, type LoopTiming } from '@/features/screen/loop';
-import { LAYOUTS, THEMES, type LayoutId, type ThemeId } from '@/features/screen/types';
+import { LAYOUTS, THEMES, type LayoutId, type ScreenLanguage, type ThemeId } from '@/features/screen/types';
 
 /** A link shown once, with a QR and a copy button. Only its hash is kept on our side. */
 function IssuedLinkCard({ issued }: { readonly issued: IssuedLink }) {
@@ -31,19 +31,30 @@ function IssuedLinkCard({ issued }: { readonly issued: IssuedLink }) {
   );
 }
 
+/** MT-28: the TV's language, as three cards like setup's "Your menu" choice. */
+const LANGUAGE_CHOICES: readonly { readonly id: ScreenLanguage; readonly name: string; readonly line: string }[] = [
+  { id: 'en', name: 'English only', line: 'Dish names in English.' },
+  { id: 'en-hi', name: 'English and Hindi', line: 'Both names on every line.' },
+  { id: 'en-then-hi', name: 'English, then Hindi', line: 'The menu plays once in English, then once in Hindi.' },
+];
+const languageCard = 'flex min-h-11 cursor-pointer gap-3 rounded-card border border-night/30 bg-page p-3 has-[:checked]:border-night has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-chilli';
+
 const seconds = (value: number, recommended: number): string => `${value} seconds${value === recommended ? ' (recommended)' : ''}`;
 
-function ScreenFields({ name = '', layout = 'split', theme = 'paper', bilingual = false, timing = DEFAULT_TIMING, idPrefix }: {
+function ScreenFields({ name = '', layout = 'split', theme = 'paper', language = 'en', missingHindi = 0, timing = DEFAULT_TIMING, idPrefix }: {
   readonly name?: string;
   readonly layout?: LayoutId;
   readonly theme?: ThemeId;
   readonly timing?: LoopTiming;
-  readonly bilingual?: boolean;
+  readonly language?: ScreenLanguage;
+  /** Dishes on the menu with no Hindi name yet, said under the choice while Hindi is on. */
+  readonly missingHindi?: number;
   readonly idPrefix: string;
 }) {
   // The description under each choice follows what the owner picks, so "Split" or "Night" means something.
   const [layoutChoice, setLayoutChoice] = useState(layout);
   const [themeChoice, setThemeChoice] = useState(theme);
+  const [languageChoice, setLanguageChoice] = useState(language);
   return (
     <div className="grid gap-4 sm:grid-cols-[1.4fr_1fr_1fr]">
       <div>
@@ -102,10 +113,28 @@ function ScreenFields({ name = '', layout = 'split', theme = 'paper', bilingual 
           ))}
         </select>
       </div>
-      <label className="flex items-center gap-2 text-sm font-semibold sm:col-span-3">
-        <input type="checkbox" name="bilingual" defaultChecked={bilingual} className="size-4 accent-night" />
-        Show Hindi names next to English
-      </label>
+      <fieldset className="sm:col-span-3">
+        <legend className={label}>Language</legend>
+        <div className="mt-1.5 grid gap-2 sm:grid-cols-3">
+          {LANGUAGE_CHOICES.map((choice) => (
+            <label key={choice.id} className={languageCard}>
+              <input type="radio" name="language" value={choice.id} checked={languageChoice === choice.id} onChange={() => setLanguageChoice(choice.id)} className="mt-1 size-4 shrink-0 accent-night" />
+              <span>
+                <span className="block font-semibold">{choice.name}</span>
+                <span className="block text-sm text-night-soft">{choice.line}</span>
+              </span>
+            </label>
+          ))}
+        </div>
+        {languageChoice !== 'en' && missingHindi > 0 ? (
+          <p className={hint}>
+            {missingHindi === 1 ? '1 dish has' : `${missingHindi} dishes have`} no Hindi name yet.{' '}
+            <a href="/studio/menu" className="font-semibold underline underline-offset-4">
+              Add Hindi names
+            </a>
+          </p>
+        ) : null}
+      </fieldset>
     </div>
   );
 }
@@ -129,14 +158,15 @@ export function ScreenSettingsForm(props: {
   readonly name: string;
   readonly layout: LayoutId;
   readonly theme: ThemeId;
-  readonly bilingual: boolean;
+  readonly language: ScreenLanguage;
+  readonly missingHindi?: number;
   readonly timing?: LoopTiming;
 }) {
   const [state, action, pending] = useActionState(updateScreenAction, IDLE);
   return (
     <form action={action}>
       <input type="hidden" name="screenId" value={props.screenId} />
-      <ScreenFields idPrefix={`screen-${props.screenId}`} name={props.name} layout={props.layout} theme={props.theme} bilingual={props.bilingual} timing={props.timing} />
+      <ScreenFields idPrefix={`screen-${props.screenId}`} name={props.name} layout={props.layout} theme={props.theme} language={props.language} missingHindi={props.missingHindi} timing={props.timing} />
       <button type="submit" className={`${quiet} mt-3`} disabled={pending}>
         <Busy pending={pending}>Save changes</Busy>
       </button>
@@ -148,7 +178,7 @@ export function ScreenSettingsForm(props: {
 /** When to look again after connecting a TV: the TV collects its link on its next check, every 2 s or so. */
 const CONNECT_REFRESH_MS = [3000, 7000, 15000] as const;
 
-export function ConnectTvForm({ screens, initialCode }: { readonly screens: readonly { id: string; name: string }[]; readonly initialCode: string }) {
+export function ConnectTvForm({ screens, initialCode }: { readonly screens: readonly { id: string; name: string; tvs: number }[]; readonly initialCode: string }) {
   const [state, action, pending] = useActionState(connectTvAction, IDLE);
   const connected = state.status === 'ok';
   const router = useRouter();
@@ -179,9 +209,9 @@ export function ConnectTvForm({ screens, initialCode }: { readonly screens: read
           className={`${field} font-brand-mono text-xl tracking-[0.2em] uppercase`}
         />
       </div>
-      {screens.length === 0 ? (
-        // The first TV gets a screen with the usual look; the owner can change it once it plays.
-        <input type="hidden" name="screenId" value="new" />
+      {!screens.some((screen) => screen.tvs > 0) ? (
+        // The first TV gets the restaurant's first screen, or a new one with the usual look; nothing to choose yet.
+        <input type="hidden" name="screenId" value={screens[0]?.id ?? 'new'} />
       ) : (
         <div>
           <label htmlFor="connect-screen" className={label}>

@@ -128,7 +128,7 @@ export function ScreenStage({
         return <MenuColumns categories={shown[slide.page] ?? shown[0]} frame={frame} bilingual={bilingual} rowWeight={rowWeight} />;
       }
       case 'promo':
-        return <PromoCard promo={onHindi ? promoInHindi(slide.promo) : slide.promo} variant={variant} qrSvg={slide.promo.qrUrl ? qrCodes[slide.promo.id] : undefined} />;
+        return <PromoCard promo={onHindi ? promoInHindi(slide.promo) : slide.promo} variant={variant} bilingual={bilingual} qrSvg={slide.promo.qrUrl ? qrCodes[slide.promo.id] : undefined} />;
       case 'ad':
         return <AdCard ad={slide.ad} variant={variant} />;
       case 'spotlight':
