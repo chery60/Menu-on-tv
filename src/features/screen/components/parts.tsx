@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
 import type { Badge, Diet, LocalAd, MenuCategory, MenuItem, Promo } from '../types';
 import { formatRupees, menuRowSpacing, type MenuFrame } from '../loop';
+import { PromoCountdown } from './promo-countdown';
 
 /** Building blocks of every layout. Sizes live in globals.css (.scr-*), in container units. */
 
@@ -126,16 +127,26 @@ export function Plate({ emoji, photo, size = 'md' }: { readonly emoji: string; r
 }
 
 export function PromoCard({ promo, qrSvg, variant }: { readonly promo: Promo; readonly qrSvg?: string; readonly variant: 'takeover' | 'side' | 'hero' }) {
+  // A featured dish with no badge is labelled with its category, which is also its line: say it once.
+  const label = promo.label === promo.line ? null : promo.label;
   return (
     <article className={`scr-promo scr-promo-${variant} scr-kind-${promo.kind}`}>
       <div className="scr-promo-art">
-        {qrSvg ? <span className="scr-qr" role="img" aria-label="QR code" dangerouslySetInnerHTML={{ __html: qrSvg }} /> : <Plate emoji={promo.emoji} photo={promo.photo} size="lg" />}
+        {qrSvg ? (
+          <figure className="scr-qr-wrap">
+            <span className="scr-qr" role="img" aria-label="QR code" dangerouslySetInnerHTML={{ __html: qrSvg }} />
+            <figcaption className="scr-qr-hint">Scan with your phone camera</figcaption>
+          </figure>
+        ) : (
+          <Plate emoji={promo.emoji} photo={promo.photo} size="lg" />
+        )}
       </div>
       <div className="scr-promo-copy">
-        <span className="scr-promo-label">{promo.label}</span>
+        {label ? <span className="scr-promo-label">{label}</span> : null}
         <h2 className="scr-promo-headline">{promo.headline}</h2>
-        <p className="scr-promo-line">{promo.line}</p>
+        {promo.line ? <p className="scr-promo-line">{promo.line}</p> : null}
         {promo.price ? <Price amount={promo.price} was={promo.wasPrice} className="scr-promo-price" /> : null}
+        {promo.countdown && promo.endsAt !== undefined ? <PromoCountdown endsAt={promo.endsAt} /> : null}
       </div>
     </article>
   );
