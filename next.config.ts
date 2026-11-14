@@ -13,6 +13,12 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   poweredByHeader: false,
+  // Screen tokens and pairing codes ride in these paths; keep them out of the dev server's request log.
+  logging: {
+    incomingRequests: {
+      ignore: [/^\/s\//, /^\/api\/s\//, /^\/api\/pairing\//],
+    },
+  },
   turbopack: {
     rules: {
       '*.css': {
