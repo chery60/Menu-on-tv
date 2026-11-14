@@ -29,7 +29,22 @@ A QR card on every table and at the counter. A guest scans it and your live menu
 - A replaced, removed or made-up link shows "This QR code no longer works. Ask the staff for the menu."
 
 ## Design
-Design to write.
+**Job:** a guest at a table reads the menu on their phone as easily as the TV, and the owner prints cards that work on the first scan. **Direction:** the guest page is the TV's menu made for a hand: the same marks, names and prices on paper, with nothing to buy and nothing that tracks.
+
+- **Tables page** (`/studio/tables`): "Tables and QR codes." and "Put a card on each table. Guests scan it to see your menu." Then "Add tables" (chilli) and "Print cards" (quiet).
+  - Each place is a card in a grid, one across at 375px and three on a computer: its name, a 96px QR, the link typed out in mono, then "Rename", "New QR code" and "Remove". The last two ask first in a `Sheet` ("The old card stops working.").
+  - **Add tables** is a `Sheet` with one field and the hint "One name, like Table 4, or a range, like Tables 1 to 12."
+  - Staff see the cards and "Print cards" only.
+- **Print sheet** (`/studio/tables/print`): A4, eight cards a page in two columns, with the site's crosshair cut marks. Each card has the restaurant's name in Archivo, the place's name large, a 45mm QR with its quiet zone, "Scan to see the menu" and the link small. On screen there's one "Print" button; the print style hides everything else.
+- **The guest's menu** (`/t/<link>`, the site's paper look, light only):
+  - The top: the restaurant's name, a mono tag with the place ("Table 4"), and today's special as a framed cell with the accent rule.
+  - A sticky row of category names scrolls sideways on its own.
+  - Dish rows are at least 44px: veg mark, name at 17px, Hindi under it, the description dim, the price at 18px tabular (sizes stacked as on the TV), badges as on the TV, and a 64px photo on the right that loads as it nears the screen.
+  - Sold out: the name struck through, a mono "Sold out" and the row dimmed, in place.
+  - The foot: "Prices in ₹, taxes included".
+  - No cart, no order buttons, no sign-up.
+  - A dead link: the brand mark and "This QR code no longer works. Ask the staff for the menu."
+- Price and sold-out changes arrive silently. Nothing jumps under the guest's thumb: rows keep their height when a dish sells out.
 
 ## Data it touches
 - **A new places store** per restaurant through `openDocumentStore`: outlet, kind (table or counter), name, the link and when it was made. Locally a gitignored `data/places.json` set by `PLACES_DATA_FILE`; on Netlify, a row in the database.

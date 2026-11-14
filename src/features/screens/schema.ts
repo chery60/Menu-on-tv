@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { TIMING_CHOICES } from '@/features/screen/loop';
-import { LAYOUT_IDS, THEME_IDS, upgradeThemeId } from '@/features/screen/types';
+import { LANGUAGE_IDS, LAYOUT_IDS, THEME_IDS, upgradeThemeId } from '@/features/screen/types';
 
 /** The screens data file and owner input, validated at every boundary. */
 
@@ -24,19 +24,29 @@ export const linkSchema = z.object({
   lastSlide: z.string().nullable(),
 });
 
-export const screenSchema = z.object({
-  id: z.string().min(1),
-  restaurantId: z.string().min(1),
-  name: z.string().min(1).max(NAME_MAX),
-  layout: z.enum(LAYOUT_IDS),
-  // Screens saved with a retired theme (Chalk, Neon, Fresh) read as its brand theme.
-  theme: z.preprocess(upgradeThemeId, z.enum(THEME_IDS)),
-  bilingual: z.boolean(),
-  timing: timingSchema.optional(),
-  links: z.array(linkSchema),
-  createdAt: z.string(),
-  updatedAt: z.string(),
-});
+/** Screens saved before MT-28 have `bilingual` instead of a language: on reads as English and Hindi, off as English only. */
+function upgradeLanguage(raw: unknown): unknown {
+  if (typeof raw !== 'object' || raw === null || 'language' in raw) return raw;
+  const { bilingual, ...rest } = raw as { readonly bilingual?: unknown };
+  return { ...rest, language: bilingual === true ? 'en-hi' : 'en' };
+}
+
+export const screenSchema = z.preprocess(
+  upgradeLanguage,
+  z.object({
+    id: z.string().min(1),
+    restaurantId: z.string().min(1),
+    name: z.string().min(1).max(NAME_MAX),
+    layout: z.enum(LAYOUT_IDS),
+    // Screens saved with a retired theme (Chalk, Neon, Fresh) read as its brand theme.
+    theme: z.preprocess(upgradeThemeId, z.enum(THEME_IDS)),
+    language: z.enum(LANGUAGE_IDS),
+    timing: timingSchema.optional(),
+    links: z.array(linkSchema),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+  }),
+);
 
 export const pairingSchema = z.object({
   code: z.string(),
@@ -70,7 +80,7 @@ export const screenInputSchema = z.object({
   name: z.string().trim().min(1, { error: 'Give the screen a name, like “Counter TV”.' }).max(NAME_MAX, { error: 'Use 60 characters or fewer.' }),
   layout: z.enum(LAYOUT_IDS, { error: 'Choose a layout from the list.' }),
   theme: z.enum(THEME_IDS, { error: 'Choose a theme from the list.' }),
-  bilingual: z.boolean(),
+  language: z.enum(LANGUAGE_IDS, { error: 'Choose the languages from the list.' }),
   timing: timingSchema.optional(),
 });
 

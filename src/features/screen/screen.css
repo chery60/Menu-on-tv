@@ -542,6 +542,50 @@
   background: #fff;
 }
 
+/* The QR keeps its white quiet zone and says what to do with it. */
+.scr-qr-wrap {
+  display: grid;
+  justify-items: center;
+  gap: 1.4cqmin;
+  margin: 0;
+}
+
+.scr-qr-hint {
+  font-family: var(--scr-mono);
+  font-size: 2.2cqmin;
+  color: var(--scr-dim);
+  text-align: center;
+}
+
+/* Each promo keeps the same frame and changes only its label: New in ink, as its badge; Festival and Scan outlined. */
+.scr-kind-new .scr-promo-label {
+  border-color: var(--scr-ink);
+  background: var(--scr-ink);
+  color: var(--scr-ground);
+}
+
+.scr-kind-festival .scr-promo-label,
+.scr-kind-scan .scr-promo-label {
+  background: none;
+  color: var(--scr-ink);
+}
+
+.scr-kind-scan .scr-promo-label {
+  border-color: var(--scr-ink);
+}
+
+/* "Ends in 40 min" under the price, counted in minutes, never seconds (countdown.ts). */
+.scr-countdown {
+  display: inline-block;
+  margin-top: 1.6cqmin;
+  padding: 0.35em 0.7em;
+  border: var(--scr-hair) solid var(--scr-ink);
+  font-family: var(--scr-mono);
+  font-size: 2.6cqmin;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
 .scr-qr svg {
   display: block;
   width: 100%;

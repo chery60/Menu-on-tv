@@ -45,7 +45,7 @@ describe('screenRestaurant', () => {
       item: { name: 'Chicken biryani', nameHi: 'चिकन बिरयानी', description: '', prices: [{ label: 'Half', paise: 18000 }, { label: 'Full', paise: 32050 }], diet: 'nonveg', badges: [], kcal: 650, serving: '', allergens: [] },
     });
     const [item] = screenRestaurant(profile, menu, clockOn(TODAY)).categories[0].items;
-    expect(item).toMatchObject({ name: 'Chicken biryani', nameHi: 'चिकन बिरयानी', price: 180, sizes: [{ label: 'Half', price: 180 }, { label: 'Full', price: 320.5 }], diet: 'nonveg', kcal: 650, emoji: '🍛', soldOut: false });
+    expect(item).toMatchObject({ name: 'Chicken biryani', nameHi: 'चिकन बिरयानी', price: 180, sizes: [{ label: 'Half', price: 180 }, { label: 'Full', price: 320.5 }], diet: 'nonveg', emoji: '🍛', soldOut: false });
     expect(item).not.toHaveProperty('description');
     expect(item).not.toHaveProperty('photo');
   });
@@ -107,7 +107,7 @@ describe('today’s special on the TV', () => {
 
   it('plays first, at its menu price, with the featured dishes still playing after it', () => {
     const screen = screenRestaurant(profile, special(adrak.id), clockOn(TODAY));
-    expect(screen.promos[0]).toEqual({ id: `special-${adrak.id}`, kind: 'special', label: 'Today’s special', headline: 'Adrak elaichi chai', line: 'Chai and coffee', price: 35, emoji: adrak.emoji });
+    expect(screen.promos[0]).toEqual({ id: `special-${adrak.id}`, kind: 'special', label: 'Today’s special', headline: 'Adrak elaichi chai', headlineHi: adrak.nameHi, line: 'Chai and coffee', price: 35, emoji: adrak.emoji });
     expect(screen.promos.slice(1)).toEqual(plain.promos);
     expect(screen.ticker[0]).toBe('Today’s special: Adrak elaichi chai, ₹35');
     expect(screen.specialId).toBe(adrak.id);
@@ -242,5 +242,40 @@ describe('promos from the studio on the TV', () => {
     const chai = items.find((item) => item.id === dish('Masala chai'));
     const withPhoto = { ...menu, categories: menu.categories.map((category) => ({ ...category, items: category.items.map((item) => (item.id === chai?.id ? { ...item, photo: PHOTO } : item)) })) };
     expect(play([made()], withPhoto).promos[0]).toMatchObject({ photo: `/api/photos/${PHOTO}` });
+  });
+});
+
+describe('Hindi names on promos (MT-28)', () => {
+  it('give featured dishes and today’s special the dish’s Hindi name, and typed studio headlines none', () => {
+    const menu = sampleMenu(NOW, ids());
+    const [masala] = menu.categories[0].items;
+    expect(screenRestaurant(profile, menu, clockOn(TODAY)).promos[0]).toMatchObject({ headline: 'Masala chai', headlineHi: masala.nameHi });
+    const special = edit(menu, { type: 'set-special', itemId: masala.id });
+    expect(screenRestaurant(profile, special, clockOn(TODAY)).promos[0]).toMatchObject({ label: 'Today’s special', headlineHi: masala.nameHi });
+    const typed: StudioPromo = { id: 'p1', template: 'new', dishes: [{ itemId: masala.id, size: '' }], dealPaise: null, headline: 'Try our chai', line: '', festival: null, link: null, startsAt: null, endsAt: null, daypart: null, countdown: false, paused: false, createdAt: NOW.toISOString(), updatedAt: NOW.toISOString() };
+    expect(screenRestaurant(profile, menu, clockOn(TODAY), { promos: [typed], timeZone: 'Asia/Kolkata' }).promos[0]).not.toHaveProperty('headlineHi');
+  });
+});
+
+describe('calories and allergens on the TV (MT-29)', () => {
+  const menu = sampleMenu(NOW, ids());
+  const [chai] = menu.categories[0].items;
+  const labelled = { ...menu, categories: menu.categories.map((category, index) => (index === 0 ? { ...category, items: category.items.map((item) => (item.id === chai.id ? { ...item, kcal: 120, serving: '150 ml', allergens: ['milk' as const] } : item)) } : category)) };
+
+  it('travel with each dish only while the restaurant shows them', () => {
+    const off = screenRestaurant(profile, labelled, clockOn(TODAY));
+    expect(off.categories[0].items[0]).not.toHaveProperty('kcal');
+    expect(off.categories[0].items[0]).not.toHaveProperty('allergens');
+    expect(off).not.toHaveProperty('fssai');
+    const on = screenRestaurant({ ...profile, fssai: true }, labelled, clockOn(TODAY));
+    expect(on.categories[0].items[0]).toMatchObject({ kcal: 120, serving: '150 ml', allergens: ['milk'] });
+    expect(on.fssai).toBe(true);
+  });
+
+  it('leave out what a dish doesn’t have: no calories, no serving, no allergens ticked', () => {
+    const on = screenRestaurant({ ...profile, fssai: true }, labelled, clockOn(TODAY));
+    const plain = on.categories[0].items[1];
+    expect(plain).not.toHaveProperty('serving');
+    expect(plain).not.toHaveProperty('allergens');
   });
 });

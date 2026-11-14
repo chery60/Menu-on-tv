@@ -14,6 +14,8 @@ import type { Menu, MenuCategoryData, MenuItemData } from './schema';
 export interface ScreenProfile {
   readonly name: string;
   readonly tagline: string;
+  /** Calories and allergens on the TVs (MT-29). */
+  readonly fssai?: boolean;
 }
 
 /** Most featured dishes a screen rotates when the owner hasn't made promos yet. */
@@ -24,7 +26,7 @@ const SPECIAL_LABEL = 'Today’s special';
 export const photoUrl = (photoId: string): string => `/api/photos/${photoId}`;
 const rupees = (paise: number): number => paise / 100;
 
-function toScreenItem(item: MenuItemData, today: string): MenuItem {
+function toScreenItem(item: MenuItemData, today: string, fssai: boolean): MenuItem {
   const [first] = item.prices;
   return {
     id: item.id,
@@ -35,19 +37,22 @@ function toScreenItem(item: MenuItemData, today: string): MenuItem {
     ...(item.prices.length > 1 ? { sizes: item.prices.map((price) => ({ label: price.label, price: rupees(price.paise) })) } : {}),
     diet: item.diet,
     ...(item.badges.length ? { badges: item.badges } : {}),
-    ...(item.kcal !== null ? { kcal: item.kcal } : {}),
+    // Calories and allergens travel only while the restaurant shows them, so other TVs stay as light as before.
+    ...(fssai && item.kcal !== null ? { kcal: item.kcal } : {}),
+    ...(fssai && item.serving ? { serving: item.serving } : {}),
+    ...(fssai && item.allergens.length > 0 ? { allergens: item.allergens } : {}),
     soldOut: isSoldOut(item, today),
     emoji: item.emoji || emojiFor(item.name, item.diet),
     ...(item.photo ? { photo: photoUrl(item.photo) } : {}),
   };
 }
 
-function toScreenCategory(category: MenuCategoryData, today: string): MenuCategory {
+function toScreenCategory(category: MenuCategoryData, today: string, fssai: boolean): MenuCategory {
   return {
     id: category.id,
     name: category.name,
     ...(category.nameHi ? { nameHi: category.nameHi } : {}),
-    items: category.items.filter((item) => !item.hidden).map((item) => toScreenItem(item, today)),
+    items: category.items.filter((item) => !item.hidden).map((item) => toScreenItem(item, today, fssai)),
   };
 }
 
@@ -66,6 +71,7 @@ export function featuredPromos(categories: readonly MenuCategory[], skipId?: str
       kind: badge === 'new' ? 'new' : 'special',
       label: (badge && FEATURE_LABELS[badge]) ?? category.name,
       headline: item.name,
+      ...(item.nameHi ? { headlineHi: item.nameHi } : {}),
       line: item.description ?? category.name,
       price: item.price,
       emoji: item.emoji,
@@ -85,6 +91,7 @@ function specialPromo(menu: Menu, categories: readonly MenuCategory[], today: st
     kind: 'special',
     label: SPECIAL_LABEL,
     headline: item.name,
+    ...(item.nameHi ? { headlineHi: item.nameHi } : {}),
     line: item.description ?? category.name,
     price: item.price,
     emoji: item.emoji,
@@ -97,7 +104,7 @@ function specialPromo(menu: Menu, categories: readonly MenuCategory[], today: st
 export function screenRestaurant(profile: ScreenProfile, menu: Menu, clock: LocalClock, studio?: StudioPromos): Restaurant {
   const categories = menu.categories
     .filter((category) => showsAt(category.daypart ?? null, clock))
-    .map((category) => toScreenCategory(category, clock.today))
+    .map((category) => toScreenCategory(category, clock.today, profile.fssai === true))
     .filter((category) => category.items.length > 0);
   const special = specialPromo(menu, categories, clock.today);
   const made = studio ? studio.promos.flatMap((promo) => studioPromo(promo, menu, categories, clock, studio.timeZone) ?? []) : [];
@@ -105,7 +112,7 @@ export function screenRestaurant(profile: ScreenProfile, menu: Menu, clock: Loca
   const rest = made.length > 0 ? made : featuredPromos(categories, special?.itemId);
   const promos = special ? [special.promo, ...rest] : rest;
   const ticker = promos.length > 0 ? promos.map(tickerLine) : [profile.name, profile.tagline].filter(Boolean);
-  return { name: profile.name, tagline: profile.tagline, categories, promos, ads: [], ticker, ...(special ? { specialId: special.itemId } : {}) };
+  return { name: profile.name, tagline: profile.tagline, categories, promos, ads: [], ticker, ...(special ? { specialId: special.itemId } : {}), ...(profile.fssai ? { fssai: true } : {}) };
 }
 
 const tickerLine = (promo: Promo): string => `${promo.label}: ${promo.headline}${promo.price !== undefined ? `, ₹${formatRupees(promo.price)}` : ''}`;

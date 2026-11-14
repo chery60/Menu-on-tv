@@ -5,6 +5,8 @@ import {
   BILINGUAL_ROW_WEIGHT,
   busiestColumn,
   formatRupees,
+  FSSAI_FOOTER_ROWS,
+  FSSAI_LINE_ROWS,
   HEADING_ROWS,
   itemRows,
   liveSlides,
@@ -12,6 +14,7 @@ import {
   mainSlides,
   MAX_ROW_SPACING,
   MENU_FRAMES,
+  menuFrame,
   MENU_SLIDE_MS,
   menuRowSpacing,
   type MenuFrame,
@@ -296,9 +299,41 @@ describe('items with sizes', () => {
     const sized = { ...plain, id: 'b', sizes: [{ label: 'Half', price: 70 }, { label: 'Full', price: 120 }] };
     expect(itemRows(plain)).toBe(1);
     expect(itemRows(sized)).toBeCloseTo(1.8);
-    expect(itemRows(sized, BILINGUAL_ROW_WEIGHT)).toBeCloseTo(1.8);
+    expect(itemRows(sized, BILINGUAL_ROW_WEIGHT)).toBeCloseTo(BILINGUAL_ROW_WEIGHT);
     expect(itemRows(plain, BILINGUAL_ROW_WEIGHT)).toBe(BILINGUAL_ROW_WEIGHT);
     const page = [{ id: 'c', name: 'Rolls', items: [sized, sized] }];
     expect(busiestColumn(page, 1)).toBeCloseTo(2 * 1.8 + HEADING_ROWS);
+  });
+});
+
+describe('calories and allergens on the TV (MT-29)', () => {
+  const plain = { id: 'a', name: 'Chai', price: 20, diet: 'veg' as const, emoji: '☕' };
+
+  it('give a dish with calories or allergens its line under the name, on top of a Hindi line', () => {
+    expect(itemRows({ ...plain, kcal: 120 })).toBe(1 + FSSAI_LINE_ROWS);
+    expect(itemRows({ ...plain, allergens: ['milk'] })).toBe(1 + FSSAI_LINE_ROWS);
+    expect(itemRows({ ...plain, kcal: 120 }, BILINGUAL_ROW_WEIGHT)).toBeCloseTo(BILINGUAL_ROW_WEIGHT + FSSAI_LINE_ROWS);
+    expect(itemRows(plain)).toBe(1);
+  });
+
+  it('let stacked sizes stand beside the calorie line rather than add to it', () => {
+    const sized = { ...plain, kcal: 300, sizes: [{ label: 'Half', price: 70 }, { label: 'Full', price: 120 }, { label: 'Family', price: 200 }] };
+    expect(itemRows(sized)).toBeCloseTo(Math.max(1 + FSSAI_LINE_ROWS, 1 + 2 * (itemRows({ ...plain, sizes: sized.sizes }) - 1) / 2));
+  });
+
+  it('take the footer band out of the menu zone, more on Portrait where the reference line wraps', () => {
+    expect(menuFrame('split')).toBe(MENU_FRAMES.split);
+    expect(menuFrame('split', true)).toEqual({ ...MENU_FRAMES.split, rows: MENU_FRAMES.split.rows - FSSAI_FOOTER_ROWS.landscape });
+    expect(menuFrame('portrait', true).rows).toBe(MENU_FRAMES.portrait.rows - FSSAI_FOOTER_ROWS.portrait);
+  });
+
+  it('count pages with the line and the band, so turning them on may add a page but never drops a dish', () => {
+    const labelled = { ...DEMO_RESTAURANT, fssai: true, categories: DEMO_RESTAURANT.categories.map((category) => ({ ...category, items: category.items.map((item) => ({ ...item, kcal: 250, allergens: ['milk' as const] })) })) };
+    const before = mainSlides('board', { ...DEMO_RESTAURANT, promos: [], ads: [] }).length;
+    const after = mainSlides('board', { ...labelled, promos: [], ads: [] }).length;
+    expect(after).toBeGreaterThanOrEqual(before);
+    const pages = paginateMenu(labelled.categories, menuFrame('board', true), 1);
+    expect(pages.flatMap((page) => page.flatMap((category) => category.items)).length).toBe(DEMO_RESTAURANT.categories.flatMap((category) => category.items).length);
+    expect(pages.every((page) => busiestColumn(page, menuFrame('board', true).columns) <= menuFrame('board', true).rows || page.length === 1)).toBe(true);
   });
 });
