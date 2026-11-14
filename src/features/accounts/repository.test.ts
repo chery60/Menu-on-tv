@@ -174,3 +174,15 @@ describe('restaurants and people', () => {
     expect(await repo.updateRestaurant('missing', cafe, NOW)).toBeNull();
   });
 });
+
+describe('calories and allergens on the TVs (MT-29)', () => {
+  it('start off, and turn on and off for the restaurant asked', async () => {
+    const { userId } = await signIn(owner);
+    const restaurant = await repo.createRestaurant(userId, cafe, NOW);
+    expect(restaurant.fssai).toBe(false);
+    expect(await repo.setFssai(restaurant.id, true, NOW)).toMatchObject({ id: restaurant.id, fssai: true });
+    expect((await repo.restaurant(restaurant.id))?.fssai).toBe(true);
+    expect(await repo.setFssai(restaurant.id, false, NOW)).toMatchObject({ fssai: false });
+    expect(await repo.setFssai('nowhere', true, NOW)).toBeNull();
+  });
+});

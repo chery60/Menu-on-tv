@@ -24,7 +24,8 @@ function readScreenInput(form: FormData) {
     name: form.get('name'),
     layout: form.get('layout'),
     theme: form.get('theme'),
-    bilingual: form.get('bilingual') === 'on',
+    // The language choice (MT-28), or the old "Show Hindi" checkbox until the TVs page offers all three.
+    language: form.has('language') ? form.get('language') : form.get('bilingual') === 'on' ? 'en-hi' : 'en',
     // Forms without the timing fields (connect a TV) leave the screen on the playbook's timing.
     timing: form.has('menuSeconds') ? { menuSeconds: Number(form.get('menuSeconds')), promoSeconds: Number(form.get('promoSeconds')) } : undefined,
   });
@@ -72,7 +73,7 @@ export async function connectTvAction(_previous: ActionState, form: FormData): P
     if (screenId.data !== NEW_SCREEN) return CLAIM_MESSAGES[await screens.claimPairing(code, restaurant.id, screenId.data, now)];
 
     const count = (await screens.listScreens(restaurant.id)).length;
-    const screen = await screens.addScreen(restaurant.id, { name: count === 0 ? 'Counter TV' : `Screen ${count + 1}`, layout: 'split', theme: 'paper', bilingual: false }, now);
+    const screen = await screens.addScreen(restaurant.id, { name: count === 0 ? 'Counter TV' : `Screen ${count + 1}`, layout: 'split', theme: 'paper', language: 'en' }, now);
     const claimed = await screens.claimPairing(code, restaurant.id, screen.id, now);
     if (claimed !== 'claimed') await screens.removeScreen(restaurant.id, screen.id);
     return CLAIM_MESSAGES[claimed];

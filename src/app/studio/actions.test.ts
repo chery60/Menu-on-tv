@@ -32,7 +32,7 @@ vi.mock('next/headers', () => ({
 const { createScreenAction, connectTvAction, updateScreenAction } = await import('./actions');
 const { editMenuAction, importMenuAction, readMenuPhotoAction, setSoldOutAction, uploadPhotoAction } = await import('./menu/actions');
 const { MenuPhotoError } = await import('@/features/menu/photo-reader');
-const { addPersonAction, removePersonAction } = await import('./restaurant/actions');
+const { addPersonAction, removePersonAction, setFssaiAction } = await import('./restaurant/actions');
 const { createRestaurantAction } = await import('./setup/actions');
 const { startSignInAction, verifySignInAction, signOutAction } = await import('../sign-in/actions');
 const { GET: PHOTO } = await import('../api/photos/[id]/route');
@@ -135,7 +135,7 @@ describe('screen timing', () => {
   it('saves the owner’s choice within the limits, and refuses one outside them', async () => {
     const { owner, restaurant } = await ownerWithStaff();
     signInAs(owner.token);
-    const { screen } = await getScreensRepository().createScreen(restaurant.id, { name: 'Counter TV', layout: 'split', theme: 'paper', bilingual: false }, new Date());
+    const { screen } = await getScreensRepository().createScreen(restaurant.id, { name: 'Counter TV', layout: 'split', theme: 'paper', language: 'en' }, new Date());
     const fields = { screenId: screen.id, name: 'Counter TV', layout: 'split', theme: 'paper' };
     expect(await updateScreenAction(IDLE, form({ ...fields, menuSeconds: '30', promoSeconds: '10' }))).toMatchObject({ status: 'ok' });
     expect((await getScreensRepository().listScreens(restaurant.id))[0].timing).toEqual({ menuSeconds: 30, promoSeconds: 10 });
@@ -213,7 +213,7 @@ describe('owners', () => {
     const mine = await ownerWithStaff();
     const other = await person('+919876500003');
     const theirs = await getAccountsRepository().createRestaurant(other.userId, { name: 'Dosa Hut', city: 'HSR', tagline: '' }, new Date());
-    const { screen } = await getScreensRepository().createScreen(theirs.id, { name: 'Their TV', layout: 'split', theme: 'night', bilingual: false }, new Date());
+    const { screen } = await getScreensRepository().createScreen(theirs.id, { name: 'Their TV', layout: 'split', theme: 'night', language: 'en' }, new Date());
     signInAs(mine.owner.token);
     expect(await updateScreenAction(IDLE, form({ screenId: screen.id, name: 'Mine now', layout: 'board', theme: 'paper' }))).toMatchObject({ status: 'error' });
     const { code } = await getScreensRepository().startPairing(new Date());
@@ -306,5 +306,34 @@ describe('sign-in in production with no provider', () => {
     address = '198.51.100.251';
     const suggestion = await startSignInAction({ status: 'idle' }, form({ identifier: '9876500112' }));
     expect(suggestion).toMatchObject({ status: 'error', message: expect.stringMatching(/Use your email address instead/) });
+  });
+});
+
+describe('screen languages (MT-28)', () => {
+  it('take the three choices or the old "Show Hindi" checkbox, and refuse anything else', async () => {
+    const { owner, restaurant } = await ownerWithStaff();
+    signInAs(owner.token);
+    const make = (fields: Record<string, string>) => createScreenAction(IDLE, form({ name: 'TV', layout: 'split', theme: 'night', ...fields }));
+    expect(await make({ language: 'en-then-hi' })).toMatchObject({ status: 'ok' });
+    expect(await make({ bilingual: 'on' })).toMatchObject({ status: 'ok' });
+    expect(await make({})).toMatchObject({ status: 'ok' });
+    expect(await make({ language: 'ta' })).toMatchObject({ status: 'error', message: 'Choose the languages from the list.' });
+    expect((await getScreensRepository().listScreens(restaurant.id)).map((screen) => screen.language)).toEqual(['en-then-hi', 'en-hi', 'en']);
+  });
+});
+
+describe('calories and allergens on the TVs (MT-29)', () => {
+  it('are turned on and off by an owner only', async () => {
+    const { owner, staff, restaurant } = await ownerWithStaff();
+    signInAs(staff.token);
+    expect(await setFssaiAction(IDLE, form({ fssai: 'true' }))).toMatchObject({ status: 'error', message: expect.stringMatching(/Only an owner/) });
+    expect((await getAccountsRepository().restaurant(restaurant.id))?.fssai).toBe(false);
+    signInAs(owner.token);
+    expect(await setFssaiAction(IDLE, form({ fssai: 'true' }))).toMatchObject({ status: 'ok' });
+    expect((await getAccountsRepository().restaurant(restaurant.id))?.fssai).toBe(true);
+    expect(await setFssaiAction(IDLE, form({ fssai: 'false' }))).toMatchObject({ status: 'ok' });
+    expect((await getAccountsRepository().restaurant(restaurant.id))?.fssai).toBe(false);
+    signInAs(null);
+    expect(await setFssaiAction(IDLE, form({ fssai: 'true' }))).toMatchObject({ status: 'error', message: expect.stringMatching(/signed out/) });
   });
 });

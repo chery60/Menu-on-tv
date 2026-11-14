@@ -40,6 +40,7 @@ const NO_PRICE = 'No price found. Type the price.';
 const NO_NAME = 'No dish name found. Type the name.';
 const NAME_SIZES = 'Name each size, like Half and Full.';
 const GUESSED_SIZES = 'Two prices. We called them Half and Full. Check the names.';
+const numberInName = (number: string): string => `Is “${number}” part of the name? We read it that way. Check the name and the price.`;
 const LOOSE_SIZE = 'A size has no price next to it. Check the prices.';
 const TOO_MANY = `More than ${MENU_LIMITS.sizes} prices. Keep up to ${MENU_LIMITS.sizes}.`;
 const TWO_DISHES = 'This line may hold more than one dish. Check it.';
@@ -77,6 +78,8 @@ const isSectionName = (name: string): boolean => {
 };
 /** Commas, semicolons and bars between dishes on one line; a comma before three digits is part of a price. */
 const DISH_BREAK = /\s*[;|]\s*|,(?!\d{3}(?!\d))\s*/;
+/** "180/320" or "180 / ₹320": two prices joined by a slash are sizes. ("80/-" is one price.) */
+const SLASHED_PRICES = /\d\s*\/\s*₹?\d/;
 
 const NAME_HEAD = /^(?:item|items|item name|name|dish|dishes|dish name|product|product name|menu item|particulars)$/;
 const PRICE_HEAD = /\b(?:price|rate|mrp|amount|cost|rs)\b/;
@@ -180,8 +183,8 @@ function pairUp(tail: readonly Token[]): { readonly sizes: readonly Size[]; read
   return { sizes, loose: pending !== null };
 }
 
-/** One dish: the name, then its prices and sizes at the end of the line. */
-function readDish(text: string): Read {
+/** One dish: the name, then its prices and sizes at the end of the line. `slashed`: two prices were written "180/320". */
+function readDish(text: string, slashed = false): Read {
   const tokens = text.split(' ').filter(Boolean).map(classify);
   const numbers = tokens.some((token) => token.kind === 'price');
   let start = tokens.length;
@@ -197,17 +200,24 @@ function readDish(text: string): Read {
   const unreadable = sizes.find((size) => size.paise === null);
   const prices = sizes.flatMap((size) => (size.paise === null ? [] : [{ label: unit ? '' : size.label, paise: size.paise }]));
   const guessed = prices.length === 2 && !prices[0].label && !prices[1].label && prices[0].paise < prices[1].paise;
+  // "Chicken 65 220": with only a space between them, the first number may belong to the name. Never guess a price: ask.
+  if (guessed && !slashed && !unreadable && !loose) {
+    const withNumber = names(tokens.slice(0, start + 1).map((token) => token.raw).join(' '));
+    return { ...withNumber, prices: [{ label: '', paise: prices[1].paise }], flag: numberInName(tokens[start].raw), priced: true, numbers };
+  }
   const flag = unreadable ? `Check the price “${unreadable.raw}”.` : loose ? LOOSE_SIZE : guessed ? GUESSED_SIZES : named.name.includes('₹') ? TWO_DISHES : null;
   return { ...named, prices: guessed ? [{ label: 'Half', paise: prices[0].paise }, { label: 'Full', paise: prices[1].paise }] : prices, flag, priced: true, numbers };
 }
 
 function readDishes(line: string): readonly Read[] {
   const parts = line.split(DISH_BREAK).filter((part) => part.trim());
+  // normalize() turns "180/320" into two prices; remember the slash, which says they are sizes, not a number in the name.
+  const read = (text: string): Read => readDish(normalize(text), SLASHED_PRICES.test(text));
   if (parts.length > 1) {
-    const reads = parts.map((part) => readDish(normalize(part)));
-    if (reads.every((read) => read.priced && read.name)) return reads;
+    const reads = parts.map(read);
+    if (reads.every((dish) => dish.priced && dish.name)) return reads;
   }
-  return [readDish(normalize(line))];
+  return [read(line)];
 }
 
 /** Text, a line at a time. A line without a price is a heading when it starts a block or looks like one. */
@@ -215,6 +225,8 @@ function readLines(rows: readonly Cells[]): ImportedItem[] {
   const items: ImportedItem[] = [];
   let category = '';
   let blank = true;
+  // A line that read as a heading only because it is section words ("Special thali"), until a dish comes under it.
+  let unsure: ImportedItem | null = null;
   rows.forEach((cells, index) => {
     const raw = cells.map((cell) => cell.trim()).filter(Boolean).join(' ').replace(CHAT_PREFIX, '');
     const startsBlock = blank;
@@ -226,14 +238,18 @@ function readLines(rows: readonly Cells[]): ImportedItem[] {
       blank = true; // a line of dashes or stars separates blocks
       return;
     }
-    if (!first.priced && !first.numbers && first.name.length <= MENU_LIMITS.categoryName && (startsBlock || HEADING_MARK.test(raw) || isShouting(withoutNote(raw)) || isSectionName(withoutNote(first.name)))) {
+    const looksLikeHeading = startsBlock || HEADING_MARK.test(raw) || isShouting(withoutNote(raw));
+    if (!first.priced && !first.numbers && first.name.length <= MENU_LIMITS.categoryName && (looksLikeHeading || isSectionName(withoutNote(first.name)))) {
+      unsure = looksLikeHeading ? null : { line: index + 1, category, name: first.name, nameHi: first.nameHi, prices: [], diet: dietMark(raw) ?? guessDiet(first.name), flag: null };
       category = first.name;
       return;
     }
+    unsure = null;
     const diet = dietMark(raw);
     items.push(...reads.map((read) => ({ line: index + 1, category, name: read.name, nameHi: read.nameHi, prices: read.prices, diet: diet ?? guessDiet(read.name), flag: read.flag })));
   });
-  return items;
+  // Nothing came under it, so it was an unpriced dish: keep it, flagged for a price, rather than drop it unseen.
+  return unsure ? [...items, unsure] : items;
 }
 
 interface Columns {
