@@ -3639,12 +3639,17 @@
           "id": "36f6b32c-1c8a-42e5-8677-0a6de4b9a5bb-c9",
           "text": "Place links never appear in server logs, only place ids",
           "done": false
+        },
+        {
+          "id": "36f6b32c-1c8a-42e5-8677-0a6de4b9a5bb-c10",
+          "text": "Menu reads answered with 304 Not Modified don’t count toward the per-address limit",
+          "done": false
         }
       ],
       "rank": 90112,
       "archived": false,
       "createdAt": "2026-11-15T04:30:00.000Z",
-      "updatedAt": "2026-11-15T07:30:00.000Z"
+      "updatedAt": "2026-11-15T07:45:00.000Z"
     },
     {
       "id": "407b9b52-b92d-442c-b773-27a50cd819cc",
@@ -3744,12 +3749,17 @@
           "id": "407b9b52-b92d-442c-b773-27a50cd819cc-c16",
           "text": "Logs from placing an order show order and place ids only, never place or status links, pickup names, notes or UPI IDs",
           "done": false
+        },
+        {
+          "id": "407b9b52-b92d-442c-b773-27a50cd819cc-c17",
+          "text": "The orders table holds only a hash of each status link, never the link",
+          "done": false
         }
       ],
       "rank": 91136,
       "archived": false,
       "createdAt": "2026-11-15T04:30:00.000Z",
-      "updatedAt": "2026-11-15T07:30:00.000Z"
+      "updatedAt": "2026-11-15T07:45:00.000Z"
     },
     {
       "id": "56897361-dd5c-43bd-af11-caab28708d29",

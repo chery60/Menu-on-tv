@@ -71,7 +71,7 @@ As the owner on a 375 px phone, with a second phone for the guest:
 8. Remove Table 5: it asks first, then its card stops working.
 9. Signed in as staff: the cards can be seen and printed, but there's no way to add, rename, remove or replace, and calling the actions directly is refused.
 10. On the guest page, the browser's tools show no cookies, no third-party requests and a `noindex` tag.
-11. Many requests a second from one address get "Too many requests" (429). 40 phones on the Counter link, refreshing every 30 seconds from one Wi-Fi address, never do.
+11. Many requests a second from one address get "Too many requests" (429). 40 phones on the Counter link, refreshing every 30 seconds from one Wi-Fi address, never do, and replies of 304 Not Modified don't count toward the limit.
 12. Signed in to a second restaurant: no Tables page, print sheet or action shows, changes or returns the first restaurant's links.
 13. After scanning, printing and replacing cards, the server logs show place ids only, never a place link.
 14. Once MT-29 has shipped and its switch is on: the guest's menu shows calories, allergens and the 2,000 kcal line.
