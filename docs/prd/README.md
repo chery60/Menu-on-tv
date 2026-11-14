@@ -12,6 +12,7 @@ PRDs so far, in build order. List each new one here with one line on what it doe
 - [MT-26 Promo studio](mt-26-promo-studio.md) (approved): six promo templates priced from the menu, with schedules and honest countdowns.
 - [MT-28 Hindi on screen](mt-28-hindi-on-screen.md) (draft): English and Hindi on each line or by turns, with Devanagari never smaller than English.
 - [MT-29 FSSAI display mode](mt-29-fssai-display.md) (draft): one switch for calories, serving sizes, allergens and the 2,000 kcal line on every TV.
+- [MT-89 QR menu at the table and counter](mt-89-qr-menu.md) (draft): tables and printed QR cards that open the live menu on the guest's phone; the first step of the [ordering plan](../ordering-plan.md).
 
 ## Format
 
