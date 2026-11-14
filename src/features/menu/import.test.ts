@@ -203,3 +203,25 @@ describe('toItemInput', () => {
     expect(toItemInput({ name: 'Biryani', nameHi: '', prices: [{ label: '', paise: 100 }, { label: '', paise: 200 }], diet: 'veg' })).toEqual({ error: 'Name each size, like “Half” and “Full”.' });
   });
 });
+
+describe('numbers and headings the reader must not guess (QA, MT-18)', () => {
+  it('keeps a number that may belong to the name, and asks, instead of calling two prices Half and Full', () => {
+    expect(one('Chicken 65 220')).toEqual({ category: '', name: 'Chicken 65', prices: [220], diet: 'nonveg', flag: 'Is “65” part of the name? We read it that way. Check the name and the price.' });
+    expect(one('Paneer 65 180')).toMatchObject({ name: 'Paneer 65', prices: [180], flag: expect.stringMatching(/“65” part of the name/) });
+    // With a slash between them, two bare prices are still sizes to check.
+    expect(one('Chicken curry 180/320')).toMatchObject({ name: 'Chicken curry', prices: ['Half 180', 'Full 320'], flag: expect.stringMatching(/Half and Full/) });
+  });
+
+  it('keeps an unpriced last line made only of section words, flagged, instead of dropping it', () => {
+    const items = brief(parseMenuText('Thali\nVeg thali 120\nSpecial thali'));
+    expect(items).toEqual([
+      { category: 'Thali', name: 'Veg thali', prices: [120], diet: 'veg', flag: null },
+      { category: 'Thali', name: 'Special thali', prices: [], diet: 'veg', flag: 'No price found. Type the price.' },
+    ]);
+    // Section words with dishes under them are still a heading.
+    expect(brief(parseMenuText('Samosa 20\nSpecial thali\nVeg thali 120')).map((item) => [item.category, item.name])).toEqual([
+      ['', 'Samosa'],
+      ['Special thali', 'Veg thali'],
+    ]);
+  });
+});
