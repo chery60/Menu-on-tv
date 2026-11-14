@@ -23,6 +23,8 @@ interface ItemSheetProps {
   readonly onUploadPhoto: (itemId: string, photo: Blob) => Promise<MenuResult>;
   readonly onRemovePhoto: (itemId: string) => Promise<MenuResult>;
   readonly onClose: () => void;
+  /** Opened from a dish flagged "No calories" (MT-29): start on its calories. */
+  readonly openCalories?: boolean;
 }
 
 interface SizeDraft {
@@ -161,7 +163,7 @@ function PhotoPicker({ item, pending, onPick, onRemove, busy }: { readonly item:
   );
 }
 
-export function ItemSheet({ mode, categories, onSave, onUploadPhoto, onRemovePhoto, onClose }: ItemSheetProps) {
+export function ItemSheet({ mode, categories, onSave, onUploadPhoto, onRemovePhoto, onClose, openCalories = false }: ItemSheetProps) {
   const [draft, setDraft] = useState<Draft>(() => draftFrom(mode));
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -283,7 +285,7 @@ export function ItemSheet({ mode, categories, onSave, onUploadPhoto, onRemovePho
           </div>
         </fieldset>
 
-        <details className="rounded-card border border-hairline px-4 py-1">
+        <details open={openCalories} className="rounded-card border border-hairline px-4 py-1">
           <summary className="flex h-11 cursor-pointer items-center font-semibold">Hindi name, description, calories and allergens</summary>
           <div className="space-y-5 pt-2 pb-4">
             <div>
@@ -304,7 +306,7 @@ export function ItemSheet({ mode, categories, onSave, onUploadPhoto, onRemovePho
                 <label htmlFor="item-kcal" className={label}>
                   Calories (kcal)
                 </label>
-                <input id="item-kcal" value={draft.kcal} onChange={(event) => change({ kcal: event.currentTarget.value.replace(/\D/g, '') })} inputMode="numeric" maxLength={4} className={field} />
+                <input id="item-kcal" data-autofocus={openCalories || undefined} value={draft.kcal} onChange={(event) => change({ kcal: event.currentTarget.value.replace(/\D/g, '') })} inputMode="numeric" maxLength={4} className={field} />
               </div>
               <div>
                 <label htmlFor="item-serving" className={label}>

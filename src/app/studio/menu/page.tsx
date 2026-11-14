@@ -25,7 +25,7 @@ async function MenuContent() {
     <MenuEditor
       initialMenu={menu}
       clock={localClock(now, restaurant.outlets[0].timeZone)}
-      profile={{ name: restaurant.name, tagline: restaurant.tagline }}
+      profile={{ name: restaurant.name, tagline: restaurant.tagline, fssai: restaurant.fssai }}
       previewScreen={first ? { name: first.name, layout: first.layout, theme: first.theme, language: first.language, timing: first.timing } : DEFAULT_PREVIEW}
       canReadPhotos={canReadMenuPhotos()}
     />

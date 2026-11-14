@@ -22,6 +22,8 @@ interface ItemRowProps {
   readonly onOpen: () => void;
   readonly onEdit: (edit: MenuEdit) => void;
   readonly onError: (message: string) => void;
+  /** Flagged while calories are on the TVs (MT-29) and this dish has none. */
+  readonly noCalories?: boolean;
 }
 
 export function DietMark({ diet }: { readonly diet: MenuItemData['diet'] }) {
@@ -154,7 +156,7 @@ function useSwipe(onSwipe: () => void) {
   return { offset, handlers, swiped };
 }
 
-export function ItemRow({ item, today, onOpen, onEdit, onError }: ItemRowProps) {
+export function ItemRow({ item, today, onOpen, onEdit, onError, noCalories = false }: ItemRowProps) {
   const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
   const { offset, handlers, swiped } = useSwipe(() => onEdit({ type: 'set-hidden', itemId: item.id, hidden: !item.hidden }));
   const soldOut = isSoldOut(item, today);
@@ -195,6 +197,7 @@ export function ItemRow({ item, today, onOpen, onEdit, onError }: ItemRowProps) 
             ) : details ? (
               <span className="mt-0.5 block text-sm text-night-dim">{details}</span>
             ) : null}
+            {noCalories ? <span className="mt-0.5 block font-brand-mono text-[0.78rem] text-masala">No calories</span> : null}
           </span>
         </button>
         <div className="ml-auto flex items-center gap-2">

@@ -8,10 +8,12 @@ import { editMenuAction, importMenuAction, removePhotoAction, uploadPhotoAction,
 import type { MenuResult } from '@/app/studio/menu/menu-result';
 import { primary, quiet } from '@/components/owner/ui';
 import type { LocalClock } from '@/lib/local-date';
+import { dishesWithoutCalories } from '../calories';
 import { describeDaypart, showsAt } from '../dayparts';
 import { applyEdit, findItem } from '../edit';
 import type { Menu, MenuCategoryData, MenuEdit, MenuImport } from '../schema';
 import type { ScreenProfile } from '../to-screen';
+import { caloriesCount } from './calorie-flags';
 import { CategorySheet } from './category-sheet';
 import { dishAnnouncements, DISH_DRAG_INSTRUCTIONS } from './drag-announcements';
 import { ImportSheet } from './import-sheet';
@@ -27,7 +29,7 @@ const TOUCH_HOLD_MS = 180;
 const SAVED_SHOWN_MS = 2500;
 const ERROR_SHOWN_MS = 8000;
 
-type ItemSheetState = { readonly kind: 'add'; readonly categoryId: string } | { readonly kind: 'edit'; readonly itemId: string };
+type ItemSheetState = { readonly kind: 'add'; readonly categoryId: string } | { readonly kind: 'edit'; readonly itemId: string; readonly calories: boolean };
 type CategorySheetState = { readonly kind: 'add' } | { readonly kind: 'edit'; readonly categoryId: string };
 
 interface MenuEditorProps {
@@ -45,6 +47,7 @@ function CategorySection({
   index,
   count,
   clock,
+  noCalories,
   onEdit,
   onError,
   onOpenItem,
@@ -55,6 +58,8 @@ function CategorySection({
   readonly index: number;
   readonly count: number;
   readonly clock: LocalClock;
+  /** Dishes flagged "No calories" while calories are on the TVs. */
+  readonly noCalories: ReadonlySet<string>;
   readonly onEdit: (edit: MenuEdit) => void;
   readonly onError: (message: string) => void;
   readonly onOpenItem: (itemId: string) => void;
@@ -142,7 +147,7 @@ function CategorySection({
           <SortableContext items={category.items.map((item) => item.id)} strategy={verticalListSortingStrategy}>
             <ul className="mt-3 space-y-2">
               {category.items.map((item) => (
-                <ItemRow key={item.id} item={item} today={clock.today} onOpen={() => onOpenItem(item.id)} onEdit={onEdit} onError={onError} />
+                <ItemRow key={item.id} item={item} today={clock.today} noCalories={noCalories.has(item.id)} onOpen={() => onOpenItem(item.id)} onEdit={onEdit} onError={onError} />
               ))}
             </ul>
           </SortableContext>
@@ -255,6 +260,8 @@ export function MenuEditor({ initialMenu, clock, profile, previewScreen, canRead
   const editing = itemSheet?.kind === 'edit' ? findItem(menu, itemSheet.itemId) : null;
   const editingCategory = categorySheet?.kind === 'edit' ? (menu.categories.find((category) => category.id === categorySheet.categoryId) ?? null) : null;
   const dishes = menu.categories.reduce((total, category) => total + category.items.length, 0);
+  // Only while calories are on the TVs (MT-29): the same dishes the Restaurant tab lists before it goes on.
+  const noCalories: ReadonlySet<string> = new Set(profile.fssai ? dishesWithoutCalories(menu).map((item) => item.id) : []);
 
   return (
     <div>
@@ -312,6 +319,11 @@ export function MenuEditor({ initialMenu, clock, profile, previewScreen, canRead
           </p>
           <div className="mt-5 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-start">
             <div>
+              {profile.fssai ? (
+                <p role="status" className={`mb-4 font-brand-mono text-[0.8rem] ${noCalories.size > 0 ? 'text-masala' : 'text-chutney-deep'}`}>
+                  {caloriesCount(noCalories.size)}
+                </p>
+              ) : null}
               <div className="space-y-5">
                 {menu.categories.map((category, index) => (
                   <CategorySection
@@ -320,9 +332,10 @@ export function MenuEditor({ initialMenu, clock, profile, previewScreen, canRead
                     index={index}
                     count={menu.categories.length}
                     clock={clock}
+                    noCalories={noCalories}
                     onEdit={edit}
                     onError={showError}
-                    onOpenItem={(itemId) => setItemSheet({ kind: 'edit', itemId })}
+                    onOpenItem={(itemId) => setItemSheet({ kind: 'edit', itemId, calories: noCalories.has(itemId) })}
                     onAddItem={() => setItemSheet({ kind: 'add', categoryId: category.id })}
                     onEditCategory={() =>
                       setCategorySheet({
@@ -376,6 +389,7 @@ export function MenuEditor({ initialMenu, clock, profile, previewScreen, canRead
           onUploadPhoto={uploadPhoto}
           onRemovePhoto={removePhoto}
           onClose={() => setItemSheet(null)}
+          openCalories={itemSheet.kind === 'edit' && itemSheet.calories}
         />
       ) : null}
       {categorySheet && (categorySheet.kind === 'add' || editingCategory) ? (

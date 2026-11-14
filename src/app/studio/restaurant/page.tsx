@@ -5,8 +5,11 @@ import { card, heading, kicker } from '@/components/owner/ui';
 import { formatIdentifier } from '@/features/accounts/identifier';
 import { getAccountsRepository } from '@/features/accounts/repository';
 import { requireRestaurant } from '@/features/accounts/session';
+import { dishesWithoutCalories } from '@/features/menu/calories';
+import { LISTED_WITHOUT_CALORIES } from '@/features/menu/components/calorie-flags';
+import { getMenusRepository } from '@/features/menu/repository';
 import { requestOrigin } from '@/lib/origin';
-import { AddPersonForm, CancelInviteButton, RemovePersonButton, RestaurantDetailsForm } from './restaurant-forms';
+import { AddPersonForm, CancelInviteButton, FssaiSwitch, RemovePersonButton, RestaurantDetailsForm } from './restaurant-forms';
 
 export const metadata: Metadata = {
   title: 'Restaurant',
@@ -30,8 +33,9 @@ function who(phone: string | null, email: string | null): string {
 async function RestaurantContent() {
   const { restaurant, role, user } = await requireRestaurant('/studio/restaurant');
   const isOwner = role === 'owner';
-  const [team, origin] = await Promise.all([isOwner ? getAccountsRepository().team(restaurant.id) : null, requestOrigin()]);
+  const [team, origin, menu] = await Promise.all([isOwner ? getAccountsRepository().team(restaurant.id) : null, requestOrigin(), isOwner ? getMenusRepository().get(restaurant.id, new Date()) : null]);
   const owners = team?.members.filter((member) => member.role === 'owner').length ?? 0;
+  const noCalories = menu ? dishesWithoutCalories(menu) : [];
 
   return (
     <div className="space-y-6 sm:space-y-8">
@@ -58,6 +62,23 @@ async function RestaurantContent() {
             </div>
             <p className="text-sm text-night-dim">Only an owner can change these.</p>
           </dl>
+        )}
+      </section>
+
+      <section aria-labelledby="fssai-title" className={card}>
+        <h2 id="fssai-title" className={heading}>
+          Calories and allergens.
+        </h2>
+        {isOwner ? (
+          <FssaiSwitch on={restaurant.fssai} missingCount={noCalories.length} missing={noCalories.slice(0, LISTED_WITHOUT_CALORIES).map(({ id, name }) => ({ id, name }))} />
+        ) : (
+          <>
+            <dl className="mt-4">
+              <dt className="text-sm font-semibold text-night-dim">Show calories and allergens on your TVs (FSSAI)</dt>
+              <dd className="font-semibold">{restaurant.fssai ? 'On' : 'Off'}</dd>
+            </dl>
+            <p className="mt-2 text-sm text-night-dim">Only an owner can change this. You can still add calories and allergens to dishes on the Menu tab.</p>
+          </>
         )}
       </section>
 
