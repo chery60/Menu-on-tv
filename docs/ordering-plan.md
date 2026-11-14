@@ -68,20 +68,20 @@ Every item below sits in Backlog, phase v1 ("Sell more"), ranked in this order (
 | # | Item | Key | Why here |
 | --- | --- | --- | --- |
 | 1 | QR menu at the table and counter | MT-89 | Tables, QR cards and the guest's phone menu. Useful alone, and everything after needs it. PRD: [mt-89-qr-menu.md](prd/mt-89-qr-menu.md) |
-| 2 | Order from the phone | MT-90 | Cart, order, number, the switches, the status page as it loads, retention and the orders table (ADR) |
+| 2 | Order from the phone | MT-90 | Cart, order, number, the switches, the status page as it loads, retention and the orders table (ADR). PRD: [mt-90-order-from-the-phone.md](prd/mt-90-order-from-the-phone.md) |
 | 3 | Confirm a changed price | MT-99 | A price changed mid-cart never passes silently |
-| 4 | Kitchen order board | MT-91 | Without it orders go nowhere. Liveness, auto-pause, cancel after accept, Pay first and the paid mark |
+| 4 | Kitchen order board | MT-91 | Without it orders go nowhere. Liveness, auto-pause, cancel after accept, Pay first and the paid mark. PRD: [mt-91-kitchen-board.md](prd/mt-91-kitchen-board.md) |
 | 5 | Send a test order | MT-100 | The owner hears the chime and sees the board work before switching ordering on |
 | 6 | Mark one dish unavailable at accept | MT-101 | One sold-out dish shouldn't reject a whole order |
 | 7 | Pair the kitchen board like a TV | MT-102 | Only if MT-91's ADR keeps the board on a renewing session instead |
-| 8 | Live status and the ready alert | MT-92 | Tells the guest without any provider |
+| 8 | Live status and the ready alert | MT-92 | Tells the guest without any provider, and helps a guest who lost the page. PRD: [mt-92-live-status-and-ready-alert.md](prd/mt-92-live-status-and-ready-alert.md) |
 | 9 | Ready for pickup on the TV | MT-40 | The TV calls out numbers, from the board or a staff keypad, on its own live event |
 | 10 | Pay by the owner's UPI | MT-93 | The amount filled in, from Accepted on |
 | 11 | Orders by table on the board | MT-103 | Table guests order in rounds and pay once |
 | 12 | Today's orders for the owner | MT-94 | The list and the day's total of Completed orders, for 30 days |
 | 13 | Wait time on the guest's page and the TV | MT-41 | "About 8 minutes" from recent ready times |
 
-**Ordering stays switched off until MT-90, MT-91 and MT-92 are all in.** Without MT-92, nothing tells the guest the food is ready.
+**Ordering stays switched off until MT-90, MT-91 and MT-92 are all in.** Without MT-92, nothing tells the guest the food is ready. Ordering is off for every restaurant by default, and nothing in the owner app links to it until MT-91's last slice adds the Orders tab, after MT-92's slices.
 
 Later, no founder needed: ordering combos and happy-hour deals at the deal price (after MT-26), and sending board orders to the POS (MT-105, after MT-38's adapters).
 

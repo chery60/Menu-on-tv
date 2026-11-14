@@ -3668,7 +3668,7 @@
         "orders"
       ],
       "summary": "Pick dishes, sizes and notes, place the order and get a number. The server sets every price; the guest’s page shows the order.",
-      "body": "**Why.** Guests order without waiting for staff, and the kitchen gets exactly what they asked for.\n\n**What.** A cart on the QR menu; an order priced by the server from the live menu; an order number that restarts at the business-day cutoff from the owner’s start number; the ordering switches; and the guest’s status page with the order as it stands when the page loads (MT-92 makes it live). Pickup names and notes are cleared after 24 hours and orders deleted after 30 days, from this first slice (D3). Starts with an ADR for an orders table in Netlify Database (D3), which names the safe-retry mechanism and the retention sweep.\n\n**Plan.** docs/ordering-plan.md (D2, D3).",
+      "body": "**Why.** Guests order without waiting for staff, and the kitchen gets exactly what they asked for.\n\n**What.** A cart on the QR menu; an order priced by the server from the live menu; an order number that restarts at the business-day cutoff from the owner’s start number; the ordering switches; and the guest’s status page with the order as it stands when the page loads (MT-92 makes it live). Pickup names and notes are cleared after 24 hours and orders deleted after 30 days, from this first slice (D3). Starts with an ADR for an orders table in Netlify Database (D3), which names the safe-retry mechanism and the retention sweep.\n\n**PRD.** docs/prd/mt-90-order-from-the-phone.md (draft, 15 November 2026).\n\n**Plan.** docs/ordering-plan.md (D2, D3).",
       "checklist": [
         {
           "id": "407b9b52-b92d-442c-b773-27a50cd819cc-c1",
@@ -3722,17 +3722,12 @@
         },
         {
           "id": "407b9b52-b92d-442c-b773-27a50cd819cc-c11",
-          "text": "Owners can set taking orders on, paused or off, table orders on or off, and pickup on or off; the guest’s menu follows each at once",
+          "text": "Ordering is off until the owner switches it on; owners set taking orders on, paused or off, table orders on or off, and pickup on or off. A new menu page follows at once, an open one within 30 seconds, and an order sent in between is refused",
           "done": false
         },
         {
           "id": "407b9b52-b92d-442c-b773-27a50cd819cc-c12",
-          "text": "The status page shows the order’s state and its number very large, with “Lost this page? Show order 42 at the counter.”",
-          "done": false
-        },
-        {
-          "id": "407b9b52-b92d-442c-b773-27a50cd819cc-c13",
-          "text": "The place’s menu page lists “your orders today” from the phone’s own storage",
+          "text": "The status page shows the order’s state as it loads, with its number very large",
           "done": false
         },
         {
@@ -3754,12 +3749,17 @@
           "id": "407b9b52-b92d-442c-b773-27a50cd819cc-c17",
           "text": "The orders table holds only a hash of each status link, never the link",
           "done": false
+        },
+        {
+          "id": "407b9b52-b92d-442c-b773-27a50cd819cc-c18",
+          "text": "The guest can cancel while the order is Placed, after one confirm, and it stops counting toward the caps",
+          "done": false
         }
       ],
       "rank": 91136,
       "archived": false,
       "createdAt": "2026-11-15T04:30:00.000Z",
-      "updatedAt": "2026-11-15T07:45:00.000Z"
+      "updatedAt": "2026-11-15T08:30:00.000Z"
     },
     {
       "id": "56897361-dd5c-43bd-af11-caab28708d29",
@@ -3778,7 +3778,7 @@
         "orders"
       ],
       "summary": "New, being made and ready, on a phone or tablet in the kitchen, with an alert that repeats until each new order is accepted.",
-      "body": "**Why.** Orders are only as good as the kitchen seeing them. Staff need big buttons and no typing.\n\n**What.** An Orders tab in the owner app: accept, or reject with a reason; mark ready; mark collected or served; cancel after accepting, with a reason; mark paid or refunded; pause ordering, or one place. A “Pay first” setting, on by default for the Counter and off for tables. Live within seconds, with an alert after one tap turns sound on, and the screen kept awake. With no board live, ordering pauses by itself. Until orders reach the POS (MT-105), staff key each board order into the POS for the bill.\n\n**Plan.** docs/ordering-plan.md (D2, D3).",
+      "body": "**Why.** Orders are only as good as the kitchen seeing them. Staff need big buttons and no typing.\n\n**What.** An Orders tab in the owner app: accept, or reject with a reason; mark ready; mark collected or served; cancel after accepting, with a reason; mark paid or refunded; pause ordering, or one place. A “Pay first” setting, on by default for the Counter and off for tables. Live within seconds, with an alert after one tap turns sound on, and the screen kept awake. With no board live, ordering pauses by itself. Until orders reach the POS (MT-105), staff key each board order into the POS for the bill.\n\n**PRD.** docs/prd/mt-91-kitchen-board.md (draft, 15 November 2026).\n\n**Plan.** docs/ordering-plan.md (D2, D3).",
       "checklist": [
         {
           "id": "56897361-dd5c-43bd-af11-caab28708d29-c1",
@@ -3787,7 +3787,7 @@
         },
         {
           "id": "56897361-dd5c-43bd-af11-caab28708d29-c2",
-          "text": "Each move is one tap",
+          "text": "Accept, Ready, Collected or Served, and Mark paid are one tap each; Reject and Cancel take one more tap for the reason",
           "done": false
         },
         {
@@ -3812,7 +3812,7 @@
         },
         {
           "id": "56897361-dd5c-43bd-af11-caab28708d29-c7",
-          "text": "“Reject all new from Counter” rejects every Placed Counter order in one tap",
+          "text": "“Reject all new Counter orders” names the count, asks first, and rejects every Placed Counter order as “Too busy”",
           "done": false
         },
         {
@@ -3822,7 +3822,7 @@
         },
         {
           "id": "56897361-dd5c-43bd-af11-caab28708d29-c9",
-          "text": "While any order is Placed, the board repeats its alert every 30 seconds",
+          "text": "While any order waits to be accepted, the board repeats its alert every 30 seconds; an unpaid pay-first order chimes once and doesn’t repeat",
           "done": false
         },
         {
@@ -3859,12 +3859,22 @@
           "id": "56897361-dd5c-43bd-af11-caab28708d29-c16",
           "text": "An “other” reject or cancel reason is up to 80 characters, and names, notes and reasons show as plain text",
           "done": false
+        },
+        {
+          "id": "56897361-dd5c-43bd-af11-caab28708d29-c17",
+          "text": "An unpaid pay-first order can’t be accepted; “Paid, accept” marks it paid and accepts it in one tap",
+          "done": false
+        },
+        {
+          "id": "56897361-dd5c-43bd-af11-caab28708d29-c18",
+          "text": "Until the last slice adds the Orders tab, after MT-92, nothing in the owner app links to the board or the ordering settings",
+          "done": false
         }
       ],
       "rank": 92160,
       "archived": false,
       "createdAt": "2026-11-15T04:30:00.000Z",
-      "updatedAt": "2026-11-15T07:30:00.000Z"
+      "updatedAt": "2026-11-15T08:30:00.000Z"
     },
     {
       "id": "bd500c7d-861d-4908-84f7-12559d6e1215",
@@ -3883,7 +3893,7 @@
         "orders"
       ],
       "summary": "The guest’s status page goes live and says, with sound and vibration, when the order is ready.",
-      "body": "**Why.** Telling guests their food is ready is the founder’s goal (D2), and this needs no SMS or app.\n\n**What.** MT-90 builds the status page; this item makes it live: placed, being made, ready, completed, or rejected or cancelled with the reason. Changes arrive within seconds, and an alert plays when the order is ready where the phone allows. If nobody accepts within 5 minutes, the page says to tell the staff; that is a fallback, because the board’s repeating alert and auto-pause (MT-91) are what catch missed orders. A guest whose phone is locked is told only by the TV (MT-40) until web push (MT-96).\n\n**Plan.** docs/ordering-plan.md (D2, D3).",
+      "body": "**Why.** Telling guests their food is ready is the founder’s goal (D2), and this needs no SMS or app.\n\n**What.** MT-90 builds the status page; this item makes it live: placed, being made, ready, completed, or rejected or cancelled with the reason. Changes arrive within seconds, and an alert plays when the order is ready where the phone allows. If nobody accepts within 5 minutes, the page says to tell the staff; that is a fallback, because the board’s repeating alert and auto-pause (MT-91) are what catch missed orders. A guest whose phone is locked is told only by the TV (MT-40) until web push (MT-96). For a guest who loses the page, it says “Lost this page? Show order 42 at the counter.”, and the place’s menu lists “your orders today” from the phone’s own storage.\n\n**PRD.** docs/prd/mt-92-live-status-and-ready-alert.md (draft, 15 November 2026).\n\n**Plan.** docs/ordering-plan.md (D2, D3).",
       "checklist": [
         {
           "id": "bd500c7d-861d-4908-84f7-12559d6e1215-c1",
@@ -3904,12 +3914,27 @@
           "id": "bd500c7d-861d-4908-84f7-12559d6e1215-c4",
           "text": "Only someone with the order’s link can see it",
           "done": false
+        },
+        {
+          "id": "bd500c7d-861d-4908-84f7-12559d6e1215-c5",
+          "text": "The status page says “Lost this page? Show order 42 at the counter.” with the order’s own number",
+          "done": false
+        },
+        {
+          "id": "bd500c7d-861d-4908-84f7-12559d6e1215-c6",
+          "text": "The place’s menu page lists “your orders today” from the phone’s own storage, and the server never sees the list",
+          "done": false
+        },
+        {
+          "id": "bd500c7d-861d-4908-84f7-12559d6e1215-c7",
+          "text": "A change made while the page is reconnecting or in the background shows within 5 seconds of reconnecting or coming back",
+          "done": false
         }
       ],
       "rank": 93184,
       "archived": false,
       "createdAt": "2026-11-15T04:30:00.000Z",
-      "updatedAt": "2026-11-15T07:30:00.000Z"
+      "updatedAt": "2026-11-15T08:30:00.000Z"
     },
     {
       "id": "80eb2c35-d1dc-47fa-a117-6bbaf81137ba",
