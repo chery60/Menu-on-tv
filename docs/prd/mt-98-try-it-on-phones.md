@@ -19,10 +19,10 @@ On the home page, "Try it with your own menu" promises the TV plays your dishes 
 ## Design
 **Job:** an owner on a phone watches their own dishes appear on the TV as they type. **Direction:** pinned, not moved: on phones the TV goes above the fields and stays in view for as long as the form is on screen.
 
-- **Under 768px** (`.mtv-try`): the TV moves above the fields and becomes `position: sticky`, just under the site bar, for the length of the section. Typing in any field, with the keyboard up, keeps the whole 16:9 TV in view, about 193px tall at 375px, and leaves room for the field below it. Past the section it scrolls away as usual.
+- **Under 1000px**, where the section already stacks (`.mtv-try`): the TV moves above the fields and becomes `position: sticky`, just under the site bar, for the length of the section. Typing in any field, with the keyboard up, keeps the whole 16:9 TV in view, about 193px tall at 375px, and leaves room for the field below it. Past the section it scrolls away as usual.
 - The pinned TV gets a hairline rule and paper ground under it, so the fields scroll beneath it cleanly.
 - With reduced motion, it pins with no transition.
-- **From 768px:** no change. The TV stays beside the form.
+- **From 1000px:** no change. The TV stays beside the form.
 - Checked at 375 by 667 (a small phone with the keyboard up leaves about 360px), and at 390 and 430 widths.
 
 ## Data it touches
