@@ -42,7 +42,7 @@ async function newRestaurant(): Promise<string> {
 }
 
 async function newScreen() {
-  return getScreensRepository().createScreen(restaurantId, { name: 'Counter TV', layout: 'split', theme: 'night', bilingual: false }, new Date());
+  return getScreensRepository().createScreen(restaurantId, { name: 'Counter TV', layout: 'split', theme: 'night', language: 'en' }, new Date());
 }
 
 beforeEach(async () => {

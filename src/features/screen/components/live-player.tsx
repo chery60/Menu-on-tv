@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ScreenBundle } from '@/features/screens/bundle';
 import { nextClockOffset } from '../clock';
 import { openLiveStream } from '../live-stream';
+import { bundleLanguage } from '../language';
 import { isNewerBundle } from '../newer-bundle';
 import { ScreenPlayer } from './screen-player';
 
@@ -161,7 +162,7 @@ export function LivePlayer({ token, initialBundle, pairUrl }: LivePlayerProps) {
         restaurant={bundle.restaurant}
         layout={bundle.layout}
         theme={bundle.theme}
-        bilingual={bundle.bilingual}
+        language={bundleLanguage(bundle)}
         timing={bundle.timing}
         qrCodes={bundle.qrCodes}
         clockOffsetMs={clockOffsetMs}

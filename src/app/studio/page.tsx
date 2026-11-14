@@ -28,7 +28,7 @@ interface StudioPageProps {
 }
 
 /** What the preview plays before the owner has a screen: the most common choice. */
-const DEFAULT_PREVIEW = { name: 'Your first screen', layout: 'split', theme: 'paper', bilingual: false } as const;
+const DEFAULT_PREVIEW = { name: 'Your first screen', layout: 'split', theme: 'paper', language: 'en' } as const;
 
 function GetStarted({ hasMenu, hasTv, pairAddress }: { readonly hasMenu: boolean; readonly hasTv: boolean; readonly pairAddress: string }) {
   const steps = [
@@ -112,7 +112,7 @@ async function TodayContent() {
   const hasTv = links.some((link) => link.lastSeenAt);
   const onAir = links.filter((link) => tvStatus(link.lastSeenAt, now.getTime()).online).length;
   const [first] = screens;
-  const preview = first ? { name: first.name, layout: first.layout, theme: first.theme, bilingual: first.bilingual, timing: first.timing } : DEFAULT_PREVIEW;
+  const preview = first ? { name: first.name, layout: first.layout, theme: first.theme, language: first.language, timing: first.timing } : DEFAULT_PREVIEW;
 
   return (
     <div className="space-y-6 sm:space-y-8">

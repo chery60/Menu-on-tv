@@ -32,7 +32,7 @@ async function restaurantWithScreen() {
   const restaurant = await accounts.createRestaurant(verified.userId, { name: 'Chai Point', city: 'Indiranagar', tagline: '' }, new Date());
   let next = 0;
   const menu = await getMenusRepository().update(restaurant.id, () => sampleMenu(new Date(), () => `id-${(next += 1)}`), new Date());
-  const { token } = await getScreensRepository().createScreen(restaurant.id, { name: 'Counter TV', layout: 'split', theme: 'night', bilingual: false }, new Date());
+  const { token } = await getScreensRepository().createScreen(restaurant.id, { name: 'Counter TV', layout: 'split', theme: 'night', language: 'en' }, new Date());
   return { restaurantId: restaurant.id, token, itemId: menu.categories[0].items[0].id };
 }
 

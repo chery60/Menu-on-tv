@@ -296,7 +296,7 @@ describe('items with sizes', () => {
     const sized = { ...plain, id: 'b', sizes: [{ label: 'Half', price: 70 }, { label: 'Full', price: 120 }] };
     expect(itemRows(plain)).toBe(1);
     expect(itemRows(sized)).toBeCloseTo(1.8);
-    expect(itemRows(sized, BILINGUAL_ROW_WEIGHT)).toBeCloseTo(1.8);
+    expect(itemRows(sized, BILINGUAL_ROW_WEIGHT)).toBeCloseTo(BILINGUAL_ROW_WEIGHT);
     expect(itemRows(plain, BILINGUAL_ROW_WEIGHT)).toBe(BILINGUAL_ROW_WEIGHT);
     const page = [{ id: 'c', name: 'Rolls', items: [sized, sized] }];
     expect(busiestColumn(page, 1)).toBeCloseTo(2 * 1.8 + HEADING_ROWS);

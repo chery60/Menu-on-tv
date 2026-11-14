@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useMemo, type CSSProperties, type ReactNode } from 'react';
-import { BILINGUAL_ROW_WEIGHT, DEFAULT_TIMING, mainSlides, MENU_FRAMES, paginateMenu, sideLoop, slideLabel, type LoopTiming, type Slide, type SlideAt } from '../loop';
+import { inHindi, itemInHindi, languageAt, promoInHindi, rowWeightFor } from '../language';
+import { DEFAULT_TIMING, mainSlides, MENU_FRAMES, paginateMenu, sideLoop, slideLabel, type LoopTiming, type Slide, type SlideAt } from '../loop';
 import { themeStyle } from '../themes';
-import type { LayoutId, MenuItem, Restaurant, ThemeId } from '../types';
+import type { LayoutId, MenuItem, Restaurant, ScreenLanguage, ThemeId } from '../types';
 import { AdCard, BadgePill, LONG_NAME_CHARS, MenuColumns, Plate, Price, PromoCard, Sizes, TickerBand } from './parts';
 import { useLoopPositions } from './use-loop-positions';
 
@@ -11,7 +12,8 @@ export interface ScreenStageProps {
   readonly restaurant: Restaurant;
   readonly layout: LayoutId;
   readonly theme: ThemeId;
-  readonly bilingual?: boolean;
+  /** English only (the default), English and Hindi on every line, or the loop in English then in Hindi (MT-28). */
+  readonly language?: ScreenLanguage;
   /** How long slides stay up; the playbook's timing when left out. */
   readonly timing?: LoopTiming;
   /** QR codes as SVG strings, keyed by promo id. Built on the server. */
@@ -89,7 +91,7 @@ export function ScreenStage({
   restaurant,
   layout,
   theme,
-  bilingual = false,
+  language = 'en',
   timing = DEFAULT_TIMING,
   qrCodes = {},
   showBadge = true,
@@ -99,14 +101,19 @@ export function ScreenStage({
   clockOffsetMs = 0,
   onBoundary,
 }: ScreenStageProps) {
-  const rowWeight = bilingual ? BILINGUAL_ROW_WEIGHT : 1;
+  const bilingual = language === 'en-hi';
+  const rowWeight = rowWeightFor(language);
   const frame = MENU_FRAMES[layout];
   const pages = useMemo(() => paginateMenu(restaurant.categories, frame, rowWeight), [restaurant, frame, rowWeight]);
+  // The Hindi pass shows the same pages with Hindi names in place, so no dish moves between passes.
+  const hindiPages = useMemo(() => (language === 'en-then-hi' ? paginateMenu(inHindi(restaurant).categories, frame, rowWeight) : pages), [language, restaurant, frame, rowWeight, pages]);
   const loops = useMemo(() => [mainSlides(layout, restaurant, rowWeight, timing), sideLoop(restaurant, timing)], [layout, restaurant, rowWeight, timing]);
   const { positions, syncing } = useLoopPositions(loops, clockOffsetMs);
   const [mainPosition, sidePosition] = positions;
   const main = at(loops[0], mainPosition);
   const side = at(loops[1], sidePosition);
+  // Which pass the current main slide belongs to; it flips only when the main loop comes round.
+  const onHindi = languageAt(language, loops[0], main.endsAt - main.slide.durationMs) === 'hi';
   const mainLabel = slideLabel(main.slide);
   const boundary = `${main.index}:${side.index}`;
 
@@ -116,14 +123,16 @@ export function ScreenStage({
 
   const renderSlide = (slide: Slide, variant: 'takeover' | 'side' | 'hero'): ReactNode => {
     switch (slide.kind) {
-      case 'menu':
-        return <MenuColumns categories={pages[slide.page] ?? pages[0]} frame={frame} bilingual={bilingual} rowWeight={rowWeight} />;
+      case 'menu': {
+        const shown = onHindi ? hindiPages : pages;
+        return <MenuColumns categories={shown[slide.page] ?? shown[0]} frame={frame} bilingual={bilingual} rowWeight={rowWeight} />;
+      }
       case 'promo':
-        return <PromoCard promo={slide.promo} variant={variant} qrSvg={slide.promo.qrUrl ? qrCodes[slide.promo.id] : undefined} />;
+        return <PromoCard promo={onHindi ? promoInHindi(slide.promo) : slide.promo} variant={variant} qrSvg={slide.promo.qrUrl ? qrCodes[slide.promo.id] : undefined} />;
       case 'ad':
         return <AdCard ad={slide.ad} variant={variant} />;
       case 'spotlight':
-        return <Spotlight item={slide.item} pairs={slide.pairs} bilingual={bilingual} />;
+        return <Spotlight item={onHindi ? itemInHindi(slide.item) : slide.item} pairs={onHindi ? slide.pairs.map(itemInHindi) : slide.pairs} bilingual={bilingual} />;
     }
   };
 
@@ -190,6 +199,7 @@ export function ScreenStage({
     <div
       className={`scr scr-layout-${layout} ${burnInShift ? 'scr-burn-in' : ''} ${syncing ? 'scr-syncing' : ''} ${className}`}
       style={themeStyle(theme)}
+      lang={onHindi ? 'hi' : undefined}
       role="region"
       aria-label={label ?? `${restaurant.name} menu screen`}
       data-slide={mainLabel}

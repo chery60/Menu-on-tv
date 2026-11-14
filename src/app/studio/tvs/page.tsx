@@ -43,13 +43,13 @@ function ScreenCard({ screen, isOwner, now, playing }: { readonly screen: Screen
         <h3 className="font-display text-[1.35rem] leading-tight">{screen.name}</h3>
         <p className={kicker}>
           {layoutName(screen.layout)}, {themeName(screen.theme)}
-          {screen.bilingual ? ', with Hindi' : ''}. Menu pages {timing.menuSeconds} s, promos {timing.promoSeconds} s.
+          {screen.language !== 'en' ? ', with Hindi' : ''}. Menu pages {timing.menuSeconds} s, promos {timing.promoSeconds} s.
         </p>
       </div>
       <details className="mt-4">
         <summary className="flex h-11 cursor-pointer items-center text-sm font-semibold underline underline-offset-4">Preview what it plays</summary>
         <div className="mt-3 max-w-[40rem] rounded-card bg-night p-3">
-          <MenuPreview menu={playing.menu} clock={playing.clock} profile={playing.profile} screen={{ name: screen.name, layout: screen.layout, theme: screen.theme, bilingual: screen.bilingual, timing }} />
+          <MenuPreview menu={playing.menu} clock={playing.clock} profile={playing.profile} screen={{ name: screen.name, layout: screen.layout, theme: screen.theme, language: screen.language, timing }} />
         </div>
         <p className="mt-2 text-sm text-night-soft">The same loop, at the same moment, as every TV on this screen. Categories with set times show only during them.</p>
       </details>
@@ -81,7 +81,7 @@ function ScreenCard({ screen, isOwner, now, playing }: { readonly screen: Screen
           <details className="mt-5">
             <summary className="flex h-11 cursor-pointer items-center text-sm font-semibold underline underline-offset-4">Change how it looks, its timing or its name</summary>
             <div className="mt-4">
-              <ScreenSettingsForm screenId={screen.id} name={screen.name} layout={screen.layout} theme={screen.theme} bilingual={screen.bilingual} timing={screen.timing} />
+              <ScreenSettingsForm screenId={screen.id} name={screen.name} layout={screen.layout} theme={screen.theme} bilingual={screen.language !== 'en'} timing={screen.timing} />
             </div>
           </details>
           <div className="mt-3">
