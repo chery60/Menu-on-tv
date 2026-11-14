@@ -1,6 +1,6 @@
 # FSSAI display mode
 
-Status: draft
+Status: approved
 Tracker: MT-29
 Surface: owner app, TV
 

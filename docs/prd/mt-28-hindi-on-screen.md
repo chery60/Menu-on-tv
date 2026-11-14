@@ -1,6 +1,6 @@
 # Hindi on screen
 
-Status: draft
+Status: approved
 Tracker: MT-28
 Surface: owner app, TV
 
