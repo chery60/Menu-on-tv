@@ -100,7 +100,7 @@ Fix sizes: **small** fits in a slice alongside other small fixes; **one slice** 
 - The layouts' sample ticker still advertises "Diwali mithai boxes: pre-order by 30 October".
 - Prices says "50% of what your screen earns from local ads is yours" in a large figure, and the hero TV plays a sample ad. PRODUCT.md's go/no-go says no promise of ad earnings before a 40-screen neighbourhood and a paid pilot. The page frames it as planned; founder call.
 - "Not you? Sign out" on setup is 24px tall. On a phone, sign out is the only control in the top bar and acts in one tap.
-- Price boxes show focus only by darkening a 1px border, which is weak for keyboard users (WCAG 2.4.11).
+- (Corrected: the price box does show a 2px chilli focus ring, from the site-wide `:focus-visible` rule on the input; the walkthrough measured only its wrapper. No change needed.)
 - Menu's "Sold out" button is white on deep chilli (#c8330a, about 5.3:1, so it passes AA), where the owner app's rule is ink on chilli. Consistency only.
 
 ## What already works well
