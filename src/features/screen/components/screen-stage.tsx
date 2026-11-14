@@ -116,7 +116,8 @@ export function ScreenStage({
   // Which pass the current main slide belongs to; it flips only when the main loop comes round.
   const onHindi = languageAt(language, loops[0], main.endsAt - main.slide.durationMs) === 'hi';
   const mainLabel = slideLabel(main.slide);
-  const boundary = `${main.index}:${side.index}`;
+  // By when each slide ends, not its index: a loop of one slide still changes slides.
+  const boundary = `${main.endsAt}:${side.endsAt}`;
 
   useEffect(() => {
     onBoundary?.(mainLabel);
