@@ -125,15 +125,22 @@ export function Plate({ emoji, photo, size = 'md' }: { readonly emoji: string; r
   );
 }
 
-export function PromoCard({ promo, qrSvg, variant }: { readonly promo: Promo; readonly qrSvg?: string; readonly variant: 'takeover' | 'side' | 'hero' }) {
+export function PromoCard({ promo, qrSvg, variant, bilingual = false }: { readonly promo: Promo; readonly qrSvg?: string; readonly variant: 'takeover' | 'side' | 'hero'; readonly bilingual?: boolean }) {
+  // MT-28: with both names on, a dish promo shows its Hindi name under the headline at the same size.
+  const hindi = bilingual && promo.headlineHi ? promo.headlineHi : null;
   return (
-    <article className={`scr-promo scr-promo-${variant} scr-kind-${promo.kind}`}>
+    <article className={`scr-promo scr-promo-${variant} scr-kind-${promo.kind} ${hindi ? 'has-hi' : ''}`}>
       <div className="scr-promo-art">
         {qrSvg ? <span className="scr-qr" role="img" aria-label="QR code" dangerouslySetInnerHTML={{ __html: qrSvg }} /> : <Plate emoji={promo.emoji} photo={promo.photo} size="lg" />}
       </div>
       <div className="scr-promo-copy">
         <span className="scr-promo-label">{promo.label}</span>
         <h2 className="scr-promo-headline">{promo.headline}</h2>
+        {hindi ? (
+          <p className="scr-promo-hi" lang="hi">
+            {hindi}
+          </p>
+        ) : null}
         <p className="scr-promo-line">{promo.line}</p>
         {promo.price ? <Price amount={promo.price} was={promo.wasPrice} className="scr-promo-price" /> : null}
       </div>

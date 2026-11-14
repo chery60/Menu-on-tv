@@ -1,8 +1,8 @@
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
-import type { MenuCategory, MenuItem } from '../types';
-import { MenuColumns } from './parts';
+import type { MenuCategory, MenuItem, Promo } from '../types';
+import { MenuColumns, PromoCard } from './parts';
 
 const dish = (name: string, extra: Partial<MenuItem> = {}): MenuItem => ({ id: name, name, price: 60, diet: 'veg', emoji: '🍽️', ...extra });
 const halfFull = { sizes: [{ label: 'Half', price: 60 }, { label: 'Full', price: 110 }] } as const;
@@ -27,5 +27,20 @@ describe('dish names on the TV', () => {
   it('keeps the name to one line when a badge or a Hindi line already uses the second', () => {
     expect(labelOf(dish('Paneer tikka sandwich', { ...halfFull, badges: ['bestseller'] }))).not.toContain('is-wrap');
     expect(labelOf(dish('Paneer tikka sandwich', { ...halfFull, nameHi: 'पनीर टिक्का सैंडविच' }), true)).not.toContain('is-wrap');
+  });
+});
+
+describe('Hindi on promo slides (MT-28)', () => {
+  const special: Promo = { id: 's', kind: 'special', label: 'Today’s special', headline: 'Mango lassi', headlineHi: 'आम लस्सी', line: 'Coolers', price: 90, emoji: '🥭' };
+  const render = (bilingual: boolean) => renderToStaticMarkup(createElement(PromoCard, { promo: special, variant: 'side', bilingual }));
+
+  it('shows the Hindi name under the headline when both names are on', () => {
+    const html = render(true);
+    expect(html).toContain('<p class="scr-promo-hi" lang="hi">आम लस्सी</p>');
+    expect(html).toContain('has-hi');
+  });
+
+  it('keeps an English-only screen in English', () => {
+    expect(render(false)).not.toContain('आम लस्सी');
   });
 });

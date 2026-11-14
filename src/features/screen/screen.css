@@ -200,7 +200,7 @@
   overflow: hidden;
   padding-block: 0.15em;
   font-family: var(--font-sans);
-  font-size: 2.9cqmin;
+  font-size: 1em;
   font-weight: 600;
   letter-spacing: normal;
   text-overflow: ellipsis;
@@ -298,11 +298,56 @@
   color: var(--scr-dim);
 }
 
+/* MT-28: Hindi is the same size as the English it goes with, told apart by weight, in the item ink: for a guest who reads Hindi first it is the name. */
 .scr-hi {
-  font-size: 0.8em;
+  font-size: 1em;
   font-weight: 500;
   line-height: 1.25;
-  color: var(--scr-dim);
+  color: var(--scr-ink);
+}
+
+.scr-row.is-sold-out .scr-hi {
+  text-decoration: line-through;
+  text-decoration-thickness: 0.08em;
+  opacity: 0.55;
+}
+
+/* The Hindi pass ("English, then Hindi"): Hindi names take the English names' place and size, in Mukta. */
+.scr[lang='hi'] .scr-row-label,
+.scr[lang='hi'] .scr-spotlight-name,
+.scr[lang='hi'] .scr-promo-headline {
+  font-family: var(--font-mukta), var(--font-geist), ui-sans-serif, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.scr[lang='hi'] .scr-cat-name {
+  font-family: var(--font-mukta), var(--font-geist), ui-sans-serif, sans-serif;
+  font-stretch: normal;
+  font-weight: 700;
+}
+
+/* Both names on a promo or Spotlight: the pair drops to 80% of the headline so the price stays the biggest thing. */
+.scr-promo-hi {
+  margin: -0.6cqmin 0 1.2cqmin;
+  font-weight: 700;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.scr-promo-takeover.has-hi .scr-promo-headline,
+.scr-promo-takeover .scr-promo-hi {
+  font-size: 9.6cqmin;
+}
+
+.scr-promo-side.has-hi .scr-promo-headline,
+.scr-promo-side .scr-promo-hi {
+  font-size: 5.6cqmin;
+}
+
+.scr-promo-hero.has-hi .scr-promo-headline,
+.scr-promo-hero .scr-promo-hi {
+  font-size: 7.2cqmin;
 }
 
 .scr-leader {
@@ -688,7 +733,14 @@
 
 .scr-spotlight-hi {
   margin-top: 1cqmin;
-  font-size: 4.2cqmin;
+  font-size: 8.8cqmin;
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+/* With its Hindi name under it, the Spotlight name drops to the same 80% (where :has is supported). */
+.scr-spotlight-name:has(+ .scr-spotlight-hi) {
+  font-size: 8.8cqmin;
 }
 
 .scr-spotlight-price {
