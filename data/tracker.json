@@ -1330,7 +1330,7 @@
         "v0-launch"
       ],
       "summary": "Which slide played, where and how often. The base for sales lift and ads later.",
-      "body": "**Why.** Sales lift (v1) and ad billing (v2) both need a trustworthy play log.\n\n**What.** Batched play events from players, stored per screen per hour, with a simple report.",
+      "body": "**Why.** Sales lift (v1) and ad billing (v2) both need a trustworthy play log.\n\n**What.** Batched play events from players, stored per screen per hour, with a simple report.\n\n**PRD.** docs/prd/mt-31-proof-of-play.md (draft, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-031-c1",
@@ -1351,7 +1351,7 @@
       "rank": 31744,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T05:30:00.000Z"
     },
     {
       "id": "seed-032",
@@ -1464,7 +1464,7 @@
         "v0-launch"
       ],
       "summary": "Photo, layout, link on the TV. First screen live in under ten minutes.",
-      "body": "**Why.** Time to the first screen on the wall decides whether an owner keeps it.\n\n**What.** A three-step flow: snap or paste the menu, pick a layout and theme with a live preview, open the link or pair the TV. Then one nudge to add a promo.",
+      "body": "**Why.** Time to the first screen on the wall decides whether an owner keeps it.\n\n**What.** A three-step flow: snap or paste the menu, pick a layout and theme with a live preview, open the link or pair the TV. Then one nudge to add a promo.\n\n**PRD.** docs/prd/mt-34-ten-minute-onboarding.md (draft, 15 November 2026). Its first check (median under 10 minutes) can only be measured in the pilot (MT-37).",
       "checklist": [
         {
           "id": "seed-034-c1",
@@ -1485,7 +1485,7 @@
       "rank": 34816,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T05:30:00.000Z"
     },
     {
       "id": "seed-035",
@@ -1505,7 +1505,7 @@
         "v0-launch"
       ],
       "summary": "A rep builds the owner’s menu on the rep’s phone and shows it on their TV in 60 seconds.",
-      "body": "**Why.** The 60-second demo is our main sales channel.\n\n**What.** A rep account that creates a draft restaurant from a photo, shows a QR and short link for the TV, and hands the draft over to the owner’s phone number.",
+      "body": "**Why.** The 60-second demo is our main sales channel.\n\n**What.** A rep account that creates a draft restaurant from a photo, shows a QR and short link for the TV, and hands the draft over to the owner’s phone number.\n\n**PRD.** docs/prd/mt-35-field-demo-mode.md (draft, 15 November 2026). Drafts from a photo wait on the AI key (D2).",
       "checklist": [
         {
           "id": "seed-035-c1",
@@ -1526,7 +1526,7 @@
       "rank": 35840,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T05:30:00.000Z"
     },
     {
       "id": "seed-036",
@@ -1546,7 +1546,7 @@
         "v0-launch"
       ],
       "summary": "Sign-up to first screen live to paid, by channel and by rep.",
-      "body": "**Why.** The pilot exists to measure the funnel targets in docs/market-size.md.\n\n**What.** Privacy-friendly product events for the onboarding steps, first screen live, quick actions used and upgrades. No guest data.",
+      "body": "**Why.** The pilot exists to measure the funnel targets in docs/market-size.md.\n\n**What.** Privacy-friendly product events for the onboarding steps, first screen live, quick actions used and upgrades. No guest data.\n\n**PRD.** docs/prd/mt-36-owner-funnel.md (draft, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-036-c1",
@@ -1567,7 +1567,7 @@
       "rank": 36864,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T05:30:00.000Z"
     },
     {
       "id": "seed-037",
