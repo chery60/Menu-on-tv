@@ -30,7 +30,7 @@
       "runtimeExecutable": "sh",
       "runtimeArgs": [
         "-c",
-        "root=\"$PWD\"; cd .claude/worktrees/design && ACCOUNTS_DATA_FILE=\"$root/data/accounts.json\" MENUS_DATA_FILE=\"$root/data/menus.json\" SCREENS_DATA_FILE=\"$root/data/screens.json\" PHOTOS_DIR=\"$root/data/photos\" exec npm run dev -- -p 4330"
+        "root=\"$PWD\"; cd .claude/worktrees/design* && ACCOUNTS_DATA_FILE=\"$root/data/accounts.json\" MENUS_DATA_FILE=\"$root/data/menus.json\" SCREENS_DATA_FILE=\"$root/data/screens.json\" PROMOS_DATA_FILE=\"$root/data/promos.json\" PHOTOS_DIR=\"$root/data/photos\" exec npm run dev -- -p 4330"
       ],
       "port": 4330
     }
