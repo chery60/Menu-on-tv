@@ -706,7 +706,7 @@
       "key": "MT-17",
       "title": "Menu editor on the phone",
       "icon": "✏️",
-      "status": "in_review",
+      "status": "done",
       "priority": "urgent",
       "phase": "phase-1",
       "area": "menu",
@@ -719,7 +719,7 @@
         "v0-launch"
       ],
       "summary": "Add, edit, reorder and hide items with one thumb.",
-      "body": "**Why.** Owners update menus between orders, standing at the counter.\n\n**What.** Mobile-first editor: categories as sections, drag to reorder, swipe to hide, inline price edit, photo from camera.\n\n**Built 19 October 2026.** /studio/menu: categories as sections, drag to reorder (touch hold, mouse or keyboard), swipe left to hide, prices typed straight into each row, one-tap sold out, a sheet for everything else, photos from the camera shrunk on the phone to 800 px, and a live preview from the same code the TVs run. Checked as an owner on a 375 px phone and a laptop; a change reached a paired TV in under 20 seconds.\n\n**Stays in review (QA, 15 November 2026).** Every Done-when verified, but on a 360 px phone the dish sheet’s Save is reached only by scrolling to its foot. It moves to Done when Design’s fixes merge: #13 (Save kept in reach) and #11 (“Saved” above the tab bar). The drag announcements reading IDs follow as a Design fix. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).",
+      "body": "**Why.** Owners update menus between orders, standing at the counter.\n\n**What.** Mobile-first editor: categories as sections, drag to reorder, swipe to hide, inline price edit, photo from camera.\n\n**Built 19 October 2026.** /studio/menu: categories as sections, drag to reorder (touch hold, mouse or keyboard), swipe left to hide, prices typed straight into each row, one-tap sold out, a sheet for everything else, photos from the camera shrunk on the phone to 800 px, and a live preview from the same code the TVs run. Checked as an owner on a 375 px phone and a laptop; a change reached a paired TV in under 20 seconds.\n\n**Stays in review (QA, 15 November 2026).** Every Done-when verified, but on a 360 px phone the dish sheet’s Save is reached only by scrolling to its foot. It moves to Done when Design’s fixes merge: #13 (Save kept in reach) and #11 (“Saved” above the tab bar). The drag announcements reading IDs follow as a Design fix. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).\n\n**Done (15 November 2026).** Design’s #13 (Save kept in reach) and #11 (“Saved” above the tab bar) merged, as QA asked. The drag announcements reading IDs follow as a Design fix.",
       "checklist": [
         {
           "id": "seed-017-c1",
@@ -740,7 +740,7 @@
       "rank": 17408,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-11-15T06:45:00.000Z"
+      "updatedAt": "2026-11-15T07:00:00.000Z"
     },
     {
       "id": "seed-018",
