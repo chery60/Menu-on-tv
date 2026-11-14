@@ -7,6 +7,7 @@ import {
   formatRupees,
   HEADING_ROWS,
   itemRows,
+  liveSlides,
   loopLength,
   mainSlides,
   MAX_ROW_SPACING,
@@ -117,6 +118,42 @@ describe('sideSlides', () => {
 
   it('plays promos alone when no ads are approved', () => {
     expect(sideSlides(DEMO_RESTAURANT.promos, []).every((slide) => slide.kind === 'promo')).toBe(true);
+  });
+});
+
+describe('promos with an end', () => {
+  const END = 1_000_000;
+  const [first, second] = DEMO_RESTAURANT.promos;
+  const ending = { ...first, id: 'ending', endsAt: END };
+  const ids = (slides: readonly Slide[]) => slides.map((slide) => (slide.kind === 'promo' ? slide.promo.id : slide.kind));
+
+  it('leave the loop at their end by the wall clock, with no new bundle', () => {
+    const slides = sideSlides([ending, second], []);
+    expect(ids(liveSlides(slides, END - 1))).toEqual(['ending', second.id]);
+    expect(ids(liveSlides(slides, END))).toEqual([second.id]);
+    const later = slideAt(slides, END + 123);
+    expect(later.slide.kind === 'promo' && later.slide.promo.id).toBe(second.id);
+  });
+
+  it('leave a full board pass as menu pages only', () => {
+    const board = mainSlides('board', { ...DEMO_RESTAURANT, promos: [ending], ads: [] });
+    expect(board.some((slide) => slide.kind === 'promo')).toBe(true);
+    expect(liveSlides(board, END).every((slide) => slide.kind === 'menu')).toBe(true);
+  });
+
+  it('leave the welcome card behind when every side promo has ended, so the zone is never empty', () => {
+    const side = sideLoop({ ...DEMO_RESTAURANT, promos: [ending], ads: [] });
+    expect(ids(side)).toEqual(['ending', 'welcome']);
+    expect(ids(liveSlides(side, END - 1))).toEqual(['ending']);
+    const after = slideAt(side, END);
+    expect(after.slide.kind === 'promo' && after.slide.promo).toMatchObject({ id: 'welcome', headline: DEMO_RESTAURANT.name });
+    expect(sideLoop({ ...DEMO_RESTAURANT, promos: [ending, second], ads: [] }).some((slide) => slide.kind === 'promo' && slide.fallback)).toBe(false);
+  });
+
+  it('keep a loop with nothing left playing as it was rather than go blank', () => {
+    const slides = sideSlides([ending], []);
+    expect(ids(liveSlides(slides, END))).toEqual(['ending']);
+    expect(() => slideAt(slides, END)).not.toThrow();
   });
 });
 

@@ -19,6 +19,22 @@ export interface LocalClock {
 
 const WEEKDAYS: Readonly<Record<string, number>> = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
 
+const MINUTE_MS = 60_000;
+
+/**
+ * The moment a local time (YYYY-MM-DDTHH:mm) in a time zone falls on, as epoch milliseconds: how a TV knows
+ * when a promo ends with no network. Read twice so a daylight-saving change between the guess and the answer lands right.
+ */
+export function instantAt(localTime: string, timeZone: string): number {
+  const asUtc = Date.parse(`${localTime}:00Z`);
+  const offset = (at: number): number => {
+    const clock = localClock(new Date(at), timeZone);
+    const wall = Date.parse(`${clock.today}T00:00:00Z`) + clock.minute * MINUTE_MS;
+    return wall - (at - (((at % MINUTE_MS) + MINUTE_MS) % MINUTE_MS));
+  };
+  return asUtc - offset(asUtc - offset(asUtc));
+}
+
 export function localClock(now: Date, timeZone: string): LocalClock {
   const parts = (zone: string) => new Intl.DateTimeFormat('en-US', { timeZone: zone, weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(now);
   let found: Intl.DateTimeFormatPart[];

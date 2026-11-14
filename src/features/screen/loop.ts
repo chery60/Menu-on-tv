@@ -35,7 +35,8 @@ export const AD_SLOT_EVERY = 3;
 
 export type Slide =
   | { readonly kind: 'menu'; readonly page: number; readonly pages: number; readonly durationMs: number }
-  | { readonly kind: 'promo'; readonly promo: Promo; readonly durationMs: number }
+  /** A fallback promo shows only when every other slide in its loop has ended. */
+  | { readonly kind: 'promo'; readonly promo: Promo; readonly durationMs: number; readonly fallback?: boolean }
   | { readonly kind: 'ad'; readonly ad: LocalAd; readonly durationMs: number }
   | { readonly kind: 'spotlight'; readonly item: MenuItem; readonly pairs: readonly MenuItem[]; readonly durationMs: number };
 
@@ -229,23 +230,40 @@ export function mainSlides(layout: LayoutId, restaurant: Restaurant, rowWeight =
  */
 export function sideLoop(restaurant: Restaurant, timing: LoopTiming = DEFAULT_TIMING): readonly Slide[] {
   const slides = sideSlides(restaurant.promos, restaurant.ads, timing);
-  if (slides.length > 0) return slides;
-  const welcome: Promo = { id: 'welcome', kind: 'special', label: 'Welcome', headline: restaurant.name, line: restaurant.tagline, emoji: '🍽️' };
-  return [{ kind: 'promo', promo: welcome, durationMs: durations(timing).promo }];
+  const welcome = { kind: 'promo' as const, promo: { id: 'welcome', kind: 'special' as const, label: 'Welcome', headline: restaurant.name, line: restaurant.tagline, emoji: '🍽️' }, durationMs: durations(timing).promo };
+  if (slides.length === 0) return [welcome];
+  // When every slide can end, the welcome card waits behind them for a TV that loses its network before the next bundle.
+  const canAllEnd = slides.every((slide) => slide.kind === 'promo' && slide.promo.endsAt !== undefined);
+  return canAllEnd ? [...slides, { ...welcome, fallback: true }] : slides;
 }
 
 export function loopLength(slides: readonly Slide[]): number {
   return slides.reduce((total, slide) => total + slide.durationMs, 0);
 }
 
+const isFallback = (slide: Slide): boolean => slide.kind === 'promo' && slide.fallback === true;
+
+/**
+ * The slides on at `nowMs`: a promo leaves at its end by the wall clock, even with no network, and a fallback
+ * shows only when nothing else is left. A loop with nothing left keeps playing as it was rather than go blank.
+ */
+export function liveSlides(slides: readonly Slide[], nowMs: number): readonly Slide[] {
+  const ended = (slide: Slide): boolean => slide.kind === 'promo' && slide.promo.endsAt !== undefined && slide.promo.endsAt <= nowMs;
+  const live = slides.filter((slide) => !ended(slide) && !isFallback(slide));
+  if (live.length > 0) return live;
+  const fallback = slides.filter(isFallback);
+  return fallback.length > 0 ? fallback : slides;
+}
+
 /** Which slide is on screen at wall-clock time `nowMs`. Deterministic, so screens stay in sync. */
 export function slideAt(slides: readonly Slide[], nowMs: number): SlideAt {
   if (slides.length === 0) throw new Error('A screen loop needs at least one slide.');
-  const total = loopLength(slides);
+  const playing = liveSlides(slides, Math.floor(nowMs));
+  const total = loopLength(playing);
   const position = ((Math.floor(nowMs) % total) + total) % total;
   let start = 0;
-  for (let index = 0; index < slides.length; index += 1) {
-    const slide = slides[index];
+  for (let index = 0; index < playing.length; index += 1) {
+    const slide = playing[index];
     if (position < start + slide.durationMs) {
       const elapsedMs = position - start;
       return { index, slide, elapsedMs, endsAt: Math.floor(nowMs) - elapsedMs + slide.durationMs };
@@ -253,8 +271,8 @@ export function slideAt(slides: readonly Slide[], nowMs: number): SlideAt {
     start += slide.durationMs;
   }
   // Unreachable: position is always inside the loop.
-  const last = slides.length - 1;
-  return { index: last, slide: slides[last], elapsedMs: 0, endsAt: Math.floor(nowMs) + slides[last].durationMs };
+  const last = playing.length - 1;
+  return { index: last, slide: playing[last], elapsedMs: 0, endsAt: Math.floor(nowMs) + playing[last].durationMs };
 }
 
 /** A short name for what a slide shows, for heartbeats and the owner's screen status. */

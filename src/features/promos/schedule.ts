@@ -41,6 +41,15 @@ export function firstShowing(daypart: Daypart | null, from: string): string {
   throw new Error('A daypart needs at least one day.');
 }
 
+/** When a promo playing now stops: its end or, sooner, the end of today's run of its times. Null if neither. */
+export function playingUntil(schedule: PromoSchedule, clock: LocalClock): string | null {
+  const { daypart } = schedule;
+  // A late daypart that is on before midnight ends tomorrow; in the small hours it ends today.
+  const windowEnd = daypart ? `${daypart.from > daypart.to && clock.minute >= daypart.from ? addDays(clock.today, 1) : clock.today}T${timeOfDay(daypart.to)}` : null;
+  const ends = [schedule.endsAt, windowEnd].filter((end): end is string => end !== null);
+  return ends.length > 0 ? ends.reduce((soonest, end) => (end < soonest ? end : soonest)) : null;
+}
+
 /** Ended (including when it can never play again before its end), starting later, or playing now. */
 export function scheduleState(schedule: PromoSchedule, clock: LocalClock): ScheduleState {
   const now = clockStamp(clock);
