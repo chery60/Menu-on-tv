@@ -3,6 +3,8 @@
 import { randomUUID } from 'node:crypto';
 import { z } from 'zod';
 import type { RestaurantAccess } from '@/features/accounts/session';
+import { recordStep } from '@/features/funnel/record';
+import type { Activity } from '@/features/funnel/schema';
 import { applyEdit, applyImport, menuPhotos, setPhoto, type EditContext } from '@/features/menu/edit';
 import type { ImportedItem } from '@/features/menu/import';
 import { MENU_PHOTO_LIMITS, toImportedItems } from '@/features/menu/photo-import';
@@ -15,12 +17,15 @@ import { localDate } from '@/lib/local-date';
 import { logger } from '@/lib/logger';
 import { RateLimiter } from '@/lib/rate-limit';
 import type { ActionState } from '../action-state';
-import { EVERYONE, failed, gate, guarded, TRY_AGAIN, userMessage } from '../guard';
+import { EVERYONE, failed, gate, guarded, markActive, TRY_AGAIN, userMessage } from '../guard';
 import type { MenuResult } from './menu-result';
 
 /** Menu changes from the editor and the Today page. Owners and staff may both edit the menu. */
 
 const itemId = z.string().min(1).max(64);
+
+/** MT-25's quick actions: sold out, today's special and a price, from Today or the Menu tab. */
+const QUICK_EDITS: ReadonlySet<string> = new Set(['set-sold-out', 'set-special', 'set-prices']);
 
 function editContext(access: RestaurantAccess, now: Date, onNewId?: (id: string) => void): EditContext {
   return {
@@ -41,7 +46,7 @@ async function deletePhotos(ids: readonly string[]): Promise<void> {
 }
 
 /** Runs a menu change for a signed-in member. Known problems come back as a message with the latest menu. */
-async function changeMenu(event: string, change: (menu: Menu, access: RestaurantAccess, now: Date) => Menu, extra: { createdId?: () => string | undefined } = {}): Promise<MenuResult> {
+async function changeMenu(event: string, change: (menu: Menu, access: RestaurantAccess, now: Date) => Menu, extra: { createdId?: () => string | undefined; activity?: Activity } = {}): Promise<MenuResult> {
   const checked = await gate(EVERYONE);
   if (!checked.ok) return { ok: false, menu: null, message: checked.message };
   const { access } = checked;
@@ -60,6 +65,9 @@ async function changeMenu(event: string, change: (menu: Menu, access: Restaurant
       now,
     );
     await deletePhotos(removed);
+    await markActive(access, extra.activity);
+    // The funnel's menu step is done once the menu has a dish, as on Today's checklist.
+    if (menu.categories.some((category) => category.items.length > 0)) await recordStep(access.restaurant.id, 'menu', now);
     return { ok: true, menu, createdId: extra.createdId?.() };
   } catch (error) {
     const message = userMessage(error);
@@ -74,6 +82,7 @@ export async function editMenuAction(input: unknown): Promise<MenuResult> {
   let created: string | undefined;
   return changeMenu('menu.edit_failed', (menu, access, now) => applyEdit(menu, parsed.data, editContext(access, now, (id) => (created = id))), {
     createdId: () => (parsed.data.type === 'add-item' ? created : undefined),
+    activity: QUICK_EDITS.has(parsed.data.type) ? 'quick' : 'change',
   });
 }
 
@@ -160,5 +169,5 @@ export async function setSoldOutAction(_previous: ActionState, form: FormData): 
     const now = new Date();
     await getMenusRepository().update(access.restaurant.id, (menu) => applyEdit(menu, { type: 'set-sold-out', itemId: target.data, soldOut }, editContext(access, now)), now);
     return { status: 'ok', message: soldOut ? 'Marked sold out on every screen until tomorrow.' : 'Back on every screen.' };
-  });
+  }, 'quick');
 }

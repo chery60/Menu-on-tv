@@ -2,6 +2,7 @@
 
 import QRCode from 'qrcode';
 import { z } from 'zod';
+import { recordStep } from '@/features/funnel/record';
 import { getScreensRepository, type ClaimResult } from '@/features/screens/repository';
 import { screenInputSchema } from '@/features/screens/schema';
 import { isPairingCode } from '@/features/screens/tokens';
@@ -59,6 +60,12 @@ const CLAIM_MESSAGES: Readonly<Record<ClaimResult, ActionState>> = {
   'too-many-links': failed('This screen already has the most TVs it can show on. Disconnect one first.'),
 };
 
+/** The claim's message. A TV that connected is the TV step in the team's funnel (MT-36). */
+async function claimMessage(restaurantId: string, claimed: ClaimResult, now: Date): Promise<ActionState> {
+  if (claimed === 'claimed') await recordStep(restaurantId, 'tv', now);
+  return CLAIM_MESSAGES[claimed];
+}
+
 /** Value of the "show this screen" choice that makes a new screen for the TV. */
 const NEW_SCREEN = 'new';
 
@@ -70,13 +77,13 @@ export async function connectTvAction(_previous: ActionState, form: FormData): P
     if (!screenId.success) return CLAIM_MESSAGES['no-screen'];
     const screens = getScreensRepository();
     const now = new Date();
-    if (screenId.data !== NEW_SCREEN) return CLAIM_MESSAGES[await screens.claimPairing(code, restaurant.id, screenId.data, now)];
+    if (screenId.data !== NEW_SCREEN) return claimMessage(restaurant.id, await screens.claimPairing(code, restaurant.id, screenId.data, now), now);
 
     const count = (await screens.listScreens(restaurant.id)).length;
     const screen = await screens.addScreen(restaurant.id, { name: count === 0 ? 'Counter TV' : `Screen ${count + 1}`, layout: 'split', theme: 'paper', language: 'en' }, now);
     const claimed = await screens.claimPairing(code, restaurant.id, screen.id, now);
     if (claimed !== 'claimed') await screens.removeScreen(restaurant.id, screen.id);
-    return CLAIM_MESSAGES[claimed];
+    return claimMessage(restaurant.id, claimed, now);
   });
 }
 

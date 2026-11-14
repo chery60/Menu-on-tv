@@ -4,6 +4,7 @@ import { RateLimiter } from '@/lib/rate-limit';
 import { LINK_GONE, loadLiveScreen, rateLimited } from '@/features/screens/live';
 import { getScreensRepository } from '@/features/screens/repository';
 import { beatInputSchema } from '@/features/screens/schema';
+import { recordStep } from '@/features/funnel/record';
 
 // Per TV link (one beat a minute, with room for reconnects), plus a per-address ceiling.
 const perLink = new RateLimiter(10, 60 * 1000);
@@ -19,7 +20,10 @@ export async function POST(request: Request, context: RouteContext<'/api/s/[toke
   try {
     const live = await loadLiveScreen(token);
     if (!live) return fail(LINK_GONE, 404);
-    await getScreensRepository().recordBeat(token, { version: parsed.data.version, slide: parsed.data.slide }, new Date());
+    const now = new Date();
+    await getScreensRepository().recordBeat(token, { version: parsed.data.version, slide: parsed.data.slide }, now);
+    // A TV's first heartbeat ever is its restaurant's first screen on air, if none came before (MT-36's funnel).
+    if (live.link.lastSeenAt === null) await recordStep(live.screen.restaurantId, 'on-air', now);
     return ok({ version: live.bundle.version, serverNow: Date.now() });
   } catch (error) {
     logger.error('screens.beat_failed', error);

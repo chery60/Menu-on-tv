@@ -3,6 +3,8 @@ import { refresh } from 'next/cache';
 import { AccountsLimitError } from '@/features/accounts/repository';
 import { ROLES, type Role } from '@/features/accounts/schema';
 import { currentAccess, hasRestaurant, type RestaurantAccess } from '@/features/accounts/session';
+import { recordActivity } from '@/features/funnel/record';
+import type { Activity } from '@/features/funnel/schema';
 import { MenuEditError } from '@/features/menu/edit';
 import { PhotoRejectedError } from '@/features/menu/photos';
 import { PromoError } from '@/features/promos/repository';
@@ -38,13 +40,24 @@ export function userMessage(error: unknown): string | null {
   return known ? error.message : null;
 }
 
-/** Runs a form action for a signed-in member with an allowed role, and refreshes the page when it worked. */
-export async function guarded(roles: readonly Role[], event: string, run: (access: RestaurantAccess) => Promise<ActionState>): Promise<ActionState> {
+/** Marks today as a day someone at the restaurant changed something, for the team's funnel (MT-36). Never fails the action. */
+export async function markActive(access: RestaurantAccess, activity: Activity = 'change'): Promise<void> {
+  await recordActivity(access.restaurant.id, activity);
+}
+
+/**
+ * Runs a form action for a signed-in member with an allowed role, and refreshes the page when it worked.
+ * Every one of these actions changes something, so one that worked marks the day active; a quick action (MT-25) says so.
+ */
+export async function guarded(roles: readonly Role[], event: string, run: (access: RestaurantAccess) => Promise<ActionState>, activity: Activity = 'change'): Promise<ActionState> {
   const checked = await gate(roles);
   if (!checked.ok) return failed(checked.message);
   try {
     const result = await run(checked.access);
-    if (result.status === 'ok') refresh();
+    if (result.status === 'ok') {
+      await markActive(checked.access, activity);
+      refresh();
+    }
     return result;
   } catch (error) {
     const message = userMessage(error);

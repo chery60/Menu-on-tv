@@ -8,6 +8,7 @@ import { safeNextPath } from '@/features/accounts/next-path';
 import { AccountsLimitError, getAccountsRepository } from '@/features/accounts/repository';
 import { canSend, DeliveryError, sendSignInCode } from '@/features/accounts/send-code';
 import { endSession, startSession } from '@/features/accounts/session';
+import { recordSignUp } from '@/features/funnel/record';
 import { logger } from '@/lib/logger';
 import { clientKey, RateLimiter } from '@/lib/rate-limit';
 import type { StartState, VerifyState } from './sign-in-state';
@@ -80,6 +81,8 @@ export async function verifySignInAction(_previous: VerifyState, form: FormData)
     if (result.status === 'expired') return { status: 'error', message: 'That code has expired. Ask for a new one.', needsNewCode: true };
     await startSession(result.token, result.expiresAt);
     const access = await accounts.access(result.token, new Date());
+    // Invited staff join a restaurant here; anyone left without one counts as signed up in the team's funnel (MT-36).
+    if (access && !access.restaurant) await recordSignUp(access.user.id, access.user.createdAt);
     destination = access?.restaurant ? safeNextPath(form.get('next')) : '/studio/setup';
   } catch (error) {
     logger.error('auth.verify_failed', error);

@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { AccountsLimitError, getAccountsRepository } from '@/features/accounts/repository';
 import { restaurantInputSchema } from '@/features/accounts/schema';
 import { currentAccess } from '@/features/accounts/session';
+import { recordSetUp, recordStep } from '@/features/funnel/record';
 import { getMenusRepository } from '@/features/menu/repository';
 import { sampleMenu } from '@/features/menu/sample';
 import { randomUUID } from 'node:crypto';
@@ -22,7 +23,11 @@ export async function createRestaurantAction(_previous: ActionState, form: FormD
   try {
     const now = new Date();
     const restaurant = await getAccountsRepository().createRestaurant(access.user.id, parsed.data, now);
-    if (form.get('start') === 'sample') await getMenusRepository().update(restaurant.id, () => sampleMenu(now, randomUUID), now);
+    await recordSetUp(restaurant.id, access.user.id, access.user.createdAt, now);
+    if (form.get('start') === 'sample') {
+      await getMenusRepository().update(restaurant.id, () => sampleMenu(now, randomUUID), now);
+      await recordStep(restaurant.id, 'menu', now);
+    }
   } catch (error) {
     if (error instanceof AccountsLimitError) return failed(error.message);
     logger.error('setup.create_failed', error);
