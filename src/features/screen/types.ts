@@ -1,3 +1,5 @@
+import type { Allergen } from '@/features/menu/schema';
+
 /** The screen domain: a menu stored as data, promos, ads, and how a screen lays them out. */
 
 /** FSSAI marks: green for veg, brown for non-veg (eggs included). */
@@ -17,7 +19,10 @@ export interface MenuItem {
   readonly sizes?: readonly { readonly label: string; readonly price: number }[];
   readonly diet: Diet;
   readonly badges?: readonly Badge[];
+  /** Calories per serving, with `serving` and `allergens`: only while the restaurant shows them (MT-29, FSSAI). */
   readonly kcal?: number;
+  readonly serving?: string;
+  readonly allergens?: readonly Allergen[];
   readonly soldOut?: boolean;
   /** Stands in for a dish photo when there is none. */
   readonly emoji: string;
@@ -73,6 +78,8 @@ export interface Restaurant {
   readonly ticker: readonly string[];
   /** Today's special while it plays (in stock, its daypart on). It is the first promo and the first Spotlight dish. */
   readonly specialId?: string;
+  /** Calories, allergens and FSSAI's reference line on every menu and Spotlight slide (MT-29). */
+  readonly fssai?: boolean;
 }
 
 export const LAYOUT_IDS = ['board', 'split', 'spotlight', 'lbar', 'ticker', 'portrait'] as const;

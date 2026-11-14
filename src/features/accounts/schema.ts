@@ -51,6 +51,8 @@ export const restaurantSchema = z.object({
   tagline: z.string().max(80),
   city: z.string().max(60),
   outlets: z.array(outletSchema).min(1),
+  /** Calories and allergens on every TV (MT-29, FSSAI display). Off until an owner turns it on; restaurants saved before read as off. */
+  fssai: z.boolean().default(false),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
