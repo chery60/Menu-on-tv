@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { LAYOUT_IDS, THEME_IDS } from '@/features/screen/types';
 
 /** The accounts data file and owner input, validated at every boundary. */
 
@@ -45,6 +46,12 @@ export const outletSchema = z.object({
   timeZone: z.string(),
 });
 
+/** A layout and its colours, as picked while getting started (MT-34). */
+export const lookSchema = z.object({ layout: z.enum(LAYOUT_IDS), theme: z.enum(THEME_IDS) });
+export type Look = z.infer<typeof lookSchema>;
+/** What the look picker starts on, and what a TV plays when no look was picked: Split on Paper. */
+export const DEFAULT_LOOK: Look = { layout: 'split', theme: 'paper' };
+
 export const restaurantSchema = z.object({
   id,
   name: z.string().min(1).max(60),
@@ -53,6 +60,10 @@ export const restaurantSchema = z.object({
   outlets: z.array(outletSchema).min(1),
   /** Calories and allergens on every TV (MT-29, FSSAI display). Off until an owner turns it on; restaurants saved before read as off. */
   fssai: z.boolean().default(false),
+  /** The look picked while getting started (MT-34); the first TV connected plays it. Null until picked, and for restaurants saved before. */
+  look: lookSchema.nullable().default(null),
+  /** Whether the owner answered "Add today's special?" (MT-34), so it shows once. */
+  specialNudgeAnswered: z.boolean().default(false),
   createdAt: z.string(),
   updatedAt: z.string(),
 });

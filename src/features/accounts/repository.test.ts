@@ -1,4 +1,4 @@
-import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
@@ -184,5 +184,26 @@ describe('calories and allergens on the TVs (MT-29)', () => {
     expect((await repo.restaurant(restaurant.id))?.fssai).toBe(true);
     expect(await repo.setFssai(restaurant.id, false, NOW)).toMatchObject({ fssai: false });
     expect(await repo.setFssai('nowhere', true, NOW)).toBeNull();
+  });
+});
+
+describe('the look and the special nudge (MT-34)', () => {
+  it('start unpicked and unanswered, and change only the restaurant asked', async () => {
+    const mine = await repo.createRestaurant((await signIn(owner)).userId, cafe, NOW);
+    const theirs = await repo.createRestaurant((await signIn(helper)).userId, { ...cafe, name: 'Dosa Hut' }, NOW);
+    expect(mine).toMatchObject({ look: null, specialNudgeAnswered: false });
+
+    expect(await repo.setLook(mine.id, { layout: 'board', theme: 'night' }, later(1000))).toMatchObject({ look: { layout: 'board', theme: 'night' }, updatedAt: later(1000).toISOString() });
+    expect(await repo.answerSpecialNudge(mine.id, later(2000))).toMatchObject({ specialNudgeAnswered: true, look: { layout: 'board' } });
+    expect(await repo.restaurant(theirs.id)).toMatchObject({ look: null, specialNudgeAnswered: false });
+    expect(await repo.setLook('nowhere', { layout: 'split', theme: 'paper' }, NOW)).toBeNull();
+    expect(await repo.answerSpecialNudge('nowhere', NOW)).toBeNull();
+  });
+
+  it('read as unpicked and unanswered for restaurants saved before', async () => {
+    const outlet = { id: 'o1', name: 'Old Cafe', city: 'HSR', timeZone: 'Asia/Kolkata' };
+    const old = { id: 'r1', name: 'Old Cafe', tagline: '', city: 'HSR', outlets: [outlet], createdAt: NOW.toISOString(), updatedAt: NOW.toISOString() };
+    await writeFile(file, JSON.stringify({ version: 1, users: [], sessions: [], codes: [], sends: [], restaurants: [old], members: [], invites: [] }));
+    expect(await new FileAccountsRepository(file).restaurant('r1')).toMatchObject({ fssai: false, look: null, specialNudgeAnswered: false });
   });
 });
