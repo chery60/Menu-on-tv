@@ -65,6 +65,8 @@ export interface Restaurant {
   readonly promos: readonly Promo[];
   readonly ads: readonly LocalAd[];
   readonly ticker: readonly string[];
+  /** Today's special while it plays (in stock, its daypart on). It is the first promo and the first Spotlight dish. */
+  readonly specialId?: string;
 }
 
 export const LAYOUT_IDS = ['board', 'split', 'spotlight', 'lbar', 'ticker', 'portrait'] as const;

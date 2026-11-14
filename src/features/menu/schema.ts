@@ -38,6 +38,8 @@ export const MENU_LIMITS = {
 export const PHOTO_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
 const id = z.string().min(1).max(64);
+/** A day in the outlet's time zone, as YYYY-MM-DD. */
+const day = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 const diet = z.enum(['veg', 'nonveg']);
 const priceSchema = z.object({ label: z.string().max(MENU_LIMITS.sizeLabel), paise: z.number().int().min(0).max(MAX_PAISE) });
 
@@ -56,7 +58,7 @@ export const itemSchema = z.object({
   /** Set on sample menus; owner dishes get a plate guessed from the name. */
   emoji: z.string().max(16),
   /** The day (in the outlet's time zone) the item sold out. It is back on the menu the next day. */
-  soldOutOn: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable(),
+  soldOutOn: day.nullable(),
   /** Off every screen until the owner shows it again. */
   hidden: z.boolean(),
 });
@@ -73,6 +75,8 @@ export const categorySchema = z.object({
 export const menuSchema = z.object({
   updatedAt: z.string(),
   categories: z.array(categorySchema).max(MENU_LIMITS.categories),
+  /** Today's special: one dish, for the day it was set on. Menus saved before MT-25 have none. */
+  special: z.object({ itemId: id, on: day }).nullable().optional(),
 });
 
 export const menusFileSchema = z.object({
@@ -136,6 +140,8 @@ export const menuEditSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('move-item'), itemId: id, categoryId: id, toIndex: position }),
   z.object({ type: z.literal('set-sold-out'), itemId: id, soldOut: z.boolean() }),
   z.object({ type: z.literal('set-hidden'), itemId: id, hidden: z.boolean() }),
+  // Null removes today's special.
+  z.object({ type: z.literal('set-special'), itemId: id.nullable() }),
 ]);
 
 export type MenuEdit = z.infer<typeof menuEditSchema>;
