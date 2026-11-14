@@ -793,10 +793,11 @@
       "owner": "",
       "tags": [
         "ai-first",
-        "v0-launch"
+        "v0-launch",
+        "waiting-on-founder"
       ],
       "summary": "Photograph the paper menu or flex board; get a structured menu to approve.",
-      "body": "**Why.** Making the menu is the step every competitor leaves to the owner. This is our wedge and our demo.\n\n**What.** A vision model reads the photo into categories, items, sizes and prices. Low-confidence fields are highlighted. The owner approves before anything reaches a screen.\n\n**Built 20 October 2026.** \"Add your menu\" on /studio/menu leads with \"Take or choose photos\" (up to 4). Each photo is shrunk on the phone and read by Claude (claude-opus-5-5) through the Anthropic SDK into a zod-checked list of dishes, with the fields it was unsure of. A price it can't read stays empty for the owner to type; unsure names, prices and veg marks are outlined in the same preview the paste import uses, and nothing is saved until the owner checks and saves. The photo is kept nowhere; one restaurant can read 40 photos a day. Checked end to end on a 375 px phone against a local stand-in for the API (no key or money spent). Details: docs/accounts-and-menu.md, \"Menu from a photo\". Golden set: evals/menu-photos/.",
+      "body": "**Why.** Making the menu is the step every competitor leaves to the owner. This is our wedge and our demo.\n\n**What.** A vision model reads the photo into categories, items, sizes and prices. Low-confidence fields are highlighted. The owner approves before anything reaches a screen.\n\n**Built 20 October 2026.** \"Add your menu\" on /studio/menu leads with \"Take or choose photos\" (up to 4). Each photo is shrunk on the phone and read by Claude (claude-opus-5-5) through the Anthropic SDK into a zod-checked list of dishes, with the fields it was unsure of. A price it can't read stays empty for the owner to type; unsure names, prices and veg marks are outlined in the same preview the paste import uses, and nothing is saved until the owner checks and saves. The photo is kept nowhere; one restaurant can read 40 photos a day. Checked end to end on a 375 px phone against a local stand-in for the API (no key or money spent). Details: docs/accounts-and-menu.md, \"Menu from a photo\". Golden set: evals/menu-photos/.\n\n**Waiting on the founder (D2, 15 November 2026).** An Anthropic API key on the server (ANTHROPIC_API_KEY), and 30 real menu photos for the golden set. Not built or stubbed until then.",
       "checklist": [
         {
           "id": "photo-key",
@@ -827,7 +828,7 @@
       "rank": 19456,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-20T04:00:00.000Z"
+      "updatedAt": "2026-11-15T03:30:00.000Z"
     },
     {
       "id": "seed-020",
@@ -1161,10 +1162,11 @@
       "owner": "",
       "tags": [
         "ai-first",
-        "v0-launch"
+        "v0-launch",
+        "waiting-on-founder"
       ],
       "summary": "Pick a dish or a goal (\"push cold coffee this week\"); get three promo drafts.",
-      "body": "**Why.** Owners know what they want to sell, not how to say it in six words.\n\n**What.** Drafts headline and line in English and Hindi within the slide’s character limits. Never invents prices or discounts; those come from the menu and the owner.",
+      "body": "**Why.** Owners know what they want to sell, not how to say it in six words.\n\n**What.** Drafts headline and line in English and Hindi within the slide’s character limits. Never invents prices or discounts; those come from the menu and the owner.\n\n**Waiting on the founder (D2, 15 November 2026).** An AI key: the promo writer calls a model to draft headlines. Not built or stubbed until then.",
       "checklist": [
         {
           "id": "seed-027-c1",
@@ -1185,7 +1187,7 @@
       "rank": 27648,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T03:30:00.000Z"
     },
     {
       "id": "seed-028",
@@ -1412,10 +1414,11 @@
       "owner": "",
       "tags": [
         "billing",
-        "v0-launch"
+        "v0-launch",
+        "waiting-on-founder"
       ],
       "summary": "One free screen with a small badge; Plus per screen via Razorpay subscriptions with GST invoices.",
-      "body": "**Why.** Free is the norm at the bottom of this market. The badge is free marketing; Plus is the business.\n\n**What.** Plan limits enforced server-side, Razorpay subscription per restaurant with screen quantity, GST invoices, upgrade from the phone.",
+      "body": "**Why.** Free is the norm at the bottom of this market. The badge is free marketing; Plus is the business.\n\n**What.** Plan limits enforced server-side, Razorpay subscription per restaurant with screen quantity, GST invoices, upgrade from the phone.\n\n**Waiting on the founder (D2, 15 November 2026).** A payment provider account (Razorpay) for subscriptions and GST invoices. Not built or stubbed until then.",
       "checklist": [
         {
           "id": "seed-033-c1",
@@ -1441,7 +1444,7 @@
       "rank": 33792,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T03:30:00.000Z"
     },
     {
       "id": "seed-034",
@@ -1581,10 +1584,11 @@
       "owner": "",
       "tags": [
         "gtm",
-        "v0-launch"
+        "v0-launch",
+        "waiting-on-founder"
       ],
       "summary": "30 outlets live in one neighbourhood, measured against the funnel targets.",
-      "body": "**Why.** v0 is done when real owners keep real screens on.\n\n**What.** Field sales with the demo kit, weekly check-ins, fixes within 48 hours, and a short write-up of what worked.",
+      "body": "**Why.** v0 is done when real owners keep real screens on.\n\n**What.** Field sales with the demo kit, weekly check-ins, fixes within 48 hours, and a short write-up of what worked.\n\n**Waiting on the founder (D2, 15 November 2026).** Field work: signing up 30 outlets in one neighbourhood and visiting them. Not built or stubbed until then.",
       "checklist": [
         {
           "id": "seed-037-c1",
@@ -1610,7 +1614,7 @@
       "rank": 37888,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T03:30:00.000Z"
     },
     {
       "id": "seed-038",
