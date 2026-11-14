@@ -46,7 +46,7 @@ Paid or not paid is tracked separately: staff mark it, any time. A paid order th
 Orders are written by many phones at once and change far more often than menus, so they get a table in Netlify Database, not one JSON document (D3). MT-90 starts with an ADR from Platform for that table. The ADR also names:
 - **Safe retries:** the phone makes the status secret (32 random bytes) and saves it before sending. The server stores its hash (`hashSecret`) under a unique constraint, so a double tap or a retry after a dropped reply makes one order.
 - **Numbers and caps in one transaction,** so 20 orders sent at once get 20 different numbers and the caps hold.
-- **The retention sweep:** a sweep after every order write, across all outlets, which QA can check at the merge gate, plus a Netlify Scheduled Function every hour for days with no orders anywhere (scheduled functions run only on published deploys). Each run works an hour ahead, so nothing outlives its limit between runs.
+- **The retention sweep:** a sweep after every order write, across all outlets, which QA can check at the merge gate, plus a Netlify Scheduled Function every hour for days with no orders anywhere (scheduled functions run only on published deploys). Each run clears names and notes an hour early, so none outlives 24 hours between runs.
 
 ## Rules that hold everywhere
 - **The server sets every price.** It prices each order from the live menu at that moment (sizes, sold out, hidden, dayparts), ignores prices the phone sends, and stores the price on each line. Hidden dishes stay in the stored menu, so a crafted order for one is refused. A dish that sold out while the guest was choosing is refused with a clear message.

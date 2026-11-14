@@ -75,6 +75,6 @@ As the owner on a 375 px phone, with a second phone for the guest:
 12. Signed in to a second restaurant: no Tables page, print sheet or action shows, changes or returns the first restaurant's links.
 13. After scanning, printing and replacing cards, the server logs show place ids only, never a place link.
 14. Each place link has at least 128 bits of randomness: 1,000 links made in a test are all different, and each is at least 22 base64url characters from a secure random source.
-15. The menu reply for a place link carries only the public menu and the restaurant's and place's names. It has no owner data: no email, phone number, member, session, screen token or other place's link.
+15. The menu reply for a place link carries no owner data: no email, phone number, member, session, screen token or other place's link.
 16. Once MT-29 has shipped and its switch is on: the guest's menu shows calories, allergens and the 2,000 kcal line.
 17. Design walks it as an owner setting up tables and as a guest at a table, both on a 375 px phone, and fixes what gets in the way.

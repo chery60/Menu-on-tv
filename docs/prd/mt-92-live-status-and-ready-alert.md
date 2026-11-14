@@ -18,7 +18,7 @@ The guest's order page keeps itself up to date and tells them, with a sound, whe
 - While the stream is down, a quiet "Reconnecting" line shows, and the page keeps the last state it had.
 
 **Sound on, then the ready alert:**
-- Phones play sound only after a tap. Under the number: "Turn on sound to hear when it's ready." One tap plays a short chime, so the guest knows it works, and the button changes to "Turn off sound".
+- Phones play sound only after a tap. Under the number: "Turn on sound to hear when it's ready." One tap plays a short chime, so the guest knows it works, and the button gives way to the line "Sound is on."
 - When the order turns Ready with the page in the foreground: a chime on Android and iPhone (three times), a vibration on Android (iPhones can't vibrate from a web page), the page fills with "Ready" and the number, and the tab title becomes "Ready: order 42". Pickup says "Ready. Collect it at the counter." and a table says "Ready. It's on its way to your table.", as on the page MT-90 built.
 - Without the tap the page still changes, silently.
 - The alert plays on the change to Ready, not when someone opens an order that's already Ready.

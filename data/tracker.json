@@ -3652,7 +3652,7 @@
         },
         {
           "id": "36f6b32c-1c8a-42e5-8677-0a6de4b9a5bb-c12",
-          "text": "The menu reply for a place link carries only the public menu and the restaurant’s and place’s names, never owner data: no email, phone number, member, session, screen token or other place’s link",
+          "text": "The menu reply for a place link carries no owner data: no email, phone number, member, session, screen token or other place’s link",
           "done": false
         }
       ],
