@@ -69,3 +69,6 @@ next-env.d.ts
 
 # per-machine Claude Code permissions
 .claude/settings.local.json
+
+# team worktrees (D1): each team works in .claude/worktrees/<team>
+/.claude/worktrees/
