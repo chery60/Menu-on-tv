@@ -12,6 +12,7 @@ import { getAccountsRepository } from '@/features/accounts/repository';
 import { applyEdit } from '@/features/menu/edit';
 import { getMenusRepository } from '@/features/menu/repository';
 import { sampleMenu } from '@/features/menu/sample';
+import { getPromosRepository } from '@/features/promos/repository';
 import { localDate } from '@/lib/local-date';
 import { getScreensRepository } from './repository';
 
@@ -41,7 +42,7 @@ async function newRestaurant(): Promise<string> {
 }
 
 async function newScreen() {
-  return getScreensRepository().createScreen(restaurantId, { name: 'Counter TV', layout: 'split', theme: 'night', bilingual: false }, new Date());
+  return getScreensRepository().createScreen(restaurantId, { name: 'Counter TV', layout: 'split', theme: 'night', language: 'en' }, new Date());
 }
 
 beforeEach(async () => {
@@ -49,6 +50,7 @@ beforeEach(async () => {
   vi.stubEnv('SCREENS_DATA_FILE', join(directory, 'screens.json'));
   vi.stubEnv('ACCOUNTS_DATA_FILE', join(directory, 'accounts.json'));
   vi.stubEnv('MENUS_DATA_FILE', join(directory, 'menus.json'));
+  vi.stubEnv('PROMOS_DATA_FILE', join(directory, 'promos.json'));
   vi.spyOn(console, 'error').mockImplementation(() => undefined);
   restaurantId = await newRestaurant();
 });
@@ -101,6 +103,16 @@ describe('GET /api/s/[token]/bundle', () => {
     const changed = await BUNDLE(new Request('http://localhost', { headers: { ...ip(1), 'if-none-match': etag } }), params({ token }));
     expect(changed.status).toBe(200);
     expect(changed.headers.get('etag')).not.toBe(etag);
+  });
+
+  it('plays the owner’s promos from the studio in place of the featured dishes, with a QR for a link', async () => {
+    const { token } = await newScreen();
+    const promo = { template: 'scan' as const, dishes: [], dealPaise: null, headline: 'Order on Zomato', line: '', festival: null, link: 'https://www.zomato.com/x', startsAt: null, endsAt: null, daypart: null, countdown: false };
+    await getPromosRepository().create(restaurantId, promo, new Date());
+    const bundle = await data<{ restaurant: { promos: { id: string; qrUrl?: string }[] }; qrCodes: Record<string, string> }>(await BUNDLE(new Request('http://localhost', { headers: ip(6) }), params({ token })));
+    expect(bundle.restaurant.promos).toHaveLength(1);
+    expect(bundle.restaurant.promos[0]).toMatchObject({ qrUrl: 'https://www.zomato.com/x' });
+    expect(bundle.qrCodes[bundle.restaurant.promos[0].id]).toContain('<svg');
   });
 
   it('answers 404 with a way back for unknown or malformed links', async () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { clockAt, clockStamp, firstShowing, scheduleState } from './schedule';
+import { clockAt, clockStamp, firstShowing, playingUntil, scheduleState } from './schedule';
 
 // 2026-11-15 is a Sunday; 2026-11-16 a Monday.
 const weekdays = { from: 16 * 60, to: 19 * 60, days: [1, 2, 3, 4, 5] };
@@ -62,5 +62,24 @@ describe('scheduleState', () => {
     const mondayOnly = { startsAt: null, endsAt: '2026-11-22T23:00', daypart: { from: 9 * 60, to: 10 * 60, days: [1] } };
     expect(scheduleState(mondayOnly, at('2026-11-16T09:30'))).toEqual({ state: 'playing' });
     expect(scheduleState(mondayOnly, at('2026-11-16T11:00'))).toEqual({ state: 'ended' });
+  });
+});
+
+describe('playingUntil', () => {
+  const at = (stamp: string) => clockAt(stamp);
+
+  it('is its end, or nothing when it never ends', () => {
+    expect(playingUntil({ startsAt: null, endsAt: '2026-11-20T21:00', daypart: null }, at('2026-11-16T10:00'))).toBe('2026-11-20T21:00');
+    expect(playingUntil(always, at('2026-11-16T10:00'))).toBeNull();
+  });
+
+  it('is the end of today’s run of its times when that comes first', () => {
+    expect(playingUntil({ startsAt: null, endsAt: null, daypart: weekdays }, at('2026-11-16T17:00'))).toBe('2026-11-16T19:00');
+    expect(playingUntil({ startsAt: null, endsAt: '2026-11-16T18:00', daypart: weekdays }, at('2026-11-16T17:00'))).toBe('2026-11-16T18:00');
+  });
+
+  it('ends a late daypart tomorrow before midnight, and today in the small hours', () => {
+    expect(playingUntil({ startsAt: null, endsAt: null, daypart: saturdayNight }, at('2026-11-21T23:00'))).toBe('2026-11-22T02:00');
+    expect(playingUntil({ startsAt: null, endsAt: null, daypart: saturdayNight }, at('2026-11-22T01:00'))).toBe('2026-11-22T02:00');
   });
 });

@@ -2,6 +2,7 @@ import 'server-only';
 import { getAccountsRepository } from '@/features/accounts/repository';
 import { getMenusRepository } from '@/features/menu/repository';
 import { screenRestaurant } from '@/features/menu/to-screen';
+import { getPromosRepository } from '@/features/promos/repository';
 import { buildQrCodes } from '@/features/screen/qr';
 import { fail } from '@/lib/api-response';
 import { localClock } from '@/lib/local-date';
@@ -33,9 +34,10 @@ export async function loadLiveScreen(token: string, now = new Date()): Promise<L
   if (!resolved) return null;
   const restaurant = await getAccountsRepository().restaurant(resolved.screen.restaurantId);
   if (!restaurant) return null;
-  const menu = await getMenusRepository().get(restaurant.id, now);
-  const playing = screenRestaurant(restaurant, menu, localClock(now, restaurant.outlets[0].timeZone));
-  return { ...resolved, bundle: buildBundle(resolved.screen, playing, await buildQrCodes(playing)) };
+  const [menu, promos] = await Promise.all([getMenusRepository().get(restaurant.id, now), getPromosRepository().list(restaurant.id)]);
+  const timeZone = restaurant.outlets[0].timeZone;
+  const playing = screenRestaurant(restaurant, menu, localClock(now, timeZone), { promos, timeZone });
+  return { ...resolved, bundle: buildBundle(resolved.screen, playing, await buildQrCodes(playing), now.getTime()) };
 }
 
 /**

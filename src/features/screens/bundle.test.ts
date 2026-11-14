@@ -9,7 +9,7 @@ const screen: Screen = {
   name: 'Counter TV',
   layout: 'split',
   theme: 'night',
-  bilingual: false,
+  language: 'en',
   links: [],
   createdAt: '2026-10-18T00:00:00.000Z',
   updatedAt: '2026-10-18T00:00:00.000Z',
@@ -51,5 +51,23 @@ describe('ETags', () => {
     expect(isFresh('"xyz", "abc"', 'abc')).toBe(true);
     expect(isFresh('"xyz"', 'abc')).toBe(false);
     expect(isFresh(null, 'abc')).toBe(false);
+  });
+});
+
+describe('when a copy was served', () => {
+  it('rides along for a TV to compare its saved copies, without changing the version', () => {
+    const served = buildBundle(screen, DEMO_RESTAURANT, {}, 1_700_000_000_000);
+    expect(served.servedAt).toBe(1_700_000_000_000);
+    expect(served.version).toBe(buildBundle(screen, DEMO_RESTAURANT, {}, 1_800_000_000_000).version);
+    expect(buildBundle(screen, DEMO_RESTAURANT, {})).not.toHaveProperty('servedAt');
+  });
+});
+
+describe('the screen’s languages', () => {
+  it('ride in the bundle and change its version', () => {
+    expect(buildBundle(screen, DEMO_RESTAURANT, {}).language).toBe('en');
+    const both = buildBundle({ ...screen, language: 'en-then-hi' }, DEMO_RESTAURANT, {});
+    expect(both.language).toBe('en-then-hi');
+    expect(both.version).not.toBe(buildBundle(screen, DEMO_RESTAURANT, {}).version);
   });
 });

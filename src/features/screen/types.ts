@@ -1,3 +1,5 @@
+import type { Allergen } from '@/features/menu/schema';
+
 /** The screen domain: a menu stored as data, promos, ads, and how a screen lays them out. */
 
 /** FSSAI marks: green for veg, brown for non-veg (eggs included). */
@@ -17,7 +19,10 @@ export interface MenuItem {
   readonly sizes?: readonly { readonly label: string; readonly price: number }[];
   readonly diet: Diet;
   readonly badges?: readonly Badge[];
+  /** Calories per serving, with `serving` and `allergens`: only while the restaurant shows them (MT-29, FSSAI). */
   readonly kcal?: number;
+  readonly serving?: string;
+  readonly allergens?: readonly Allergen[];
   readonly soldOut?: boolean;
   /** Stands in for a dish photo when there is none. */
   readonly emoji: string;
@@ -39,6 +44,8 @@ export interface Promo {
   readonly kind: PromoKind;
   readonly label: string;
   readonly headline: string;
+  /** The dish's Hindi name, on promos made from a dish (today's special, featured dishes). Typed headlines have none. */
+  readonly headlineHi?: string;
   readonly line: string;
   readonly price?: number;
   /** The real separate-items price, struck through. Only set when it is the true menu total. */
@@ -47,6 +54,10 @@ export interface Promo {
   readonly photo?: string;
   /** Opens on a phone when scanned. */
   readonly qrUrl?: string;
+  /** When it leaves every TV, in epoch milliseconds: the TV drops it by its own clock, even with no network. */
+  readonly endsAt?: number;
+  /** Show the time left before `endsAt` near the end (countdown.ts). */
+  readonly countdown?: boolean;
 }
 
 /** A local business ad the owner has approved (v2). Never covers prices during ordering. */
@@ -67,6 +78,8 @@ export interface Restaurant {
   readonly ticker: readonly string[];
   /** Today's special while it plays (in stock, its daypart on). It is the first promo and the first Spotlight dish. */
   readonly specialId?: string;
+  /** Calories, allergens and FSSAI's reference line on every menu and Spotlight slide (MT-29). */
+  readonly fssai?: boolean;
 }
 
 export const LAYOUT_IDS = ['board', 'split', 'spotlight', 'lbar', 'ticker', 'portrait'] as const;
@@ -106,6 +119,17 @@ export function isLayoutId(value: unknown): value is LayoutId {
 
 export function isThemeId(value: unknown): value is ThemeId {
   return typeof value === 'string' && (THEME_IDS as readonly string[]).includes(value);
+}
+
+/**
+ * The languages a screen shows (MT-28): English only, English and Hindi on every line, or the whole loop in English
+ * and then in Hindi. Named by language so another can join later.
+ */
+export const LANGUAGE_IDS = ['en', 'en-hi', 'en-then-hi'] as const;
+export type ScreenLanguage = (typeof LANGUAGE_IDS)[number];
+
+export function isLanguageId(value: unknown): value is ScreenLanguage {
+  return typeof value === 'string' && (LANGUAGE_IDS as readonly string[]).includes(value);
 }
 
 /** A saved or linked theme id as today's: a retired id becomes its brand theme; anything else is left for the caller to check. */

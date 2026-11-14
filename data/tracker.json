@@ -904,7 +904,7 @@
         "v0-launch"
       ],
       "summary": "A light web player that runs on TV browsers, keeps playing offline and reloads itself daily.",
-      "body": "**Why.** The TV browser is where competitors fail. A light, resilient player is our engineering moat.\n\n**What.** Wall-clock loop so screens stay in sync, CSS-only motion, a service worker that keeps the page, assets and last bundle for offline playback, a daily reload that waits for the server, burn-in shift, and clock correction from the heartbeat. Built: /s/<token> plays live; /screen/demo plays the sample.\n\n**Standalone player, 20 October 2026.** /s/<token> now answers plain HTML that loads one 12 KB script (Preact running the same LivePlayer and ScreenStage) and one stylesheet, instead of 139 KB of Next.js and React. Pairing, sold out in 7.7 s, offline reload and \"connect again\" were checked on a production build. ADR-005 in docs/architecture.md.\n\n**Stays in review (QA, 15 November 2026).** Bug B2: after an offline reload the TV plays the menu embedded in its cached page, not the newer cached bundle, so dishes marked sold out come back; Platform is fixing it tonight. B3: the daily reload has no test yet. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).",
+      "body": "**Why.** The TV browser is where competitors fail. A light, resilient player is our engineering moat.\n\n**What.** Wall-clock loop so screens stay in sync, CSS-only motion, a service worker that keeps the page, assets and last bundle for offline playback, a daily reload that waits for the server, burn-in shift, and clock correction from the heartbeat. Built: /s/<token> plays live; /screen/demo plays the sample.\n\n**Standalone player, 20 October 2026.** /s/<token> now answers plain HTML that loads one 12 KB script (Preact running the same LivePlayer and ScreenStage) and one stylesheet, instead of 139 KB of Next.js and React. Pairing, sold out in 7.7 s, offline reload and \"connect again\" were checked on a production build. ADR-005 in docs/architecture.md.\n\n**Stays in review (QA, 15 November 2026).** Bug B2: after an offline reload the TV plays the menu embedded in its cached page, not the newer cached bundle, so dishes marked sold out come back; Platform is fixing it tonight. B3: the daily reload has no test yet. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).\n\n**Fixed (15 November 2026).** B2 and B3 fixed in #35: an offline reload plays the newest menu the TV has, and the daily reload has a test. QA: PASS on a real TV.",
       "checklist": [
         {
           "id": "seed-021-c1",
@@ -924,7 +924,7 @@
         {
           "id": "seed-021-c4",
           "text": "Offline cache with a service worker",
-          "done": false
+          "done": true
         },
         {
           "id": "seed-021-c5",
@@ -945,7 +945,7 @@
       "rank": 21504,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-11-15T06:15:00.000Z"
+      "updatedAt": "2026-11-15T07:15:00.000Z"
     },
     {
       "id": "seed-022",
@@ -1006,7 +1006,7 @@
         "v0-launch"
       ],
       "summary": "Server-sent events plus a heartbeat every minute; new content swaps in at the next slide.",
-      "body": "**Why.** \"Sold out\" that takes a minute is worse than none. Sockets drop silently on cheap TVs.\n\n**What.** A versioned bundle with an ETag (304 when unchanged), server-sent events that announce a new version within about 3 seconds, and a 60-second heartbeat as the safety net. The player swaps content at the next slide boundary (or within 20 seconds), never mid-slide.\n\n**Stays in review (QA, 15 November 2026).** Bug B1: after one failed reconnect the live stream never reopens, so changes arrive only with the 60-second heartbeat; Platform is fixing it tonight. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).",
+      "body": "**Why.** \"Sold out\" that takes a minute is worse than none. Sockets drop silently on cheap TVs.\n\n**What.** A versioned bundle with an ETag (304 when unchanged), server-sent events that announce a new version within about 3 seconds, and a 60-second heartbeat as the safety net. The player swaps content at the next slide boundary (or within 20 seconds), never mid-slide.\n\n**Stays in review (QA, 15 November 2026).** Bug B1: after one failed reconnect the live stream never reopens, so changes arrive only with the 60-second heartbeat; Platform is fixing it tonight. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).\n\n**Fixed (15 November 2026).** B1 fixed in #30: the TV reopens its live stream after the browser gives up on it. QA: PASS on a real TV.",
       "checklist": [
         {
           "id": "seed-023-c1",
@@ -1016,7 +1016,7 @@
         {
           "id": "seed-023-c2",
           "text": "Recovers from a dropped stream (heartbeat every minute)",
-          "done": false
+          "done": true
         },
         {
           "id": "seed-023-c3",
@@ -1027,7 +1027,7 @@
       "rank": 23552,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-11-15T06:15:00.000Z"
+      "updatedAt": "2026-11-15T07:15:00.000Z"
     },
     {
       "id": "seed-024",

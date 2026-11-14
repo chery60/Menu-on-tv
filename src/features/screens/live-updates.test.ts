@@ -32,7 +32,7 @@ async function restaurantWithScreen() {
   const restaurant = await accounts.createRestaurant(verified.userId, { name: 'Chai Point', city: 'Indiranagar', tagline: '' }, new Date());
   let next = 0;
   const menu = await getMenusRepository().update(restaurant.id, () => sampleMenu(new Date(), () => `id-${(next += 1)}`), new Date());
-  const { token } = await getScreensRepository().createScreen(restaurant.id, { name: 'Counter TV', layout: 'split', theme: 'night', bilingual: false }, new Date());
+  const { token } = await getScreensRepository().createScreen(restaurant.id, { name: 'Counter TV', layout: 'split', theme: 'night', language: 'en' }, new Date());
   return { restaurantId: restaurant.id, token, itemId: menu.categories[0].items[0].id };
 }
 
@@ -70,6 +70,8 @@ beforeEach(async () => {
   vi.stubEnv('SCREENS_DATA_FILE', join(directory, 'screens.json'));
   vi.stubEnv('ACCOUNTS_DATA_FILE', join(directory, 'accounts.json'));
   vi.stubEnv('MENUS_DATA_FILE', join(directory, 'menus.json'));
+  // Screens read studio promos (MT-26); without this a test run writes data/promos.json into the checkout.
+  vi.stubEnv('PROMOS_DATA_FILE', join(directory, 'promos.json'));
   vi.useFakeTimers({ toFake: ['setInterval', 'setTimeout', 'clearInterval', 'clearTimeout'] });
 });
 

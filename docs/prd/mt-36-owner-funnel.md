@@ -19,7 +19,13 @@ A **Funnel** page in the team area (`/tracker/funnel`, behind the team password)
 - Empty state: "No restaurants yet in this period."
 
 ## Design
-Design to write.
+**Job:** the team reads, in a minute on Monday, how many restaurants reach a screen on air and where the rest stop. **Direction:** the tracker's notebook look (`--tk-*`, light and dark), one quiet hue for bars, numbers always printed on the marks, never colour alone.
+
+- **Controls:** a segmented "7 days, 30 days, 90 days" (30 selected) and a "Channel" select (All, On their own, each rep), at the top. Changing either updates the URL, so a view can be shared.
+- **The funnel:** one row per step, from signed up to paid. Each row has a horizontal bar sized to its count, then the count, then "62% of the step before" in the dim ink. The step that loses the most is outlined, with "Most stop here". Paid shows "Not counted until billing (MT-33)" until it exists.
+- **Time to first screen:** the median as one big number ("18 min") with "median, sign-up to screen on air". Under it, a table of restaurants: name, time (or the step they stopped at), channel. Slowest first, test restaurants hidden.
+- **Weekly active:** an 8-week column chart. Each week has two columns, any change and quick actions, both labelled with their share, against a dashed 60% target line marked "Target 60%". The same numbers sit in a table under it for screen readers.
+- **Empty:** "No restaurants yet in this period." Every chart has a text or table twin. At 375px the funnel rows stack the bar under the label.
 
 ## Data it touches
 - **Milestones**, one per restaurant per step: the step and when it first happened, and the channel (on their own, or the rep from MT-35). Recorded on the server by the action that completes the step. The first screen on air is the first heartbeat from one of the restaurant's TVs.

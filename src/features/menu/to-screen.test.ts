@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import type { Promo as StudioPromo } from '@/features/promos/schema';
 import { mainSlides, sideLoop } from '@/features/screen/loop';
 import { applyEdit, emptyMenu } from './edit';
 import { sampleMenu } from './sample';
@@ -44,7 +45,7 @@ describe('screenRestaurant', () => {
       item: { name: 'Chicken biryani', nameHi: 'चिकन बिरयानी', description: '', prices: [{ label: 'Half', paise: 18000 }, { label: 'Full', paise: 32050 }], diet: 'nonveg', badges: [], kcal: 650, serving: '', allergens: [] },
     });
     const [item] = screenRestaurant(profile, menu, clockOn(TODAY)).categories[0].items;
-    expect(item).toMatchObject({ name: 'Chicken biryani', nameHi: 'चिकन बिरयानी', price: 180, sizes: [{ label: 'Half', price: 180 }, { label: 'Full', price: 320.5 }], diet: 'nonveg', kcal: 650, emoji: '🍛', soldOut: false });
+    expect(item).toMatchObject({ name: 'Chicken biryani', nameHi: 'चिकन बिरयानी', price: 180, sizes: [{ label: 'Half', price: 180 }, { label: 'Full', price: 320.5 }], diet: 'nonveg', emoji: '🍛', soldOut: false });
     expect(item).not.toHaveProperty('description');
     expect(item).not.toHaveProperty('photo');
   });
@@ -106,7 +107,7 @@ describe('today’s special on the TV', () => {
 
   it('plays first, at its menu price, with the featured dishes still playing after it', () => {
     const screen = screenRestaurant(profile, special(adrak.id), clockOn(TODAY));
-    expect(screen.promos[0]).toEqual({ id: `special-${adrak.id}`, kind: 'special', label: 'Today’s special', headline: 'Adrak elaichi chai', line: 'Chai and coffee', price: 35, emoji: adrak.emoji });
+    expect(screen.promos[0]).toEqual({ id: `special-${adrak.id}`, kind: 'special', label: 'Today’s special', headline: 'Adrak elaichi chai', headlineHi: adrak.nameHi, line: 'Chai and coffee', price: 35, emoji: adrak.emoji });
     expect(screen.promos.slice(1)).toEqual(plain.promos);
     expect(screen.ticker[0]).toBe('Today’s special: Adrak elaichi chai, ₹35');
     expect(screen.specialId).toBe(adrak.id);
@@ -157,5 +158,124 @@ describe('today’s special on the TV', () => {
     expect(screenRestaurant(profile, timed, clockOn(TODAY, 8 * 60)).specialId).toBe(adrak.id);
     expect(screenRestaurant(profile, timed, clockOn(TODAY, 15 * 60))).not.toHaveProperty('specialId');
     expect(screenRestaurant(profile, special(adrak.id), clockOn('2026-10-20'))).not.toHaveProperty('specialId');
+  });
+});
+
+describe('promos from the studio on the TV', () => {
+  // The sample café: Masala chai ₹30 (bestseller), Adrak elaichi chai ₹35, Cold coffee ₹120 (new) in Chai and coffee; Samosa ₹40 in Snacks.
+  const menu = sampleMenu(NOW, ids());
+  const items = menu.categories.flatMap((category) => category.items);
+  const dish = (name: string) => items.find((item) => item.name.startsWith(name))?.id ?? '';
+  const zone = 'Asia/Kolkata';
+  const made = (fields: Partial<StudioPromo> = {}): StudioPromo => ({
+    id: 'p1',
+    template: 'combo',
+    dishes: [{ itemId: dish('Masala chai'), size: '' }, { itemId: dish('Samosa'), size: '' }],
+    dealPaise: 6000,
+    headline: 'Chai and samosa',
+    line: 'Every evening',
+    festival: null,
+    link: null,
+    startsAt: null,
+    endsAt: null,
+    daypart: null,
+    countdown: false,
+    paused: false,
+    createdAt: NOW.toISOString(),
+    updatedAt: NOW.toISOString(),
+    ...fields,
+  });
+  const play = (promos: readonly StudioPromo[], base: Menu = menu, clock = clockOn(TODAY)) => screenRestaurant(profile, base, clock, { promos, timeZone: zone });
+  const plain = screenRestaurant(profile, menu, clockOn(TODAY));
+
+  it('replace the featured dishes while one is on air, after today’s special', () => {
+    const screen = play([made()]);
+    expect(screen.promos).toEqual([
+      { id: 'promo-p1', kind: 'combo', label: 'Combo', headline: 'Chai and samosa', line: 'Every evening', price: 60, wasPrice: 70, emoji: items.find((item) => item.id === dish('Masala chai'))?.emoji },
+    ]);
+    expect(screen.ticker).toEqual(['Combo: Chai and samosa, ₹60']);
+    const withSpecial = play([made()], edit(menu, { type: 'set-special', itemId: dish('Adrak') }));
+    expect(withSpecial.promos.map((promo) => promo.id)).toEqual([`special-${dish('Adrak')}`, 'promo-p1']);
+  });
+
+  it('give the featured dishes back when none is on air: paused, not started, ended, sold out or needing a fix', () => {
+    const soldOut = edit(menu, { type: 'set-sold-out', itemId: dish('Samosa'), soldOut: true });
+    expect(play([made({ paused: true })]).promos).toEqual(plain.promos);
+    expect(play([made({ startsAt: '2026-10-20T09:00' })]).promos).toEqual(plain.promos);
+    expect(play([made({ endsAt: '2026-10-19T09:00' })]).promos).toEqual(plain.promos);
+    expect(play([made({ dealPaise: 7000 })]).promos).toEqual(plain.promos);
+    expect(play([made()], soldOut).promos).toEqual(screenRestaurant(profile, soldOut, clockOn(TODAY)).promos);
+  });
+
+  it('leave out a promo whose dish is outside its category’s daypart, and play in the order they were made', () => {
+    const breakfast = { from: 7 * 60, to: 11 * 60, days: [0, 1, 2, 3, 4, 5, 6] };
+    const timed = edit(menu, { type: 'update-category', categoryId: menu.categories[0].id, name: 'Chai and coffee', nameHi: '', daypart: breakfast });
+    expect(play([made()], timed, clockOn(TODAY, 15 * 60)).promos.some((promo) => promo.id === 'promo-p1')).toBe(false);
+    const second = made({ id: 'p2', template: 'new', dishes: [{ itemId: dish('Cold coffee'), size: '' }], dealPaise: null, headline: 'New: cold coffee' });
+    expect(play([made(), second]).promos.map((promo) => promo.id)).toEqual(['promo-p1', 'promo-p2']);
+  });
+
+  it('carry their end for the TV to keep, the sooner of the end date and today’s run of their times, and a countdown when asked', () => {
+    const happyHour = made({ template: 'happy-hour', dishes: [{ itemId: dish('Adrak'), size: '' }], dealPaise: 2500, daypart: { from: 9 * 60, to: 11 * 60, days: [0, 1, 2, 3, 4, 5, 6] }, endsAt: '2026-10-25T23:00', countdown: true });
+    // 11:00 in India on 19 October is 05:30 UTC.
+    expect(play([happyHour]).promos[0]).toMatchObject({ kind: 'happy-hour', label: 'Happy hour', price: 25, wasPrice: 35, endsAt: Date.parse('2026-10-19T05:30:00.000Z'), countdown: true });
+    const tonight = play([made({ endsAt: '2026-10-19T21:00' })]).promos[0];
+    expect(tonight).toMatchObject({ endsAt: Date.parse('2026-10-19T15:30:00.000Z') });
+    expect(tonight).not.toHaveProperty('countdown');
+    expect(play([made()]).promos[0]).not.toHaveProperty('endsAt');
+  });
+
+  it('price a new dish at its menu price, a festival at its one dish or not at all, and a QR with no price', () => {
+    expect(play([made({ template: 'new', dishes: [{ itemId: dish('Cold coffee'), size: '' }], dealPaise: null })]).promos[0]).toMatchObject({ kind: 'new', label: 'New', price: 120 });
+    const diwali = play([made({ template: 'festival', festival: 'diwali', dishes: [], dealPaise: null, headline: 'Happy Diwali' })]);
+    expect(diwali.promos[0]).toMatchObject({ kind: 'festival', label: 'Diwali', emoji: '🎉' });
+    expect(diwali.promos[0]).not.toHaveProperty('price');
+    expect(diwali.ticker).toEqual(['Diwali: Happy Diwali']);
+    expect(play([made({ template: 'festival', festival: 'holi', dishes: [{ itemId: dish('Samosa'), size: '' }], dealPaise: null })]).promos[0]).toMatchObject({ price: 40 });
+    expect(play([made({ template: 'festival', festival: 'holi', dealPaise: null })]).promos[0]).not.toHaveProperty('price');
+    const scan = play([made({ template: 'scan', dishes: [], dealPaise: null, headline: 'Order on Zomato', link: 'https://www.zomato.com/x' })]).promos[0];
+    expect(scan).toMatchObject({ kind: 'scan', qrUrl: 'https://www.zomato.com/x', emoji: '📱' });
+    expect(scan).not.toHaveProperty('price');
+  });
+
+  it('show the first dish’s photo', () => {
+    const chai = items.find((item) => item.id === dish('Masala chai'));
+    const withPhoto = { ...menu, categories: menu.categories.map((category) => ({ ...category, items: category.items.map((item) => (item.id === chai?.id ? { ...item, photo: PHOTO } : item)) })) };
+    expect(play([made()], withPhoto).promos[0]).toMatchObject({ photo: `/api/photos/${PHOTO}` });
+  });
+});
+
+describe('Hindi names on promos (MT-28)', () => {
+  it('give featured dishes and today’s special the dish’s Hindi name, and typed studio headlines none', () => {
+    const menu = sampleMenu(NOW, ids());
+    const [masala] = menu.categories[0].items;
+    expect(screenRestaurant(profile, menu, clockOn(TODAY)).promos[0]).toMatchObject({ headline: 'Masala chai', headlineHi: masala.nameHi });
+    const special = edit(menu, { type: 'set-special', itemId: masala.id });
+    expect(screenRestaurant(profile, special, clockOn(TODAY)).promos[0]).toMatchObject({ label: 'Today’s special', headlineHi: masala.nameHi });
+    const typed: StudioPromo = { id: 'p1', template: 'new', dishes: [{ itemId: masala.id, size: '' }], dealPaise: null, headline: 'Try our chai', line: '', festival: null, link: null, startsAt: null, endsAt: null, daypart: null, countdown: false, paused: false, createdAt: NOW.toISOString(), updatedAt: NOW.toISOString() };
+    expect(screenRestaurant(profile, menu, clockOn(TODAY), { promos: [typed], timeZone: 'Asia/Kolkata' }).promos[0]).not.toHaveProperty('headlineHi');
+  });
+});
+
+describe('calories and allergens on the TV (MT-29)', () => {
+  const menu = sampleMenu(NOW, ids());
+  const [chai] = menu.categories[0].items;
+  const labelled = { ...menu, categories: menu.categories.map((category, index) => (index === 0 ? { ...category, items: category.items.map((item) => (item.id === chai.id ? { ...item, kcal: 120, serving: '150 ml', allergens: ['milk' as const] } : item)) } : category)) };
+
+  it('travel with each dish only while the restaurant shows them', () => {
+    const off = screenRestaurant(profile, labelled, clockOn(TODAY));
+    expect(off.categories[0].items[0]).not.toHaveProperty('kcal');
+    expect(off.categories[0].items[0]).not.toHaveProperty('allergens');
+    expect(off).not.toHaveProperty('fssai');
+    const on = screenRestaurant({ ...profile, fssai: true }, labelled, clockOn(TODAY));
+    expect(on.categories[0].items[0]).toMatchObject({ kcal: 120, serving: '150 ml', allergens: ['milk'] });
+    expect(on.fssai).toBe(true);
+  });
+
+  it('leave out what a dish doesn’t have: no calories, no serving, no allergens ticked', () => {
+    const on = screenRestaurant({ ...profile, fssai: true }, labelled, clockOn(TODAY));
+    const plain = on.categories[0].items[1];
+    expect(plain).not.toHaveProperty('serving');
+    expect(plain).not.toHaveProperty('allergens');
   });
 });
