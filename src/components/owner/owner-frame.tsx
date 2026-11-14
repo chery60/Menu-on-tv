@@ -1,11 +1,11 @@
-import { BookOpenText, LogOut, Store, Sun, Tv, type LucideIcon } from 'lucide-react';
+import { BookOpenText, LogOut, Megaphone, Store, Sun, Tv, type LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { BrandLogo } from '@/components/brand/brand-mark';
 import { signOutAction } from '@/app/sign-in/actions';
 import { siteConfig } from '@/config/site';
 
-export type OwnerSection = 'today' | 'menu' | 'tvs' | 'restaurant';
+export type OwnerSection = 'today' | 'menu' | 'promos' | 'tvs' | 'restaurant';
 
 interface Section {
   readonly id: OwnerSection;
@@ -14,15 +14,17 @@ interface Section {
   readonly Icon: LucideIcon;
 }
 
-/** The owner's four jobs, most frequent first: today's changes, the menu, the TVs, the restaurant. */
+/** The owner's five jobs, most frequent first: today's changes, the menu, promos, the TVs, the restaurant. */
 const SECTIONS: readonly Section[] = [
   { id: 'today', href: '/studio', label: 'Today', Icon: Sun },
   { id: 'menu', href: '/studio/menu', label: 'Menu', Icon: BookOpenText },
+  { id: 'promos', href: '/studio/promos', label: 'Promos', Icon: Megaphone },
   { id: 'tvs', href: '/studio/tvs', label: 'TVs', Icon: Tv },
   { id: 'restaurant', href: '/studio/restaurant', label: 'Restaurant', Icon: Store },
 ];
 
-const cell = 'flex h-full items-center gap-2 border-l border-hairline px-5 text-[0.95rem] font-medium transition-colors hover:bg-telly-soft';
+/** Five sections and Sign out share the bar from 768px, so cells stay narrow until there's room. */
+const cell = 'flex h-full items-center gap-2 whitespace-nowrap border-l border-hairline px-3 text-[0.95rem] font-medium transition-colors hover:bg-telly-soft lg:px-5';
 
 /**
  * The owner app's frame, in the site's brand. On a computer the sections sit in the top bar as framed
@@ -62,7 +64,7 @@ export function OwnerFrame({ current, children }: { readonly current?: OwnerSect
 
       {current ? (
         <nav aria-label="Owner app" className="fixed inset-x-0 bottom-0 z-30 border-t border-hairline bg-mist/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden">
-          <ul className="grid grid-cols-4">
+          <ul className="grid grid-cols-5">
             {SECTIONS.map(({ id, href, label, Icon }) => (
               <li key={id} className="border-l border-hairline first:border-l-0">
                 <Link href={href} aria-current={id === current ? 'page' : undefined} className={`relative flex h-16 flex-col items-center justify-center gap-1 text-[0.78rem] font-semibold ${id === current ? 'text-night' : 'text-night-dim'}`}>
