@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { applyEdit, applyImport, emptyMenu, findItem, isSoldOut, menuPhotos, MenuEditError, setPhoto, type EditContext } from './edit';
+import { applyEdit, applyImport, emptyMenu, findItem, isSoldOut, menuPhotos, MenuEditError, setPhoto, todaysSpecial, type EditContext } from './edit';
 import { MENU_LIMITS, menuEditSchema, menuImportSchema, type ItemInput, type Menu, type MenuEdit } from './schema';
 
 const NOW = new Date('2026-10-19T10:00:00.000Z');
@@ -162,5 +162,65 @@ describe('applyImport', () => {
     );
     expect(() => applyImport(full, [{ category: 'Chai', items: [{ ...chai, name: 'One more' }] }], fresh())).toThrow(MenuEditError);
     expect(() => menuImportSchema.parse([])).toThrow(/at least one dish/);
+  });
+});
+
+describe('today’s special', () => {
+  // In cafe(): Masala chai is id-3, Filter coffee id-4 and Samosa id-5, in Chai (id-1) and Snacks (id-2).
+  const special = (menu: Menu) => todaysSpecial(menu, '2026-10-19')?.item.name ?? null;
+
+  it('is one dish for today: picking another replaces it, and null removes it', () => {
+    const chai = run(cafe(), { type: 'set-special', itemId: 'id-3' });
+    expect(chai.special).toEqual({ itemId: 'id-3', on: '2026-10-19' });
+    expect(special(chai)).toBe('Masala chai');
+    expect(todaysSpecial(chai, '2026-10-19')?.category.name).toBe('Chai');
+    expect(special(run(chai, { type: 'set-special', itemId: 'id-5' }))).toBe('Samosa');
+    expect(run(chai, { type: 'set-special', itemId: null }).special).toBeNull();
+  });
+
+  it('ends by itself the next day in the outlet’s time zone', () => {
+    const chai = run(cafe(), { type: 'set-special', itemId: 'id-3' });
+    expect(todaysSpecial(chai, '2026-10-20')).toBeNull();
+  });
+
+  it('can only be a dish that is on the menu, in stock and shown', () => {
+    expect(() => run(cafe(), { type: 'set-special', itemId: 'gone' })).toThrow(MenuEditError);
+    expect(() => run(cafe(), { type: 'set-hidden', itemId: 'id-3', hidden: true }, { type: 'set-special', itemId: 'id-3' })).toThrow(/hidden/);
+    expect(() => run(cafe(), { type: 'set-sold-out', itemId: 'id-3', soldOut: true }, { type: 'set-special', itemId: 'id-3' })).toThrow(/sold out/);
+  });
+
+  it('survives every other change to the menu', () => {
+    const chai = run(cafe(), { type: 'set-special', itemId: 'id-3' });
+    const changed = run(
+      chai,
+      { type: 'set-prices', itemId: 'id-3', prices: [{ label: '', paise: 3500 }] },
+      { type: 'set-sold-out', itemId: 'id-4', soldOut: true },
+      { type: 'move-item', itemId: 'id-3', categoryId: 'id-2', toIndex: 0 },
+      { type: 'add-category', name: 'Sweets', nameHi: '' },
+    );
+    expect(special(changed)).toBe('Masala chai');
+    expect(special(setPhoto(changed, 'id-3', PHOTO, NOW).menu)).toBe('Masala chai');
+  });
+
+  it('stays the special while sold out, so it plays again back in stock', () => {
+    const soldOut = run(cafe(), { type: 'set-special', itemId: 'id-3' }, { type: 'set-sold-out', itemId: 'id-3', soldOut: true });
+    expect(special(soldOut)).toBe('Masala chai');
+    expect(special(run(soldOut, { type: 'set-sold-out', itemId: 'id-3', soldOut: false }))).toBe('Masala chai');
+  });
+
+  it('ends when its dish is hidden, removed, or its category removed, and stays ended when the dish is shown again', () => {
+    const chai = run(cafe(), { type: 'set-special', itemId: 'id-3' });
+    const hidden = run(chai, { type: 'set-hidden', itemId: 'id-3', hidden: true });
+    expect(hidden.special).toBeNull();
+    expect(run(hidden, { type: 'set-hidden', itemId: 'id-3', hidden: false }).special).toBeNull();
+    expect(run(chai, { type: 'remove-item', itemId: 'id-3' }).special).toBeNull();
+    expect(run(chai, { type: 'remove-category', categoryId: 'id-1' }).special).toBeNull();
+  });
+
+  it('reads menus saved before it existed', () => {
+    const saved = cafe();
+    expect(saved).not.toHaveProperty('special');
+    expect(todaysSpecial(saved, '2026-10-19')).toBeNull();
+    expect(special(run(saved, { type: 'set-special', itemId: 'id-5' }))).toBe('Samosa');
   });
 });

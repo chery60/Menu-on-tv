@@ -185,11 +185,16 @@ function menuSlides(pages: number, timing: LoopTiming): readonly Slide[] {
   }));
 }
 
-/** Featured items for Spotlight: bestsellers and new items first, then everything else that isn't sold out. */
-export function spotlightSlides(categories: readonly MenuCategory[], timing: LoopTiming = DEFAULT_TIMING): readonly Slide[] {
+/**
+ * Featured items for Spotlight: today's special first, then bestsellers and new items, or with none of those
+ * the first few dishes. Never a sold-out one.
+ */
+export function spotlightSlides(categories: readonly MenuCategory[], timing: LoopTiming = DEFAULT_TIMING, specialId?: string): readonly Slide[] {
   const all = categories.flatMap((category) => category.items).filter((item) => !item.soldOut);
-  const featured = all.filter((item) => item.badges?.some((badge) => badge === 'bestseller' || badge === 'new' || badge === 'chef'));
-  const heroes = featured.length > 0 ? featured : all.slice(0, 3);
+  const special = all.filter((item) => item.id === specialId);
+  const rest = all.filter((item) => item.id !== specialId);
+  const featured = rest.filter((item) => item.badges?.some((badge) => badge === 'bestseller' || badge === 'new' || badge === 'chef'));
+  const heroes = [...special, ...(featured.length > 0 ? featured : rest.slice(0, 3))];
   return heroes.map((item) => {
     // Pairs that look different come first; dishes sharing a plate fill in when there aren't enough.
     const others = all.filter((other) => other.id !== item.id);
@@ -205,7 +210,7 @@ export function spotlightSlides(categories: readonly MenuCategory[], timing: Loo
  */
 export function mainSlides(layout: LayoutId, restaurant: Restaurant, rowWeight = 1, timing: LoopTiming = DEFAULT_TIMING): readonly Slide[] {
   if (layout === 'spotlight') {
-    const heroes = spotlightSlides(restaurant.categories, timing);
+    const heroes = spotlightSlides(restaurant.categories, timing, restaurant.specialId);
     if (heroes.length > 0) return heroes;
   }
   const pages = paginateMenu(restaurant.categories, MENU_FRAMES[layout], rowWeight).length;

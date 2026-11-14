@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { mainSlides, sideLoop } from '@/features/screen/loop';
 import { applyEdit, emptyMenu } from './edit';
 import { sampleMenu } from './sample';
 import { menuEditSchema, menusFileSchema, type Menu, type MenuEdit } from './schema';
@@ -93,5 +94,68 @@ describe('sampleMenu', () => {
     const menu = sampleMenu(NOW, ids());
     expect(() => menusFileSchema.parse({ version: 1, menus: { r: menu } })).not.toThrow();
     expect(menu.categories.flatMap((category) => category.items).every((item) => !item.soldOutOn && !item.hidden)).toBe(true);
+  });
+});
+
+describe('today’s special on the TV', () => {
+  // The sample café: Masala chai is a bestseller; Adrak elaichi chai is a plain dish with no description.
+  const menu = sampleMenu(NOW, ids());
+  const [masala, adrak] = menu.categories[0].items;
+  const special = (itemId: string, base: Menu = menu) => edit(base, { type: 'set-special', itemId });
+  const plain = screenRestaurant(profile, menu, clockOn(TODAY));
+
+  it('plays first, at its menu price, with the featured dishes still playing after it', () => {
+    const screen = screenRestaurant(profile, special(adrak.id), clockOn(TODAY));
+    expect(screen.promos[0]).toEqual({ id: `special-${adrak.id}`, kind: 'special', label: 'Today’s special', headline: 'Adrak elaichi chai', line: 'Chai and coffee', price: 35, emoji: adrak.emoji });
+    expect(screen.promos.slice(1)).toEqual(plain.promos);
+    expect(screen.ticker[0]).toBe('Today’s special: Adrak elaichi chai, ₹35');
+    expect(screen.specialId).toBe(adrak.id);
+    expect(plain).not.toHaveProperty('specialId');
+  });
+
+  it('leads every layout: the side zone, the first full-board takeover, the ticker and the first Spotlight dish', () => {
+    const screen = screenRestaurant(profile, special(adrak.id), clockOn(TODAY));
+    const first = sideLoop(screen)[0];
+    expect(first.kind === 'promo' && first.promo.id).toBe(`special-${adrak.id}`);
+    const takeover = mainSlides('board', screen).find((slide) => slide.kind === 'promo');
+    expect(takeover?.kind === 'promo' && takeover.promo.id).toBe(`special-${adrak.id}`);
+    const hero = mainSlides('spotlight', screen)[0];
+    expect(hero.kind === 'spotlight' && hero.item.id).toBe(adrak.id);
+  });
+
+  it('never plays a featured dish twice when it is also the special', () => {
+    const screen = screenRestaurant(profile, special(masala.id), clockOn(TODAY));
+    expect(screen.promos[0]).toMatchObject({ label: 'Today’s special', headline: 'Masala chai', price: 30 });
+    expect(screen.promos.filter((promo) => promo.headline === 'Masala chai')).toHaveLength(1);
+  });
+
+  it('shows its description, photo and first size’s price when it has them', () => {
+    let sized = edit(emptyMenu(NOW), { type: 'add-category', name: 'Mains', nameHi: '' });
+    sized = edit(sized, {
+      type: 'add-item',
+      categoryId: 'id-1',
+      item: { name: 'Chicken biryani', nameHi: '', description: 'Dum cooked, with raita', prices: [{ label: 'Half', paise: 18000 }, { label: 'Full', paise: 32000 }], diet: 'nonveg', badges: [], kcal: null, serving: '', allergens: [] },
+    });
+    const [biryani] = sized.categories[0].items;
+    const withPhoto = { ...sized, categories: [{ ...sized.categories[0], items: [{ ...biryani, photo: PHOTO }] }] };
+    const promo = screenRestaurant(profile, special(biryani.id, withPhoto), clockOn(TODAY)).promos[0];
+    expect(promo).toMatchObject({ headline: 'Chicken biryani', line: 'Dum cooked, with raita', price: 180, photo: `/api/photos/${PHOTO}` });
+  });
+
+  it('stops while sold out and plays again back in stock the same day', () => {
+    const soldOut = edit(special(adrak.id), { type: 'set-sold-out', itemId: adrak.id, soldOut: true });
+    const screen = screenRestaurant(profile, soldOut, clockOn(TODAY));
+    expect(screen.promos).toEqual(plain.promos);
+    expect(screen).not.toHaveProperty('specialId');
+    const back = edit(soldOut, { type: 'set-sold-out', itemId: adrak.id, soldOut: false });
+    expect(screenRestaurant(profile, back, clockOn(TODAY)).promos[0].id).toBe(`special-${adrak.id}`);
+  });
+
+  it('doesn’t play outside its category’s daypart, or after its day ends', () => {
+    const morning = { from: 7 * 60, to: 11 * 60, days: [0, 1, 2, 3, 4, 5, 6] };
+    const timed = edit(special(adrak.id), { type: 'update-category', categoryId: menu.categories[0].id, name: 'Chai and coffee', nameHi: '', daypart: morning });
+    expect(screenRestaurant(profile, timed, clockOn(TODAY, 8 * 60)).specialId).toBe(adrak.id);
+    expect(screenRestaurant(profile, timed, clockOn(TODAY, 15 * 60))).not.toHaveProperty('specialId');
+    expect(screenRestaurant(profile, special(adrak.id), clockOn('2026-10-20'))).not.toHaveProperty('specialId');
   });
 });
