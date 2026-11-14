@@ -57,6 +57,7 @@ next-env.d.ts
 /data/accounts.json
 /data/menus.json
 /data/photos/
+/data/promos.json
 
 # the standalone TV player, built by scripts/build-player.mjs (npm run player)
 /public/player/
