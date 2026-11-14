@@ -46,6 +46,15 @@ export async function removePersonAction(_previous: ActionState, form: FormData)
   });
 }
 
+/** Calories and allergens on every TV (MT-29). Owners only; staff can still type calories and allergens in the menu. */
+export async function setFssaiAction(_previous: ActionState, form: FormData): Promise<ActionState> {
+  return guarded(OWNER_ONLY, 'restaurant.fssai_failed', async ({ restaurant }) => {
+    const on = form.get('fssai') === 'true';
+    if (!(await getAccountsRepository().setFssai(restaurant.id, on, new Date()))) return failed('Something went wrong. Try again.');
+    return { status: 'ok', message: on ? 'Calories and allergens are on your TVs.' : 'Calories and allergens are off your TVs. They stay in your menu.' };
+  });
+}
+
 export async function cancelInviteAction(_previous: ActionState, form: FormData): Promise<ActionState> {
   return guarded(OWNER_ONLY, 'restaurant.cancel_invite_failed', async ({ restaurant }) => {
     const inviteId = id.safeParse(form.get('inviteId'));
