@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ScreenBundle } from '@/features/screens/bundle';
 import { nextClockOffset } from '../clock';
 import { openLiveStream } from '../live-stream';
+import { isNewerBundle } from '../newer-bundle';
 import { ScreenPlayer } from './screen-player';
 
 /** Heartbeat interval: marks the TV online, checks the version, corrects the clock. */
@@ -33,6 +34,7 @@ export function LivePlayer({ token, initialBundle, pairUrl }: LivePlayerProps) {
   const [gone, setGone] = useState(false);
   const [clockOffsetMs, setClockOffsetMs] = useState(0);
   const versionRef = useRef(initialBundle.version);
+  const servedAtRef = useRef(initialBundle.servedAt);
   const pendingRef = useRef<ScreenBundle | null>(null);
   const slideRef = useRef<string | null>(null);
   const deadlineRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -43,6 +45,7 @@ export function LivePlayer({ token, initialBundle, pairUrl }: LivePlayerProps) {
     if (deadlineRef.current) clearTimeout(deadlineRef.current);
     deadlineRef.current = null;
     versionRef.current = next.version;
+    servedAtRef.current = next.servedAt;
     setBundle(next);
   }, []);
 
@@ -53,13 +56,19 @@ export function LivePlayer({ token, initialBundle, pairUrl }: LivePlayerProps) {
       setOffline(false);
       if (response.status === 304 || !response.ok) return;
       const body = (await response.json()) as Envelope<ScreenBundle>;
-      if (!body.data || body.data.version === versionRef.current) return;
+      if (!body.data || !isNewerBundle(body.data, { version: versionRef.current, servedAt: servedAtRef.current })) return;
       pendingRef.current = body.data;
       deadlineRef.current ??= setTimeout(() => pendingRef.current && apply(pendingRef.current), SWAP_DEADLINE_MS);
     } catch {
       setOffline(true);
     }
   }, [apply, base]);
+
+  // At start, offline too: after a reload the service worker may hold a newer bundle than the one in this page.
+  useEffect(() => {
+    const first = setTimeout(() => void fetchBundle(), 0);
+    return () => clearTimeout(first);
+  }, [fetchBundle]);
 
   // Live updates: server-sent events say when the version changes, reopened whenever the browser gives up on them.
   useEffect(() => {

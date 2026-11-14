@@ -37,7 +37,7 @@ export async function loadLiveScreen(token: string, now = new Date()): Promise<L
   const [menu, promos] = await Promise.all([getMenusRepository().get(restaurant.id, now), getPromosRepository().list(restaurant.id)]);
   const timeZone = restaurant.outlets[0].timeZone;
   const playing = screenRestaurant(restaurant, menu, localClock(now, timeZone), { promos, timeZone });
-  return { ...resolved, bundle: buildBundle(resolved.screen, playing, await buildQrCodes(playing)) };
+  return { ...resolved, bundle: buildBundle(resolved.screen, playing, await buildQrCodes(playing), now.getTime()) };
 }
 
 /**

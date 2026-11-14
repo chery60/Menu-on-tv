@@ -53,3 +53,12 @@ describe('ETags', () => {
     expect(isFresh(null, 'abc')).toBe(false);
   });
 });
+
+describe('when a copy was served', () => {
+  it('rides along for a TV to compare its saved copies, without changing the version', () => {
+    const served = buildBundle(screen, DEMO_RESTAURANT, {}, 1_700_000_000_000);
+    expect(served.servedAt).toBe(1_700_000_000_000);
+    expect(served.version).toBe(buildBundle(screen, DEMO_RESTAURANT, {}, 1_800_000_000_000).version);
+    expect(buildBundle(screen, DEMO_RESTAURANT, {})).not.toHaveProperty('servedAt');
+  });
+});
