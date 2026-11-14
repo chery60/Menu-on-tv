@@ -16,12 +16,13 @@ Built already: sign-in by code, "Set up your restaurant" (name, area, line under
 
 New, after setup, as one guided path on Today that the owner can leave and come back to:
 1. **Add your menu.** Photo (when the AI key is set), paste, or start from the sample and edit. Done when the menu has a dish with a price.
-2. **Pick the look.** A live preview of the owner's own menu with the six layouts and two colours. "Keep this look" is one tap; Split on Paper is preselected. The choice becomes the first TV's look.
+2. **Pick the look.** Six small live screens, one per layout, as choices, each playing the owner's own menu, plus the two colours. "Keep this look" is one tap; Split on Paper is preselected. The choice becomes the first TV's look.
 3. **Connect your TV.** The numbered steps already on the TVs tab (the TV's internet app, the address typed out, the code), with "Will my TV work?" (`/tv-check`). Done when the TV is on air with the owner's menu.
 4. **Nudge, once:** "Add today's special?" opens MT-25's picker. "Not now" hides it for good.
 - Each step shows done or not, and the path says "About 10 minutes". A step done elsewhere (the Menu or TVs tab) shows as done here too.
 - When all three steps are done, the path is replaced by the usual Today page.
 - Owners only. Staff never see the path, as with today's checklist.
+- **The same look picker on the TVs tab** replaces the layout dropdown in "Change how it looks" (walkthrough finding 5, `docs/research/owner-walkthrough-2026-11.md`, MT-20), so owners see every layout before they choose, wherever they choose.
 
 ## Design
 Design to write.
@@ -44,7 +45,8 @@ Design to write.
 
 ## Slices
 1. **Platform: the look and the milestones.** Owns `src/features/accounts/schema.ts` and `src/features/accounts/repository.ts` (the look and the nudge), and `src/app/studio/actions.ts` (the first TV uses the look). After MT-29 slice 1, which also edits the accounts files. Records each step's first completion through MT-36's event store when that has merged.
-2. **Design: the guided path on Today.** After slice 1 and MT-25 slice 2, which owns Today. Owns `src/app/studio/page.tsx` and a new `src/features/onboarding/components/` (the steps and the look picker, reusing `MenuPreview`).
+2. **Design: the look picker.** Can start now. Owns a new `src/features/onboarding/components/look-picker.tsx` (six live screens and two colours, reusing `MenuPreview` and the site's layout gallery) and puts it in place of the dropdown in `src/features/screens/components/studio-forms.tsx`, after MT-28 slice 2, which also edits that file.
+3. **Design: the guided path on Today.** After slices 1 and 2 and MT-25 slice 2, which owns Today. Owns `src/app/studio/page.tsx` and the other new components in `src/features/onboarding/components/`.
 
 ## How we'll know it works
 As a brand-new owner on a 375 px phone, with a TV tab at 1920 by 1080 standing in for the TV:
@@ -56,4 +58,5 @@ As a brand-new owner on a 375 px phone, with a TV tab at 1920 by 1080 standing i
 6. With all three steps done, Today looks as it does now, with no path.
 7. Without the AI key, step 1 offers paste and the sample, never a photo button that fails.
 8. Signed in as staff: no path.
-9. Design walks it as a new owner who isn't comfortable with tech, on a 375 px phone, and fixes what gets in the way.
+9. On the TVs tab, "Change how it looks" shows the six layouts as live screens playing the owner's menu, with no dropdown. Pick L-bar and save: the TV changes at its next slide.
+10. Design walks it as a new owner who isn't comfortable with tech, on a 375 px phone, and fixes what gets in the way.
