@@ -25,7 +25,21 @@ Bug fixes, each with a test that failed first: #4 (zod advisory), #9 (load-flaky
 - **#43, MT-26 slice 4:** the six promo looks and the countdown on the TV.
 - **#47, MT-98:** the "Try it" TV stays in view on phones.
 
-Both passed the full suite and Design walked them, but QA had not written PRD checks or walked them when HQ merged. That broke HQ's own D2 rule. QA's checks are being written now (see below); MT-26 and MT-98 stay out of Done until they pass.
+Both passed the full suite and Design walked them, but QA had not written PRD checks or walked them when HQ merged. That broke HQ's own D2 rule. A QA-role workflow then wrote the checks and walked both; the gaps it found are pinned as known failures (`it.fails`) and are bugs, so MT-26 and MT-98 stay out of Done:
+
+- **MT-26 slice 4, promo looks on the TV (52 checks pass, 8 gaps):**
+  1. Combo shows one plate; Design's section said "plates side by side". **HQ call: one picture**, as the PRD and `docs/screen-design.md` say; Design's line is corrected and QA's check follows.
+  2. Happy hour shows no hours tag ("3 to 5 pm").
+  3. A festival promo with two dishes shows no prices (the PRD says the dishes' menu prices).
+  4. The QR quiet zone is under the standard 4 modules (2.66 on Split, 1.88 on Board).
+  5. The side promo price is 11% of screen height; the screen rules say 12 to 18% (older than MT-26).
+  6. The countdown reads the TV's raw clock while the loop uses the corrected one, so on a TV whose clock is off the countdown and the promo's exit disagree.
+  7. A 30-character headline wraps to 3 lines (5 on Portrait); Design says two lines before it trims.
+  8. On Board, "Ends in 30 min" sits beside the price, not under it.
+- **MT-98, "Try it" on phones (204 checks pass, 3 gaps):**
+  1. With the keyboard up, the field being typed in can end up under the pinned TV. This defeats the point of the slice and is the one to fix first.
+  2. The TV is 167 px tall at 375 px; Design said about 193 px.
+  3. A new dish shows on the TV only once it has a price; the PRD says typing shows it.
 
 ## On branches, not merged, and why
 
