@@ -7,7 +7,7 @@ const bundle = {
   name: 'Counter TV',
   layout: 'split',
   theme: 'paper',
-  bilingual: false,
+  language: 'en',
   timing: { menuSeconds: 18, promoSeconds: 7 },
   restaurant: { name: 'Chai </script><script>alert(1)</script>', tagline: '', categories: [], promos: [], ads: [], ticker: [] },
   qrCodes: {},

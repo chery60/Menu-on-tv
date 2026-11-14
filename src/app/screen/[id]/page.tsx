@@ -42,7 +42,7 @@ async function Screen({ params, searchParams }: ScreenPageProps) {
       restaurant={DEMO_RESTAURANT}
       layout={isLayoutId(query.layout) ? query.layout : 'split'}
       theme={isThemeId(theme) ? theme : 'paper'}
-      bilingual={query.lang === 'hi'}
+      language={query.lang === 'hi' ? 'en-hi' : 'en'}
       qrCodes={qrCodes}
     >
       <BackLink href={demoPage.backFromScreen.href} label={demoPage.backFromScreen.label} />

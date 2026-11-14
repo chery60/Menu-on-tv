@@ -39,6 +39,8 @@ export interface Promo {
   readonly kind: PromoKind;
   readonly label: string;
   readonly headline: string;
+  /** The dish's Hindi name, on promos made from a dish (today's special, featured dishes). Typed headlines have none. */
+  readonly headlineHi?: string;
   readonly line: string;
   readonly price?: number;
   /** The real separate-items price, struck through. Only set when it is the true menu total. */
@@ -110,6 +112,17 @@ export function isLayoutId(value: unknown): value is LayoutId {
 
 export function isThemeId(value: unknown): value is ThemeId {
   return typeof value === 'string' && (THEME_IDS as readonly string[]).includes(value);
+}
+
+/**
+ * The languages a screen shows (MT-28): English only, English and Hindi on every line, or the whole loop in English
+ * and then in Hindi. Named by language so another can join later.
+ */
+export const LANGUAGE_IDS = ['en', 'en-hi', 'en-then-hi'] as const;
+export type ScreenLanguage = (typeof LANGUAGE_IDS)[number];
+
+export function isLanguageId(value: unknown): value is ScreenLanguage {
+  return typeof value === 'string' && (LANGUAGE_IDS as readonly string[]).includes(value);
 }
 
 /** A saved or linked theme id as today's: a retired id becomes its brand theme; anything else is left for the caller to check. */

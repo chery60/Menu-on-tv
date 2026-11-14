@@ -11,7 +11,7 @@ let file: string;
 let repo: FileScreensRepository;
 const NOW = new Date('2026-10-18T10:00:00.000Z');
 const later = (ms: number): Date => new Date(NOW.getTime() + ms);
-const counter: ScreenInput = { name: 'Counter TV', layout: 'split', theme: 'night', bilingual: false };
+const counter: ScreenInput = { name: 'Counter TV', layout: 'split', theme: 'night', language: 'en' };
 const R = 'restaurant-1';
 const OTHER = 'restaurant-2';
 
@@ -204,5 +204,21 @@ describe('old data files', () => {
     const screen = { id: 'a', restaurantId: R, name: 'TV', layout: 'split', theme: 'disco', bilingual: false, links: [], createdAt: NOW.toISOString(), updatedAt: NOW.toISOString() };
     await writeFile(file, JSON.stringify({ version: 2, screens: [screen], pairings: [] }));
     await expect(repo.read()).rejects.toThrow();
+  });
+});
+
+describe('screen languages (MT-28)', () => {
+  it('read a screen saved with "Show Hindi" as English and Hindi, and one without as English only', async () => {
+    const saved = (id: string, bilingual: boolean) => ({ id, restaurantId: R, name: 'TV', layout: 'split', theme: 'paper', bilingual, links: [], createdAt: NOW.toISOString(), updatedAt: NOW.toISOString() });
+    await writeFile(file, JSON.stringify({ version: 2, screens: [saved('on', true), saved('off', false)], pairings: [] }));
+    expect((await repo.listScreens(R)).map((screen) => [screen.id, screen.language])).toEqual([
+      ['on', 'en-hi'],
+      ['off', 'en'],
+    ]);
+  });
+
+  it('keep the language a screen is given', async () => {
+    const { screen } = await repo.createScreen(R, { ...counter, language: 'en-then-hi' }, NOW);
+    expect((await repo.listScreens(R)).find((entry) => entry.id === screen.id)?.language).toBe('en-then-hi');
   });
 });

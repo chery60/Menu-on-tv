@@ -49,7 +49,7 @@ export interface SlideAt {
 }
 
 /** How many standard rows a two-line (English and Hindi) item takes. */
-export const BILINGUAL_ROW_WEIGHT = 1.7;
+export const BILINGUAL_ROW_WEIGHT = 1.9;
 /** A category heading is taller than an item row: the title plus its gap. */
 export const HEADING_ROWS = 1.7;
 /** The most a row may grow when a page has room to spare. */

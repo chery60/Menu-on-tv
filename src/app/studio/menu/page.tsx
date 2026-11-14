@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 /** What the preview looks like before the owner has a screen: the most common choice. */
-const DEFAULT_PREVIEW = { name: 'A Split screen', layout: 'split', theme: 'paper', bilingual: false } as const;
+const DEFAULT_PREVIEW = { name: 'A Split screen', layout: 'split', theme: 'paper', language: 'en' } as const;
 
 async function MenuContent() {
   const { restaurant } = await requireRestaurant('/studio/menu');
@@ -26,7 +26,7 @@ async function MenuContent() {
       initialMenu={menu}
       clock={localClock(now, restaurant.outlets[0].timeZone)}
       profile={{ name: restaurant.name, tagline: restaurant.tagline }}
-      previewScreen={first ? { name: first.name, layout: first.layout, theme: first.theme, bilingual: first.bilingual, timing: first.timing } : DEFAULT_PREVIEW}
+      previewScreen={first ? { name: first.name, layout: first.layout, theme: first.theme, language: first.language, timing: first.timing } : DEFAULT_PREVIEW}
       canReadPhotos={canReadMenuPhotos()}
     />
   );
