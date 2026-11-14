@@ -1,6 +1,6 @@
 # QR menu at the table and counter
 
-Status: draft
+Status: approved
 Tracker: MT-89
 Surface: owner app, guest's phone
 
