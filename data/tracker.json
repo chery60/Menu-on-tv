@@ -1207,7 +1207,7 @@
         "v0-launch"
       ],
       "summary": "Item names in English and Hindi, side by side or alternating each loop.",
-      "body": "**Why.** Many guests read Hindi first; no generic signage tool handles it per item.\n\n**What.** Second-language fields per item, Noto Devanagari, per-script sizing and an AI translation draft the owner approves.",
+      "body": "**Why.** Many guests read Hindi first; no generic signage tool handles it per item.\n\n**What.** Second-language fields per item, Noto Devanagari, per-script sizing and an AI translation draft the owner approves.\n\n**PRD.** docs/prd/mt-28-hindi-on-screen.md (approved, 15 November 2026). The AI translation drafts wait on the founder (an AI key, D2).",
       "checklist": [
         {
           "id": "seed-028-c1",
@@ -1228,7 +1228,7 @@
       "rank": 28672,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T05:45:00.000Z"
     },
     {
       "id": "seed-029",
@@ -1248,7 +1248,7 @@
         "v0-launch"
       ],
       "summary": "Calories per serving, the 2,000 kcal line, allergens and veg marks, on every screen.",
-      "body": "**Why.** Chains with 10+ outlets must show calories on menu boards. A data menu can do it automatically.\n\n**What.** A per-restaurant switch that adds calories and serving size to items, the reference line to each menu slide, and allergen icons.",
+      "body": "**Why.** Chains with 10+ outlets must show calories on menu boards. A data menu can do it automatically.\n\n**What.** A per-restaurant switch that adds calories and serving size to items, the reference line to each menu slide, and allergen icons.\n\n**PRD.** docs/prd/mt-29-fssai-display.md (approved, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-029-c1",
@@ -1269,7 +1269,7 @@
       "rank": 29696,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T05:45:00.000Z"
     },
     {
       "id": "seed-030",
