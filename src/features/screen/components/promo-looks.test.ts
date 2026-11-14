@@ -233,7 +233,8 @@ describe('MT-26 slice 4: Scan the QR', () => {
   });
 
   // Design: "quiet zone kept". The QR standard (ISO/IEC 18004) asks for 4 modules of light round the code; the TV
-  // gives the SVG's own margin plus the white box's padding. Counted generously, with the padding outside the width.
+  // gives the SVG’s own margin plus the white box’s padding. On the TV the padding sits inside the width (border-box),
+  // which counts more modules; the browser measured 2.66 on Split, 2.23 on Portrait, 1.88 on Board.
   it.fails.each(VARIANTS)('the %s QR keeps the standard 4-module quiet zone round the code', (variant) => {
     const size = QRCode.create(LINK, { errorCorrectionLevel: 'M' }).modules.size;
     const svg = QRCode.toString(LINK, { type: 'svg', margin: 1, errorCorrectionLevel: 'M' });
