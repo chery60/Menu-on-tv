@@ -43,3 +43,20 @@ Calls HQ made, which the founder can overrule:
 - **Ordering needs no new accounts or secrets to work:** guests scan a QR code at the table or counter, order from their phone with no sign-up, and follow a live status page; the kitchen moves orders on a board in the owner app; the TV can show "Ready for pickup" numbers. Payment is at the counter, or by a UPI link to the owner's own UPI ID that staff confirm. Anything that needs a provider account or a key (SMS, WhatsApp, a payment gateway, web push keys) is in the plan as waiting on the founder, unbuilt.
 - **Privacy holds:** no guest accounts, no guest tracking, no phone number required. An order keeps only what the kitchen needs, and a pickup name is cleared after a day.
 - **One writer for the tracker:** only Product edits `data/tracker.json`, in small docs pull requests, so merges don't collide.
+
+## D3: Ordering's starting rules
+
+2026-11-15, 04:00 IST. HQ's calls under D2 ("take you know decision till 8am for this task"), after an independent review of the ordering plan (PR #12). The founder can overrule any of them.
+
+- **Place links (the QR on a table or the counter) are stored as they are, not hashed,** so an owner can reprint a lost card; D2's "no new secrets" rules out encrypting them. This is the one exception to "TV links are stored only as hashes" in CLAUDE.md, on four conditions:
+  - a place link grants only the public menu and an order the kitchen must accept, never owner data;
+  - it is at least 128 bits of randomness and is never logged;
+  - order status links stay hashed;
+  - recovery is "New QR code" plus pausing that place, and a test checks that no Tables page or action returns another restaurant's links.
+- **Retention:** orders are kept 30 days. Pickup names and notes are cleared after 24 hours, and that ships with the first ordering slice (MT-90), not last.
+- **The ordering day** ends at a business-day cutoff, 04:00 outlet time by default (as dayparts already treat the small hours as the night before), not at midnight. Order numbers restart at the cutoff.
+- **Caps count only Placed orders** (waiting to be accepted): 10 per table link, 40 on the Counter link, 60 per outlet, enforced inside the insert. Per-link rate limits apply to order submits only; menu reads are limited per address only. Up to 30 lines per order and 20 of one dish.
+- **A Placed order not accepted in 15 minutes closes** as rejected ("Not accepted in time"). The guest's 5-minute "not accepted yet" message stays as a fallback; board liveness and auto-pause are what catch missed orders.
+- **Orders get a table in the database** (an ADR in MT-90), not one JSON document, because orders are written concurrently.
+- **The orders items stay in Backlog, phase v1,** in build order. Moving them to Planned is a separate HQ call when building starts, with CLAUDE.md's "Planned holds only v0" line changed at the same time.
+- **Price of ordering (Free or Plus) is the founder's.** HQ doesn't set prices. Until the founder answers, ordering stays off the pricing page.
