@@ -20,7 +20,15 @@ See what each TV actually played: how many times each promo, menu page and spotl
 - A promo that has since been removed shows as "A removed promo" with its counts kept.
 
 ## Design
-Design to write.
+**Job:** an owner sees, in one glance, that their promos ran. **Direction:** a register book, not a dashboard: plain rows and counts, the word "plays" (never "impressions"), figures right-aligned in tabular numerals.
+
+- **Entry** (TVs tab, owners only): a row under the screens, "What your TVs played", with this week's total ("412 plays this week") and an arrow. Staff don't see it.
+- **The page** (`/studio/tvs/plays`): "What your TVs played." and "The last 7 days, all TVs together. We count what played, never who watched." One row per promo (its headline), then "Today's special", then "Menu" (all menu pages as one row). A removed promo reads "A removed promo", in the dim colour.
+- **On a computer:** a table with the row name, one column per day ("Sat 14") and a bold Total, with hairline rules and no zebra stripes. A zero shows as a dim "0".
+- **On a 375px phone:** no wide table and no sideways scroll. Each row is a block: the name, "412 this week" on the right, and under it seven small day cells (initial and count) in one line.
+- **Tap a row:** a `Sheet` with each TV's total and its hours that had plays, as wrapped chips ("1 pm · 48"), busiest first. No 24-column grid.
+- **Download:** a quiet "Download the last 30 days (CSV)" at the foot.
+- **Empty:** "Nothing played yet. Counts start when a TV is on air." with a link to connect a TV.
 
 ## Data it touches
 - **A play log:** for each screen link, hour and slide, the number of plays and the seconds shown. Kept 90 days (starting value), then deleted. It's write-heavy (every TV, every minute), so it goes in a table in Netlify Database, with an ADR from Platform; the orders table (MT-90) can share the decision.
