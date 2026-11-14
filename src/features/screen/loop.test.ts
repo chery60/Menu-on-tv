@@ -158,6 +158,26 @@ describe('mainSlides', () => {
   it('falls back to the first items when nothing is featured', () => {
     expect(spotlightSlides([category('plain', 5)])).toHaveLength(3);
   });
+
+  it('leads with today’s special, then the featured dishes as before, never twice', () => {
+    const heroes = (slides: readonly Slide[]) => slides.map((slide) => (slide.kind === 'spotlight' ? slide.item.id : null));
+    const usual = heroes(spotlightSlides(DEMO_RESTAURANT.categories));
+    expect(heroes(spotlightSlides(DEMO_RESTAURANT.categories, DEFAULT_TIMING, 'adrak-chai'))).toEqual(['adrak-chai', ...usual]);
+    expect(heroes(spotlightSlides(DEMO_RESTAURANT.categories, DEFAULT_TIMING, 'masala-chai'))).toEqual(['masala-chai', ...usual.filter((id) => id !== 'masala-chai')]);
+    expect(heroes(mainSlides('spotlight', { ...DEMO_RESTAURANT, specialId: 'adrak-chai' }))[0]).toBe('adrak-chai');
+  });
+
+  it('leads with the special when nothing is featured, and keeps the usual three after it', () => {
+    const ids = spotlightSlides([category('plain', 5)], DEFAULT_TIMING, 'plain-4').map((slide) => (slide.kind === 'spotlight' ? slide.item.id : null));
+    expect(ids).toEqual(['plain-4', 'plain-0', 'plain-1', 'plain-2']);
+  });
+
+  it('skips a special that is sold out', () => {
+    const [chai] = DEMO_RESTAURANT.categories;
+    const soldOut = [{ ...chai, items: chai.items.map((item) => (item.id === 'adrak-chai' ? { ...item, soldOut: true } : item)) }];
+    const first = spotlightSlides(soldOut, DEFAULT_TIMING, 'adrak-chai')[0];
+    expect(first.kind === 'spotlight' && first.item.id).not.toBe('adrak-chai');
+  });
 });
 
 describe('slideAt', () => {

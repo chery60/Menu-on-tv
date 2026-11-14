@@ -54,7 +54,32 @@ function requireItem(menu: Menu, itemId: string) {
 }
 
 function withCategories(menu: Menu, categories: readonly MenuCategoryData[], now: Date): Menu {
-  return { updatedAt: now.toISOString(), categories: [...categories] };
+  return { ...menu, updatedAt: now.toISOString(), categories: [...categories] };
+}
+
+/**
+ * The dish set as today's special, if it was set today and is still on the menu and shown. It may be sold out:
+ * then it stays the special but doesn't play until it is back in stock.
+ */
+export function todaysSpecial(menu: Menu, today: string): { readonly category: MenuCategoryData; readonly item: MenuItemData } | null {
+  if (!menu.special || menu.special.on !== today) return null;
+  const found = findItem(menu, menu.special.itemId);
+  return found && !found.item.hidden ? found : null;
+}
+
+/** Hiding or removing the special's dish, however it happens, ends the special. Selling out doesn't. */
+function withLiveSpecial(menu: Menu): Menu {
+  if (!menu.special) return menu;
+  const found = findItem(menu, menu.special.itemId);
+  return found && !found.item.hidden ? menu : { ...menu, special: null };
+}
+
+function setSpecial(menu: Menu, itemId: string | null, today: string, now: Date): Menu {
+  if (itemId === null) return { ...menu, updatedAt: now.toISOString(), special: null };
+  const { item } = requireItem(menu, itemId);
+  if (item.hidden) throw new MenuEditError('That dish is hidden from your TVs. Show it first, then make it the special.');
+  if (isSoldOut(item, today)) throw new MenuEditError('That dish is sold out today. Pick another.');
+  return { ...menu, updatedAt: now.toISOString(), special: { itemId, on: today } };
 }
 
 function mapItem(menu: Menu, itemId: string, change: (item: MenuItemData) => MenuItemData, now: Date): Menu {
@@ -85,7 +110,11 @@ function newItem(input: ItemInput, id: string): MenuItemData {
   return { id, ...input, photo: null, emoji: '', soldOutOn: null, hidden: false };
 }
 
-export function applyEdit(menu: Menu, edit: MenuEdit, { today, now, newId }: EditContext): Menu {
+export function applyEdit(menu: Menu, edit: MenuEdit, context: EditContext): Menu {
+  return withLiveSpecial(applyChange(menu, edit, context));
+}
+
+function applyChange(menu: Menu, edit: MenuEdit, { today, now, newId }: EditContext): Menu {
   switch (edit.type) {
     case 'add-category': {
       if (menu.categories.length >= MENU_LIMITS.categories) throw new MenuEditError(`A menu can have up to ${MENU_LIMITS.categories} categories.`);
@@ -131,6 +160,8 @@ export function applyEdit(menu: Menu, edit: MenuEdit, { today, now, newId }: Edi
       return mapItem(menu, edit.itemId, (item) => ({ ...item, soldOutOn: edit.soldOut ? today : null }), now);
     case 'set-hidden':
       return mapItem(menu, edit.itemId, (item) => ({ ...item, hidden: edit.hidden }), now);
+    case 'set-special':
+      return setSpecial(menu, edit.itemId, today, now);
   }
 }
 
