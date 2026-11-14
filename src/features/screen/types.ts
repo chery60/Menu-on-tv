@@ -47,6 +47,10 @@ export interface Promo {
   readonly photo?: string;
   /** Opens on a phone when scanned. */
   readonly qrUrl?: string;
+  /** When it leaves every TV, in epoch milliseconds: the TV drops it by its own clock, even with no network. */
+  readonly endsAt?: number;
+  /** Show the time left before `endsAt` near the end (countdown.ts). */
+  readonly countdown?: boolean;
 }
 
 /** A local business ad the owner has approved (v2). Never covers prices during ordering. */
