@@ -1,6 +1,6 @@
 # Quick actions on Today
 
-Status: draft
+Status: approved
 Tracker: MT-25
 Surface: owner app, TV
 

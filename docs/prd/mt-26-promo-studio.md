@@ -1,6 +1,6 @@
 # Promo studio
 
-Status: draft
+Status: approved
 Tracker: MT-26
 Surface: owner app, TV
 
@@ -48,7 +48,7 @@ Design to write.
 - Promos play in the order they were made, after today's special. Local ads (v2) still take at most one slot in three.
 - Only owners add, edit, pause or remove, checked in `guard.ts`. Staff get the list, read-only.
 - Hindi typed into a headline or line shows on the TV.
-- **For the founder:** the pricing page lists "Scheduled promos and countdowns" under Plus. Billing (MT-33) isn't built, so this version gives every restaurant schedules and countdowns. Recommendation: keep it that way until MT-33, and decide the Free and Plus split then.
+- **Plans (D2):** the pricing page lists "Scheduled promos and countdowns" under Plus. Until billing (MT-33) exists, every restaurant gets schedules and countdowns; the Free and Plus split is decided with MT-33.
 
 ## Not in this version
 - AI headline drafts (MT-27) and Hindi translations (MT-28).

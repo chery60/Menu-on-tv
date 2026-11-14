@@ -8,8 +8,8 @@ Each page or feature gets one short PRD, one page at most (D1). Product writes i
 
 PRDs so far, in build order. List each new one here with one line on what it does.
 
-- [MT-25 Quick actions on Today](mt-25-quick-actions.md) (draft): sold out, today's special and price changes, one tap each from Today, for owners and staff.
-- [MT-26 Promo studio](mt-26-promo-studio.md) (draft): six promo templates priced from the menu, with schedules and honest countdowns.
+- [MT-25 Quick actions on Today](mt-25-quick-actions.md) (approved): sold out, today's special and price changes, one tap each from Today, for owners and staff.
+- [MT-26 Promo studio](mt-26-promo-studio.md) (approved): six promo templates priced from the menu, with schedules and honest countdowns.
 
 ## Format
 
