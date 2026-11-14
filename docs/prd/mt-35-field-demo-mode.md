@@ -1,6 +1,6 @@
 # Field demo mode
 
-Status: draft
+Status: approved
 Tracker: MT-35
 Surface: owner app (rep), TV, team area
 

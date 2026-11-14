@@ -1,6 +1,6 @@
 # "Try it" on phones: the TV stays in view
 
-Status: draft
+Status: approved
 Tracker: MT-98
 Surface: site
 

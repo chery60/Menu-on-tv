@@ -1,6 +1,6 @@
 # Hindi on screen
 
-Status: draft
+Status: approved
 Tracker: MT-28
 Surface: owner app, TV
 
@@ -25,7 +25,14 @@ New:
 - **Translation drafts** (waits on the founder: needs an AI key, D2): "Draft Hindi names" fills in the missing ones for the owner to check. Nothing reaches a TV until the owner saves it.
 
 ## Design
-Design to write.
+**Job:** a guest who reads Hindi first picks a dish as fast as one who reads English. **Direction:** Hindi is a second voice at the same size, told apart by weight, never by size or colour.
+
+- **TVs tab** (`studio-forms.tsx`, owners): the "Show Hindi names next to English" checkbox becomes a "Language" group of three radio cards, the `choice` pattern setup uses for "Your menu": English only; English and Hindi ("Both names on every line."); English, then Hindi ("The menu plays once in English, then once in Hindi."). Cards stack at 375px, three across from `sm`, each at least 44px. Staff read the choice as plain text.
+- **Missing names** (`tvs/page.tsx`): under the group, only while Hindi is on and names are missing: "12 dishes have no Hindi name yet." with the link "Add Hindi names" to Menu ("1 dish has…" for one). Nothing when none are missing.
+- **TV, English and Hindi:** the Hindi line sits under the English name at the same font size (`.scr-hi` goes from 0.8em to 1em), Mukta 500 against the English at 600, in the item ink rather than the dim colour: for this guest it is the name. Category headings set Hindi beside the English at the same size, Mukta 700. A sold-out dish strikes through both lines; a Hindi name wider than its column trims like the English. For Platform: at full size a bilingual row is about 1.85 standard rows (5.2cqmin plus 3.4cqmin × 1.25), so `BILINGUAL_ROW_WEIGHT` should be 1.9 in slice 1 (1.7 today; screen-design.md's "1.6" is stale and becomes 1.9).
+- **TV, English then Hindi:** on the Hindi pass the Hindi name takes the English name's place and size (Mukta 600; categories Mukta 700). Prices, veg marks, badges and positions don't move, so it reads as the same board in another language. Dishes without a Hindi name stay in English.
+- **Spotlight and promo slides:** the Hindi name sits under the English headline at the same size; with both shown the pair drops to 80% of today's headline so the price stays the biggest thing (promo price, 12 to 18% of height).
+- **From 3 m:** price first, then the name in the guest's language. Checked on Paper and Night at 1920 by 1080 with `npm run player`, the Devanagari measured at or above the English font size. DESIGN.md (Screen) and docs/screen-design.md ("Two languages") change in slice 2.
 
 ## Data it touches
 - **Screens:** the language setting replaces the `bilingual` yes or no. Screens with `bilingual` on read as "English and Hindi"; the rest read as "English only".

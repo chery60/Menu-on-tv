@@ -1,6 +1,6 @@
 # Ten-minute onboarding
 
-Status: draft
+Status: approved
 Tracker: MT-34
 Surface: owner app
 

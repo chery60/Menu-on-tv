@@ -1,6 +1,6 @@
 # Proof of play
 
-Status: draft
+Status: approved
 Tracker: MT-31
 Surface: owner app, TV
 

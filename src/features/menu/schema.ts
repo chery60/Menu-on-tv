@@ -112,7 +112,8 @@ export const itemInputSchema = z.object({
   badges: z.array(z.enum(BADGE_IDS)).max(MENU_LIMITS.badges, { error: `Pick up to ${MENU_LIMITS.badges} labels.` }),
   kcal: z.number().int().min(0).max(MENU_LIMITS.kcal, { error: 'Calories look too high. Check the number.' }).nullable(),
   serving: optionalText(MENU_LIMITS.serving, 'Keep the serving size short, like “250 ml”.'),
-  allergens: z.array(z.enum(ALLERGENS)),
+  // Bounded so an oversized list fails in one check (zod checks the size before each entry).
+  allergens: z.array(z.enum(ALLERGENS)).max(ALLERGENS.length),
 });
 
 export type ItemInput = z.infer<typeof itemInputSchema>;

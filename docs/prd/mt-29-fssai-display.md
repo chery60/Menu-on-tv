@@ -1,6 +1,6 @@
 # FSSAI display mode
 
-Status: draft
+Status: approved
 Tracker: MT-29
 Surface: owner app, TV
 
@@ -25,7 +25,13 @@ New:
 - Turning it off takes all of this off the TVs. The calories and allergens stay in the menu.
 
 ## Design
-Design to write.
+**Job:** the TV meets the labelling rule without turning the menu into a label. **Direction:** the menu stays the menu; calories and allergens are one quiet mono line under each dish, and the key and the 2,000 kcal line live in a footer band.
+
+- **Restaurant tab** (`restaurant-forms.tsx`, owners): a card "Calories and allergens" with one 44px switch (`role="switch"`, as sold out is), "Show calories and allergens on your TVs (FSSAI)", and the hint "Chains with 10 or more outlets must show calories." With dishes missing calories, turning it on opens a `Sheet`: "8 dishes have no calories yet. They'll show without calories until you add them.", the dish names (the first 10, then "and 4 more"), "Turn on anyway" (the chilli action) and "Add calories first" (quiet, to Menu). Staff read "On" or "Off".
+- **Menu tab** (`item-row.tsx`, `menu-editor.tsx`), only while on: "No calories" in mono masala under each dish name that lacks them, and at the top of the list "8 dishes have no calories" (then "Every dish has calories."). Tapping the flag opens the dish sheet with its calories field open.
+- **TV dish row:** a mono line under the name (and under the Hindi line, if on): "320 kcal, 250 ml", then a square outlined two-letter mark for each allergen (Gl gluten, Cr crustaceans, Mi milk, Eg egg, Fi fish, Pe peanuts, Nu tree nuts, So soy, Su sulphite), in the dim colour at 2.1cqmin (about 23 px at 1080p). It is secondary on purpose, never below the header note's 1.9cqmin, and read at the counter rather than from the queue. A sold-out dish dims the line with the row. No calories means the marks alone; no allergens ticked means no marks.
+- **Footer band** on every menu slide and Spotlight, above the badge row: on the left the key for the marks on that slide only ("Gl Gluten, Mi Milk"); on the right the reference line word for word in Geist Mono at 1.9cqmin, never trimmed, wrapping to two lines on Portrait. Its height comes out of the menu zone, which Platform's row count in slice 1 has to include.
+- **From 3 m:** name and price still read first; nothing on promo slides or the ticker. Checked on Paper and Night with `npm run player`. DESIGN.md (Screen, Owner app) and docs/screen-design.md (a "Calories and allergens" row) change in slices 2 and 3.
 
 ## Data it touches
 - **The restaurant** gains the switch (accounts data), changed only by an owner.

@@ -10,14 +10,14 @@ PRDs so far, in build order. List each new one here with one line on what it doe
 
 - [MT-25 Quick actions on Today](mt-25-quick-actions.md) (approved): sold out, today's special and price changes, one tap each from Today, for owners and staff.
 - [MT-26 Promo studio](mt-26-promo-studio.md) (approved): six promo templates priced from the menu, with schedules and honest countdowns.
-- [MT-28 Hindi on screen](mt-28-hindi-on-screen.md) (draft): English and Hindi on each line or by turns, with Devanagari never smaller than English.
-- [MT-29 FSSAI display mode](mt-29-fssai-display.md) (draft): one switch for calories, serving sizes, allergens and the 2,000 kcal line on every TV.
-- [MT-31 Proof of play](mt-31-proof-of-play.md) (draft): every TV counts what it played, hour by hour, through internet cuts; a 7-day report and a CSV.
-- [MT-34 Ten-minute onboarding](mt-34-ten-minute-onboarding.md) (draft): menu, look and TV as one guided path on Today, then a nudge to add today's special.
-- [MT-35 Field demo mode](mt-35-field-demo-mode.md) (draft): a rep builds the owner's menu on a demo TV in a minute and hands it to the owner's number.
-- [MT-36 Owner funnel](mt-36-owner-funnel.md) (draft): sign-up to screen on air to paid, time to first screen and weekly active restaurants, for the team; never guests.
-- [MT-89 QR menu at the table and counter](mt-89-qr-menu.md) (draft): tables and printed QR cards that open the live menu on the guest's phone; the first step of the [ordering plan](../ordering-plan.md).
-- [MT-98 "Try it" on phones](mt-98-try-it-on-phones.md) (draft): the home page's live TV stays in view while an owner types on a phone.
+- [MT-28 Hindi on screen](mt-28-hindi-on-screen.md) (approved): English and Hindi on each line or by turns, with Devanagari never smaller than English.
+- [MT-29 FSSAI display mode](mt-29-fssai-display.md) (approved): one switch for calories, serving sizes, allergens and the 2,000 kcal line on every TV.
+- [MT-31 Proof of play](mt-31-proof-of-play.md) (approved): every TV counts what it played, hour by hour, through internet cuts; a 7-day report and a CSV.
+- [MT-34 Ten-minute onboarding](mt-34-ten-minute-onboarding.md) (approved): menu, look and TV as one guided path on Today, then a nudge to add today's special.
+- [MT-35 Field demo mode](mt-35-field-demo-mode.md) (approved): a rep builds the owner's menu on a demo TV in a minute and hands it to the owner's number.
+- [MT-36 Owner funnel](mt-36-owner-funnel.md) (approved): sign-up to screen on air to paid, time to first screen and weekly active restaurants, for the team; never guests.
+- [MT-89 QR menu at the table and counter](mt-89-qr-menu.md) (draft: approve once the PR #12 review changes and D3 are in): tables and printed QR cards that open the live menu on the guest's phone; the first step of the [ordering plan](../ordering-plan.md).
+- [MT-98 "Try it" on phones](mt-98-try-it-on-phones.md) (approved): the home page's live TV stays in view while an owner types on a phone.
 
 ## Format
 

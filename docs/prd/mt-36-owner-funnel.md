@@ -1,6 +1,6 @@
 # Owner funnel
 
-Status: draft
+Status: approved
 Tracker: MT-36
 Surface: team area
 

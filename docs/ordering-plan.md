@@ -1,6 +1,6 @@
 # Ordering plan: from the table to pickup
 
-Written 15 November 2026 by Product, from the founder's goal and HQ's calls in [D2](decisions.md). Status: draft, for HQ's independent review. The tracker holds each step as an item in the Orders area (MT-89 onwards, with MT-40); this doc is the map.
+Written 15 November 2026 by Product, from the founder's goal and HQ's calls in [D2](decisions.md). Status: approved with changes by HQ. HQ's independent review (the comment on PR #12) and [D3](decisions.md) list required changes, among them caps that count only Placed orders, board liveness, staff cancel after Accept, a 04:00 business-day cutoff, retention in MT-90 and a live channel for MT-40. Product folds them into this doc and the tracker's Done-when lines before MT-89 to MT-94 are built. The tracker holds each step as an item in the Orders area (MT-89 onwards, with MT-40); this doc is the map.
 
 ## The goal
 A guest sees the menu, orders, follows the order and is told when it's ready, at the table or for pickup. All of it runs from the owner's phone and the TV they already have, with no new accounts or keys.
@@ -48,7 +48,7 @@ Orders change far more often than menus. One JSON document for every restaurant'
   - The kitchen accepts or rejects every order.
   - The owner can pause ordering in one tap and replace any QR link.
 - **Order numbers** start at 1 each day in the outlet's time zone. A number still open from the day before is skipped.
-- **Retention:** the pickup name and dish notes are cleared after a day. The rest of an order (no personal data) is kept 30 days, for the owner's recent orders, then deleted. This is an HQ call (D2) the founder can change.
+- **Retention:** the pickup name and dish notes are cleared after a day. The rest of an order (no personal data) is kept 30 days, for the owner's recent orders, then deleted. This is an HQ call (D3) the founder can change.
 - **TV:** ready numbers never cover prices (screen playbook) and never show names.
 - **Roles:** staff run the board (accept, reject, ready, completed, paid, pause). Owners also set up tables, payment and the ordering switch.
 
