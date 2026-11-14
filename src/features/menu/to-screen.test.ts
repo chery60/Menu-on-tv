@@ -244,3 +244,13 @@ describe('promos from the studio on the TV', () => {
     expect(play([made()], withPhoto).promos[0]).toMatchObject({ photo: `/api/photos/${PHOTO}` });
   });
 });
+
+describe('a happy hour with times only (MT-26 check 6)', () => {
+  it('counts down to the end of today’s times', () => {
+    const menu = sampleMenu(NOW, ids());
+    const [, adrak] = menu.categories[0].items;
+    const happyHour: StudioPromo = { id: 'hh', template: 'happy-hour', dishes: [{ itemId: adrak.id, size: '' }], dealPaise: 2500, headline: 'Adrak chai ₹25', line: '', festival: null, link: null, startsAt: null, endsAt: null, daypart: { from: 9 * 60, to: 11 * 60, days: [0, 1, 2, 3, 4, 5, 6] }, countdown: true, paused: false, createdAt: NOW.toISOString(), updatedAt: NOW.toISOString() };
+    // 11:00 in India on 19 October is 05:30 UTC.
+    expect(screenRestaurant(profile, menu, clockOn(TODAY), { promos: [happyHour], timeZone: 'Asia/Kolkata' }).promos[0]).toMatchObject({ endsAt: Date.parse('2026-10-19T05:30:00.000Z'), countdown: true });
+  });
+});
