@@ -52,16 +52,24 @@ export function Sizes({ sizes, className = '' }: { readonly sizes: readonly { re
   );
 }
 
+/** Names longer than this are set in Archivo's narrow width (DESIGN.md), on the header and on menu rows. */
+export const LONG_NAME_CHARS = 24;
+
 function ItemRow({ item, bilingual }: { readonly item: MenuItem; readonly bilingual: boolean }) {
+  const badge = item.soldOut ? undefined : item.badges?.[0];
+  const hindi = bilingual && item.nameHi;
+  // Stacked sizes already make the row two lines tall (SIZE_ROW_WEIGHT), so the name may use the second line unless a badge or Hindi does.
+  const wraps = (item.sizes?.length ?? 1) > 1 && !badge && !hindi;
+  const labelClass = ['scr-row-label', item.name.length > LONG_NAME_CHARS ? 'is-long' : '', wraps ? 'is-wrap' : ''].filter(Boolean).join(' ');
   return (
     <li className={`scr-row ${item.soldOut ? 'is-sold-out' : ''}`}>
       <DietMark diet={item.diet} />
       <span className="scr-row-name">
         <span className="scr-row-title">
-          <span className="scr-row-label">{item.name}</span>
-          {item.soldOut ? null : item.badges?.slice(0, 1).map((badge) => <BadgePill key={badge} badge={badge} />)}
+          <span className={labelClass}>{item.name}</span>
+          {badge ? <BadgePill badge={badge} /> : null}
         </span>
-        {bilingual && item.nameHi ? (
+        {hindi ? (
           <span className="scr-hi" lang="hi">
             {item.nameHi}
           </span>
