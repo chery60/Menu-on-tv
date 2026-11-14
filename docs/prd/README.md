@@ -17,6 +17,7 @@ PRDs so far, in build order. List each new one here with one line on what it doe
 - [MT-35 Field demo mode](mt-35-field-demo-mode.md) (draft): a rep builds the owner's menu on a demo TV in a minute and hands it to the owner's number.
 - [MT-36 Owner funnel](mt-36-owner-funnel.md) (draft): sign-up to screen on air to paid, time to first screen and weekly active restaurants, for the team; never guests.
 - [MT-89 QR menu at the table and counter](mt-89-qr-menu.md) (draft): tables and printed QR cards that open the live menu on the guest's phone; the first step of the [ordering plan](../ordering-plan.md).
+- [MT-98 "Try it" on phones](mt-98-try-it-on-phones.md) (draft): the home page's live TV stays in view while an owner types on a phone.
 
 ## Format
 

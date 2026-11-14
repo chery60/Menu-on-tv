@@ -853,7 +853,7 @@
         "v0-launch"
       ],
       "summary": "Full board, Split, Spotlight, L-bar, Ticker and Portrait, in Paper and Night (Chalk, Neon and Fresh were retired for the brand on 2026-10-20, MT-87).",
-      "body": "**Why.** Eye-catching, readable screens are the product. Owners choose; the layout enforces the rules.\n\n**What.** Layouts sized from the screen height per docs/screen-design.md, with menu pagination, ad slots and themes. Prototype running on the demo menu at /screen/demo.",
+      "body": "**Why.** Eye-catching, readable screens are the product. Owners choose; the layout enforces the rules.\n\n**What.** Layouts sized from the screen height per docs/screen-design.md, with menu pagination, ad slots and themes. Prototype running on the demo menu at /screen/demo.\n\n**Layout picker (walkthrough finding 5, 15 November 2026).** Owners now pick layouts from six live screens playing their own menu, in onboarding and on the TVs tab: built as MT-34 slice 2 (docs/prd/mt-34-ten-minute-onboarding.md).",
       "checklist": [
         {
           "id": "seed-020-c1",
@@ -884,7 +884,7 @@
       "rank": 20480,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-20T03:00:00.000Z"
+      "updatedAt": "2026-11-15T06:30:00.000Z"
     },
     {
       "id": "seed-021",
@@ -3974,6 +3974,47 @@
       "archived": false,
       "createdAt": "2026-11-15T04:30:00.000Z",
       "updatedAt": "2026-11-15T04:30:00.000Z"
+    },
+    {
+      "id": "c9e6c329-461e-4525-ae84-5f80327308b2",
+      "key": "MT-98",
+      "title": "“Try it” on phones: the TV stays in view",
+      "icon": "📱",
+      "status": "planned",
+      "priority": "high",
+      "phase": "phase-1",
+      "area": "growth",
+      "effort": "xs",
+      "impact": 3,
+      "confidence": 5,
+      "owner": "",
+      "tags": [
+        "site",
+        "v0-launch"
+      ],
+      "summary": "On a phone, the home page’s live TV stays in view while an owner types their café and dishes.",
+      "body": "**Why.** “The TV plays them as you type” is the section’s whole pitch, but on a phone the TV sits 796 px below the first field, out of sight behind the keyboard (owner walkthrough, finding 8).\n\n**What.** On phones, the TV is in view while any Try it field has focus; computers stay as they are.\n\n**PRD.** docs/prd/mt-98-try-it-on-phones.md (draft, 15 November 2026).",
+      "checklist": [
+        {
+          "id": "c9e6c329-461e-4525-ae84-5f80327308b2-c1",
+          "text": "The TV stays in view while typing in every field at 375 px",
+          "done": false
+        },
+        {
+          "id": "c9e6c329-461e-4525-ae84-5f80327308b2-c2",
+          "text": "No layout shift (CLS under 0.1)",
+          "done": false
+        },
+        {
+          "id": "c9e6c329-461e-4525-ae84-5f80327308b2-c3",
+          "text": "Computers unchanged",
+          "done": false
+        }
+      ],
+      "rank": 30208,
+      "archived": false,
+      "createdAt": "2026-11-15T06:30:00.000Z",
+      "updatedAt": "2026-11-15T06:30:00.000Z"
     }
   ]
 }
