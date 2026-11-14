@@ -12,7 +12,7 @@ import { MENU_LIMITS, type ItemInput, type Menu, type MenuImport, type MenuItemD
 import { MenuFileError, readMenuFile } from '../spreadsheet';
 import { DietMark } from './item-row';
 import { shrinkMenuPhoto } from './resize-photo';
-import { closeSheet, Sheet } from './sheet';
+import { closeSheet, Sheet, sheetFooter } from './sheet';
 
 /** More than this is a whole billing catalogue; the preview would be too long to check on a phone. */
 const MAX_DISHES = 300;
@@ -367,7 +367,7 @@ function Preview({ initial, menu, onImport, onBack }: PreviewProps) {
           );
         })}
       </div>
-      <div className="sticky bottom-0 -mx-5 -mb-6 mt-6 border-t border-hairline bg-page px-5 pt-3 pb-5">
+      <div className={sheetFooter}>
         {error ? (
           <p role="alert" className="mb-2 text-sm font-semibold text-masala">
             {error}
