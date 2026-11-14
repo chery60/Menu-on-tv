@@ -3644,12 +3644,22 @@
           "id": "36f6b32c-1c8a-42e5-8677-0a6de4b9a5bb-c10",
           "text": "Menu reads answered with 304 Not Modified don’t count toward the per-address limit",
           "done": false
+        },
+        {
+          "id": "36f6b32c-1c8a-42e5-8677-0a6de4b9a5bb-c11",
+          "text": "Each place link has at least 128 bits of randomness: 1,000 new links are all different, each at least 22 base64url characters from a secure random source",
+          "done": false
+        },
+        {
+          "id": "36f6b32c-1c8a-42e5-8677-0a6de4b9a5bb-c12",
+          "text": "The menu reply for a place link carries only the public menu and the restaurant’s and place’s names, never owner data: no email, phone number, member, session, screen token or other place’s link",
+          "done": false
         }
       ],
       "rank": 90112,
       "archived": false,
       "createdAt": "2026-11-15T04:30:00.000Z",
-      "updatedAt": "2026-11-15T07:45:00.000Z"
+      "updatedAt": "2026-11-15T09:00:00.000Z"
     },
     {
       "id": "407b9b52-b92d-442c-b773-27a50cd819cc",
@@ -3742,7 +3752,7 @@
         },
         {
           "id": "407b9b52-b92d-442c-b773-27a50cd819cc-c16",
-          "text": "Logs from placing an order show order and place ids only, never place or status links, pickup names, notes or UPI IDs",
+          "text": "Logs from placing, cancelling or refusing an order and from saving the ordering settings show order and place ids only, never place or status links, pickup names, notes or UPI IDs",
           "done": false
         },
         {
@@ -3754,12 +3764,17 @@
           "id": "407b9b52-b92d-442c-b773-27a50cd819cc-c18",
           "text": "The guest can cancel while the order is Placed, after one confirm, and it stops counting toward the caps",
           "done": false
+        },
+        {
+          "id": "407b9b52-b92d-442c-b773-27a50cd819cc-c19",
+          "text": "Until MT-91’s last slice turns the go-live flag on, the server refuses switching ordering On and refuses every order, even from a typed settings address or a direct call to the action",
+          "done": false
         }
       ],
       "rank": 91136,
       "archived": false,
       "createdAt": "2026-11-15T04:30:00.000Z",
-      "updatedAt": "2026-11-15T08:30:00.000Z"
+      "updatedAt": "2026-11-15T09:00:00.000Z"
     },
     {
       "id": "56897361-dd5c-43bd-af11-caab28708d29",
@@ -3787,7 +3802,7 @@
         },
         {
           "id": "56897361-dd5c-43bd-af11-caab28708d29-c2",
-          "text": "Accept, Ready, Collected or Served, and Mark paid are one tap each; Reject and Cancel take one more tap for the reason",
+          "text": "Accept, Mark ready, Mark collected or Mark served, and Mark paid are one tap each; Reject and Cancel take one more tap for the reason",
           "done": false
         },
         {
@@ -3812,7 +3827,7 @@
         },
         {
           "id": "56897361-dd5c-43bd-af11-caab28708d29-c7",
-          "text": "“Reject all new Counter orders” names the count, asks first, and rejects every Placed Counter order as “Too busy”",
+          "text": "“Reject all new Counter orders” is one tap: the button names the count, and the tap rejects every Placed Counter order as “Too busy”",
           "done": false
         },
         {
@@ -3822,7 +3837,7 @@
         },
         {
           "id": "56897361-dd5c-43bd-af11-caab28708d29-c9",
-          "text": "While any order waits to be accepted, the board repeats its alert every 30 seconds; an unpaid pay-first order chimes once and doesn’t repeat",
+          "text": "While any order is Placed, including an unpaid pay-first order, the board repeats its alert every 30 seconds",
           "done": false
         },
         {
@@ -3862,19 +3877,24 @@
         },
         {
           "id": "56897361-dd5c-43bd-af11-caab28708d29-c17",
-          "text": "An unpaid pay-first order can’t be accepted; “Paid, accept” marks it paid and accepts it in one tap",
+          "text": "An unpaid pay-first order can’t be accepted; “Mark paid and accept” marks it paid and accepts it in one tap",
           "done": false
         },
         {
           "id": "56897361-dd5c-43bd-af11-caab28708d29-c18",
-          "text": "Until the last slice adds the Orders tab, after MT-92, nothing in the owner app links to the board or the ordering settings",
+          "text": "Until the last slice adds the Orders tab, after MT-92, nothing in the owner app links to the board or the ordering settings, and the server refuses switching ordering On",
+          "done": false
+        },
+        {
+          "id": "56897361-dd5c-43bd-af11-caab28708d29-c19",
+          "text": "Logs from board moves, pauses, “Reject all” and the Pay first setting show order and place ids only, never place or status links, pickup names or notes",
           "done": false
         }
       ],
       "rank": 92160,
       "archived": false,
       "createdAt": "2026-11-15T04:30:00.000Z",
-      "updatedAt": "2026-11-15T08:30:00.000Z"
+      "updatedAt": "2026-11-15T09:00:00.000Z"
     },
     {
       "id": "bd500c7d-861d-4908-84f7-12559d6e1215",
@@ -3929,12 +3949,17 @@
           "id": "bd500c7d-861d-4908-84f7-12559d6e1215-c7",
           "text": "A change made while the page is reconnecting or in the background shows within 5 seconds of reconnecting or coming back",
           "done": false
+        },
+        {
+          "id": "bd500c7d-861d-4908-84f7-12559d6e1215-c8",
+          "text": "Status links never appear in server logs; logs carry order ids only",
+          "done": false
         }
       ],
       "rank": 93184,
       "archived": false,
       "createdAt": "2026-11-15T04:30:00.000Z",
-      "updatedAt": "2026-11-15T08:30:00.000Z"
+      "updatedAt": "2026-11-15T09:00:00.000Z"
     },
     {
       "id": "80eb2c35-d1dc-47fa-a117-6bbaf81137ba",
@@ -3953,8 +3978,8 @@
         "orders",
         "upi"
       ],
-      "summary": "Pay at the counter, or tap a UPI link to the owner’s own UPI ID once the order is accepted. Staff mark it paid.",
-      "body": "**Why.** Most guests in India pay by UPI. A link to the owner’s own UPI ID needs no gateway, and no money passes through us.\n\n**What.** The owner sets a UPI ID and payee name; setup asks for the UPI ID from the owner’s business or counter QR, and says why. From Accepted on, the status page offers a UPI link with the amount and order number, and the UPI ID and amount to copy, because iPhones often ignore UPI links. Staff mark orders paid on the board (MT-91); we never check payments.\n\n**Plan.** docs/ordering-plan.md (D2, D3).",
+      "summary": "Pay at the counter, or tap a UPI link to the owner’s own UPI ID once the order is accepted, or at once when the place is pay first. Staff mark it paid.",
+      "body": "**Why.** Most guests in India pay by UPI. A link to the owner’s own UPI ID needs no gateway, and no money passes through us.\n\n**What.** The owner sets a UPI ID and payee name; setup asks for the UPI ID from the owner’s business or counter QR, and says why. From Accepted on, or at once for an unpaid pay-first order (the Counter’s default), the status page offers a UPI link with the amount and order number, and the UPI ID and amount to copy, because iPhones often ignore UPI links. Staff mark orders paid on the board (MT-91); we never check payments.\n\n**Plan.** docs/ordering-plan.md (D2, D3).",
       "checklist": [
         {
           "id": "80eb2c35-d1dc-47fa-a117-6bbaf81137ba-c1",
@@ -3978,19 +4003,24 @@
         },
         {
           "id": "80eb2c35-d1dc-47fa-a117-6bbaf81137ba-c5",
-          "text": "The UPI link shows only from Accepted on, never while the order is Placed",
+          "text": "The UPI link shows from Accepted on, and to an unpaid pay-first order while it is Placed, so Counter guests can pay by link; no other Placed order shows it",
           "done": false
         },
         {
           "id": "80eb2c35-d1dc-47fa-a117-6bbaf81137ba-c6",
           "text": "Setup asks for the UPI ID from the owner’s business or counter QR and says why",
           "done": false
+        },
+        {
+          "id": "80eb2c35-d1dc-47fa-a117-6bbaf81137ba-c7",
+          "text": "UPI IDs never appear in server logs; logs carry order and place ids only",
+          "done": false
         }
       ],
       "rank": 95232,
       "archived": false,
       "createdAt": "2026-11-15T04:30:00.000Z",
-      "updatedAt": "2026-11-15T07:30:00.000Z"
+      "updatedAt": "2026-11-15T09:00:00.000Z"
     },
     {
       "id": "6e2ecd38-dc91-4e5f-9f96-2691aa9cbb8c",
@@ -4372,8 +4402,8 @@
       "tags": [
         "orders"
       ],
-      "summary": "The board groups each table’s rounds, with a running total, “Mark all paid” and “Done with table”.",
-      "body": "**Why.** Table guests order in rounds and pay once, and staff key each table into the POS.\n\n**What.** The board groups orders by place, with a running total, “Mark all paid”, “Change table” and “Done with table”. From HQ’s review of the ordering plan (PR #12, addition 1).\n\n**Plan.** docs/ordering-plan.md (D2, D3).",
+      "summary": "The board groups each table’s rounds, with a running total, “Mark all paid” and “Finish table”.",
+      "body": "**Why.** Table guests order in rounds and pay once, and staff key each table into the POS.\n\n**What.** The board groups orders by place, with a running total, “Mark all paid”, “Change table” and “Finish table”. From HQ’s review of the ordering plan (PR #12, addition 1).\n\n**Plan.** docs/ordering-plan.md (D2, D3).",
       "checklist": [
         {
           "id": "cf4dba94-a4d8-4e8e-9e5b-20d74b8cd8ea-c1",
@@ -4387,14 +4417,14 @@
         },
         {
           "id": "cf4dba94-a4d8-4e8e-9e5b-20d74b8cd8ea-c3",
-          "text": "“Mark all paid” and “Done with table” act on every order in the group",
+          "text": "“Mark all paid” and “Finish table” act on every order in the group",
           "done": false
         }
       ],
       "rank": 95744,
       "archived": false,
       "createdAt": "2026-11-15T07:30:00.000Z",
-      "updatedAt": "2026-11-15T07:30:00.000Z"
+      "updatedAt": "2026-11-15T09:00:00.000Z"
     },
     {
       "id": "b5ebaeae-79bf-48a5-a2db-c0d00716d0f6",
@@ -4478,6 +4508,47 @@
       "archived": false,
       "createdAt": "2026-11-15T07:30:00.000Z",
       "updatedAt": "2026-11-15T07:30:00.000Z"
+    },
+    {
+      "id": "bcdac7e5-fc6e-475c-ac04-0462566cfcf2",
+      "key": "MT-106",
+      "title": "A test for the committed tracker file",
+      "icon": "🧪",
+      "status": "backlog",
+      "priority": "high",
+      "phase": "phase-1",
+      "area": "foundations",
+      "effort": "xs",
+      "impact": 3,
+      "confidence": 5,
+      "owner": "",
+      "tags": [
+        "plan",
+        "qa"
+      ],
+      "summary": "A test reads data/tracker.json itself, so a roadmap that doesn’t parse, or has a duplicate key, fails QA’s suite instead of passing.",
+      "body": "**Why.** HQ’s call (a) on the ordering plan (the PR #12 review) relies on the committedRoadmap test parsing the committed tracker.json. It doesn’t: that test writes its own file from the seed, and no test in src reads data/tracker.json. committedRoadmap falls back to the seed on a parse error, so a broken tracker.json passes the suite, and a fresh store on Netlify quietly starts from the seed.\n\n**What.** A test, written by QA, that parses data/tracker.json against trackerFileSchema and checks that ids and keys are unique. A bug fix, so no PRD. Until it lands, Product checks each tracker change against the schema by hand.\n\n**Flagged to HQ.** Call (a) needs this test, or a new call.",
+      "checklist": [
+        {
+          "id": "bcdac7e5-fc6e-475c-ac04-0462566cfcf2-c1",
+          "text": "A test parses data/tracker.json itself against trackerFileSchema",
+          "done": false
+        },
+        {
+          "id": "bcdac7e5-fc6e-475c-ac04-0462566cfcf2-c2",
+          "text": "A data/tracker.json that doesn’t parse, or has a duplicate id or key, fails QA’s suite",
+          "done": false
+        },
+        {
+          "id": "bcdac7e5-fc6e-475c-ac04-0462566cfcf2-c3",
+          "text": "The test runs in .claude/qa/run-suite.sh, so every tracker change meets it at the merge gate",
+          "done": false
+        }
+      ],
+      "rank": 86528,
+      "archived": false,
+      "createdAt": "2026-11-15T09:00:00.000Z",
+      "updatedAt": "2026-11-15T09:00:00.000Z"
     }
   ]
 }

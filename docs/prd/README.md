@@ -19,7 +19,7 @@ PRDs so far, in build order. List each new one here with one line on what it doe
 - [MT-89 QR menu at the table and counter](mt-89-qr-menu.md) (draft: the PR #12 review and D3 are folded in, ready for HQ approval): tables and printed QR cards that open the live menu on the guest's phone; the first step of the [ordering plan](../ordering-plan.md).
 - [MT-90 Order from the phone](mt-90-order-from-the-phone.md) (draft): the guest's cart and order from a QR card, priced by the server, with a number, the ordering switches, the status page, retention and an orders table (ADR).
 - [MT-91 Kitchen order board](mt-91-kitchen-board.md) (draft): new orders ring until accepted, one tap per move, Pay first and the paid mark, and ordering pauses by itself when no board is open.
-- [MT-92 Live status and the ready alert](mt-92-live-status-and-ready-alert.md) (draft): the guest's order page updates itself and plays a sound when the food is ready; with it, ordering can go live.
+- [MT-92 Live order status and the ready alert](mt-92-live-status-and-ready-alert.md) (draft): the guest's order page updates itself and plays a sound when the food is ready; with it, ordering can go live.
 - [MT-98 "Try it" on phones](mt-98-try-it-on-phones.md) (approved): the home page's live TV stays in view while an owner types on a phone.
 
 ## Format

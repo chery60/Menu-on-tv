@@ -1,4 +1,4 @@
-# Live status and the ready alert
+# Live order status and the ready alert
 
 Status: draft
 Tracker: MT-92
@@ -18,7 +18,7 @@ The guest's order page keeps itself up to date and tells them, with a sound, whe
 - While the stream is down, a quiet "Reconnecting" line shows, and the page keeps the last state it had.
 
 **Sound on, then the ready alert:**
-- Phones play sound only after a tap. Under the number: "Turn on sound to hear when it's ready." One tap plays a short chime, so the guest knows it works, and the button says "Sound is on".
+- Phones play sound only after a tap. Under the number: "Turn on sound to hear when it's ready." One tap plays a short chime, so the guest knows it works, and the button changes to "Turn off sound".
 - When the order turns Ready with the page in the foreground: a chime on Android and iPhone (three times), a vibration on Android (iPhones can't vibrate from a web page), the page fills with "Ready" and the number, and the tab title becomes "Ready: order 42". Pickup says "Ready. Collect it at the counter." and a table says "Ready. It's on its way to your table.", as on the page MT-90 built.
 - Without the tap the page still changes, silently.
 - The alert plays on the change to Ready, not when someone opens an order that's already Ready.
@@ -59,7 +59,7 @@ No slice edits `src/features/screen/`. MT-40's TV band comes after MT-25, MT-26,
 2. **Design: the live page and the ready alert.** After slice 1 and MT-91 slice 5, which last edits the status page. Owns `src/app/o/[secret]/page.tsx` and `src/features/orders/components/status/`: the sound tap, the Ready screen, vibration, the tab title, the 5-minute messages and "Lost this page?".
 3. **Design: your orders today.** After slice 1 and MT-90 slice 5, which owns the guest's menu. Owns `src/app/t/[link]/page.tsx` and new `src/features/orders/components/your-orders.tsx`.
 
-Once all three are in, MT-91's last slice opens ordering in the owner app.
+Once all three are in, MT-91's last slice opens ordering in the owner app and turns MT-90's go-live flag on.
 
 ## How we'll know it works
 On an Android phone (Chrome) and an iPhone (Safari), each at 375 px, with the ringer on, and staff on the board:

@@ -12,12 +12,12 @@ We take orders, run the kitchen's order board and tell guests when food is ready
 1. **Scan.** Every table has a printed QR card, and the counter has one (also shown on the TV as a "Scan to order" promo). It opens the restaurant's menu on the guest's phone: no app and no sign-up.
 2. **Choose.** The menu matches the TV: same dishes, prices, veg marks and photos. Sold-out dishes and dishes outside their daypart can't be added. The guest picks sizes and quantities and can add a short note per dish ("less spicy").
 3. **Order.** At a table, the order carries the table's name. At the counter, the guest may add a first name for pickup. The server prices the order from the live menu and gives it a number, like "Order 42". If a price changed while the guest was choosing, the guest confirms the new total first (MT-99).
-4. **Pay.** At the counter, or by a UPI link to the owner's own UPI ID with the amount filled in, shown once the kitchen accepts the order. Staff mark an order paid when they see the money; we never handle or check payments. With "Pay first", on by default for the Counter, an unpaid order shows on the board as "Waiting for payment" and the guest's page says "Not confirmed yet" until staff mark it paid.
+4. **Pay.** At the counter, or by a UPI link to the owner's own UPI ID with the amount filled in, shown once the kitchen accepts the order, or at once for an unpaid pay-first order, since its guest pays before the kitchen starts. Staff mark an order paid when they see the money; we never handle or check payments. With "Pay first", on by default for the Counter, an unpaid order shows on the board as "Waiting for payment" and the guest's page says "Not confirmed yet" until staff mark it paid.
 5. **Follow.** The guest's phone shows a status page with the order number very large: Placed, then Being made, then Ready. If no one accepts the order within 5 minutes, the page asks the guest to tell the staff ("Pay at the counter to start your order" for an unpaid pay-first order). That is only a fallback: the board's repeating alert and auto-pause are what catch missed orders. A guest who loses the page sees "Lost this page? Show order 42 at the counter.", and the place's menu page lists "your orders today" from the phone's own storage.
 6. **Ready.** The status page changes at once. With the page open, after one tap turns sound on, it plays a sound on Android and iPhone and vibrates on Android. A guest whose phone is locked is told only by the TV (MT-40) until web push (MT-96). Pickup numbers show on the TV under "Ready for pickup". At a table, the page says the food is on its way.
 7. **Done.** Staff mark it collected or served. It leaves the TV, and the guest's page says "Enjoy your meal".
 
-The kitchen sees the same order on a board in the owner app (a phone or tablet in the kitchen). While any order waits to be accepted, the board repeats its alert every 30 seconds. If no board has been live for 2 minutes, ordering pauses by itself: the guest's menu says to order at the counter, and the owner app says no kitchen board is open.
+The kitchen sees the same order on a board in the owner app (a phone or tablet in the kitchen). While any order is Placed (waiting to be accepted), including an unpaid pay-first order, the board repeats its alert every 30 seconds. If no board has been live for 2 minutes, ordering pauses by itself: the guest's menu says to order at the counter, and the owner app says no kitchen board is open.
 
 ## Order states
 "Open" means Placed, Accepted or Ready. Caps count only Placed orders.
@@ -46,7 +46,7 @@ Paid or not paid is tracked separately: staff mark it, any time. A paid order th
 Orders are written by many phones at once and change far more often than menus, so they get a table in Netlify Database, not one JSON document (D3). MT-90 starts with an ADR from Platform for that table. The ADR also names:
 - **Safe retries:** the phone makes the status secret (32 random bytes) and saves it before sending. The server stores its hash (`hashSecret`) under a unique constraint, so a double tap or a retry after a dropped reply makes one order.
 - **Numbers and caps in one transaction,** so 20 orders sent at once get 20 different numbers and the caps hold.
-- **The retention sweep:** a sweep on any order write across all outlets, or a Netlify Scheduled Function.
+- **The retention sweep:** a sweep after every order write, across all outlets, which QA can check at the merge gate, plus a Netlify Scheduled Function every hour for days with no orders anywhere (scheduled functions run only on published deploys). Each run works an hour ahead, so nothing outlives its limit between runs.
 
 ## Rules that hold everywhere
 - **The server sets every price.** It prices each order from the live menu at that moment (sizes, sold out, hidden, dayparts), ignores prices the phone sends, and stores the price on each line. Hidden dishes stay in the stored menu, so a crafted order for one is refused. A dish that sold out while the guest was choosing is refused with a clear message.
@@ -55,7 +55,7 @@ Orders are written by many phones at once and change far more often than menus, 
   - Per-link rate limits apply to order submits only. Menu reads are limited per address only, at the house ceiling of 600 a minute, so 40 phones on one café Wi-Fi never hit it. ETag 304 replies count against nothing.
   - Up to 30 lines per order and 20 of one dish. A pickup name is up to 30 characters, each note and an "other" reason up to 80, trimmed, and the board shows them as plain text.
   - The kitchen accepts or rejects every order.
-  - The owner can pause ordering, or one place, in one tap; reject all new Counter orders in one tap; and replace any QR link.
+  - The owner can pause ordering, or one place, in one tap; reject all new Counter orders in one tap, with the count on the button; and replace any QR link.
 - **Order numbers** restart at each business-day cutoff from the owner's start number for phone orders (for example 501, so a number called out never matches a till token). A number still open from before the cutoff is skipped.
 - **Retention (D3):** pickup names and dish notes are cleared after 24 hours. The rest of an order (no personal data) is kept 30 days, for the owner's recent orders, then deleted. Both ship with the first ordering item (MT-90), not last. A status link stops working at the cutoff after its order ends.
 - **Logs:** place links, status links, pickup names, notes and UPI IDs are never logged. Logs carry order and place ids only.
@@ -74,14 +74,14 @@ Every item below sits in Backlog, phase v1 ("Sell more"), ranked in this order (
 | 5 | Send a test order | MT-100 | The owner hears the chime and sees the board work before switching ordering on |
 | 6 | Mark one dish unavailable at accept | MT-101 | One sold-out dish shouldn't reject a whole order |
 | 7 | Pair the kitchen board like a TV | MT-102 | Only if MT-91's ADR keeps the board on a renewing session instead |
-| 8 | Live status and the ready alert | MT-92 | Tells the guest without any provider, and helps a guest who lost the page. PRD: [mt-92-live-status-and-ready-alert.md](prd/mt-92-live-status-and-ready-alert.md) |
+| 8 | Live order status and the ready alert | MT-92 | Tells the guest without any provider, and helps a guest who lost the page. PRD: [mt-92-live-status-and-ready-alert.md](prd/mt-92-live-status-and-ready-alert.md) |
 | 9 | Ready for pickup on the TV | MT-40 | The TV calls out numbers, from the board or a staff keypad, on its own live event |
-| 10 | Pay by the owner's UPI | MT-93 | The amount filled in, from Accepted on |
+| 10 | Pay by the owner's UPI | MT-93 | The amount filled in, from Accepted on, or at once for an unpaid pay-first order |
 | 11 | Orders by table on the board | MT-103 | Table guests order in rounds and pay once |
 | 12 | Today's orders for the owner | MT-94 | The list and the day's total of Completed orders, for 30 days |
 | 13 | Wait time on the guest's page and the TV | MT-41 | "About 8 minutes" from recent ready times |
 
-**Ordering stays switched off until MT-90, MT-91 and MT-92 are all in.** Without MT-92, nothing tells the guest the food is ready. Ordering is off for every restaurant by default, and nothing in the owner app links to it until MT-91's last slice adds the Orders tab, after MT-92's slices.
+**Ordering stays switched off until MT-90, MT-91 and MT-92 are all in.** Without MT-92, nothing tells the guest the food is ready. Ordering is off for every restaurant by default and sits behind a go-live flag: until MT-91's last slice turns the flag on, after MT-92's slices, the server refuses switching ordering on and refuses every order, and nothing in the owner app links to it.
 
 Later, no founder needed: ordering combos and happy-hour deals at the deal price (after MT-26), and sending board orders to the POS (MT-105, after MT-38's adapters).
 

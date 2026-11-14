@@ -71,8 +71,10 @@ As the owner on a 375 px phone, with a second phone for the guest:
 8. Remove Table 5: it asks first, then its card stops working.
 9. Signed in as staff: the cards can be seen and printed, but there's no way to add, rename, remove or replace, and calling the actions directly is refused.
 10. On the guest page, the browser's tools show no cookies, no third-party requests and a `noindex` tag.
-11. Many requests a second from one address get "Too many requests" (429). 40 phones on the Counter link, refreshing every 30 seconds from one Wi-Fi address, never do, and replies of 304 Not Modified don't count toward the limit.
+11. Many requests a second from one address get "Too many tries" (429). 40 phones on the Counter link, refreshing every 30 seconds from one Wi-Fi address, never do, and replies of 304 Not Modified don't count toward the limit.
 12. Signed in to a second restaurant: no Tables page, print sheet or action shows, changes or returns the first restaurant's links.
 13. After scanning, printing and replacing cards, the server logs show place ids only, never a place link.
-14. Once MT-29 has shipped and its switch is on: the guest's menu shows calories, allergens and the 2,000 kcal line.
-15. Design walks it as an owner setting up tables and as a guest at a table, both on a 375 px phone, and fixes what gets in the way.
+14. Each place link has at least 128 bits of randomness: 1,000 links made in a test are all different, and each is at least 22 base64url characters from a secure random source.
+15. The menu reply for a place link carries only the public menu and the restaurant's and place's names. It has no owner data: no email, phone number, member, session, screen token or other place's link.
+16. Once MT-29 has shipped and its switch is on: the guest's menu shows calories, allergens and the 2,000 kcal line.
+17. Design walks it as an owner setting up tables and as a guest at a table, both on a 375 px phone, and fixes what gets in the way.

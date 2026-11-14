@@ -9,7 +9,7 @@ Guests add dishes to an order from the QR menu (MT-89), place it and get a numbe
 
 ## Who uses it
 - **Guests** order from their phone at a table or at the counter, with no app, sign-up or phone number.
-- **Owners** switch ordering on, pause it or switch it off, and pick the first order number of the day. Staff can't change these.
+- **Owners** switch ordering on, pause it or switch it off, and pick the first order number of the day. Staff can't change these settings. From MT-91, staff can pause and resume ordering on the board, but only owners switch it On or Off.
 
 ## What it does
 **Ordering settings** (owner app, `/studio/orders/settings`, owners only):
@@ -47,7 +47,7 @@ Platform writes this as the next free ADR number in `docs/architecture.md` in sl
 - **Context:** many phones write orders at once, and orders change far more often than menus. One JSON document per restaurant (`openDocumentStore`) would be rewritten and locked on every order.
 - **Decision:** an `orders` table in Netlify Database, made by a migration in `netlify/database/migrations`. The status hash is unique, and so is (outlet, business day, number). Placing an order is one transaction: return the existing order for a known status hash; count Placed orders for the place and the outlet; take the next number under a lock; insert.
 - **Local fallback,** as the repo does elsewhere: with no `NETLIFY_DB_URL`, the same `OrdersRepository` interface writes a gitignored `data/orders.json` (`ORDERS_DATA_FILE`), with writes queued by `inTurn`. One local process gets the same guarantees: a unique status hash, and numbers and caps in one turn. For development and tests only.
-- **Retention sweep:** Product recommends a Netlify Scheduled Function every hour, across all outlets, plus the same sweep after each order write so local runs see it. Platform picks and names it in the ADR.
+- **Retention sweep:** the sweep runs after every order write, across all outlets, so QA can check it at the merge gate: Netlify's scheduled functions run only on published deploys, never on deploy previews or locally. Product recommends a Netlify Scheduled Function every hour as well, for days with no orders anywhere. Each run works an hour ahead (names and notes from 23 hours old, orders from 29 days and 23 hours), so nothing outlives its limit between hourly runs. Platform names both in the ADR.
 - **Consequences:** the board and the status page read orders with queries, not whole documents. Polling stays until ADR-004's pub/sub channel.
 
 ## Rules and edge cases
@@ -58,7 +58,7 @@ Platform writes this as the next free ADR number in `docs/architecture.md` in sl
 - **Retention (D3):** pickup names and notes are cleared after 24 hours, and orders deleted after 30 days. A status link stops working at the cutoff after its order ends.
 - **Logs** carry order and place ids only, never place or status links, pickup names or notes.
 - **Privacy:** the cart and status page set no cookies, load no third-party scripts, are `noindex`, and send no referrer, so a status link never leaks.
-- **Go-live gate:** ordering stays off until MT-90, MT-91 and MT-92 are all in. Nothing in the owner app links to ordering settings until MT-91's last slice adds the Orders tab, which merges after MT-92.
+- **Go-live gate:** ordering stays off until MT-90, MT-91 and MT-92 are all in. It sits behind a go-live flag in new `src/features/orders/go-live.ts`, off until MT-91's last slice turns it on. While the flag is off, the server refuses On for every restaurant, even from a typed settings address or a direct call to the action, and refuses every order. Tests and local runs can turn it on; nothing on Netlify turns it on before that slice. Nothing in the owner app links to ordering settings until the same slice adds the Orders tab, which merges after MT-92.
 - One outlet per restaurant; every time uses the restaurant's time zone.
 
 ## Not in this version
@@ -71,14 +71,14 @@ Platform writes this as the next free ADR number in `docs/architecture.md` in sl
 No slice edits `src/features/screen/` or `src/features/menu/to-screen.ts`. The TV piece is MT-40.
 1. **Platform: the order rules.** New `src/features/orders/` (schema, state moves, pricing from the stored menu, business day and numbering), pure and tested. No storage, no UI.
 2. **Platform: the orders table.** After slice 1. The ADR, the migration, and the repository in `src/features/orders/` with its Postgres and JSON-file versions (safe retries, numbers and caps in one transaction) and the sweep, with tests. Adds `data/orders.json` to `.gitignore`, and `ORDERS_DATA_FILE` to CLAUDE.md's worktree line and the design preview in `.claude/launch.json`. Owns the scheduled function if the ADR picks one.
-3. **Platform: settings and the guest's endpoints.** After slice 2, and after MT-89 slice 1 and MT-36 slice 1, which also edit `guard.ts`. Owns `src/features/places/` (the settings), new `src/app/studio/orders/actions.ts` (owners only), `src/app/studio/guard.ts` (ordering errors in `userMessage`), `src/app/api/t/[link]/menu/route.ts` (whether ordering is on for the place), new `src/app/api/t/[link]/orders/route.ts` (place an order) and new `src/app/api/o/[secret]/route.ts` (read and cancel).
+3. **Platform: settings and the guest's endpoints.** After slice 2, and after MT-89 slice 1 and MT-36 slice 1, which also edit `guard.ts`. Owns `src/features/places/` (the settings), new `src/features/orders/go-live.ts` (the go-live flag, off), new `src/app/studio/orders/actions.ts` (owners only), `src/app/studio/guard.ts` (ordering errors in `userMessage`), `src/app/api/t/[link]/menu/route.ts` (whether ordering is on for the place), new `src/app/api/t/[link]/orders/route.ts` (place an order) and new `src/app/api/o/[secret]/route.ts` (read and cancel).
 4. **Design: the settings page.** After slice 3. Owns new `src/app/studio/orders/settings/page.tsx` and new `src/features/orders/components/settings/`. Not linked from the owner app (go-live gate).
 5. **Design: the cart.** After slice 3 and MT-89 slice 3. Owns `src/app/t/[link]/page.tsx` and new `src/features/orders/components/cart/`.
 6. **Design: the status page.** After slice 3. Owns new `src/app/o/[secret]/page.tsx` and new `src/features/orders/components/status/`.
 
 ## How we'll know it works
 As the owner on a 375 px phone, with a second phone for the guest:
-1. A new restaurant's ordering is Off: the QR menu has no "Add", and no owner app page links to ordering settings.
+1. A new restaurant's ordering is Off: the QR menu has no "Add", and no owner app page links to ordering settings. With the go-live flag off, an owner who types the settings address or calls the action directly can't set On, and an order sent to the order route is refused. The other checks run with the flag turned on locally.
 2. Set On, then table orders off: Table 4 has no "Add" and the Counter does; pickup off, the reverse. Paused: both say "Ordering is paused. Please order at the counter." A newly opened menu follows at once, an open one within 30 seconds, and an order sent in between is refused with that message.
 3. As staff, the settings can't be changed, and calling the actions directly is refused.
 4. At Table 4, order a dish in a size and 2 of another with "less spicy": the status page shows the number very large, Table 4, every line and note, and a total equal to the sum of menu prices.
@@ -89,10 +89,10 @@ As the owner on a 375 px phone, with a second phone for the guest:
 9. The 11th Placed order at Table 4 is refused while Table 5 still orders; so are the 41st on the Counter and the 61st at the outlet.
 10. 40 Counter orders from one address in 5 minutes all go through. Many submits a second on one link get "Too many tries" (429), while that link's menu still loads.
 11. A double tap on "Place order", and a retry after the reply is dropped, make one order with one number.
-12. 20 orders sent at once get 20 different numbers, and 15 at once to one table make exactly 10, on the JSON-file fallback and on Netlify Database (a deploy preview, or the Postgres repository with a real pool).
+12. 20 orders sent at once get 20 different numbers, and 15 at once to one table make exactly 10, on the JSON-file fallback and on Netlify Database (the Postgres repository with a real pool).
 13. "Cancel order" while Placed asks first; then the page says Cancelled, and the order stops counting toward the caps.
 14. Seeded orders in each state show the words above, with the reason for Rejected and Cancelled. An order that ended before the last cutoff, and a made-up link, show "This order link no longer works".
-15. Seed an order 25 hours old with a pickup name and notes, in an outlet with no other orders, run the sweep the ADR names, and query the table: no name or note is left. An order 31 days old is gone.
-16. Query the orders table for a status link: only its hash is there. The logs from placing, cancelling and refused orders show order and place ids only.
+15. In a restaurant with no other orders, seed an order 24 hours and 1 minute old with a pickup name and notes, and one 30 days and 1 minute old. Don't run the sweep by hand: place an order at a second restaurant, then query the table. No name or note is left on the first order, and the second is gone. Once the first published deploy is out, the scheduled sweep shows in Netlify's function log every hour.
+16. Query the orders table for a status link: only its hash is there. The logs from placing, cancelling and refused orders, and from saving the ordering settings, show order and place ids only.
 17. The cart and status page set no cookies, make no third-party requests, carry `noindex`, and send no referrer.
 18. Design walks it on a 375 px phone as an owner switching ordering on, and as a guest ordering at a table and at the counter, and fixes what gets in the way.
