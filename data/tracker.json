@@ -632,11 +632,11 @@
         "v0-launch"
       ],
       "summary": "Phone OTP or email link; restaurant name, outlet, city and currency.",
-      "body": "**Why.** Owners live on their phones and forget passwords.\n\n**What.** Sign in with a phone OTP (WhatsApp or SMS) or an email link. Create the restaurant and its first outlet. Roles: owner and staff.\n\n**Built 19 October 2026.** One field for a mobile number or an email, then a 6-digit code (a code, not an email link: email scanners spend one-time links; see docs/accounts-and-menu.md). Codes and sessions are stored as hashes; 5 tries, 10 minutes, 30 seconds between codes, 5 an hour per address, per-connection limits, and texts only to +91 numbers against SMS-pumping fraud. Setup makes the restaurant and first outlet with an empty or sample menu. Owners add staff by number or email (they join on first sign-in, with a WhatsApp or email link to send them). Staff edit the menu and sold out; screens, TVs and people are owner-only. **Waiting on:** Resend and Twilio accounts (MT-14) before production sign-in works; in development the code shows on screen.",
+      "body": "**Why.** Owners live on their phones and forget passwords.\n\n**What.** Sign in with a phone OTP (WhatsApp or SMS) or an email link. Create the restaurant and its first outlet. Roles: owner and staff.\n\n**Built 19 October 2026.** One field for a mobile number or an email, then a 6-digit code (a code, not an email link: email scanners spend one-time links; see docs/accounts-and-menu.md). Codes and sessions are stored as hashes; 5 tries, 10 minutes, 30 seconds between codes, 5 an hour per address, per-connection limits, and texts only to +91 numbers against SMS-pumping fraud. Setup makes the restaurant and first outlet with an empty or sample menu. Owners add staff by number or email (they join on first sign-in, with a WhatsApp or email link to send them). Staff edit the menu and sold out; screens, TVs and people are owner-only. **Waiting on:** Resend and Twilio accounts (MT-14) before production sign-in works; in development the code shows on screen.\n\n**QA, 15 November 2026.** Sign-in is a 6-digit code by phone or email, not an email link (a deliberate change, docs/accounts-and-menu.md); it works end to end with the code shown on the test site. Real SMS and email delivery waits on MT-14’s providers (Resend, Twilio). Setup in under a minute and the staff limits are verified; billing waits on MT-33. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-015-c1",
-          "text": "Phone OTP and email link sign-in",
+          "text": "Sign-in with a 6-digit code by SMS or email",
           "done": false
         },
         {
@@ -646,21 +646,26 @@
         },
         {
           "id": "seed-015-c3",
-          "text": "Staff can do quick actions but not billing",
+          "text": "Staff edit the menu and sold out, but not TVs, screens or people",
           "done": true
+        },
+        {
+          "id": "seed-015-c4",
+          "text": "Staff can’t change billing (waits on MT-33)",
+          "done": false
         }
       ],
       "rank": 15360,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-19T07:02:28.842Z"
+      "updatedAt": "2026-11-15T06:15:00.000Z"
     },
     {
       "id": "seed-016",
       "key": "MT-16",
       "title": "Menu model with veg marks, calories and allergens",
       "icon": "🧾",
-      "status": "in_review",
+      "status": "done",
       "priority": "urgent",
       "phase": "phase-1",
       "area": "menu",
@@ -673,7 +678,7 @@
         "v0-launch"
       ],
       "summary": "Categories, items, sizes, prices, badges, availability, veg mark, calories and allergens.",
-      "body": "**Why.** A menu stored as data can be laid out, translated, synced and kept compliant. A picture can’t.\n\n**What.** Validated schema (zod) for categories and items: name, description, sizes (half and full), price with tax included, veg or non-veg, badges, calories per serving, allergens, photo, available today, sort order.\n\n**Built 19 October 2026.** `src/features/menu`: zod schema with one price or up to three sizes (paise), veg or non-veg, labels, calories and serving size, FSSAI allergens, photo, sold out for today (back by itself tomorrow, India time) and hidden. Edits are pure functions applied to the latest menu on the server, so two phones never overwrite each other. TVs play the owner's own menu; bestsellers, new dishes and chef's picks become promo slides until the promo studio ships.",
+      "body": "**Why.** A menu stored as data can be laid out, translated, synced and kept compliant. A picture can’t.\n\n**What.** Validated schema (zod) for categories and items: name, description, sizes (half and full), price with tax included, veg or non-veg, badges, calories per serving, allergens, photo, available today, sort order.\n\n**Built 19 October 2026.** `src/features/menu`: zod schema with one price or up to three sizes (paise), veg or non-veg, labels, calories and serving size, FSSAI allergens, photo, sold out for today (back by itself tomorrow, India time) and hidden. Edits are pure functions applied to the latest menu on the server, so two phones never overwrite each other. TVs play the owner's own menu; bestsellers, new dishes and chef's picks become promo slides until the promo studio ships.\n\n**Done (QA verified, 15 November 2026).** Every Done-when verified. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-016-c1",
@@ -694,14 +699,14 @@
       "rank": 16384,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-19T07:02:28.842Z"
+      "updatedAt": "2026-11-15T06:15:00.000Z"
     },
     {
       "id": "seed-017",
       "key": "MT-17",
       "title": "Menu editor on the phone",
       "icon": "✏️",
-      "status": "in_review",
+      "status": "done",
       "priority": "urgent",
       "phase": "phase-1",
       "area": "menu",
@@ -714,7 +719,7 @@
         "v0-launch"
       ],
       "summary": "Add, edit, reorder and hide items with one thumb.",
-      "body": "**Why.** Owners update menus between orders, standing at the counter.\n\n**What.** Mobile-first editor: categories as sections, drag to reorder, swipe to hide, inline price edit, photo from camera.\n\n**Built 19 October 2026.** /studio/menu: categories as sections, drag to reorder (touch hold, mouse or keyboard), swipe left to hide, prices typed straight into each row, one-tap sold out, a sheet for everything else, photos from the camera shrunk on the phone to 800 px, and a live preview from the same code the TVs run. Checked as an owner on a 375 px phone and a laptop; a change reached a paired TV in under 20 seconds.",
+      "body": "**Why.** Owners update menus between orders, standing at the counter.\n\n**What.** Mobile-first editor: categories as sections, drag to reorder, swipe to hide, inline price edit, photo from camera.\n\n**Built 19 October 2026.** /studio/menu: categories as sections, drag to reorder (touch hold, mouse or keyboard), swipe left to hide, prices typed straight into each row, one-tap sold out, a sheet for everything else, photos from the camera shrunk on the phone to 800 px, and a live preview from the same code the TVs run. Checked as an owner on a 375 px phone and a laptop; a change reached a paired TV in under 20 seconds.\n\n**Done (QA verified, 15 November 2026).** Every Done-when verified. One accessibility bug follows as a fix (Design): drag announcements read IDs instead of dish names. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-017-c1",
@@ -735,14 +740,14 @@
       "rank": 17408,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-19T07:02:28.842Z"
+      "updatedAt": "2026-11-15T06:15:00.000Z"
     },
     {
       "id": "seed-018",
       "key": "MT-18",
       "title": "Paste or spreadsheet import",
       "icon": "📋",
-      "status": "in_review",
+      "status": "done",
       "priority": "high",
       "phase": "phase-1",
       "area": "menu",
@@ -755,7 +760,7 @@
         "v0-launch"
       ],
       "summary": "Paste lines like \"Masala chai 30\" or upload a CSV or Excel file.",
-      "body": "**Why.** Many owners already have the menu in a billing system export or a WhatsApp message.\n\n**What.** A forgiving parser for pasted text and CSV/XLSX, with a preview to fix mistakes before saving.\n\n**Built 19 October 2026.** On /studio/menu, \"Paste or upload\" reads a WhatsApp message, a billing export, cells copied from a spreadsheet, or a CSV, text or Excel (.xlsx) file. Headings become categories; half and full, S/M/L and \"180/320\" become sizes; ₹, Rs., /- and 1,200 are read as prices; header rows are mapped to name, price, category, size and veg columns, and a dish listed once per size is joined. Lines it can't read cleanly are flagged, never guessed, and the owner fixes them in a preview before one save. A dish already on the menu gets the new price instead of a copy. Excel is unzipped with the browser's own DecompressionStream, so no new dependency. Checked as an owner on a 375 px phone: a 16-line WhatsApp menu with half and full prices became 11 dishes in 3 categories on a paired TV, and an Excel export then updated a price and added dishes live.",
+      "body": "**Why.** Many owners already have the menu in a billing system export or a WhatsApp message.\n\n**What.** A forgiving parser for pasted text and CSV/XLSX, with a preview to fix mistakes before saving.\n\n**Built 19 October 2026.** On /studio/menu, \"Paste or upload\" reads a WhatsApp message, a billing export, cells copied from a spreadsheet, or a CSV, text or Excel (.xlsx) file. Headings become categories; half and full, S/M/L and \"180/320\" become sizes; ₹, Rs., /- and 1,200 are read as prices; header rows are mapped to name, price, category, size and veg columns, and a dish listed once per size is joined. Lines it can't read cleanly are flagged, never guessed, and the owner fixes them in a preview before one save. A dish already on the menu gets the new price instead of a copy. Excel is unzipped with the browser's own DecompressionStream, so no new dependency. Checked as an owner on a 375 px phone: a 16-line WhatsApp menu with half and full prices became 11 dishes in 3 categories on a paired TV, and an Excel export then updated a price and added dishes live.\n\n**Done (QA verified, 15 November 2026).** Every Done-when verified. Two low import findings follow as fixes (Platform): \"Chicken 65 220\" is flagged as two sizes, and an unpriced last line of section words is dropped instead of flagged. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-018-c1",
@@ -776,7 +781,7 @@
       "rank": 18432,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-19T11:00:28.862Z"
+      "updatedAt": "2026-11-15T06:15:00.000Z"
     },
     {
       "id": "seed-019",
@@ -899,7 +904,7 @@
         "v0-launch"
       ],
       "summary": "A light web player that runs on TV browsers, keeps playing offline and reloads itself daily.",
-      "body": "**Why.** The TV browser is where competitors fail. A light, resilient player is our engineering moat.\n\n**What.** Wall-clock loop so screens stay in sync, CSS-only motion, a service worker that keeps the page, assets and last bundle for offline playback, a daily reload that waits for the server, burn-in shift, and clock correction from the heartbeat. Built: /s/<token> plays live; /screen/demo plays the sample.\n\n**Standalone player, 20 October 2026.** /s/<token> now answers plain HTML that loads one 12 KB script (Preact running the same LivePlayer and ScreenStage) and one stylesheet, instead of 139 KB of Next.js and React. Pairing, sold out in 7.7 s, offline reload and \"connect again\" were checked on a production build. ADR-005 in docs/architecture.md.",
+      "body": "**Why.** The TV browser is where competitors fail. A light, resilient player is our engineering moat.\n\n**What.** Wall-clock loop so screens stay in sync, CSS-only motion, a service worker that keeps the page, assets and last bundle for offline playback, a daily reload that waits for the server, burn-in shift, and clock correction from the heartbeat. Built: /s/<token> plays live; /screen/demo plays the sample.\n\n**Standalone player, 20 October 2026.** /s/<token> now answers plain HTML that loads one 12 KB script (Preact running the same LivePlayer and ScreenStage) and one stylesheet, instead of 139 KB of Next.js and React. Pairing, sold out in 7.7 s, offline reload and \"connect again\" were checked on a production build. ADR-005 in docs/architecture.md.\n\n**Stays in review (QA, 15 November 2026).** Bug B2: after an offline reload the TV plays the menu embedded in its cached page, not the newer cached bundle, so dishes marked sold out come back; Platform is fixing it tonight. B3: the daily reload has no test yet. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-021-c1",
@@ -919,7 +924,7 @@
         {
           "id": "seed-021-c4",
           "text": "Offline cache with a service worker",
-          "done": true
+          "done": false
         },
         {
           "id": "seed-021-c5",
@@ -940,14 +945,14 @@
       "rank": 21504,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-20T05:00:00.000Z"
+      "updatedAt": "2026-11-15T06:15:00.000Z"
     },
     {
       "id": "seed-022",
       "key": "MT-22",
       "title": "Pairing with a link, a code or a QR",
       "icon": "🔗",
-      "status": "in_review",
+      "status": "done",
       "priority": "urgent",
       "phase": "phase-1",
       "area": "devices",
@@ -960,7 +965,7 @@
         "v0-launch"
       ],
       "summary": "Open a secret link on the TV, or type a 6-character code, or scan a QR.",
-      "body": "**Why.** Typing with a TV remote is painful. Pairing must survive cleared storage.\n\n**What.** Each TV has its own unguessable link (32 random bytes, stored only as a SHA-256 hash). /pair shows a 6-character code with no look-alike letters and a QR for the owner's phone. The owner enters it in /studio; the TV's link is created only when the TV collects it with its own secret, so no token is ever stored. Rotating one TV's link never touches the others.",
+      "body": "**Why.** Typing with a TV remote is painful. Pairing must survive cleared storage.\n\n**What.** Each TV has its own unguessable link (32 random bytes, stored only as a SHA-256 hash). /pair shows a 6-character code with no look-alike letters and a QR for the owner's phone. The owner enters it in /studio; the TV's link is created only when the TV collects it with its own secret, so no token is ever stored. Rotating one TV's link never touches the others.\n\n**Done (QA verified, 15 November 2026).** Every Done-when verified. The old TV shows \"connect again\" only at its next heartbeat (up to 60 s) until the live-stream fix (B1, MT-23) lands. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-022-c1",
@@ -981,7 +986,7 @@
       "rank": 22528,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T15:19:53.000Z"
+      "updatedAt": "2026-11-15T06:15:00.000Z"
     },
     {
       "id": "seed-023",
@@ -1001,7 +1006,7 @@
         "v0-launch"
       ],
       "summary": "Server-sent events plus a heartbeat every minute; new content swaps in at the next slide.",
-      "body": "**Why.** \"Sold out\" that takes a minute is worse than none. Sockets drop silently on cheap TVs.\n\n**What.** A versioned bundle with an ETag (304 when unchanged), server-sent events that announce a new version within about 3 seconds, and a 60-second heartbeat as the safety net. The player swaps content at the next slide boundary (or within 20 seconds), never mid-slide.",
+      "body": "**Why.** \"Sold out\" that takes a minute is worse than none. Sockets drop silently on cheap TVs.\n\n**What.** A versioned bundle with an ETag (304 when unchanged), server-sent events that announce a new version within about 3 seconds, and a 60-second heartbeat as the safety net. The player swaps content at the next slide boundary (or within 20 seconds), never mid-slide.\n\n**Stays in review (QA, 15 November 2026).** Bug B1: after one failed reconnect the live stream never reopens, so changes arrive only with the 60-second heartbeat; Platform is fixing it tonight. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-023-c1",
@@ -1011,7 +1016,7 @@
         {
           "id": "seed-023-c2",
           "text": "Recovers from a dropped stream (heartbeat every minute)",
-          "done": true
+          "done": false
         },
         {
           "id": "seed-023-c3",
@@ -1022,14 +1027,14 @@
       "rank": 23552,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T15:19:53.000Z"
+      "updatedAt": "2026-11-15T06:15:00.000Z"
     },
     {
       "id": "seed-024",
       "key": "MT-24",
       "title": "Loops and dayparts",
       "icon": "🕒",
-      "status": "in_review",
+      "status": "done",
       "priority": "high",
       "phase": "phase-1",
       "area": "screens",
@@ -1042,7 +1047,7 @@
         "v0-launch"
       ],
       "summary": "Breakfast, lunch and dinner menus; how long menu and promo slides show.",
-      "body": "**Why.** A café sells different things at 8 am and 8 pm.\n\n**What.** Dayparts by time and weekday, per screen. Loop timing defaults from the playbook, editable within limits.\n\n**Built 20 October 2026.** Dayparts are set per category (from, until and days, past midnight allowed), because owners think \"breakfast dishes in the morning\", and every screen of the restaurant follows them; the server leaves a category out of the bundle outside its time, so TVs switch within seconds with no TV change. Timing is set per screen on the TVs page: menu pages 12 to 60 seconds, promos 5 to 15, defaults 18 and 7. Each screen on the TVs page previews its live loop. Checked on a production build: a daypart ended at 2:28 am and the TV changed at 2:28:05; promos set to 10 seconds turned every 10.0 seconds. Details: docs/accounts-and-menu.md and docs/screen-design.md.",
+      "body": "**Why.** A café sells different things at 8 am and 8 pm.\n\n**What.** Dayparts by time and weekday, per screen. Loop timing defaults from the playbook, editable within limits.\n\n**Built 20 October 2026.** Dayparts are set per category (from, until and days, past midnight allowed), because owners think \"breakfast dishes in the morning\", and every screen of the restaurant follows them; the server leaves a category out of the bundle outside its time, so TVs switch within seconds with no TV change. Timing is set per screen on the TVs page: menu pages 12 to 60 seconds, promos 5 to 15, defaults 18 and 7. Each screen on the TVs page previews its live loop. Checked on a production build: a daypart ended at 2:28 am and the TV changed at 2:28:05; promos set to 10 seconds turned every 10.0 seconds. Details: docs/accounts-and-menu.md and docs/screen-design.md.\n\n**Done (QA verified, 15 November 2026).** Every Done-when verified. QA’s report: qa-mt15-24-verification-2026-11-15.md (side-session notes, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-024-c1",
@@ -1063,7 +1068,7 @@
       "rank": 24576,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-20T06:00:00.000Z"
+      "updatedAt": "2026-11-15T06:15:00.000Z"
     },
     {
       "id": "seed-025",
