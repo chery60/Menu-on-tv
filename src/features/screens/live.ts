@@ -35,7 +35,7 @@ export async function loadLiveScreen(token: string, now = new Date()): Promise<L
   if (!restaurant) return null;
   const menu = await getMenusRepository().get(restaurant.id, now);
   const playing = screenRestaurant(restaurant, menu, localClock(now, restaurant.outlets[0].timeZone));
-  return { ...resolved, bundle: buildBundle(resolved.screen, playing, await buildQrCodes(playing)) };
+  return { ...resolved, bundle: buildBundle(resolved.screen, playing, await buildQrCodes(playing), now.getTime()) };
 }
 
 /**

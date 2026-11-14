@@ -13,15 +13,20 @@ export interface ScreenBundle {
   readonly timing: LoopTiming;
   readonly restaurant: Restaurant;
   readonly qrCodes: Readonly<Record<string, string>>;
+  /**
+   * When the server sent this copy, by the server's clock (epoch ms). Not part of the version: it only tells a TV,
+   * after an offline reload, which of its saved copies (the page's own, the cached bundle) is newer.
+   */
+  readonly servedAt?: number;
 }
 
 const VERSION_LENGTH = 16;
 
 /** The restaurant passed in is already what guests should see: today's sold-out items marked, hidden ones gone. */
-export function buildBundle(screen: Screen, restaurant: Restaurant, qrCodes: Readonly<Record<string, string>>): ScreenBundle {
+export function buildBundle(screen: Screen, restaurant: Restaurant, qrCodes: Readonly<Record<string, string>>, servedAt?: number): ScreenBundle {
   const content = { name: screen.name, layout: screen.layout, theme: screen.theme, bilingual: screen.bilingual, timing: screen.timing ?? DEFAULT_TIMING, restaurant, qrCodes };
   const version = createHash('sha256').update(JSON.stringify(content)).digest('hex').slice(0, VERSION_LENGTH);
-  return { version, ...content };
+  return { version, ...content, ...(servedAt === undefined ? {} : { servedAt }) };
 }
 
 /** A strong ETag for a bundle version, and a check of the TV's If-None-Match header against it. */
