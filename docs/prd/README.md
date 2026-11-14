@@ -10,6 +10,8 @@ PRDs so far, in build order. List each new one here with one line on what it doe
 
 - [MT-25 Quick actions on Today](mt-25-quick-actions.md) (approved): sold out, today's special and price changes, one tap each from Today, for owners and staff.
 - [MT-26 Promo studio](mt-26-promo-studio.md) (approved): six promo templates priced from the menu, with schedules and honest countdowns.
+- [MT-28 Hindi on screen](mt-28-hindi-on-screen.md) (draft): English and Hindi on each line or by turns, with Devanagari never smaller than English.
+- [MT-29 FSSAI display mode](mt-29-fssai-display.md) (draft): one switch for calories, serving sizes, allergens and the 2,000 kcal line on every TV.
 
 ## Format
 
