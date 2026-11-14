@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ScreenBundle } from '@/features/screens/bundle';
 import { nextClockOffset } from '../clock';
+import { openLiveStream } from '../live-stream';
 import { ScreenPlayer } from './screen-player';
 
 /** Heartbeat interval: marks the TV online, checks the version, corrects the clock. */
@@ -60,15 +61,16 @@ export function LivePlayer({ token, initialBundle, pairUrl }: LivePlayerProps) {
     }
   }, [apply, base]);
 
-  // Live updates: server-sent events say when the version changes; the browser reconnects on its own.
+  // Live updates: server-sent events say when the version changes, reopened whenever the browser gives up on them.
   useEffect(() => {
     if (typeof EventSource === 'undefined') return;
-    const events = new EventSource(`${base}/events`);
-    events.addEventListener('version', (event) => {
-      if ((event as MessageEvent<string>).data !== versionRef.current) void fetchBundle();
+    return openLiveStream({
+      url: `${base}/events`,
+      onVersion: (version) => {
+        if (version !== versionRef.current) void fetchBundle();
+      },
+      onGone: () => setGone(true),
     });
-    events.addEventListener('revoked', () => setGone(true));
-    return () => events.close();
   }, [base, fetchBundle]);
 
   // Heartbeat: the safety net for dropped streams, plus screen health and clock correction.
