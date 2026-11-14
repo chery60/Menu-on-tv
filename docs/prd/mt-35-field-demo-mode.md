@@ -22,7 +22,14 @@ A MenuOnTV rep walks into a shop, builds a draft of the owner's own menu on the 
 - Empty state: "No demos yet. Start one in a shop."
 
 ## Design
-Design to write.
+**Job:** a rep goes from "can I show you something?" to the owner's menu on a TV in about a minute, one-handed, in a busy shop. **Direction:** the owner app with a rep's hat on: the same pages and sheets, plus one clear "this is a demo" band and one way out, "Hand over".
+
+- **Demos page** (`/studio/demos`; a "Demos" tab replaces Today for reps in `owner-frame.tsx`): "Demos." with "Show an owner their menu on a TV in a minute." Then the chilli "New demo", then the rep's open drafts as rows: the shop name, its age ("2 hours old"), "Open", and a text "Delete" that asks first. Empty: "No demos yet. Start one in a shop."
+- **New demo** is a `Sheet`: the shop's name, then three choices as `choice` cards: "Photograph their menu" (when it's on), "Paste their menu" and "Start from the sample café". Saving opens the draft's Menu with the paste or sample already in, and the line "On your demo TV in a few seconds."
+- **Inside a draft:** a mono band sits under the header on every tab: "Demo for Sharma Sweets", with "Hand over" (chilli) and "All demos" (text). The draft's tabs are the owner's own, so the rep shows the real thing.
+- **Hand over** is a `Sheet`: "Owner's mobile number or email", then "Sharma Sweets goes to 98765 43210. You won't see it again. Their TV stays connected." and "Hand over". Done: "Handed over. Ask them to sign in with that number."
+- **The demo TV's standby card:** the TV's night ground, the brand mark and "Your menu, on your TV.", like the pairing screen, with nothing else on it.
+- **Reps list** (`/tracker/reps`, team area, the tracker's notebook look): add a rep by mobile number or email. A table shows each rep, their open drafts and restaurants handed over, and "Remove". Contacts show only their last four digits or the email's first letter.
 
 ## Data it touches
 - **People:** a rep mark on a person (accounts data), set and cleared only in the team area.

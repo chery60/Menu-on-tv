@@ -3,11 +3,14 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
+import { editMenuAction } from '@/app/studio/menu/actions';
 import { OwnerFrame } from '@/components/owner/owner-frame';
 import { card, heading, kicker, quiet, textLink } from '@/components/owner/ui';
 import { requireRestaurant } from '@/features/accounts/session';
 import { isSoldOut } from '@/features/menu/edit';
 import { MenuPreview } from '@/features/menu/components/menu-preview';
+import { PricesCard } from '@/features/menu/components/price-sheet';
+import { TodaysSpecial } from '@/features/menu/components/special-card';
 import { canReadMenuPhotos } from '@/features/menu/photo-reader';
 import { getMenusRepository } from '@/features/menu/repository';
 import type { Menu } from '@/features/menu/schema';
@@ -124,6 +127,13 @@ async function TodayContent() {
 
       {isOwner && !(hasMenu && hasTv) ? <GetStarted hasMenu={hasMenu} hasTv={hasTv} pairAddress={typedAddress(origin, '/pair')} /> : null}
 
+      {hasMenu ? (
+        <div className="grid gap-5 md:grid-cols-2">
+          <TodaysSpecial menu={menu} clock={clock} onSave={editMenuAction} />
+          <PricesCard menu={menu} onSave={editMenuAction} />
+        </div>
+      ) : null}
+
       <section aria-labelledby="live-title" className="grid gap-5 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
         <div className="rounded-card bg-night p-3 sm:p-4">
           <MenuPreview menu={menu} clock={clock} profile={{ name: restaurant.name, tagline: restaurant.tagline }} screen={preview} />
@@ -134,7 +144,7 @@ async function TodayContent() {
             {onAir > 0 ? `On air on ${onAir} ${onAir === 1 ? 'TV' : 'TVs'}` : 'No TV on air'}
           </p>
           <h2 id="live-title" className={`${heading} mt-2`}>
-            On your TVs now.
+            {onAir > 0 ? 'On your TVs now.' : 'How it will look on your TV.'}
           </h2>
           <p className="mt-2 text-night-soft">
             {first ? `This is ${first.name}, playing your menu as guests see it.` : 'This is how your menu will play on the TV.'} It changes the moment you save a change.

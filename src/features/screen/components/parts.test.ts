@@ -44,3 +44,37 @@ describe('Hindi on promo slides (MT-28)', () => {
     expect(render(false)).not.toContain('आम लस्सी');
   });
 });
+
+describe('promo slides on the TV (MT-26)', () => {
+  const promo = (extra: Partial<Promo>): Promo => ({ id: 'p', kind: 'combo', label: 'Combo', headline: 'Chai + samosa', line: 'The 4 pm classic', price: 59, wasPrice: 70, emoji: '🥟', ...extra });
+  const card = (item: Promo, qrSvg?: string) => renderToStaticMarkup(createElement(PromoCard, { promo: item, qrSvg, variant: 'side' }));
+
+  it('says a featured dish’s category once, not as a label and again as its line', () => {
+    const html = card(promo({ kind: 'special', label: 'Chai & Coffee', line: 'Chai & Coffee', wasPrice: undefined }));
+    expect(html.match(/Chai &amp; Coffee/g)).toHaveLength(1);
+    expect(html).not.toContain('scr-promo-label');
+  });
+
+  it('keeps a real label, and the struck-through menu price on a deal', () => {
+    const html = card(promo({}));
+    expect(html).toContain('scr-promo-label');
+    expect(html).toContain('was ₹70');
+  });
+
+  it('tells guests how to use the QR', () => {
+    expect(card(promo({ kind: 'scan', label: 'Scan me', qrUrl: 'https://example.com' }), '<svg></svg>')).toContain('Scan with your phone camera');
+  });
+
+  it('keeps the Hindi name under the headline on every look, with its label rule and QR hint', () => {
+    const kinds: Promo['kind'][] = ['combo', 'happy-hour', 'new', 'special', 'festival', 'scan'];
+    for (const kind of kinds) {
+      const html = renderToStaticMarkup(createElement(PromoCard, { promo: promo({ kind, headlineHi: 'चाय समोसा' }), qrSvg: kind === 'scan' ? '<svg></svg>' : undefined, variant: 'side', bilingual: true }));
+      expect(html).toContain(`scr-kind-${kind}`);
+      expect(html).toContain('<p class="scr-promo-hi" lang="hi">चाय समोसा</p>');
+      if (kind === 'scan') expect(html).toContain('Scan with your phone camera');
+    }
+    const repeated = renderToStaticMarkup(createElement(PromoCard, { promo: promo({ kind: 'special', label: 'Snacks', line: 'Snacks', headlineHi: 'समोसा' }), variant: 'hero', bilingual: true }));
+    expect(repeated).toContain('scr-promo-hi');
+    expect(repeated).not.toContain('scr-promo-label');
+  });
+});

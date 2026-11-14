@@ -302,10 +302,10 @@ export function SoldOutToggle({ itemId, name, soldOut }: { readonly itemId: stri
         type="submit"
         aria-pressed={soldOut}
         disabled={pending}
-        className={`flex w-full items-center justify-between gap-3 rounded-control border px-3 py-2 text-left font-semibold transition-colors ${soldOut ? 'border-masala bg-masala-soft text-masala' : 'border-hairline bg-white text-night hover:border-night'}`}
+        className={`flex min-h-11 w-full items-center justify-between gap-3 rounded-control border px-3 py-2 text-left font-semibold transition-colors ${soldOut ? 'border-masala bg-masala-soft text-masala' : 'border-hairline bg-white text-night hover:border-night'}`}
       >
-        <span className={soldOut ? 'line-through' : ''}>{name}</span>
-        <span className="text-sm">{pending ? 'Saving…' : soldOut ? 'Sold out' : 'In stock'}</span>
+        <span className={`min-w-0 ${soldOut ? 'line-through' : ''}`}>{name}</span>
+        <span className="shrink-0 whitespace-nowrap text-sm">{pending ? 'Saving…' : soldOut ? 'Sold out' : 'In stock'}</span>
       </button>
       {state.status === 'error' ? <Feedback state={state} /> : null}
     </form>

@@ -32,7 +32,7 @@ vi.mock('next/headers', () => ({
 const { createScreenAction, connectTvAction, updateScreenAction } = await import('./actions');
 const { editMenuAction, importMenuAction, readMenuPhotoAction, setSoldOutAction, uploadPhotoAction } = await import('./menu/actions');
 const { MenuPhotoError } = await import('@/features/menu/photo-reader');
-const { addPersonAction, removePersonAction } = await import('./restaurant/actions');
+const { addPersonAction, removePersonAction, setFssaiAction } = await import('./restaurant/actions');
 const { createRestaurantAction } = await import('./setup/actions');
 const { startSignInAction, verifySignInAction, signOutAction } = await import('../sign-in/actions');
 const { GET: PHOTO } = await import('../api/photos/[id]/route');
@@ -319,5 +319,21 @@ describe('screen languages (MT-28)', () => {
     expect(await make({})).toMatchObject({ status: 'ok' });
     expect(await make({ language: 'ta' })).toMatchObject({ status: 'error', message: 'Choose the languages from the list.' });
     expect((await getScreensRepository().listScreens(restaurant.id)).map((screen) => screen.language)).toEqual(['en-then-hi', 'en-hi', 'en']);
+  });
+});
+
+describe('calories and allergens on the TVs (MT-29)', () => {
+  it('are turned on and off by an owner only', async () => {
+    const { owner, staff, restaurant } = await ownerWithStaff();
+    signInAs(staff.token);
+    expect(await setFssaiAction(IDLE, form({ fssai: 'true' }))).toMatchObject({ status: 'error', message: expect.stringMatching(/Only an owner/) });
+    expect((await getAccountsRepository().restaurant(restaurant.id))?.fssai).toBe(false);
+    signInAs(owner.token);
+    expect(await setFssaiAction(IDLE, form({ fssai: 'true' }))).toMatchObject({ status: 'ok' });
+    expect((await getAccountsRepository().restaurant(restaurant.id))?.fssai).toBe(true);
+    expect(await setFssaiAction(IDLE, form({ fssai: 'false' }))).toMatchObject({ status: 'ok' });
+    expect((await getAccountsRepository().restaurant(restaurant.id))?.fssai).toBe(false);
+    signInAs(null);
+    expect(await setFssaiAction(IDLE, form({ fssai: 'true' }))).toMatchObject({ status: 'error', message: expect.stringMatching(/signed out/) });
   });
 });

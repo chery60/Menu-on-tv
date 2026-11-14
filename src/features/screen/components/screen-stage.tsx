@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, type CSSProperties, type ReactNode } from 'react';
 import { inHindi, itemInHindi, languageAt, promoInHindi, rowWeightFor } from '../language';
-import { DEFAULT_TIMING, mainSlides, MENU_FRAMES, paginateMenu, sideLoop, slideLabel, type LoopTiming, type Slide, type SlideAt } from '../loop';
+import { DEFAULT_TIMING, mainSlides, menuFrame, paginateMenu, sideLoop, slideLabel, type LoopTiming, type Slide, type SlideAt } from '../loop';
 import { themeStyle } from '../themes';
 import type { LayoutId, MenuItem, Restaurant, ScreenLanguage, ThemeId } from '../types';
 import { AdCard, BadgePill, LONG_NAME_CHARS, MenuColumns, Plate, Price, PromoCard, Sizes, TickerBand } from './parts';
@@ -103,7 +103,7 @@ export function ScreenStage({
 }: ScreenStageProps) {
   const bilingual = language === 'en-hi';
   const rowWeight = rowWeightFor(language);
-  const frame = MENU_FRAMES[layout];
+  const frame = useMemo(() => menuFrame(layout, restaurant.fssai), [layout, restaurant.fssai]);
   const pages = useMemo(() => paginateMenu(restaurant.categories, frame, rowWeight), [restaurant, frame, rowWeight]);
   // The Hindi pass shows the same pages with Hindi names in place, so no dish moves between passes.
   const hindiPages = useMemo(() => (language === 'en-then-hi' ? paginateMenu(inHindi(restaurant).categories, frame, rowWeight) : pages), [language, restaurant, frame, rowWeight, pages]);

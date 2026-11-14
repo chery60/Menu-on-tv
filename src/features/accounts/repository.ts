@@ -210,6 +210,7 @@ export class FileAccountsRepository {
         id: randomUUID(),
         ...input,
         outlets: [{ id: randomUUID(), name: input.name, city: input.city, timeZone: DEFAULT_TIME_ZONE }],
+        fssai: false,
         createdAt: stamp,
         updatedAt: stamp,
       };
@@ -232,6 +233,15 @@ export class FileAccountsRepository {
       }),
     }));
     return updated;
+  }
+
+  /** Turns calories and allergens on the TVs on or off (MT-29). The calories and allergens stay in the menu either way. */
+  async setFssai(restaurantId: string, on: boolean, now: Date): Promise<Restaurant | null> {
+    const file = await this.store.update((current) => ({
+      ...current,
+      restaurants: current.restaurants.map((restaurant) => (restaurant.id === restaurantId ? { ...restaurant, fssai: on, updatedAt: now.toISOString() } : restaurant)),
+    }));
+    return file.restaurants.find((restaurant) => restaurant.id === restaurantId) ?? null;
   }
 
   async team(restaurantId: string): Promise<{ readonly members: readonly TeamMember[]; readonly invites: readonly Invite[] }> {

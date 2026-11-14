@@ -27,7 +27,14 @@ Today keeps what it has now (the live preview and the first-screen checklist) an
 - Loading shows Today's skeleton, as now. On an error the field keeps the old price and the editor's usual message shows.
 
 ## Design
-Design to write.
+**Job:** the three daily changes, each started with one tap on Today, by an owner or staff with one hand free. **Direction:** Today is a counter, not a dashboard: actions first, what the TV plays next, the long sold-out list last.
+
+- **Order, phone and computer:** the name; the first-screen checklist (owners, until done); two cards side by side from `md`, "Today's special." and "Prices."; the live preview with its on-air card; "Sold out today.". The on-air card says "How it will look on your TV." until a TV is on air (today it says "On your TVs now." over "No TV on air").
+- **Today's special card:** with none, "It plays first on every TV until midnight." and the chilli "Pick today's special". With one, the dish's thumb, name, category and menu price, then "Change" (quiet) and "Remove" (text). Sold out: a "Sold out" tag, "It's off your TVs until it's back in stock." and "Pick another". Outside its category's hours: "Not on your TVs now: 7 to 11 am, every day."
+- **The picker** is a `Sheet`, "Pick today's special", built once so MT-26's Promos page reuses it: the dishes in stock and shown, grouped by category, one 44px row each with name and price; the current special is marked. A "Find a dish" search shows when there are 12 or more dishes. Nothing to pick: "Every dish is sold out or hidden." No match: "No dish matches “abc”."
+- **Prices card:** "Type a new price and every TV shows it within seconds." and "Change a price" (quiet), which opens a `Sheet` with the same search rule and every shown dish: its name, then one ₹ field per size (labelled Half, Full…). Enter or leaving the field saves. The line under that dish says "Masala chai is now ₹35." or "Paneer tikka sandwich, Full, is now ₹120."; "abc" puts the old price back and says "“abc” isn't a price. Type rupees, like 80 or 49.50." Messages sit beside the dish, never in a bar at the foot, which the phone keyboard and tab bar would cover.
+- **Sold out rows** stay as they are, at least 44px, with "In stock" and "Sold out" never wrapping.
+- Staff see and use everything here. DESIGN.md's Owner app line changes with this slice.
 
 ## Data it touches
 - **The menu** gains which dish is today's special and the outlet day it was set, cleared by date the way `soldOutOn` is. It lives with the menu, so the editor preview, Today's preview and every TV agree. No new data file.
