@@ -25,7 +25,17 @@ New, after setup, as one guided path on Today that the owner can leave and come 
 - **The same look picker on the TVs tab** replaces the layout dropdown in "Change how it looks" (walkthrough finding 5, `docs/research/owner-walkthrough-2026-11.md`, MT-20), so owners see every layout before they choose, wherever they choose.
 
 ## Design
-Design to write.
+**Job:** a new owner gets their own menu onto their own TV from one phone, between orders, without getting lost. **Direction:** one step open at a time, its one chilli action in reach; done steps fold to a single line with a check.
+
+- **The look picker** (`look-picker.tsx`): six radio cards, two across at 375px and three on a computer. Each card is a 16:9 mini TV playing the owner's own menu (`MenuPreview`), with the layout's name and one line under it. Under the cards, two colour cards, Paper and Night.
+  - Only the selected card plays. The others hold their first page still, so a cheap phone stays smooth and reduced motion is respected.
+  - The selected card gets a 2px ink border and a check. Split on Paper starts selected. "Keep this look" sits in the sticky footer.
+  - The same picker replaces the layout dropdown in TVs, "Change how it looks" (walkthrough finding 5).
+- **The guided path on Today** replaces the checklist card: "Your first screen. About 10 minutes." Then three numbered rows: Add your menu, Pick the look, Connect your TV.
+  - The current step opens in place with its action. Paste or "Start from the sample" (and photo when it's on). The look picker. The connect steps with the code field and "Will my TV work?".
+  - Done steps show a leaf check and one line ("12 dishes", "Split, Paper", "On air"). A step finished in another tab shows done here.
+- **When the TV is on air:** "Your menu is on your TV." Then, once, a card "Add today's special?" with "Pick today's special" (MT-25's picker) and "Not now". After that, Today as usual.
+- Owners only. Every step works at 375px with 44px targets, and nothing needs a laptop.
 
 ## Data it touches
 - **The restaurant** gains the look picked in step 2 and whether the nudge was answered.
