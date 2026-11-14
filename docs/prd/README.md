@@ -6,7 +6,10 @@ Each page or feature gets one short PRD, one page at most (D1). Product writes i
 - The tracker (`/tracker`) is the roadmap. Every PRD names its MT-n item, and the item links back to the PRD.
 - Older design docs (`docs/accounts-and-menu.md`, `docs/screen-design.md`, `docs/site-*.md`) still hold. A new PRD that changes one of them says so.
 
-PRDs so far: none yet. List each new one here with one line on what it does.
+PRDs so far, in build order. List each new one here with one line on what it does.
+
+- [MT-25 Quick actions on Today](mt-25-quick-actions.md) (approved): sold out, today's special and price changes, one tap each from Today, for owners and staff.
+- [MT-26 Promo studio](mt-26-promo-studio.md) (approved): six promo templates priced from the menu, with schedules and honest countdowns.
 
 ## Format
 

@@ -1082,7 +1082,7 @@
         "v0-launch"
       ],
       "summary": "The three things owners do every day, one tap each.",
-      "body": "**Why.** Petpooja leads with it; owners expect it. It is the daily reason to open the app.\n\n**What.** A home screen with sold-out toggles, a \"today’s special\" picker and quick price edits, available to staff.",
+      "body": "**Why.** Petpooja leads with it; owners expect it. It is the daily reason to open the app.\n\n**What.** A home screen with sold-out toggles, a \"today’s special\" picker and quick price edits, available to staff.\n\n**PRD.** docs/prd/mt-25-quick-actions.md (draft, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-025-c1",
@@ -1103,7 +1103,7 @@
       "rank": 25600,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T00:00:00.000Z"
     },
     {
       "id": "seed-026",
@@ -1123,7 +1123,7 @@
         "v0-launch"
       ],
       "summary": "Combo, happy hour, new item, festival, today’s special and scan-the-QR.",
-      "body": "**Why.** Promos are how screens sell. Owners won’t design them from a blank canvas.\n\n**What.** Template-driven promo slides that pull items and prices from the menu, with schedules and an optional countdown.",
+      "body": "**Why.** Promos are how screens sell. Owners won’t design them from a blank canvas.\n\n**What.** Template-driven promo slides that pull items and prices from the menu, with schedules and an optional countdown.\n\n**PRD.** docs/prd/mt-26-promo-studio.md (draft, 15 November 2026).",
       "checklist": [
         {
           "id": "seed-026-c1",
@@ -1144,7 +1144,7 @@
       "rank": 26624,
       "archived": false,
       "createdAt": "2026-10-18T00:00:00.000Z",
-      "updatedAt": "2026-10-18T00:00:00.000Z"
+      "updatedAt": "2026-11-15T00:00:00.000Z"
     },
     {
       "id": "seed-027",
