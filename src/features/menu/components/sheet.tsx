@@ -3,6 +3,9 @@
 import { X } from 'lucide-react';
 import { useEffect, useRef, type ReactNode } from 'react';
 
+/** A sheet's last row (its action and any error): sticks to the bottom so it is in reach however long the form is. */
+export const sheetFooter = 'sticky bottom-0 -mx-5 -mb-6 mt-6 border-t border-hairline bg-page px-5 pt-3 pb-5';
+
 /** A modal sheet: slides up from the bottom on a phone, a centred dialog on a larger screen. Esc and the X close it. */
 export function Sheet({ title, onClose, children }: { readonly title: string; readonly onClose: () => void; readonly children: ReactNode }) {
   const ref = useRef<HTMLDialogElement>(null);
