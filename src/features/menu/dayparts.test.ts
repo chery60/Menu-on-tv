@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { describeDaypart, showsAt, type Daypart } from './dayparts';
+import { describeDaypart, describeHours, showsAt, type Daypart } from './dayparts';
 
 const WEEKDAYS = [1, 2, 3, 4, 5];
 const breakfast: Daypart = { from: 7 * 60, to: 11 * 60, days: [0, 1, 2, 3, 4, 5, 6] };
@@ -39,5 +39,14 @@ describe('a daypart in words', () => {
     expect(describeDaypart({ from: 12 * 60 + 30, to: 15 * 60, days: WEEKDAYS })).toBe('12:30 pm to 3 pm, Monday to Friday');
     expect(describeDaypart({ from: 18 * 60, to: 23 * 60 + 45, days: [0, 6] })).toBe('6 pm to 11:45 pm, Saturday and Sunday');
     expect(describeDaypart({ from: 22 * 60, to: 0, days: [1, 3, 5] })).toBe('10 pm to 12 am, Monday, Wednesday and Friday');
+  });
+
+  it('says a happy hour’s hours short, with one am or pm when both share it', () => {
+    expect(describeHours({ from: 15 * 60, to: 17 * 60 })).toBe('3 to 5 pm');
+    expect(describeHours({ from: 7 * 60, to: 11 * 60 + 30 })).toBe('7 to 11:30 am');
+    expect(describeHours({ from: 11 * 60, to: 14 * 60 })).toBe('11 am to 2 pm');
+    expect(describeHours({ from: 22 * 60, to: 60 })).toBe('10 pm to 1 am');
+    // Past midnight within one half: both kept, so it never reads "9 to 8 pm".
+    expect(describeHours({ from: 21 * 60, to: 20 * 60 })).toBe('9 pm to 8 pm');
   });
 });

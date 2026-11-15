@@ -5,7 +5,7 @@ import { formatRupees } from '@/features/screen/loop';
 import type { Badge, MenuCategory, MenuItem, Promo, Restaurant } from '@/features/screen/types';
 import { emojiFor } from '@/features/screen/visitor-menu';
 import { instantAt, type LocalClock } from '@/lib/local-date';
-import { showsAt } from './dayparts';
+import { describeHours, showsAt } from './dayparts';
 import { isSoldOut, todaysSpecial } from './edit';
 import type { Menu, MenuCategoryData, MenuItemData } from './schema';
 
@@ -140,6 +140,8 @@ function studioPromo(promo: StudioPromo, menu: Menu, categories: readonly MenuCa
   const first = dishes[0];
   const deal = promo.dealPaise;
   const price = deal !== null ? rupees(deal) : found.dishes.length === 1 ? rupees(found.dishes[0].paise) : undefined;
+  // A festival with two dishes shows each one's menu price, named with its size so a half isn't read as a full.
+  const dishPrices = promo.template === 'festival' && found.dishes.length > 1 ? found.dishes.map((dish) => ({ label: dish.size ? `${dish.item.name} (${dish.size})` : dish.item.name, price: rupees(dish.paise) })) : null;
   const until = playingUntil(promo, clock);
   return {
     id: `promo-${promo.id}`,
@@ -149,6 +151,8 @@ function studioPromo(promo: StudioPromo, menu: Menu, categories: readonly MenuCa
     line: promo.line,
     ...(price !== undefined ? { price } : {}),
     ...(deal !== null ? { wasPrice: rupees(found.menuPaise) } : {}),
+    ...(dishPrices ? { dishPrices } : {}),
+    ...(promo.template === 'happy-hour' && promo.daypart ? { hours: describeHours(promo.daypart) } : {}),
     emoji: first?.emoji ?? NO_DISH_EMOJI[promo.template],
     ...(first?.photo ? { photo: first.photo } : {}),
     ...(promo.link ? { qrUrl: promo.link } : {}),

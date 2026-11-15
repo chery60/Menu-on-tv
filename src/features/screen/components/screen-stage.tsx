@@ -6,6 +6,7 @@ import { DEFAULT_TIMING, mainSlides, menuFrame, paginateMenu, sideLoop, slideLab
 import { themeStyle } from '../themes';
 import type { LayoutId, MenuItem, Restaurant, ScreenLanguage, ThemeId } from '../types';
 import { AdCard, BadgePill, LONG_NAME_CHARS, MenuColumns, Plate, Price, PromoCard, Sizes, TickerBand } from './parts';
+import { ClockOffsetContext } from './promo-countdown';
 import { useLoopPositions } from './use-loop-positions';
 
 export interface ScreenStageProps {
@@ -205,7 +206,10 @@ export function ScreenStage({
       data-slide={mainLabel}
       data-side={slideLabel(side.slide)}
     >
-      <div className="scr-canvas">{body}</div>
+      {/* The countdown reads the loop's corrected clock, so it reaches zero as the promo leaves. */}
+      <ClockOffsetContext.Provider value={clockOffsetMs}>
+        <div className="scr-canvas">{body}</div>
+      </ClockOffsetContext.Provider>
       {showBadge ? <p className="scr-powered">
           Powered by <b>Menu<span>On</span>TV</b>
         </p> : null}

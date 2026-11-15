@@ -50,6 +50,10 @@ export interface Promo {
   readonly price?: number;
   /** The real separate-items price, struck through. Only set when it is the true menu total. */
   readonly wasPrice?: number;
+  /** Each dish's menu price, on a festival promo with two dishes, in place of `price`: labelled like a dish's sizes. */
+  readonly dishPrices?: readonly { readonly label: string; readonly price: number }[];
+  /** A happy hour's times, like "3 to 5 pm", shown as a tag. */
+  readonly hours?: string;
   readonly emoji: string;
   readonly photo?: string;
   /** Opens on a phone when scanned. */

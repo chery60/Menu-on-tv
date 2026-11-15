@@ -238,6 +238,29 @@ describe('promos from the studio on the TV', () => {
     expect(scan).not.toHaveProperty('price');
   });
 
+  it('price a festival with two dishes at each dish’s menu price, named with its size, and follow the menu (PRD price table)', () => {
+    const diwali = made({ template: 'festival', festival: 'diwali', dealPaise: null, headline: 'Diwali treats' });
+    const shown = play([diwali]).promos[0];
+    expect(shown.dishPrices).toEqual([
+      { label: 'Masala chai', price: 30 },
+      { label: items.find((item) => item.id === dish('Samosa'))?.name, price: 40 },
+    ]);
+    expect(shown).not.toHaveProperty('price');
+    expect(shown).not.toHaveProperty('wasPrice');
+    const sized = edit(menu, { type: 'set-prices', itemId: dish('Masala chai'), prices: [{ label: 'Small', paise: 2500 }, { label: 'Large', paise: 4500 }] });
+    const large = made({ ...diwali, dishes: [{ itemId: dish('Masala chai'), size: 'Large' }, { itemId: dish('Samosa'), size: '' }] });
+    expect(play([large], sized).promos[0].dishPrices?.[0]).toEqual({ label: 'Masala chai (Large)', price: 45 });
+    expect(play([made({ template: 'festival', festival: 'holi', dishes: [{ itemId: dish('Samosa'), size: '' }], dealPaise: null })]).promos[0]).not.toHaveProperty('dishPrices');
+    expect(play([made()]).promos[0]).not.toHaveProperty('dishPrices');
+  });
+
+  it('carry a happy hour’s times for its tag, and no times on other promos', () => {
+    const morning = { from: 9 * 60, to: 11 * 60, days: [0, 1, 2, 3, 4, 5, 6] };
+    const happyHour = made({ template: 'happy-hour', dishes: [{ itemId: dish('Adrak'), size: '' }], dealPaise: 2500, daypart: morning });
+    expect(play([happyHour]).promos[0]).toMatchObject({ kind: 'happy-hour', label: 'Happy hour', hours: '9 to 11 am' });
+    expect(play([made({ daypart: morning })]).promos[0]).not.toHaveProperty('hours');
+  });
+
   it('show the first dish’s photo', () => {
     const chai = items.find((item) => item.id === dish('Masala chai'));
     const withPhoto = { ...menu, categories: menu.categories.map((category) => ({ ...category, items: category.items.map((item) => (item.id === chai?.id ? { ...item, photo: PHOTO } : item)) })) };

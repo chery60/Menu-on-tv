@@ -55,3 +55,13 @@ function describeDays(days: readonly number[]): string {
 export function describeDaypart(daypart: Daypart): string {
   return `${clockTime(daypart.from)} to ${clockTime(daypart.to)}, ${describeDays(daypart.days)}`;
 }
+
+const NOON = 12 * 60;
+
+/** "3 to 5 pm", "11 am to 2 pm", "10 pm to 1 am": a daypart's hours, short, as a happy hour's tag on the TV. */
+export function describeHours({ from, to }: Pick<Daypart, 'from' | 'to'>): string {
+  // One "pm" for both only when the hours run forward within one half of the day; past midnight needs both.
+  const oneHalf = from < to && from < NOON === to < NOON;
+  const start = clockTime(from);
+  return `${oneHalf ? start.replace(/ [ap]m$/, '') : start} to ${clockTime(to)}`;
+}
