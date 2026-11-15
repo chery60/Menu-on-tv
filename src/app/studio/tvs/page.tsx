@@ -28,6 +28,8 @@ interface TvsPageProps {
 
 const layoutName = (id: string) => LAYOUTS.find((layout) => layout.id === id)?.name ?? id;
 const themeName = (id: string) => THEMES.find((theme) => theme.id === id)?.name ?? id;
+/** Dishes guests can see that still have no Hindi name (MT-28). */
+const withoutHindi = (menu: Menu): number => menu.categories.flatMap((category) => category.items).filter((item) => !item.hidden && !item.nameHi.trim()).length;
 
 interface Playing {
   readonly menu: Menu;
@@ -37,6 +39,7 @@ interface Playing {
 
 function ScreenCard({ screen, isOwner, now, playing }: { readonly screen: Screen; readonly isOwner: boolean; readonly now: number; readonly playing: Playing }) {
   const timing = screen.timing ?? DEFAULT_TIMING;
+  const missingHindi = withoutHindi(playing.menu);
   return (
     <li className={card}>
       <div className="flex flex-wrap items-baseline justify-between gap-3">
@@ -81,7 +84,7 @@ function ScreenCard({ screen, isOwner, now, playing }: { readonly screen: Screen
           <details className="mt-5">
             <summary className="flex h-11 cursor-pointer items-center text-sm font-semibold underline underline-offset-4">Change how it looks, its timing or its name</summary>
             <div className="mt-4">
-              <ScreenSettingsForm screenId={screen.id} name={screen.name} layout={screen.layout} theme={screen.theme} bilingual={screen.language !== 'en'} timing={screen.timing} />
+              <ScreenSettingsForm screenId={screen.id} name={screen.name} layout={screen.layout} theme={screen.theme} language={screen.language} missingHindi={missingHindi} timing={screen.timing} />
             </div>
           </details>
           <div className="mt-3">
@@ -126,7 +129,7 @@ async function TvsContent({ searchParams }: TvsPageProps) {
             Not sure your TV can do it? Open <strong className="font-brand-mono">{typedAddress(origin, '/tv-check')}</strong> on the TV first. No internet app on the TV? A streaming stick in its HDMI port has one.
           </p>
           <div className="mt-5">
-            <ConnectTvForm screens={screens.map(({ id, name }) => ({ id, name }))} initialCode={initialCode} />
+            <ConnectTvForm screens={screens.map(({ id, name, links }) => ({ id, name, tvs: links.length }))} initialCode={initialCode} />
           </div>
         </section>
       ) : (

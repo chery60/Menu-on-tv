@@ -132,7 +132,8 @@ function templateProblem(input: Fields): string | null {
       if (!input.link) return 'Add the link the QR opens.';
       break;
   }
-  if (input.countdown && !input.endsAt) return 'A countdown needs an end time.';
+  // Times end each run (a happy hour counts down to the end of today's times), so they count as an end too.
+  if (input.countdown && !input.endsAt && !input.daypart) return 'A countdown needs an end time.';
   if (input.startsAt && input.endsAt && input.endsAt <= input.startsAt) return 'Pick an end after the start.';
   return null;
 }

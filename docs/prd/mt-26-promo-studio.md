@@ -32,7 +32,14 @@ Every promo also has:
 - **Actions:** save, edit, pause, resume and remove (remove asks first). Up to 20 promos per restaurant (starting value).
 
 ## Design
-Design to write.
+**Job:** an offer on the TV in thirty seconds, priced from the menu so it never goes stale. **Direction:** a template is a form you can't get wrong: the dishes come from the menu, the price fills itself, the headline writes itself, and the owner only changes what they want.
+
+- **Promos tab** (`owner-frame.tsx`): five tabs, Today, Menu, Promos, TVs, Restaurant, with a megaphone icon; on a 375px phone each tab is 75px wide.
+- **The page:** "Promos." with "Offers that play beside your menu. Prices come from your menu, so they're never out of date." Then the Today's special card from Today (the same picker, check 13), then the list, then the owner's chilli "New promo". Empty: the six templates as cards (name, one line, a 44px tap target), which is also what "New promo" opens, in a `Sheet`.
+- **Each promo** is a row: headline, what it is ("Combo: Samosa and Masala chai"), the price ("₹45, menu ₹50") and a state tag: On air now (leaf), Starts Mon 16 Nov, 9 am, Ended, Paused, Sold out: Samosa, or Needs a fix with the reason in masala. Owners get Edit, Pause or Resume, and Remove, which asks first in a `Sheet` ("Remove “Chai and samosa”? It leaves your TVs at their next slide."). Staff get the list with "Only an owner can change promos."
+- **The editor** is one `Sheet` per template: dishes from the menu (checkboxes for combo and festival, one choice for happy hour and new item, each with its size), then the price for combo and happy hour, filled with the menu total and saying "Menu total ₹50. Keep it lower.", then the headline and line, filled from the dishes and editable, with a live count ("18 of 30"). Then "When": starts now or at a date and time, ends never or at one, and "Only at certain times" (from, until, days; on for happy hour). Last, "Show the time left near the end", offered only with an end. Save sits in the sheet's sticky footer, with the action's message above it.
+- **Limits:** headline 30 and line 60 characters stay. Slice 4 checks the longest of each on all six layouts at 3 metres and wraps the headline to two lines before it ever trims.
+- **Slice 4, the TV:** each template keeps the promo frame (a framed cell with the accent rule) and changes only its content. Combo: the plates side by side, "₹45" big with "₹50" struck through beside it. Happy hour: the hours as a mono tag ("3 to 5 pm"). New item: the "New" badge. Festival: the festival's name as the tag over the dishes. Scan: the QR at a quarter of the screen's short side, quiet zone kept, with "Scan with your phone camera". Countdown: a mono "Ends in 40 min" under the price, counting each minute, never seconds.
 
 ## Data it touches
 - **A new promos store** per restaurant, through `openDocumentStore`: template, dish and size ids, the typed deal price in paise (combo and happy hour only), headline, line, festival, link, schedule, countdown and paused. Locally a gitignored `data/promos.json` set by `PROMOS_DATA_FILE`, like the other stores; on Netlify, a row in the database.

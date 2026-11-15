@@ -8,6 +8,7 @@ import {
   DEFAULT_TIME_ZONE,
   type AccountsFile,
   type Invite,
+  type Look,
   type Member,
   type Restaurant,
   type RestaurantInput,
@@ -211,6 +212,8 @@ export class FileAccountsRepository {
         ...input,
         outlets: [{ id: randomUUID(), name: input.name, city: input.city, timeZone: DEFAULT_TIME_ZONE }],
         fssai: false,
+        look: null,
+        specialNudgeAnswered: false,
         createdAt: stamp,
         updatedAt: stamp,
       };
@@ -235,13 +238,28 @@ export class FileAccountsRepository {
     return updated;
   }
 
-  /** Turns calories and allergens on the TVs on or off (MT-29). The calories and allergens stay in the menu either way. */
-  async setFssai(restaurantId: string, on: boolean, now: Date): Promise<Restaurant | null> {
+  /** Changes one of a restaurant's settings, or returns null when there's no such restaurant. */
+  private async change(restaurantId: string, patch: Partial<Pick<Restaurant, 'fssai' | 'look' | 'specialNudgeAnswered'>>, now: Date): Promise<Restaurant | null> {
     const file = await this.store.update((current) => ({
       ...current,
-      restaurants: current.restaurants.map((restaurant) => (restaurant.id === restaurantId ? { ...restaurant, fssai: on, updatedAt: now.toISOString() } : restaurant)),
+      restaurants: current.restaurants.map((restaurant) => (restaurant.id === restaurantId ? { ...restaurant, ...patch, updatedAt: now.toISOString() } : restaurant)),
     }));
     return file.restaurants.find((restaurant) => restaurant.id === restaurantId) ?? null;
+  }
+
+  /** Turns calories and allergens on the TVs on or off (MT-29). The calories and allergens stay in the menu either way. */
+  async setFssai(restaurantId: string, on: boolean, now: Date): Promise<Restaurant | null> {
+    return this.change(restaurantId, { fssai: on }, now);
+  }
+
+  /** Keeps the look picked while getting started (MT-34). Screens already made keep their own look. */
+  async setLook(restaurantId: string, look: Look, now: Date): Promise<Restaurant | null> {
+    return this.change(restaurantId, { look }, now);
+  }
+
+  /** Records that the owner answered "Add today's special?" (MT-34), either way, so it never shows again. */
+  async answerSpecialNudge(restaurantId: string, now: Date): Promise<Restaurant | null> {
+    return this.change(restaurantId, { specialNudgeAnswered: true }, now);
   }
 
   async team(restaurantId: string): Promise<{ readonly members: readonly TeamMember[]; readonly invites: readonly Invite[] }> {

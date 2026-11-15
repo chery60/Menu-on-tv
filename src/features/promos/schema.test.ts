@@ -78,3 +78,11 @@ describe('isHttpsLink', () => {
     expect(problem({ template: 'scan', headline: 'Scan', link: long })).toBe('Keep the link to 300 characters.');
   });
 });
+
+describe('a countdown on a happy hour with times only (MT-26 check 6)', () => {
+  it('counts down to the end of today’s times when there is no end date, and still needs an end of some kind', () => {
+    const happyHour = { template: 'happy-hour', dishes: [{ itemId: 'chai', size: '' }], dealPaise: 2000, headline: 'Chai at ₹20', daypart: { from: 960, to: 1140, days: [1] }, countdown: true };
+    expect(problem(happyHour)).toBeNull();
+    expect(problem({ ...combo, countdown: true })).toBe('A countdown needs an end time.');
+  });
+});

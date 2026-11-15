@@ -29,7 +29,7 @@ vi.mock('next/headers', () => ({
   }),
 }));
 
-const { createScreenAction, connectTvAction, updateScreenAction } = await import('./actions');
+const { answerSpecialNudgeAction, createScreenAction, connectTvAction, keepLookAction, updateScreenAction } = await import('./actions');
 const { editMenuAction, importMenuAction, readMenuPhotoAction, setSoldOutAction, uploadPhotoAction } = await import('./menu/actions');
 const { MenuPhotoError } = await import('@/features/menu/photo-reader');
 const { addPersonAction, removePersonAction, setFssaiAction } = await import('./restaurant/actions');
@@ -335,5 +335,51 @@ describe('calories and allergens on the TVs (MT-29)', () => {
     expect((await getAccountsRepository().restaurant(restaurant.id))?.fssai).toBe(false);
     signInAs(null);
     expect(await setFssaiAction(IDLE, form({ fssai: 'true' }))).toMatchObject({ status: 'error', message: expect.stringMatching(/signed out/) });
+  });
+});
+
+describe('getting started (MT-34)', () => {
+  const connectNew = async () => connectTvAction(IDLE, form({ code: (await getScreensRepository().startPairing(new Date())).code, screenId: 'new' }));
+
+  it('the first TV plays the look the owner kept, and later TVs start on Split, Paper', async () => {
+    const { owner, restaurant } = await ownerWithStaff();
+    signInAs(owner.token);
+    expect(await keepLookAction(IDLE, form({ layout: 'board', theme: 'night' }))).toMatchObject({ status: 'ok' });
+    expect(await connectNew()).toMatchObject({ status: 'ok' });
+    expect(await connectNew()).toMatchObject({ status: 'ok' });
+    expect((await getScreensRepository().listScreens(restaurant.id)).map(({ name, layout, theme }) => ({ name, layout, theme }))).toEqual([
+      { name: 'Counter TV', layout: 'board', theme: 'night' },
+      { name: 'Screen 2', layout: 'split', theme: 'paper' },
+    ]);
+    expect((await getAccountsRepository().restaurant(restaurant.id))?.look).toEqual({ layout: 'board', theme: 'night' });
+  });
+
+  it('the first TV plays Split on Paper when no look was kept', async () => {
+    const { owner, restaurant } = await ownerWithStaff();
+    signInAs(owner.token);
+    expect(await connectNew()).toMatchObject({ status: 'ok' });
+    expect((await getScreensRepository().listScreens(restaurant.id))[0]).toMatchObject({ layout: 'split', theme: 'paper' });
+  });
+
+  it('keeps only a layout and colours from the lists', async () => {
+    const { owner, restaurant } = await ownerWithStaff();
+    signInAs(owner.token);
+    expect(await keepLookAction(IDLE, form({ layout: 'carousel', theme: 'night' }))).toMatchObject({ status: 'error', message: 'Choose a layout from the list.' });
+    expect(await keepLookAction(IDLE, form({ layout: 'board', theme: 'neon' }))).toMatchObject({ status: 'error', message: 'Choose a theme from the list.' });
+    expect((await getAccountsRepository().restaurant(restaurant.id))?.look).toBeNull();
+  });
+
+  it('answers the special nudge once, for owners only', async () => {
+    const { owner, staff, restaurant } = await ownerWithStaff();
+    signInAs(staff.token);
+    expect(await keepLookAction(IDLE, form({ layout: 'board', theme: 'night' }))).toMatchObject({ status: 'error', message: expect.stringMatching(/Only an owner/) });
+    expect(await answerSpecialNudgeAction()).toMatchObject({ status: 'error', message: expect.stringMatching(/Only an owner/) });
+    signInAs(null);
+    expect(await keepLookAction(IDLE, form({ layout: 'board', theme: 'night' }))).toMatchObject({ status: 'error', message: expect.stringMatching(/signed out/) });
+    expect(await answerSpecialNudgeAction()).toMatchObject({ status: 'error', message: expect.stringMatching(/signed out/) });
+    expect(await getAccountsRepository().restaurant(restaurant.id)).toMatchObject({ look: null, specialNudgeAnswered: false });
+    signInAs(owner.token);
+    expect(await answerSpecialNudgeAction()).toMatchObject({ status: 'ok' });
+    expect((await getAccountsRepository().restaurant(restaurant.id))?.specialNudgeAnswered).toBe(true);
   });
 });

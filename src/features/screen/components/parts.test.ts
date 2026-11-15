@@ -30,6 +30,21 @@ describe('dish names on the TV', () => {
   });
 });
 
+describe('Hindi on promo slides (MT-28)', () => {
+  const special: Promo = { id: 's', kind: 'special', label: 'Today’s special', headline: 'Mango lassi', headlineHi: 'आम लस्सी', line: 'Coolers', price: 90, emoji: '🥭' };
+  const render = (bilingual: boolean) => renderToStaticMarkup(createElement(PromoCard, { promo: special, variant: 'side', bilingual }));
+
+  it('shows the Hindi name under the headline when both names are on', () => {
+    const html = render(true);
+    expect(html).toContain('<p class="scr-promo-hi" lang="hi">आम लस्सी</p>');
+    expect(html).toContain('has-hi');
+  });
+
+  it('keeps an English-only screen in English', () => {
+    expect(render(false)).not.toContain('आम लस्सी');
+  });
+});
+
 describe('promo slides on the TV (MT-26)', () => {
   const promo = (extra: Partial<Promo>): Promo => ({ id: 'p', kind: 'combo', label: 'Combo', headline: 'Chai + samosa', line: 'The 4 pm classic', price: 59, wasPrice: 70, emoji: '🥟', ...extra });
   const card = (item: Promo, qrSvg?: string) => renderToStaticMarkup(createElement(PromoCard, { promo: item, qrSvg, variant: 'side' }));
@@ -48,5 +63,18 @@ describe('promo slides on the TV (MT-26)', () => {
 
   it('tells guests how to use the QR', () => {
     expect(card(promo({ kind: 'scan', label: 'Scan me', qrUrl: 'https://example.com' }), '<svg></svg>')).toContain('Scan with your phone camera');
+  });
+
+  it('keeps the Hindi name under the headline on every look, with its label rule and QR hint', () => {
+    const kinds: Promo['kind'][] = ['combo', 'happy-hour', 'new', 'special', 'festival', 'scan'];
+    for (const kind of kinds) {
+      const html = renderToStaticMarkup(createElement(PromoCard, { promo: promo({ kind, headlineHi: 'चाय समोसा' }), qrSvg: kind === 'scan' ? '<svg></svg>' : undefined, variant: 'side', bilingual: true }));
+      expect(html).toContain(`scr-kind-${kind}`);
+      expect(html).toContain('<p class="scr-promo-hi" lang="hi">चाय समोसा</p>');
+      if (kind === 'scan') expect(html).toContain('Scan with your phone camera');
+    }
+    const repeated = renderToStaticMarkup(createElement(PromoCard, { promo: promo({ kind: 'special', label: 'Snacks', line: 'Snacks', headlineHi: 'समोसा' }), variant: 'hero', bilingual: true }));
+    expect(repeated).toContain('scr-promo-hi');
+    expect(repeated).not.toContain('scr-promo-label');
   });
 });

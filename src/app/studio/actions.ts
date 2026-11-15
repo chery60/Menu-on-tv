@@ -2,14 +2,16 @@
 
 import QRCode from 'qrcode';
 import { z } from 'zod';
+import { getAccountsRepository } from '@/features/accounts/repository';
+import { DEFAULT_LOOK } from '@/features/accounts/schema';
 import { getScreensRepository, type ClaimResult } from '@/features/screens/repository';
 import { screenInputSchema } from '@/features/screens/schema';
 import { isPairingCode } from '@/features/screens/tokens';
 import { requestOrigin } from '@/lib/origin';
 import type { ActionState, IssuedLink } from './action-state';
-import { failed, guarded, OWNER_ONLY } from './guard';
+import { failed, guarded, OWNER_ONLY, TRY_AGAIN } from './guard';
 
-/** Screens and TVs. Owners only; every call is scoped to the signed-in owner's restaurant. */
+/** Screens and TVs, and the look and nudge of getting started (MT-34). Owners only; every call is scoped to the signed-in owner's restaurant. */
 
 async function issue(token: string): Promise<IssuedLink> {
   const url = `${await requestOrigin()}/s/${token}`;
@@ -73,7 +75,9 @@ export async function connectTvAction(_previous: ActionState, form: FormData): P
     if (screenId.data !== NEW_SCREEN) return CLAIM_MESSAGES[await screens.claimPairing(code, restaurant.id, screenId.data, now)];
 
     const count = (await screens.listScreens(restaurant.id)).length;
-    const screen = await screens.addScreen(restaurant.id, { name: count === 0 ? 'Counter TV' : `Screen ${count + 1}`, layout: 'split', theme: 'paper', language: 'en' }, now);
+    // The first TV plays the look picked while getting started (MT-34); later ones start on Split, Paper.
+    const { layout, theme } = (count === 0 && restaurant.look) || DEFAULT_LOOK;
+    const screen = await screens.addScreen(restaurant.id, { name: count === 0 ? 'Counter TV' : `Screen ${count + 1}`, layout, theme, language: 'en' }, now);
     const claimed = await screens.claimPairing(code, restaurant.id, screen.id, now);
     if (claimed !== 'claimed') await screens.removeScreen(restaurant.id, screen.id);
     return CLAIM_MESSAGES[claimed];
@@ -106,5 +110,25 @@ export async function removeScreenAction(_previous: ActionState, form: FormData)
     const screenId = id.safeParse(form.get('screenId'));
     if (!screenId.success) return failed('Choose a screen.');
     return (await getScreensRepository().removeScreen(restaurant.id, screenId.data)) ? { status: 'ok', message: 'Screen removed.' } : failed('That screen was already removed.');
+  });
+}
+
+const lookInputSchema = screenInputSchema.pick({ layout: true, theme: true });
+
+/** "Keep this look" while getting started (MT-34). The first TV connected plays it; screens already made keep theirs. */
+export async function keepLookAction(_previous: ActionState, form: FormData): Promise<ActionState> {
+  return guarded(OWNER_ONLY, 'studio.look_failed', async ({ restaurant }) => {
+    const parsed = lookInputSchema.safeParse({ layout: form.get('layout'), theme: form.get('theme') });
+    if (!parsed.success) return failed(parsed.error.issues[0]?.message ?? 'Choose a layout and its colours.');
+    if (!(await getAccountsRepository().setLook(restaurant.id, parsed.data, new Date()))) return failed(TRY_AGAIN);
+    return { status: 'ok', message: 'Look saved. The first TV you connect plays it.' };
+  });
+}
+
+/** Answers "Add today's special?" (MT-34), from "Not now" or after picking a special, so it never shows again. */
+export async function answerSpecialNudgeAction(): Promise<ActionState> {
+  return guarded(OWNER_ONLY, 'studio.nudge_failed', async ({ restaurant }) => {
+    if (!(await getAccountsRepository().answerSpecialNudge(restaurant.id, new Date()))) return failed(TRY_AGAIN);
+    return { status: 'ok' };
   });
 }
